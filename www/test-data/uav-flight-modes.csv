@@ -1,0 +1,32 @@
+state,next_state,trigger,guard,action
+INIT,PRE_FLIGHT,power_on,system_ok,run_diagnostics
+INIT,ABORT,critical_fault,always,log_failure
+PRE_FLIGHT,ARMED,preflight_complete,battery_ok && gps_ok && imu_calibrated,set_home_position
+PRE_FLIGHT,ABORT,critical_fault,always,notify_ground_station
+ARMED,TAKEOFF,launch_command,waypoints_loaded && comm_link_ok,init_mission_clock
+ARMED,DISARMED,disarm_command,always,motors_off
+TAKEOFF,HOVER,altitude_reached,target_altitude_reached,hold_position
+TAKEOFF,ABORT,emergency_stop,always,emergency_land
+HOVER,NAVIGATE,navigate_command,waypoint_available,set_next_waypoint
+HOVER,LOITER,loiter_command,always,circle_current_position
+HOVER,LAND,land_command,always,init_landing_sequence
+HOVER,ABORT,emergency_stop,always,emergency_land
+NAVIGATE,HOVER,hover_command,always,hold_position
+NAVIGATE,NAVIGATE,waypoint_reached,more_waypoints,set_next_waypoint
+NAVIGATE,LOITER,loiter_command,always,circle_current_position
+NAVIGATE,LAND,land_command,always,init_landing_sequence
+NAVIGATE,ABORT,emergency_stop,always,emergency_land
+NAVIGATE,RETURN_HOME,comm_loss,timeout_30s,clear_waypoints
+LOITER,HOVER,hover_command,always,hold_position
+LOITER,NAVIGATE,navigate_command,waypoint_available,set_next_waypoint
+LOITER,LAND,land_command,always,init_landing_sequence
+LOITER,ABORT,emergency_stop,always,emergency_land
+RETURN_HOME,HOVER,home_reached,always,hold_position
+RETURN_HOME,LAND,auto_land,low_battery,init_landing_sequence
+RETURN_HOME,ABORT,emergency_stop,always,emergency_land
+LAND,DISARMED,ground_contact,always,motors_off
+LAND,ABORT,emergency_stop,always,emergency_land
+DISARMED,INIT,reset_command,always,clear_mission
+DISARMED,PRE_FLIGHT,power_on,system_ok,run_diagnostics
+ABORT,DISARMED,abort_complete,always,motors_off
+ABORT,INIT,reset_command,always,clear_mission

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  EMOF/Ecore model: Aircraft Propulsion Subsystem
+  Demonstrates EMOF import with classes, attributes, references, and data types.
+  Compatible with Eclipse EMF / Ecore tools and Cameo Systems Modeler EMOF exports.
+-->
+<emof:Package xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:emof="http://schema.omg.org/spec/mof/2.0/emof.xmi"
+    xmi:id="_pkg_001" name="AircraftPropulsion" uri="http://vectorowl.example/AircraftPropulsion">
+
+  <ownedType xmi:type="emof:Class" xmi:id="_Engine" name="Engine">
+    <ownedAttribute xmi:id="_Engine_model" name="model" type="_String" lower="1" upper="1"/>
+    <ownedAttribute xmi:id="_Engine_thrustMax" name="thrustMax" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c1" body="Maximum thrust in kN"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_Engine_sfc" name="specificFuelConsumption" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c2" body="Specific fuel consumption in g/kN/s"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_Engine_weight" name="dryWeight" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c3" body="Dry weight in kg"/>
+    </ownedAttribute>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Class" xmi:id="_FuelSystem" name="FuelSystem">
+    <ownedAttribute xmi:id="_FuelSystem_capacity" name="capacity" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c4" body="Total fuel capacity in liters"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_FuelSystem_tanks" name="tankCount" type="_Integer" lower="1" upper="1"/>
+    <ownedAttribute xmi:id="_FuelSystem_redundant" name="isRedundant" type="_Boolean" lower="1" upper="1"/>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Class" xmi:id="_Propeller" name="Propeller">
+    <ownedAttribute xmi:id="_Propeller_diameter" name="diameter" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c5" body="Propeller diameter in meters"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_Propeller_blades" name="bladeCount" type="_Integer" lower="1" upper="1"/>
+    <ownedAttribute xmi:id="_Propeller_material" name="bladeMaterial" type="_String" lower="1" upper="1"/>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Class" xmi:id="_PropulsionAssembly" name="PropulsionAssembly">
+    <ownedAttribute xmi:id="_PA_id" name="assemblyId" type="_String" lower="1" upper="1"/>
+    <ownedAttribute xmi:id="_PA_mttf" name="mttfHours" type="_Real" lower="1" upper="1">
+      <ownedComment xmi:id="_c6" body="Mean time to failure in flight hours"/>
+    </ownedAttribute>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Class" xmi:id="_ControlUnit" name="EngineControlUnit">
+    <ownedAttribute xmi:id="_ECU_partNumber" name="partNumber" type="_String" lower="1" upper="1"/>
+    <ownedAttribute xmi:id="_ECU_softwareVer" name="softwareVersion" type="_String" lower="1" upper="1"/>
+  </ownedType>
+
+  <!-- Data Types -->
+  <ownedType xmi:type="emof:PrimitiveType" xmi:id="_String" name="String"/>
+  <ownedType xmi:type="emof:PrimitiveType" xmi:id="_Integer" name="Integer"/>
+  <ownedType xmi:type="emof:PrimitiveType" xmi:id="_Real" name="Real"/>
+  <ownedType xmi:type="emof:PrimitiveType" xmi:id="_Boolean" name="Boolean"/>
+
+  <!-- Associations -->
+  <ownedType xmi:type="emof:Association" xmi:id="_A1" name="assemblyHasEngine">
+    <ownedEnd xmi:id="_A1_pa" type="_PropulsionAssembly" lower="1" upper="1"/>
+    <ownedEnd xmi:id="_A1_eng" type="_Engine" lower="1" upper="2"/>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Association" xmi:id="_A2" name="assemblyHasFuelSystem">
+    <ownedEnd xmi:id="_A2_pa" type="_PropulsionAssembly" lower="1" upper="1"/>
+    <ownedEnd xmi:id="_A2_fs" type="_FuelSystem" lower="1" upper="1"/>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Association" xmi:id="_A3" name="assemblyHasPropeller">
+    <ownedEnd xmi:id="_A3_pa" type="_PropulsionAssembly" lower="1" upper="1"/>
+    <ownedEnd xmi:id="_A3_prop" type="_Propeller" lower="0" upper="1"/>
+  </ownedType>
+
+  <ownedType xmi:type="emof:Association" xmi:id="_A4" name="engineHasECU">
+    <ownedEnd xmi:id="_A4_eng" type="_Engine" lower="1" upper="1"/>
+    <ownedEnd xmi:id="_A4_ecu" type="_ControlUnit" lower="1" upper="1"/>
+  </ownedType>
+
+</emof:Package>

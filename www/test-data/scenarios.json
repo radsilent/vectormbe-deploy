@@ -1,0 +1,696 @@
+{
+  "nodes": [
+    {
+      "id": "uc-ev-001",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Monitor Battery State of Health",
+        "description": "The BMS shall continuously monitor cell voltages, temperatures, and internal resistance to estimate remaining useful life and detect degradation patterns.",
+        "actor": "BMS Controller, Vehicle ECU, Cloud Analytics",
+        "priority": "critical",
+        "domain": "Automotive EV"
+      }
+    },
+    {
+      "id": "uc-ev-002",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Thermal Runaway Prevention",
+        "description": "The BMS shall detect abnormal thermal conditions and trigger cooling, power reduction, or emergency disconnect to prevent cell thermal runaway.",
+        "actor": "BMS Controller, Thermal Management System, Emergency Shutdown",
+        "priority": "critical",
+        "domain": "Automotive EV"
+      }
+    },
+    {
+      "id": "uc-ev-003",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Optimize Charging Profile",
+        "description": "The BMS shall adapt charging current and voltage based on cell temperature, SOC, and manufacturer limits to maximize charge speed while preserving longevity.",
+        "actor": "BMS Controller, Charger, Vehicle HMI",
+        "priority": "high",
+        "domain": "Automotive EV"
+      }
+    },
+    {
+      "id": "sc-ev-001",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Normal Driving - SOH Monitoring",
+        "description": "During normal highway driving at 70mph, the BMS samples cell voltages every 100ms, temperatures every 500ms, and computes SOH drift every 60s. If SOH drops below 80%, a maintenance alert is queued.",
+        "precondition": "Vehicle powered on, pack temperature 15-35°C, SOC 20-90%",
+        "postcondition": "SOH estimate updated, no alerts if SOH > 80%",
+        "steps": "1. Initialize ADC sampling loop | 2. Read 96 cell voltages | 3. Read 24 temperature sensors | 4. Compute impedance spectrum | 5. Update SOH Kalman filter | 6. Check threshold | 7. Log or alert"
+      }
+    },
+    {
+      "id": "sc-ev-002",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Fast Charging - Thermal Derating",
+        "description": "Driver initiates 350kW fast charge at 10% SOC. BMS starts at max current, then progressively derates as cell temperatures approach 45°C, balancing charge speed against thermal limits.",
+        "precondition": "Charger connected, CCS protocol active, pack temp < 40°C",
+        "postcondition": "Charge complete or thermal limit reached, log maintained",
+        "steps": "1. Negotiate charge profile with charger | 2. Begin 350kW charge | 3. Monitor max cell temp every 1s | 4. At 42°C, reduce current 10% | 5. At 45°C, reduce current 25% | 6. At 50°C, emergency stop | 7. Report session data"
+      }
+    },
+    {
+      "id": "sc-ev-003",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Thermal Runaway Detection & Response",
+        "description": "Cell 17 vents gas and temperature spikes to 85°C within 3 seconds. BMS detects the anomaly, isolates the module, activates suppression, and notifies occupants via VCU.",
+        "precondition": "Pack operational, vent detection sensors armed",
+        "postcondition": "Affected module isolated, suppression active, occupants notified",
+        "steps": "1. Temp sensor T-17 reads 85°C (threshold: 60°C) | 2. Vent sensor V-17 triggers | 3. BMS flags thermal event in < 100ms | 4. Open contactors for Module 3 | 5. Activate aerosol suppression | 6. Send CAN message to VCU | 7. VCU activates hazard lights + cabin alert | 8. Log incident for forensic analysis"
+      }
+    },
+    {
+      "id": "req-ev-001",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-EV-001",
+        "name": "Cell Voltage Sampling Rate",
+        "text": "The BMS shall sample each cell voltage at a minimum rate of 10 Hz with 16-bit resolution and ±1mV accuracy.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-ev-002",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-EV-002",
+        "name": "Thermal Runaway Response Time",
+        "text": "The BMS shall detect a thermal runaway event and initiate module isolation within 100 milliseconds of the threshold breach.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-ev-003",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-EV-003",
+        "name": "SOC Estimation Accuracy",
+        "text": "The BMS shall estimate State of Charge with an accuracy of ±2% across the operational temperature range of -20°C to +60°C.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-ev-004",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-EV-004",
+        "name": "Charging Current Derating",
+        "text": "The BMS shall reduce charging current by 10% when any cell temperature exceeds 42°C, and by 25% when any cell exceeds 45°C.",
+        "category": "safety",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req-ev-005",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-EV-005",
+        "name": "Emergency Shutdown Isolation",
+        "text": "The BMS shall open all contactors and disconnect the HV bus within 50ms of receiving an emergency shutdown command.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "func-ev-001",
+      "kind": "Function",
+      "attributes": {
+        "name": "Sample Cell Voltages",
+        "description": "Periodically read voltage from all series cells via isoSPI daisy-chain",
+        "domain": "sensing"
+      }
+    },
+    {
+      "id": "func-ev-002",
+      "kind": "Function",
+      "attributes": {
+        "name": "Estimate SOC/SOH",
+        "description": "Run extended Kalman filter combining voltage, current, and temperature to estimate state",
+        "domain": "estimation"
+      }
+    },
+    {
+      "id": "func-ev-003",
+      "kind": "Function",
+      "attributes": {
+        "name": "Thermal Management Control",
+        "description": "Command cooling system and derate power based on thermal state",
+        "domain": "control"
+      }
+    },
+    {
+      "id": "func-ev-004",
+      "kind": "Function",
+      "attributes": {
+        "name": "Contactor Control",
+        "description": "Open/close HV contactors based on safety interlocks and charge state",
+        "domain": "actuation"
+      }
+    },
+    {
+      "id": "comp-ev-001",
+      "kind": "Component",
+      "attributes": {
+        "name": "BMS Master Controller",
+        "description": "Main processing unit running estimation and control algorithms",
+        "type": "ECU"
+      }
+    },
+    {
+      "id": "comp-ev-002",
+      "kind": "Component",
+      "attributes": {
+        "name": "Cell Monitoring Unit",
+        "description": "isoSPI-based ASIC measuring 12-16 cells per module",
+        "type": "ASIC"
+      }
+    },
+    {
+      "id": "comp-ev-003",
+      "kind": "Component",
+      "attributes": {
+        "name": "HV Contactors",
+        "description": "High-voltage relays for pack connect/disconnect",
+        "type": "Actuator"
+      }
+    },
+    {
+      "id": "comp-ev-004",
+      "kind": "Component",
+      "attributes": {
+        "name": "Thermal Management System",
+        "description": "Liquid cooling loop with pump, chiller, and plate heat exchangers",
+        "type": "Subsystem"
+      }
+    },
+    {
+      "id": "uc-uav-001",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Autonomous Search Pattern Execution",
+        "description": "The UAV shall execute a predefined search pattern (lawn-mower, spiral, or sector) over a GPS-defined area while maintaining altitude and avoiding obstacles.",
+        "actor": "Ground Control Station, Autopilot, Camera Payload",
+        "priority": "critical",
+        "domain": "Aerospace UAV"
+      }
+    },
+    {
+      "id": "uc-uav-002",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Person Detection & Geolocation",
+        "description": "The UAV shall detect humans in camera feed using onboard ML, estimate their GPS coordinates, and stream annotated video to GCS.",
+        "actor": "Camera Payload, AI Coprocessor, GCS Operator",
+        "priority": "critical",
+        "domain": "Aerospace UAV"
+      }
+    },
+    {
+      "id": "uc-uav-003",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Emergency Return to Base",
+        "description": "On low battery, communication loss, or critical system fault, the UAV shall abort mission and return to launch point autonomously.",
+        "actor": "Autopilot, GCS, Battery Monitor",
+        "priority": "critical",
+        "domain": "Aerospace UAV"
+      }
+    },
+    {
+      "id": "sc-uav-001",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Mountain Search - Lawn Mower Pattern",
+        "description": "UAV deployed at 2000m elevation to search 2km² avalanche zone. Flies 100m AGL at 15m/s with 80m track spacing. EO/IR camera captures 4K video at 30fps. ML person-detection runs at 5Hz.",
+        "precondition": "GPS lock, battery > 60%, weather VMC, GCS link established",
+        "postcondition": "Area covered, detections logged, video archived",
+        "steps": "1. Receive search area polygon from GCS | 2. Generate lawn-mower waypoints | 3. Climb to 100m AGL | 4. Execute pattern at 15m/s | 5. Run person detection on every 5th frame | 6. On detection, loiter for 10s, capture burst | 7. Stream geo-tagged detection to GCS | 8. Return on completion or battery < 25%"
+      }
+    },
+    {
+      "id": "sc-uav-002",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Lost Link - RTL Triggered",
+        "description": "UAV flying search pattern loses GCS comms at 8km range. After 15s comms timeout, autopilot triggers Return-to-Launch, climbs to safe altitude, and flies direct path home while avoiding terrain.",
+        "precondition": "Mission in progress, GPS valid, home position recorded",
+        "postcondition": "UAV landed at home point, mission aborted, log complete",
+        "steps": "1. GCS heartbeat timeout detected at T+0 | 2. Retry link 3 times over 15s | 3. Trigger RTL mode at T+15s | 4. Climb to RTL altitude (120m AGL) | 5. Compute direct path to home | 6. Query terrain database for obstacles | 7. Fly home at cruise speed | 8. Descend and land at home point | 9. Attempt GCS reconnect on ground"
+      }
+    },
+    {
+      "id": "req-uav-001",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-UAV-001",
+        "name": "Navigation Accuracy",
+        "text": "The UAV shall maintain position within 3 meters CEP during autonomous waypoint navigation using GPS/INS fusion.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-uav-002",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-UAV-002",
+        "name": "Person Detection Rate",
+        "text": "The onboard person detection model shall achieve a true positive rate of ≥ 95% and false positive rate of ≤ 2% for upright humans at ranges of 50-200m.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-uav-003",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-UAV-003",
+        "name": "Comms Loss RTL Timeout",
+        "text": "The autopilot shall initiate Return-to-Launch within 15 seconds of losing the GCS heartbeat.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-uav-004",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-UAV-004",
+        "name": "Terrain Avoidance",
+        "text": "The UAV shall maintain a minimum clearance of 50 meters above ground level at all times during autonomous flight.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "func-uav-001",
+      "kind": "Function",
+      "attributes": {
+        "name": "Waypoint Navigation",
+        "description": "Follow sequence of GPS waypoints with PID control on position and velocity",
+        "domain": "navigation"
+      }
+    },
+    {
+      "id": "func-uav-002",
+      "kind": "Function",
+      "attributes": {
+        "name": "Person Detection Inference",
+        "description": "Run YOLO/SSD model on camera frames to detect humans",
+        "domain": "perception"
+      }
+    },
+    {
+      "id": "func-uav-003",
+      "kind": "Function",
+      "attributes": {
+        "name": "Terrain Following",
+        "description": "Adjust altitude based on terrain database and radar altimeter",
+        "domain": "navigation"
+      }
+    },
+    {
+      "id": "comp-uav-001",
+      "kind": "Component",
+      "attributes": {
+        "name": "Flight Controller",
+        "description": "Pixhawk-class autopilot with ARM Cortex-M7",
+        "type": "ECU"
+      }
+    },
+    {
+      "id": "comp-uav-002",
+      "kind": "Component",
+      "attributes": {
+        "name": "AI Coprocessor",
+        "description": "NVIDIA Jetson onboard GPU for real-time inference",
+        "type": "Computer"
+      }
+    },
+    {
+      "id": "comp-uav-003",
+      "kind": "Component",
+      "attributes": {
+        "name": "Gimballed EO/IR Camera",
+        "description": "Dual-sensor payload with 3-axis stabilization",
+        "type": "Sensor"
+      }
+    },
+    {
+      "id": "uc-med-001",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Deliver Controlled Medication Dose",
+        "description": "The infusion pump shall deliver a clinician-programmed volume of medication at a specified rate, with automatic flow adjustment based on occlusion sensing.",
+        "actor": "Clinician, Patient, Hospital IT",
+        "priority": "critical",
+        "domain": "Medical Device"
+      }
+    },
+    {
+      "id": "uc-med-002",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Detect and Alarm on Occlusion",
+        "description": "The pump shall detect upstream and downstream occlusions within 2 minutes and trigger audible/visual alarms while stopping infusion.",
+        "actor": "Clinician, Patient, Alarm System",
+        "priority": "critical",
+        "domain": "Medical Device"
+      }
+    },
+    {
+      "id": "sc-med-001",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Post-Op Morphine Infusion",
+        "description": "Patient recovering from surgery requires 2mg/hr morphine via IV for 24 hours. Clinician programs pump at bedside. Pump runs continuously, logs every bolus, and alarms if line kinks.",
+        "precondition": "Patient admitted, IV line patent, pump calibrated",
+        "postcondition": "24hr infusion complete, log uploaded to EMR",
+        "steps": "1. Clinician enters 2mg/hr on pump UI | 2. Pump verifies drug library match | 3. Start infusion at programmed rate | 4. Monitor upstream pressure every 10s | 5. Monitor downstream pressure every 10s | 6. Log cumulative dose every minute | 7. On occlusion, alarm within 2min and stop | 8. At 24hr, stop and prompt clinician"
+      }
+    },
+    {
+      "id": "sc-med-002",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Air-in-Line Detection",
+        "description": "During routine infusion, a 0.5mL air bubble enters the line. The ultrasonic air-in-line sensor detects it within 50ms and triggers immediate pump stop + high-priority alarm.",
+        "precondition": "Infusion active, air sensor calibrated",
+        "postcondition": "Pump stopped, alarm active, clinician notified",
+        "steps": "1. Air bubble passes ultrasonic sensor | 2. Sensor detects > 50µL air | 3. Signal crosses threshold in < 50ms | 4. Motor driver receives stop command | 5. Pump halts within 100ms | 6. Red alarm LED flashes | 7. Audible alarm at 85dB | 8. Message displayed: 'AIR IN LINE' | 9. Log event with timestamp"
+      }
+    },
+    {
+      "id": "req-med-001",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-MED-001",
+        "name": "Flow Rate Accuracy",
+        "text": "The pump shall deliver fluid within ±5% of the programmed rate across the range of 0.1 mL/hr to 1200 mL/hr.",
+        "category": "performance",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-med-002",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-MED-002",
+        "name": "Air-in-Line Detection Sensitivity",
+        "text": "The pump shall detect air bubbles of 50 µL or greater and stop infusion within 100 milliseconds.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-med-003",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-MED-003",
+        "name": "Drug Library Verification",
+        "text": "The pump shall verify that programmed dose and concentration match the hospital drug library before starting infusion.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "func-med-001",
+      "kind": "Function",
+      "attributes": {
+        "name": "Control Motor Speed",
+        "description": "Drive peristaltic or syringe mechanism at precise rate",
+        "domain": "actuation"
+      }
+    },
+    {
+      "id": "func-med-002",
+      "kind": "Function",
+      "attributes": {
+        "name": "Detect Air in Line",
+        "description": "Ultrasonic sensing for bubbles in IV tubing",
+        "domain": "sensing"
+      }
+    },
+    {
+      "id": "func-med-003",
+      "kind": "Function",
+      "attributes": {
+        "name": "Verify Drug Parameters",
+        "description": "Cross-check dose against institutional drug library",
+        "domain": "safety"
+      }
+    },
+    {
+      "id": "comp-med-001",
+      "kind": "Component",
+      "attributes": {
+        "name": "Pump Motor Assembly",
+        "description": "Brushless DC motor with encoder feedback",
+        "type": "Actuator"
+      }
+    },
+    {
+      "id": "comp-med-002",
+      "kind": "Component",
+      "attributes": {
+        "name": "Ultrasonic Air Sensor",
+        "description": "Piezoelectric transducer pair for bubble detection",
+        "type": "Sensor"
+      }
+    },
+    {
+      "id": "comp-med-003",
+      "kind": "Component",
+      "attributes": {
+        "name": "Main Control Board",
+        "description": "ARM Cortex-M4 with safety-certified RTOS",
+        "type": "ECU"
+      }
+    },
+    {
+      "id": "uc-fac-001",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Autonomous Inventory Transport",
+        "description": "The warehouse robot shall navigate between storage racks, pick pallets from designated locations, and deliver them to packing stations without human intervention.",
+        "actor": "Warehouse Manager, WMS, Packing Station",
+        "priority": "high",
+        "domain": "Smart Factory"
+      }
+    },
+    {
+      "id": "uc-fac-002",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Dynamic Obstacle Avoidance",
+        "description": "The robot shall detect and avoid humans, forklifts, and dropped objects in real-time while maintaining throughput targets.",
+        "actor": "Robot Fleet, Safety System, Floor Workers",
+        "priority": "critical",
+        "domain": "Smart Factory"
+      }
+    },
+    {
+      "id": "sc-fac-001",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Peak Hour - 100 Pallets/Hour",
+        "description": "During Black Friday fulfillment, 20 robots operate simultaneously. WMS dispatches pick missions every 36 seconds. Robots coordinate via fleet manager to avoid congestion at choke points.",
+        "precondition": "Fleet online, WMS connected, charging stations available",
+        "postcondition": "100 pallets moved within 1 hour, zero collisions",
+        "steps": "1. WMS queues 100 pick missions | 2. Fleet manager assigns missions to robots | 3. Each robot plans path with A* | 4. Dynamic speed adjustment at intersections | 5. Lidar scans for obstacles at 10Hz | 6. On human detection, reduce to 0.3 m/s | 7. Pick pallet via fork mechanism | 8. Navigate to packing station | 9. Drop and return to staging"
+      }
+    },
+    {
+      "id": "sc-fac-002",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Emergency Stop - Human in Path",
+        "description": "Robot carrying 500kg pallet detects a worker who stepped into the lane. Lidar + camera fusion confirms human at 3m. Robot initiates emergency brake and sounds alarm.",
+        "precondition": "Robot moving at 1.5 m/s, safety systems armed",
+        "postcondition": "Robot stopped, worker safe, supervisor notified",
+        "steps": "1. Lidar detects object at 3m ahead | 2. Camera classifies as human (confidence 99.2%) | 3. Safety PLC receives STOP signal | 4. Motor controllers apply max braking | 5. Robot decelerates from 1.5 to 0 m/s in 1.2m | 6. Amber beacon flashes | 7. Horn sounds at 90dB | 8. Alert sent to supervisor tablet | 9. Robot waits for all-clear signal"
+      }
+    },
+    {
+      "id": "req-fac-001",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-FAC-001",
+        "name": "Navigation Position Accuracy",
+        "text": "The robot shall navigate to within ±10mm of target positions in the warehouse grid.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-fac-002",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-FAC-002",
+        "name": "Emergency Stop Distance",
+        "text": "The robot shall come to a complete stop within 2 meters when traveling at maximum speed and an obstacle is detected.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "verified"
+      }
+    },
+    {
+      "id": "req-fac-003",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-FAC-003",
+        "name": "Fleet Throughput",
+        "text": "The robot fleet shall sustain a throughput of 100 pallet moves per hour during peak operation.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "func-fac-001",
+      "kind": "Function",
+      "attributes": {
+        "name": "Plan Optimal Path",
+        "description": "Compute shortest-time path considering fleet congestion",
+        "domain": "navigation"
+      }
+    },
+    {
+      "id": "func-fac-002",
+      "kind": "Function",
+      "attributes": {
+        "name": "Detect Obstacles",
+        "description": "Fusion of Lidar, camera, and ultrasonic for obstacle classification",
+        "domain": "perception"
+      }
+    },
+    {
+      "id": "func-fac-003",
+      "kind": "Function",
+      "attributes": {
+        "name": "Lift and Transport Pallet",
+        "description": "Actuate fork mechanism to pick and place pallets",
+        "domain": "actuation"
+      }
+    },
+    {
+      "id": "comp-fac-001",
+      "kind": "Component",
+      "attributes": {
+        "name": "AMR Drive Base",
+        "description": "Differential drive chassis with LiFePO4 battery pack",
+        "type": "Chassis"
+      }
+    },
+    {
+      "id": "comp-fac-002",
+      "kind": "Component",
+      "attributes": {
+        "name": "Lidar Sensor Array",
+        "description": "270° 2D Lidar for SLAM and obstacle detection",
+        "type": "Sensor"
+      }
+    },
+    {
+      "id": "comp-fac-003",
+      "kind": "Component",
+      "attributes": {
+        "name": "Safety PLC",
+        "description": "IEC 61508 SIL-2 rated safety controller",
+        "type": "Controller"
+      }
+    }
+  ],
+  "edges": [
+    { "source": "sc-ev-001", "target": "uc-ev-001", "type": "contains" },
+    { "source": "sc-ev-002", "target": "uc-ev-003", "type": "contains" },
+    { "source": "sc-ev-003", "target": "uc-ev-002", "type": "contains" },
+    { "source": "req-ev-001", "target": "uc-ev-001", "type": "satisfy" },
+    { "source": "req-ev-002", "target": "uc-ev-002", "type": "satisfy" },
+    { "source": "req-ev-003", "target": "uc-ev-001", "type": "satisfy" },
+    { "source": "req-ev-004", "target": "uc-ev-003", "type": "satisfy" },
+    { "source": "req-ev-005", "target": "uc-ev-002", "type": "satisfy" },
+    { "source": "func-ev-001", "target": "req-ev-001", "type": "satisfy" },
+    { "source": "func-ev-002", "target": "req-ev-003", "type": "satisfy" },
+    { "source": "func-ev-003", "target": "req-ev-004", "type": "satisfy" },
+    { "source": "func-ev-004", "target": "req-ev-005", "type": "satisfy" },
+    { "source": "func-ev-003", "target": "req-ev-002", "type": "satisfy" },
+    { "source": "comp-ev-001", "target": "func-ev-002", "type": "allocate" },
+    { "source": "comp-ev-002", "target": "func-ev-001", "type": "allocate" },
+    { "source": "comp-ev-003", "target": "func-ev-004", "type": "allocate" },
+    { "source": "comp-ev-004", "target": "func-ev-003", "type": "allocate" },
+    { "source": "sc-uav-001", "target": "uc-uav-001", "type": "contains" },
+    { "source": "sc-uav-002", "target": "uc-uav-003", "type": "contains" },
+    { "source": "req-uav-001", "target": "uc-uav-001", "type": "satisfy" },
+    { "source": "req-uav-002", "target": "uc-uav-002", "type": "satisfy" },
+    { "source": "req-uav-003", "target": "uc-uav-003", "type": "satisfy" },
+    { "source": "req-uav-004", "target": "uc-uav-001", "type": "satisfy" },
+    { "source": "func-uav-001", "target": "req-uav-001", "type": "satisfy" },
+    { "source": "func-uav-002", "target": "req-uav-002", "type": "satisfy" },
+    { "source": "func-uav-003", "target": "req-uav-004", "type": "satisfy" },
+    { "source": "func-uav-001", "target": "req-uav-003", "type": "satisfy" },
+    { "source": "comp-uav-001", "target": "func-uav-001", "type": "allocate" },
+    { "source": "comp-uav-002", "target": "func-uav-002", "type": "allocate" },
+    { "source": "comp-uav-003", "target": "func-uav-002", "type": "allocate" },
+    { "source": "sc-med-001", "target": "uc-med-001", "type": "contains" },
+    { "source": "sc-med-002", "target": "uc-med-002", "type": "contains" },
+    { "source": "req-med-001", "target": "uc-med-001", "type": "satisfy" },
+    { "source": "req-med-002", "target": "uc-med-002", "type": "satisfy" },
+    { "source": "req-med-003", "target": "uc-med-001", "type": "satisfy" },
+    { "source": "func-med-001", "target": "req-med-001", "type": "satisfy" },
+    { "source": "func-med-002", "target": "req-med-002", "type": "satisfy" },
+    { "source": "func-med-003", "target": "req-med-003", "type": "satisfy" },
+    { "source": "comp-med-001", "target": "func-med-001", "type": "allocate" },
+    { "source": "comp-med-002", "target": "func-med-002", "type": "allocate" },
+    { "source": "comp-med-003", "target": "func-med-003", "type": "allocate" },
+    { "source": "sc-fac-001", "target": "uc-fac-001", "type": "contains" },
+    { "source": "sc-fac-002", "target": "uc-fac-002", "type": "contains" },
+    { "source": "req-fac-001", "target": "uc-fac-001", "type": "satisfy" },
+    { "source": "req-fac-002", "target": "uc-fac-002", "type": "satisfy" },
+    { "source": "req-fac-003", "target": "uc-fac-001", "type": "satisfy" },
+    { "source": "func-fac-001", "target": "req-fac-001", "type": "satisfy" },
+    { "source": "func-fac-002", "target": "req-fac-002", "type": "satisfy" },
+    { "source": "func-fac-003", "target": "req-fac-003", "type": "satisfy" },
+    { "source": "comp-fac-001", "target": "func-fac-003", "type": "allocate" },
+    { "source": "comp-fac-002", "target": "func-fac-002", "type": "allocate" },
+    { "source": "comp-fac-003", "target": "func-fac-002", "type": "allocate" }
+  ]
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clearing cache…</title>
+  <style>
+    body { font-family: sans-serif; background: #0a0a0f; color: #c8d0e0; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .box { text-align: center; max-width: 420px; }
+    h2 { color: #7eb8f7; margin-bottom: 0.5rem; }
+    p { color: #8899bb; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Clearing stale cache…</h2>
+    <p id="status">Unregistering service workers and purging caches…</p>
+  </div>
+  <script>
+    (async () => {
+      const status = document.getElementById('status');
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r => r.unregister()));
+          status.textContent = `Unregistered ${regs.length} service worker(s). Clearing caches…`;
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+          status.textContent = `Done — cleared ${keys.length} cache bucket(s). Redirecting…`;
+        }
+      } catch (e) {
+        status.textContent = 'Error: ' + e.message;
+      }
+      setTimeout(() => { window.location.replace('/'); }, 800);
+    })();
+  </script>
+</body>
+</html>

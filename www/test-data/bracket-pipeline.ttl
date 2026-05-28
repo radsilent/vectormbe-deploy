@@ -1,0 +1,129 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cad: <http://vectorowl.org/ontology/cad#> .
+@prefix cae: <http://vectorowl.org/ontology/cae#> .
+@prefix plm: <http://vectorowl.org/ontology/plm#> .
+@prefix ex: <http://vectorowl.org/demo/bracket_ti_v01#> .
+
+# ─── Material ─────────────────────────────────────────────────────────────────
+ex:mat_ti6al4v rdf:type plm:Material ;
+    rdfs:label "Ti-6Al-4V" ;
+    plm:hasYieldStrength "880000000.0"^^xsd:decimal ;
+    plm:hasDensity "4620.0"^^xsd:decimal ;
+    plm:hasYoungsModulus "96000000000.0"^^xsd:decimal ;
+    plm:hasPoissonRatio "0.361"^^xsd:decimal .
+
+# ─── CAD Part ─────────────────────────────────────────────────────────────────
+ex:part_bracket_ti_v01 rdf:type cad:Part ;
+    rdfs:label "Titanium Bracket v01" ;
+    cad:hasMaterial ex:mat_ti6al4v ;
+    cad:hasVolume "42384.12"^^xsd:decimal ;
+    cad:hasMass "0.196"^^xsd:decimal ;
+    cad:hasCADFileURI "file:///plm/bracket_ti_v01.CATPart"^^xsd:anyURI ;
+    cad:hasSTEPFileURI "file:///plm/bracket_ti_v01.step"^^xsd:anyURI .
+
+# ─── CAD Surfaces ─────────────────────────────────────────────────────────────
+ex:surf_fixed_holes rdf:type cad:Surface ;
+    rdfs:label "Fixed Holes Surface" .
+
+ex:surf_load_lug rdf:type cad:Surface ;
+    rdfs:label "Load Lug Inner Surface" .
+
+ex:surf_titanium_body rdf:type cad:Surface ;
+    rdfs:label "Titanium Body Surface" .
+
+ex:part_bracket_ti_v01 cad:hasSurface ex:surf_fixed_holes .
+ex:part_bracket_ti_v01 cad:hasSurface ex:surf_load_lug .
+ex:part_bracket_ti_v01 cad:hasSurface ex:surf_titanium_body .
+
+# ─── Simulation Run ───────────────────────────────────────────────────────────
+ex:sim_run_001 rdf:type cae:SimulationRun ;
+    rdfs:label "Static Structural Analysis 001" ;
+    cae:analyzes ex:part_bracket_ti_v01 ;
+    plm:derivedFrom ex:part_bracket_ti_v01 ;
+    cae:hasUnitSystem "MKS" ;
+    cae:hasSolver "Ansys Mechanical" ;
+    cae:hasSolverVersion "2024 R2" ;
+    cae:hasMeshDensity "0.002"^^xsd:decimal .
+
+# ─── Named Selections ─────────────────────────────────────────────────────────
+ex:ns_fixed_holes rdf:type cae:NamedSelection ;
+    rdfs:label "NS_fixed_holes" .
+
+ex:ns_load_lug rdf:type cae:NamedSelection ;
+    rdfs:label "NS_load_lug" .
+
+ex:ns_titanium_body rdf:type cae:NamedSelection ;
+    rdfs:label "NS_titanium_body" .
+
+ex:sim_run_001 cae:hasNamedSelection ex:ns_fixed_holes .
+ex:sim_run_001 cae:hasNamedSelection ex:ns_load_lug .
+ex:sim_run_001 cae:hasNamedSelection ex:ns_titanium_body .
+
+# ─── Boundary Conditions ──────────────────────────────────────────────────────
+ex:bc_fixed_support rdf:type cae:BoundaryCondition ;
+    rdfs:label "Fixed Support" ;
+    cae:appliedTo ex:ns_fixed_holes .
+
+ex:bc_force_5000n rdf:type cae:BoundaryCondition ;
+    rdfs:label "5000 N Y-Force" ;
+    cae:hasLoadValue "5000.0"^^xsd:decimal ;
+    cae:hasLoadDirection "[0.0, 1.0, 0.0]" ;
+    cae:appliedTo ex:ns_load_lug .
+
+ex:sim_run_001 cae:hasBoundaryCondition ex:bc_fixed_support .
+ex:sim_run_001 cae:hasBoundaryCondition ex:bc_force_5000n .
+
+# ─── Simulation Result ────────────────────────────────────────────────────────
+ex:sim_result_001 rdf:type cae:SimulationResult ;
+    rdfs:label "Run 001 Results" ;
+    cae:hasMaxStress "412000000.0"^^xsd:decimal ;
+    cae:hasMaxDisplacement "0.00018"^^xsd:decimal ;
+    cae:hasSafetyFactor "2.136"^^xsd:decimal .
+
+ex:sim_run_001 cae:hasResult ex:sim_result_001 .
+
+# ─── Requirements ─────────────────────────────────────────────────────────────
+ex:req_structural_integrity rdf:type plm:Requirement ;
+    rdfs:label "REQ-STR-001: Structural Integrity" ;
+    rdfs:comment "Bracket shall withstand design loads with safety factor >= 1.5" .
+
+ex:req_max_stress rdf:type plm:Requirement ;
+    rdfs:label "REQ-STR-002: Max Stress Limit" ;
+    rdfs:comment "Von Mises stress shall not exceed 600 MPa under normal operating loads" .
+
+ex:sim_result_001 plm:satisfiesRequirement ex:req_structural_integrity .
+ex:sim_result_001 plm:satisfiesRequirement ex:req_max_stress .
+
+# ─── Simulation Nodes (Critical Region Sample) ────────────────────────────────
+ex:node_crit_001 rdf:type cae:SimulationNode ;
+    rdfs:label "Critical Node 001" ;
+    cae:nodeX "0.045"^^xsd:decimal ;
+    cae:nodeY "0.082"^^xsd:decimal ;
+    cae:nodeZ "0.012"^^xsd:decimal ;
+    cae:nodeStress "412000000.0"^^xsd:decimal ;
+    cae:nodeDisplacement "0.00018"^^xsd:decimal ;
+    cae:mapsToCADSurface ex:surf_load_lug .
+
+ex:node_crit_002 rdf:type cae:SimulationNode ;
+    rdfs:label "Critical Node 002" ;
+    cae:nodeX "0.046"^^xsd:decimal ;
+    cae:nodeY "0.081"^^xsd:decimal ;
+    cae:nodeZ "0.011"^^xsd:decimal ;
+    cae:nodeStress "398000000.0"^^xsd:decimal ;
+    cae:nodeDisplacement "0.00017"^^xsd:decimal ;
+    cae:mapsToCADSurface ex:surf_load_lug .
+
+ex:node_safe_001 rdf:type cae:SimulationNode ;
+    rdfs:label "Safe Node 001" ;
+    cae:nodeX "0.020"^^xsd:decimal ;
+    cae:nodeY "0.010"^^xsd:decimal ;
+    cae:nodeZ "0.005"^^xsd:decimal ;
+    cae:nodeStress "45000000.0"^^xsd:decimal ;
+    cae:nodeDisplacement "0.00002"^^xsd:decimal ;
+    cae:mapsToCADSurface ex:surf_titanium_body .
+
+ex:sim_run_001 cae:producesNodeResult ex:node_crit_001 .
+ex:sim_run_001 cae:producesNodeResult ex:node_crit_002 .
+ex:sim_run_001 cae:producesNodeResult ex:node_safe_001 .

@@ -1,0 +1,94 @@
+VERSION "1.0"
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
+BS_:
+BU_: Vector__XXX ECM TCU BCM BMS MCU HMI ADAS
+
+BO_ 100 EngineData: 8 ECM
+ SG_ EngineSpeed : 0|16@1+ (0.25,0) [0|16383.75] "rpm" Vector__XXX
+ SG_ EngineTemp : 16|8@1+ (1,-40) [-40|215] "degC" Vector__XXX
+ SG_ ThrottlePos : 24|8@1+ (0.392,0) [0|100] "%" Vector__XXX
+ SG_ EngineLoad : 32|8@1+ (0.5,0) [0|127.5] "%" Vector__XXX
+ SG_ FuelRate : 40|16@1+ (0.01,0) [0|655.35] "L/h" Vector__XXX
+
+BO_ 200 TransmissionData: 8 TCU
+ SG_ GearPosition : 0|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ TransOilTemp : 4|8@1+ (1,-40) [-40|215] "degC" Vector__XXX
+ SG_ VehicleSpeed : 12|16@1+ (0.01,0) [0|655.35] "km/h" Vector__XXX
+ SG_ TorqueConverter : 28|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ ClutchPressure : 29|11@1+ (0.1,0) [0|204.7] "bar" Vector__XXX
+
+BO_ 300 BatteryManagement: 8 BMS
+ SG_ PackVoltage : 0|16@1+ (0.1,0) [0|6553.5] "V" Vector__XXX
+ SG_ PackCurrent : 16|16@1+ (0.01,-327.68) [-327.68|327.67] "A" Vector__XXX
+ SG_ SOC : 32|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ SOH : 40|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ CellTempMax : 48|8@1+ (1,-40) [-40|215] "degC" Vector__XXX
+
+BO_ 400 MotorControl: 8 MCU
+ SG_ MotorSpeed : 0|16@1+ (1,-32768) [-32768|32767] "rpm" Vector__XXX
+ SG_ MotorTorque : 16|16@1+ (0.1,-3276.8) [-3276.8|3276.7] "Nm" Vector__XXX
+ SG_ InverterTemp : 32|8@1+ (1,-40) [-40|215] "degC" Vector__XXX
+ SG_ DC_BusVoltage : 40|16@1+ (0.1,0) [0|6553.5] "V" Vector__XXX
+
+BO_ 500 VehicleDynamics: 8 ADAS
+ SG_ YawRate : 0|16@1+ (0.01,-327.68) [-327.68|327.67] "deg/s" Vector__XXX
+ SG_ LatAccel : 16|16@1+ (0.001,-32.768) [-32.768|32.767] "g" Vector__XXX
+ SG_ LongAccel : 32|16@1+ (0.001,-32.768) [-32.768|32.767] "g" Vector__XXX
+ SG_ SteeringAngle : 48|16@1+ (0.1,-3276.8) [-3276.8|3276.7] "deg" Vector__XXX
+
+BO_ 600 DriverControls: 4 BCM
+ SG_ BrakePedalPos : 0|8@1+ (0.392,0) [0|100] "%" Vector__XXX
+ SG_ BrakeSwitch : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SeatbeltBuckle : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DoorOpen_FL : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ DoorOpen_FR : 11|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HoodOpen : 12|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TrunkOpen : 13|1@1+ (1,0) [0|1] "" Vector__XXX
+
+CM_ SG_ 100 EngineSpeed "Engine crankshaft rotational speed";
+CM_ SG_ 100 EngineTemp "Coolant temperature at engine outlet";
+CM_ SG_ 200 GearPosition "Current engaged gear, 0=N, 1-6=forward, 7=R";
+CM_ SG_ 300 SOC "State of charge from Coulomb counting";
+CM_ SG_ 400 MotorTorque "Commanded torque at motor shaft";
+CM_ SG_ 500 YawRate "Vehicle rotation rate about vertical axis";
+
+BA_DEF_ SG_  "GenSigStartValue" INT 0 0;
+BA_DEF_DEF_  "GenSigStartValue" 0;
+
+VAL_ 200 GearPosition 0 "Neutral" 1 "First" 2 "Second" 3 "Third" 4 "Fourth" 5 "Fifth" 6 "Sixth" 7 "Reverse";
+VAL_ 200 TorqueConverter 0 "Locked" 1 "Open";
+VAL_ 500 BrakeSwitch 0 "Released" 1 "Pressed";
+VAL_ 600 SeatbeltBuckle 0 "Unbuckled" 1 "Buckled";
+VAL_ 600 DoorOpen_FL 0 "Closed" 1 "Open";
+VAL_ 600 DoorOpen_FR 0 "Closed" 1 "Open";
+VAL_ 600 HoodOpen 0 "Closed" 1 "Open";
+VAL_ 600 TrunkOpen 0 "Closed" 1 "Open";

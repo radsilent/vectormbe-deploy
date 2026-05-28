@@ -1,0 +1,330 @@
+{
+  "_comment": "VectorOWL functional decomposition demo — Satellite Attitude Determination and Control System (ADCS)",
+  "nodes": [
+    {
+      "id": "f-adcs",
+      "kind": "Function",
+      "attributes": {
+        "name": "AttitudeDeterminationAndControl",
+        "description": "Maintain satellite pointing accuracy within 0.01° across all mission phases",
+        "safety_level": "ASIL-D",
+        "fidelity": "system"
+      }
+    },
+    {
+      "id": "f-determination",
+      "kind": "Function",
+      "attributes": {
+        "name": "AttitudeDetermination",
+        "description": "Compute current spacecraft attitude from sensor fusion",
+        "safety_level": "ASIL-D",
+        "fidelity": "subsystem"
+      }
+    },
+    {
+      "id": "f-control",
+      "kind": "Function",
+      "attributes": {
+        "name": "AttitudeControl",
+        "description": "Generate actuator commands to achieve target attitude",
+        "safety_level": "ASIL-D",
+        "fidelity": "subsystem"
+      }
+    },
+    {
+      "id": "f-sensor-fusion",
+      "kind": "Function",
+      "attributes": {
+        "name": "SensorFusion",
+        "description": "Combine star tracker, gyro, and sun sensor measurements via EKF",
+        "safety_level": "ASIL-C",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-star-ident",
+      "kind": "Function",
+      "attributes": {
+        "name": "StarIdentification",
+        "description": "Match observed star patterns against onboard catalog",
+        "safety_level": "ASIL-C",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-gyro-prop",
+      "kind": "Function",
+      "attributes": {
+        "name": "GyroPropagation",
+        "description": "Propagate attitude quaternion from gyro rate measurements",
+        "safety_level": "ASIL-B",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-momentum-mgmt",
+      "kind": "Function",
+      "attributes": {
+        "name": "MomentumManagement",
+        "description": "Desaturate reaction wheel momentum using magnetorquers",
+        "safety_level": "ASIL-C",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-pointing-control",
+      "kind": "Function",
+      "attributes": {
+        "name": "PointingControl",
+        "description": "Closed-loop PID control for nadir/solar/inertial pointing modes",
+        "safety_level": "ASIL-D",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-slew-maneuver",
+      "kind": "Function",
+      "attributes": {
+        "name": "SlewManeuver",
+        "description": "Execute eigenaxis slew between attitude targets within 60s",
+        "safety_level": "ASIL-C",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-fault-detection",
+      "kind": "Function",
+      "attributes": {
+        "name": "FaultDetectionAndIsolation",
+        "description": "Detect sensor or actuator faults and reconfigure control law",
+        "safety_level": "ASIL-D",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "f-mode-transition",
+      "kind": "Function",
+      "attributes": {
+        "name": "ModeTransition",
+        "description": "Safe state machine transitions between detumble, sun-acquisition, nadir, and inertial modes",
+        "safety_level": "ASIL-D",
+        "fidelity": "component"
+      }
+    },
+    {
+      "id": "c-adcs-computer",
+      "kind": "Component",
+      "attributes": {
+        "name": "ADCS-Computer",
+        "description": "Leon3FT fault-tolerant processor running RTEMS",
+        "part_number": "ADCS-CPU-2026",
+        "software_version": "4.2.1"
+      }
+    },
+    {
+      "id": "c-star-tracker",
+      "kind": "Component",
+      "attributes": {
+        "name": "StarTracker",
+        "description": "CCD-based star tracker with 8° FOV and 5 arcsec accuracy",
+        "part_number": "ST-500-HD"
+      }
+    },
+    {
+      "id": "c-gyro-assembly",
+      "kind": "Component",
+      "attributes": {
+        "name": "GyroAssembly",
+        "description": "3-axis fiber optic gyro package with 0.001°/hr bias stability",
+        "part_number": "FOG-3X-2026"
+      }
+    },
+    {
+      "id": "c-reaction-wheel",
+      "kind": "Component",
+      "attributes": {
+        "name": "ReactionWheelAssembly",
+        "description": "4-wheel pyramid configuration, 0.5 Nms momentum capacity each",
+        "part_number": "RW-4P-2026"
+      }
+    },
+    {
+      "id": "c-magnetorquer",
+      "kind": "Component",
+      "attributes": {
+        "name": "MagnetorquerCoils",
+        "description": "3-axis magnetic torque rods for momentum dumping",
+        "part_number": "MT-30AM2"
+      }
+    },
+    {
+      "id": "c-sun-sensor",
+      "kind": "Component",
+      "attributes": {
+        "name": "SunSensor",
+        "description": "Analog coarse sun sensor for initial acquisition and safe mode",
+        "part_number": "CSS-6F-2026"
+      }
+    },
+    {
+      "id": "s-quaternion",
+      "kind": "Signal",
+      "attributes": {
+        "name": "AttitudeQuaternion",
+        "description": "Estimated attitude as normalized quaternion [q0,q1,q2,q3]",
+        "unit": "dimensionless",
+        "sampling_rate_hz": "50",
+        "message_id": "ADCS-01"
+      }
+    },
+    {
+      "id": "s-angular-rate",
+      "kind": "Signal",
+      "attributes": {
+        "name": "AngularRateVector",
+        "description": "Body-frame angular rates from gyro triad",
+        "unit": "deg/s",
+        "sampling_rate_hz": "100",
+        "message_id": "ADCS-02"
+      }
+    },
+    {
+      "id": "s-wheel-speed",
+      "kind": "Signal",
+      "attributes": {
+        "name": "WheelSpeeds",
+        "description": "Reaction wheel tachometer readings for all 4 wheels",
+        "unit": "rpm",
+        "sampling_rate_hz": "100",
+        "message_id": "ADCS-03"
+      }
+    },
+    {
+      "id": "s-torque-cmd",
+      "kind": "Signal",
+      "attributes": {
+        "name": "TorqueCommand",
+        "description": "Actuator torque commands sent to reaction wheels and magnetorquers",
+        "unit": "Nm",
+        "sampling_rate_hz": "50",
+        "message_id": "ADCS-04"
+      }
+    },
+    {
+      "id": "s-star-vectors",
+      "kind": "Signal",
+      "attributes": {
+        "name": "StarUnitVectors",
+        "description": "Identified star direction vectors in body frame",
+        "unit": "dimensionless",
+        "sampling_rate_hz": "5",
+        "message_id": "ADCS-05"
+      }
+    },
+    {
+      "id": "s-fault-flag",
+      "kind": "Signal",
+      "attributes": {
+        "name": "FaultStatusFlags",
+        "description": "Bitfield indicating FDI status for each sensor and actuator",
+        "unit": "bitfield",
+        "sampling_rate_hz": "1",
+        "message_id": "ADCS-06"
+      }
+    },
+    {
+      "id": "i-adcs-bus",
+      "kind": "Interface",
+      "attributes": {
+        "name": "ADCS-CAN-Bus",
+        "protocol": "CAN-FD",
+        "baudrate": "2000000",
+        "description": "Internal ADCS controller area network"
+      }
+    },
+    {
+      "id": "i-obc-link",
+      "kind": "Interface",
+      "attributes": {
+        "name": "ADCS-OBC-SpaceWire",
+        "protocol": "SpaceWire",
+        "baudrate": "200000000",
+        "description": "High-speed link to onboard computer for telemetry and commands"
+      }
+    },
+    {
+      "id": "req-pointing",
+      "kind": "Requirement",
+      "attributes": {
+        "name": "REQ-ADCS-001",
+        "description": "ADCS shall maintain nadir pointing accuracy of 0.01° (3σ) during nominal imaging operations",
+        "priority": "Critical",
+        "verification_method": "Test"
+      }
+    },
+    {
+      "id": "req-slew",
+      "kind": "Requirement",
+      "attributes": {
+        "name": "REQ-ADCS-002",
+        "description": "ADCS shall complete 180° slew maneuver within 60 seconds using reaction wheels",
+        "priority": "High",
+        "verification_method": "Test"
+      }
+    },
+    {
+      "id": "req-fault",
+      "kind": "Requirement",
+      "attributes": {
+        "name": "REQ-ADCS-003",
+        "description": "ADCS shall detect and isolate single sensor/actuator faults within 500ms",
+        "priority": "Critical",
+        "verification_method": "Analysis and Test"
+      }
+    }
+  ],
+  "edges": [
+    {"source": "f-adcs", "relation_type": "contains", "target": "f-determination"},
+    {"source": "f-adcs", "relation_type": "contains", "target": "f-control"},
+    {"source": "f-adcs", "relation_type": "contains", "target": "f-fault-detection"},
+    {"source": "f-adcs", "relation_type": "contains", "target": "f-mode-transition"},
+    {"source": "f-determination", "relation_type": "contains", "target": "f-sensor-fusion"},
+    {"source": "f-determination", "relation_type": "contains", "target": "f-star-ident"},
+    {"source": "f-determination", "relation_type": "contains", "target": "f-gyro-prop"},
+    {"source": "f-control", "relation_type": "contains", "target": "f-momentum-mgmt"},
+    {"source": "f-control", "relation_type": "contains", "target": "f-pointing-control"},
+    {"source": "f-control", "relation_type": "contains", "target": "f-slew-maneuver"},
+    {"source": "c-adcs-computer", "relation_type": "realizes", "target": "f-adcs"},
+    {"source": "c-star-tracker", "relation_type": "realizes", "target": "f-star-ident"},
+    {"source": "c-gyro-assembly", "relation_type": "realizes", "target": "f-gyro-prop"},
+    {"source": "c-reaction-wheel", "relation_type": "realizes", "target": "f-pointing-control"},
+    {"source": "c-reaction-wheel", "relation_type": "realizes", "target": "f-slew-maneuver"},
+    {"source": "c-magnetorquer", "relation_type": "realizes", "target": "f-momentum-mgmt"},
+    {"source": "c-sun-sensor", "relation_type": "realizes", "target": "f-mode-transition"},
+    {"source": "f-sensor-fusion", "relation_type": "consumes", "target": "s-star-vectors"},
+    {"source": "f-sensor-fusion", "relation_type": "consumes", "target": "s-angular-rate"},
+    {"source": "f-sensor-fusion", "relation_type": "produces", "target": "s-quaternion"},
+    {"source": "f-pointing-control", "relation_type": "consumes", "target": "s-quaternion"},
+    {"source": "f-pointing-control", "relation_type": "produces", "target": "s-torque-cmd"},
+    {"source": "f-momentum-mgmt", "relation_type": "consumes", "target": "s-wheel-speed"},
+    {"source": "f-fault-detection", "relation_type": "consumes", "target": "s-fault-flag"},
+    {"source": "f-slew-maneuver", "relation_type": "consumes", "target": "s-quaternion"},
+    {"source": "f-slew-maneuver", "relation_type": "produces", "target": "s-torque-cmd"},
+    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-quaternion"},
+    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-angular-rate"},
+    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-wheel-speed"},
+    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-torque-cmd"},
+    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-fault-flag"},
+    {"source": "i-obc-link", "relation_type": "carries", "target": "s-quaternion"},
+    {"source": "c-adcs-computer", "relation_type": "connected_via", "target": "i-adcs-bus"},
+    {"source": "c-star-tracker", "relation_type": "connected_via", "target": "i-adcs-bus"},
+    {"source": "c-gyro-assembly", "relation_type": "connected_via", "target": "i-adcs-bus"},
+    {"source": "c-reaction-wheel", "relation_type": "connected_via", "target": "i-adcs-bus"},
+    {"source": "c-adcs-computer", "relation_type": "connected_via", "target": "i-obc-link"},
+    {"source": "req-pointing", "relation_type": "allocatedTo", "target": "f-pointing-control"},
+    {"source": "req-slew", "relation_type": "allocatedTo", "target": "f-slew-maneuver"},
+    {"source": "req-fault", "relation_type": "allocatedTo", "target": "f-fault-detection"},
+    {"source": "req-pointing", "relation_type": "satisfiedBy", "target": "c-reaction-wheel"},
+    {"source": "req-fault", "relation_type": "satisfiedBy", "target": "c-adcs-computer"}
+  ]
+}

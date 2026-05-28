@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+.box {
+  background: #252525;
+  padding: 28px;
+  border-radius: 10px;
+  width: 420px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+h2 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 600;
+}
+p.sub {
+  margin: 0 0 18px;
+  font-size: 0.82rem;
+  color: #888;
+}
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  font-family: monospace;
+  margin-bottom: 14px;
+}
+input:focus {
+  outline: none;
+  border-color: #6b7568;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: opacity 0.15s;
+}
+button:hover { opacity: 0.85; }
+.primary {
+  background: #6b7568;
+  color: #fff;
+  font-weight: 500;
+}
+.secondary {
+  background: transparent;
+  color: #999;
+  border: 1px solid #444;
+}
+.error {
+  color: #c97a6d;
+  font-size: 0.82rem;
+  margin-top: 10px;
+  min-height: 1.2em;
+}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🔑 VectorOWL License</h2>
+  <p class="sub">Enter your license key to activate. Leave as-is for Community edition.</p>
+  <input id="key" type="text" placeholder="VOWL-XXXX-XXXX-XXXX-XXXX" value="VOWL-COMMUNITY" />
+  <div class="row">
+    <button class="secondary" onclick="skip()">Continue</button>
+    <button class="primary" onclick="activate()">Activate</button>
+  </div>
+  <p id="err" class="error"></p>
+</div>
+<script>
+function showError(msg) {
+  document.getElementById('err').textContent = msg;
+}
+function clearError() { showError(''); }
+async function activate() {
+  clearError();
+  const key = document.getElementById('key').value.trim();
+  if (!key) { showError('Please enter a license key.'); return; }
+  try {
+    await window.__TAURI_INTERNALS__.invoke('submit_license', { key });
+  } catch (e) {
+    showError('Error: ' + (e.message || e));
+  }
+}
+function skip() { document.getElementById('key').value = 'VOWL-COMMUNITY'; activate(); }
+document.getElementById('key').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') activate();
+});
+</script>
+</body>
+</html>

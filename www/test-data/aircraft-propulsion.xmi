@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SysML XMI export (Cameo Systems Modeler style)
+  Aircraft Propulsion Subsystem — Blocks, Parts, ValueTypes, Interfaces, Ports, Connectors, and Requirements
+  Compatible with VectorOWL XMI import pipeline.
+-->
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:uml="http://www.omg.org/spec/UML/20161101"
+    xmlns:sysml="http://www.omg.org/spec/SysML/20181001">
+  <uml:Model xmi:id="_model_001" name="AircraftPropulsion">
+
+  <packagedElement xmi:type="uml:Package" xmi:id="_pkg_blocks" name="Blocks">
+
+    <!-- Block: Engine -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_Engine" name="Engine">
+      <generalization xmi:id="_gen_Engine" general="_block_Hardware"/>
+      <ownedAttribute xmi:id="_p_Engine_model" name="model" visibility="public"
+          type="_vt_String" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="_p_Engine_thrust" name="maxThrust" visibility="public"
+          type="_vt_Force" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_thrust" value="120.0"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_Engine_sfc" name="sfc" visibility="public"
+          type="_vt_SFC" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_sfc" value="0.018"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_Engine_weight" name="dryWeight" visibility="public"
+          type="_vt_Mass" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_weight" value="285.0"/>
+      </ownedAttribute>
+      <!-- Flow ports -->
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_Engine_fuelIn" name="fuelIn"
+          type="_ib_FuelFlow" direction="in"/>
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_Engine_pwrIn" name="powerIn"
+          type="_ib_Power" direction="in"/>
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_Engine_thrustOut" name="thrustOut"
+          type="_ib_Thrust" direction="out"/>
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_Engine_ctrlIn" name="controlIn"
+          type="_ib_EngineCmd" direction="in"/>
+    </packagedElement>
+
+    <!-- Block: FuelSystem -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_FuelSystem" name="FuelSystem">
+      <generalization xmi:id="_gen_FuelSystem" general="_block_Hardware"/>
+      <ownedAttribute xmi:id="_p_FS_capacity" name="capacity" visibility="public"
+          type="_vt_Volume" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_cap" value="450.0"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_FS_tanks" name="tankCount" visibility="public"
+          type="_vt_Integer" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_dv_tanks" value="4"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_FS_redundant" name="isRedundant" visibility="public"
+          type="_vt_Boolean" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_dv_red" value="true"/>
+      </ownedAttribute>
+      <!-- Flow ports -->
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_FS_fuelOut" name="fuelOut"
+          type="_ib_FuelFlow" direction="out"/>
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_FS_bleedAirIn" name="bleedAirIn"
+          type="_ib_BleedAir" direction="in"/>
+    </packagedElement>
+
+    <!-- Block: Propeller -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_Propeller" name="Propeller">
+      <generalization xmi:id="_gen_Propeller" general="_block_Hardware"/>
+      <ownedAttribute xmi:id="_p_Prop_dia" name="diameter" visibility="public"
+          type="_vt_Length" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_dia" value="2.1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_Prop_blades" name="bladeCount" visibility="public"
+          type="_vt_Integer" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_dv_blades" value="6"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_Prop_mat" name="bladeMaterial" visibility="public"
+          type="_vt_String" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_dv_mat" value="CarbonFiberComposite"/>
+      </ownedAttribute>
+      <!-- Flow ports -->
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_Prop_shaftIn" name="shaftIn"
+          type="_ib_ShaftTorque" direction="in"/>
+    </packagedElement>
+
+    <!-- Block: PropulsionAssembly (top-level assembly) -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_Assembly" name="PropulsionAssembly">
+      <generalization xmi:id="_gen_Assembly" general="_block_Hardware"/>
+      <ownedAttribute xmi:id="_p_Assy_id" name="assemblyId" visibility="public"
+          type="_vt_String" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_dv_id" value="PA-2026-Alpha"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_Assy_mttf" name="mttfHours" visibility="public"
+          type="_vt_Duration" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralReal" xmi:id="_dv_mttf" value="45000.0"/>
+      </ownedAttribute>
+      <!-- Part properties (composition) -->
+      <ownedAttribute xmi:id="_part_engine" name="engine" visibility="public"
+          type="_block_Engine" lower="1" upper="2"
+          aggregation="composite"/>
+      <ownedAttribute xmi:id="_part_fuel" name="fuelSystem" visibility="public"
+          type="_block_FuelSystem" lower="1" upper="1"
+          aggregation="composite"/>
+      <ownedAttribute xmi:id="_part_prop" name="propeller" visibility="public"
+          type="_block_Propeller" lower="0" upper="1"
+          aggregation="composite"/>
+      <!-- Internal connectors between parts -->
+      <ownedConnector xmi:type="uml:Connector" xmi:id="_conn_fuel" name="fuelLine">
+        <end xmi:id="_conn_fuel_end1" role="_port_FS_fuelOut"/>
+        <end xmi:id="_conn_fuel_end2" role="_port_Engine_fuelIn"/>
+      </ownedConnector>
+      <ownedConnector xmi:type="uml:Connector" xmi:id="_conn_shaft" name="driveShaft">
+        <end xmi:id="_conn_shaft_end1" role="_port_Engine_thrustOut"/>
+        <end xmi:id="_conn_shaft_end2" role="_port_Prop_shaftIn"/>
+      </ownedConnector>
+    </packagedElement>
+
+    <!-- Block: EngineControlUnit -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_ECU" name="EngineControlUnit">
+      <generalization xmi:id="_gen_ECU" general="_block_Avionics"/>
+      <ownedAttribute xmi:id="_p_ECU_pn" name="partNumber" visibility="public"
+          type="_vt_String" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_dv_pn" value="ECU-MarkIV-2026"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_ECU_sw" name="softwareVersion" visibility="public"
+          type="_vt_String" lower="1" upper="1">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_dv_sw" value="4.2.1"/>
+      </ownedAttribute>
+      <!-- Flow ports -->
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_ECU_cmdOut" name="commandOut"
+          type="_ib_EngineCmd" direction="out"/>
+      <ownedAttribute xmi:type="sysml:FlowPort" xmi:id="_port_ECU_telemIn" name="telemetryIn"
+          type="_ib_EngineTelem" direction="in"/>
+      <!-- Realizes control interface -->
+      <interfaceRealization xmi:id="_ecu_realizes_ctrl" contract="_ib_EngineCmd"/>
+    </packagedElement>
+
+    <!-- Abstract base blocks -->
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_Hardware" name="Hardware" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_block_Avionics" name="Avionics" isAbstract="true"/>
+
+  </packagedElement>
+
+  <!-- Interface Blocks -->
+  <packagedElement xmi:type="uml:Package" xmi:id="_pkg_interfaces" name="Interfaces">
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_FuelFlow" name="FuelFlow">
+      <ownedAttribute xmi:id="_ib_FuelFlow_rate" name="flowRate" type="_vt_Real" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="_ib_FuelFlow_temp" name="temperature" type="_vt_Real" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_Power" name="ElectricalPower">
+      <ownedAttribute xmi:id="_ib_Power_v" name="voltage" type="_vt_Real" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="_ib_Power_a" name="amperage" type="_vt_Real" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_Thrust" name="ThrustOutput">
+      <ownedAttribute xmi:id="_ib_Thrust_f" name="force_kN" type="_vt_Force" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_EngineCmd" name="EngineCommand">
+      <ownedAttribute xmi:id="_ib_EngineCmd_throttle" name="throttlePct" type="_vt_Real" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="_ib_EngineCmd_mode" name="operatingMode" type="_vt_String" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_EngineTelem" name="EngineTelemetry">
+      <ownedAttribute xmi:id="_ib_EngineTelem_rpm" name="rpm" type="_vt_Real" lower="1" upper="1"/>
+      <ownedAttribute xmi:id="_ib_EngineTelem_egt" name="egt" type="_vt_Real" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_ShaftTorque" name="ShaftTorque">
+      <ownedAttribute xmi:id="_ib_ShaftTorque_n" name="torque_Nm" type="_vt_Real" lower="1" upper="1"/>
+    </packagedElement>
+    <packagedElement xmi:type="sysml:InterfaceBlock" xmi:id="_ib_BleedAir" name="BleedAir">
+      <ownedAttribute xmi:id="_ib_BleedAir_p" name="pressure_psi" type="_vt_Real" lower="1" upper="1"/>
+    </packagedElement>
+  </packagedElement>
+
+  <!-- Value Types -->
+  <packagedElement xmi:type="uml:Package" xmi:id="_pkg_values" name="ValueTypes">
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_vt_String" name="String"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_vt_Integer" name="Integer"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_vt_Boolean" name="Boolean"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_vt_Real" name="Real"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_Force" name="Force_kN"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_Mass" name="Mass_kg"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_Volume" name="Volume_L"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_Length" name="Length_m"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_SFC" name="SFC_g_per_kN_s"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_vt_Duration" name="Duration_hr"/>
+  </packagedElement>
+
+  <!-- Requirements Package -->
+  <packagedElement xmi:type="uml:Package" xmi:id="_pkg_reqs" name="Requirements">
+
+    <packagedElement xmi:type="sysml:Requirement" xmi:id="_req_R001"
+        name="REQ-PROP-001" text="The propulsion assembly shall provide minimum 200 kN total thrust.">
+      <sysml:id>_req_R001</sysml:id>
+    </packagedElement>
+
+    <packagedElement xmi:type="sysml:Requirement" xmi:id="_req_R002"
+        name="REQ-PROP-002" text="Fuel system shall maintain supply to all engines after single tank breach.">
+      <sysml:id>_req_R002</sysml:id>
+    </packagedElement>
+
+    <packagedElement xmi:type="sysml:Requirement" xmi:id="_req_R003"
+        name="REQ-PROP-003" text="Engine control unit software shall be DO-178C DAL B compliant.">
+      <sysml:id>_req_R003</sysml:id>
+    </packagedElement>
+
+    <packagedElement xmi:type="sysml:Requirement" xmi:id="_req_R004"
+        name="REQ-PROP-004" text="Propeller diameter shall not exceed 2.5 m for ground clearance.">
+      <sysml:id>_req_R004</sysml:id>
+    </packagedElement>
+
+    <packagedElement xmi:type="sysml:Requirement" xmi:id="_req_R005"
+        name="REQ-PROP-005" text="Mean time to failure shall exceed 40000 flight hours.">
+      <sysml:id>_req_R005</sysml:id>
+    </packagedElement>
+
+    <!-- Satisfy relationships -->
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_sat_001"
+        client="_block_Assembly" supplier="_req_R001"
+        name="satisfy">
+      <sysml:Satisfy xmi:id="_sat_tag_001"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_sat_002"
+        client="_block_FuelSystem" supplier="_req_R002"
+        name="satisfy">
+      <sysml:Satisfy xmi:id="_sat_tag_002"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_sat_003"
+        client="_block_ECU" supplier="_req_R003"
+        name="satisfy">
+      <sysml:Satisfy xmi:id="_sat_tag_003"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_sat_004"
+        client="_block_Propeller" supplier="_req_R004"
+        name="satisfy">
+      <sysml:Satisfy xmi:id="_sat_tag_004"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_sat_005"
+        client="_block_Assembly" supplier="_req_R005"
+        name="satisfy">
+      <sysml:Satisfy xmi:id="_sat_tag_005"/>
+    </packagedElement>
+
+  </packagedElement>
+
+  <!-- Allocations -->
+  <packagedElement xmi:type="uml:Package" xmi:id="_pkg_alloc" name="Allocations">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_alloc_001"
+        client="_req_R001" supplier="_block_Engine" name="allocate"/>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_alloc_002"
+        client="_req_R002" supplier="_block_FuelSystem" name="allocate"/>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_alloc_003"
+        client="_req_R003" supplier="_block_ECU" name="allocate"/>
+  </packagedElement>
+
+  </uml:Model>
+</xmi:XMI>

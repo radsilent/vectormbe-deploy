@@ -1,0 +1,396 @@
+{
+  "_comment": "VectorOWL JSON graph import — Automotive Powertrain Signal Architecture",
+  "entities": [
+    {
+      "uri": "powertrain-bus",
+      "type": "Interface",
+      "attributes": {
+        "name": "Powertrain-CAN-Bus",
+        "protocol": "CAN 2.0B",
+        "baudrate": "500000",
+        "description": "Primary powertrain controller area network",
+        "redundancy": "dual"
+      }
+    },
+    {
+      "uri": "chassis-bus",
+      "type": "Interface",
+      "attributes": {
+        "name": "Chassis-CAN-Bus",
+        "protocol": "CAN-FD",
+        "baudrate": "2000000",
+        "description": "Chassis control and ADAS sensor network",
+        "redundancy": "single"
+      }
+    },
+    {
+      "uri": "battery-bus",
+      "type": "Interface",
+      "attributes": {
+        "name": "Battery-Management-Bus",
+        "protocol": "CAN 2.0A",
+        "baudrate": "250000",
+        "description": "Isolated BMS communication bus",
+        "redundancy": "single"
+      }
+    },
+    {
+      "uri": "sig-engine-speed",
+      "type": "Signal",
+      "attributes": {
+        "name": "EngineSpeed",
+        "description": "Engine crankshaft rotational speed",
+        "bit_position": "0",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.25",
+        "offset": "0",
+        "unit": "rpm",
+        "min_value": "0",
+        "max_value": "16383.75",
+        "message_id": "100",
+        "direction": "internal",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-engine-temp",
+      "type": "Signal",
+      "attributes": {
+        "name": "EngineTemp",
+        "description": "Coolant temperature at engine outlet",
+        "bit_position": "16",
+        "bit_length": "8",
+        "byte_order": "intel",
+        "scale": "1.0",
+        "offset": "-40",
+        "unit": "degC",
+        "min_value": "-40",
+        "max_value": "215",
+        "message_id": "100",
+        "direction": "internal",
+        "sampling_rate_hz": "10"
+      }
+    },
+    {
+      "uri": "sig-throttle-pos",
+      "type": "Signal",
+      "attributes": {
+        "name": "ThrottlePos",
+        "description": "Throttle pedal position",
+        "bit_position": "24",
+        "bit_length": "8",
+        "byte_order": "intel",
+        "scale": "0.392",
+        "offset": "0",
+        "unit": "%",
+        "min_value": "0",
+        "max_value": "100",
+        "message_id": "100",
+        "direction": "input",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-gear-position",
+      "type": "Signal",
+      "attributes": {
+        "name": "GearPosition",
+        "description": "Current engaged gear",
+        "bit_position": "0",
+        "bit_length": "4",
+        "byte_order": "intel",
+        "scale": "1",
+        "offset": "0",
+        "unit": "enum",
+        "enum_values": "0:Neutral,1:First,2:Second,3:Third,4:Fourth,5:Fifth,6:Sixth,7:Reverse",
+        "message_id": "200",
+        "direction": "internal",
+        "sampling_rate_hz": "50"
+      }
+    },
+    {
+      "uri": "sig-vehicle-speed",
+      "type": "Signal",
+      "attributes": {
+        "name": "VehicleSpeed",
+        "description": "Vehicle ground speed from wheel sensors",
+        "bit_position": "12",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.01",
+        "offset": "0",
+        "unit": "km/h",
+        "min_value": "0",
+        "max_value": "655.35",
+        "message_id": "200",
+        "direction": "output",
+        "sampling_rate_hz": "50"
+      }
+    },
+    {
+      "uri": "sig-pack-voltage",
+      "type": "Signal",
+      "attributes": {
+        "name": "PackVoltage",
+        "description": "High voltage battery pack total voltage",
+        "bit_position": "0",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.1",
+        "offset": "0",
+        "unit": "V",
+        "min_value": "0",
+        "max_value": "6553.5",
+        "message_id": "300",
+        "direction": "internal",
+        "sampling_rate_hz": "10",
+        "safety_critical": "true"
+      }
+    },
+    {
+      "uri": "sig-pack-current",
+      "type": "Signal",
+      "attributes": {
+        "name": "PackCurrent",
+        "description": "High voltage battery pack current",
+        "bit_position": "16",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.01",
+        "offset": "-327.68",
+        "unit": "A",
+        "min_value": "-327.68",
+        "max_value": "327.67",
+        "message_id": "300",
+        "direction": "internal",
+        "sampling_rate_hz": "10",
+        "safety_critical": "true"
+      }
+    },
+    {
+      "uri": "sig-soc",
+      "type": "Signal",
+      "attributes": {
+        "name": "SOC",
+        "description": "State of charge from Coulomb counting",
+        "bit_position": "32",
+        "bit_length": "8",
+        "byte_order": "intel",
+        "scale": "0.5",
+        "offset": "0",
+        "unit": "%",
+        "min_value": "0",
+        "max_value": "100",
+        "message_id": "300",
+        "direction": "internal",
+        "sampling_rate_hz": "1",
+        "safety_critical": "true"
+      }
+    },
+    {
+      "uri": "sig-motor-speed",
+      "type": "Signal",
+      "attributes": {
+        "name": "MotorSpeed",
+        "description": "Electric motor rotational speed",
+        "bit_position": "0",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "1",
+        "offset": "-32768",
+        "unit": "rpm",
+        "min_value": "-32768",
+        "max_value": "32767",
+        "message_id": "400",
+        "direction": "internal",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-motor-torque",
+      "type": "Signal",
+      "attributes": {
+        "name": "MotorTorque",
+        "description": "Commanded motor torque",
+        "bit_position": "16",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.1",
+        "offset": "-3276.8",
+        "unit": "Nm",
+        "min_value": "-3276.8",
+        "max_value": "3276.7",
+        "message_id": "400",
+        "direction": "internal",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-yaw-rate",
+      "type": "Signal",
+      "attributes": {
+        "name": "YawRate",
+        "description": "Vehicle rotation rate about vertical axis",
+        "bit_position": "0",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.01",
+        "offset": "-327.68",
+        "unit": "deg/s",
+        "min_value": "-327.68",
+        "max_value": "327.67",
+        "message_id": "500",
+        "direction": "internal",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-lat-accel",
+      "type": "Signal",
+      "attributes": {
+        "name": "LatAccel",
+        "description": "Lateral acceleration",
+        "bit_position": "16",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.001",
+        "offset": "-32.768",
+        "unit": "g",
+        "min_value": "-32.768",
+        "max_value": "32.767",
+        "message_id": "500",
+        "direction": "internal",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "sig-steering-angle",
+      "type": "Signal",
+      "attributes": {
+        "name": "SteeringAngle",
+        "description": "Steering wheel angle",
+        "bit_position": "48",
+        "bit_length": "16",
+        "byte_order": "intel",
+        "scale": "0.1",
+        "offset": "-3276.8",
+        "unit": "deg",
+        "min_value": "-3276.8",
+        "max_value": "3276.7",
+        "message_id": "500",
+        "direction": "input",
+        "sampling_rate_hz": "100"
+      }
+    },
+    {
+      "uri": "ecu-engine",
+      "type": "Component",
+      "attributes": {
+        "name": "EngineControlUnit",
+        "description": "Primary engine management controller",
+        "part_number": "ECU-MarkIV-2026",
+        "software_version": "4.2.1"
+      }
+    },
+    {
+      "uri": "ecu-trans",
+      "type": "Component",
+      "attributes": {
+        "name": "TransmissionControlUnit",
+        "description": "Dual-clutch transmission controller",
+        "part_number": "TCU-DCT-2026",
+        "software_version": "3.1.0"
+      }
+    },
+    {
+      "uri": "bms-master",
+      "type": "Component",
+      "attributes": {
+        "name": "BatteryManagementMaster",
+        "description": "High voltage battery management system master",
+        "part_number": "BMS-HV-2026",
+        "cell_count": "96"
+      }
+    },
+    {
+      "uri": "mcu-inverter",
+      "type": "Component",
+      "attributes": {
+        "name": "MotorControlUnit",
+        "description": "Traction motor inverter controller",
+        "part_number": "MCU-INV-2026",
+        "max_current_a": "600"
+      }
+    },
+    {
+      "uri": "adas-controller",
+      "type": "Component",
+      "attributes": {
+        "name": "ADASController",
+        "description": "Advanced driver assistance system controller",
+        "part_number": "ADAS-CAM-2026",
+        "sensor_count": "8"
+      }
+    },
+    {
+      "uri": "func-torque-mgmt",
+      "type": "Function",
+      "attributes": {
+        "name": "TorqueManagement",
+        "description": "Coordinate engine and motor torque for optimal efficiency",
+        "safety_level": "ASIL-D"
+      }
+    },
+    {
+      "uri": "func-thermal-mgmt",
+      "type": "Function",
+      "attributes": {
+        "name": "ThermalManagement",
+        "description": "Manage powertrain cooling and battery thermal conditioning",
+        "safety_level": "ASIL-B"
+      }
+    },
+    {
+      "uri": "func-stability",
+      "type": "Function",
+      "attributes": {
+        "name": "VehicleStabilityControl",
+        "description": "Electronic stability control using yaw rate and lateral acceleration",
+        "safety_level": "ASIL-D"
+      }
+    }
+  ],
+  "relations": [
+    {"source": "powertrain-bus", "predicate": "contains", "target": "sig-engine-speed"},
+    {"source": "powertrain-bus", "predicate": "contains", "target": "sig-engine-temp"},
+    {"source": "powertrain-bus", "predicate": "contains", "target": "sig-throttle-pos"},
+    {"source": "powertrain-bus", "predicate": "contains", "target": "sig-motor-speed"},
+    {"source": "powertrain-bus", "predicate": "contains", "target": "sig-motor-torque"},
+    {"source": "chassis-bus", "predicate": "contains", "target": "sig-gear-position"},
+    {"source": "chassis-bus", "predicate": "contains", "target": "sig-vehicle-speed"},
+    {"source": "chassis-bus", "predicate": "contains", "target": "sig-yaw-rate"},
+    {"source": "chassis-bus", "predicate": "contains", "target": "sig-lat-accel"},
+    {"source": "chassis-bus", "predicate": "contains", "target": "sig-steering-angle"},
+    {"source": "battery-bus", "predicate": "contains", "target": "sig-pack-voltage"},
+    {"source": "battery-bus", "predicate": "contains", "target": "sig-pack-current"},
+    {"source": "battery-bus", "predicate": "contains", "target": "sig-soc"},
+    {"source": "ecu-engine", "predicate": "transmits", "target": "powertrain-bus"},
+    {"source": "ecu-trans", "predicate": "transmits", "target": "chassis-bus"},
+    {"source": "bms-master", "predicate": "transmits", "target": "battery-bus"},
+    {"source": "mcu-inverter", "predicate": "transmits", "target": "powertrain-bus"},
+    {"source": "adas-controller", "predicate": "transmits", "target": "chassis-bus"},
+    {"source": "func-torque-mgmt", "predicate": "consumes", "target": "sig-throttle-pos"},
+    {"source": "func-torque-mgmt", "predicate": "consumes", "target": "sig-engine-speed"},
+    {"source": "func-torque-mgmt", "predicate": "consumes", "target": "sig-motor-torque"},
+    {"source": "func-torque-mgmt", "predicate": "allocatedTo", "target": "ecu-engine"},
+    {"source": "func-thermal-mgmt", "predicate": "consumes", "target": "sig-engine-temp"},
+    {"source": "func-thermal-mgmt", "predicate": "consumes", "target": "sig-pack-voltage"},
+    {"source": "func-thermal-mgmt", "predicate": "allocatedTo", "target": "bms-master"},
+    {"source": "func-stability", "predicate": "consumes", "target": "sig-yaw-rate"},
+    {"source": "func-stability", "predicate": "consumes", "target": "sig-lat-accel"},
+    {"source": "func-stability", "predicate": "consumes", "target": "sig-steering-angle"},
+    {"source": "func-stability", "predicate": "consumes", "target": "sig-vehicle-speed"},
+    {"source": "func-stability", "predicate": "allocatedTo", "target": "adas-controller"}
+  ]
+}

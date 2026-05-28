@@ -1,0 +1,388 @@
+/**
+ * VectorOWL Sample: Macro Healthcare Ecosystem
+ * SysML v2 model of a national healthcare system-of-systems.
+ * Consistent with the healthcare-ecosystem.json graph demo data.
+ */
+
+package HealthcareEcosystem {
+  import SI::*;
+
+  /* -- Top-level macro system ---------------------------------- */
+  part def NationalHealthcareEcosystem {
+    part careDelivery    : CareDeliverySystem;
+    part healthFinancing : HealthFinancingSystem;
+    part pharma          : PharmaLifeSciences;
+    part publicHealth    : PublicHealthInfrastructure;
+    part regulatory      : RegulatoryPolicyFramework;
+    part healthIT        : HealthInformationTechnology;
+  }
+
+  /* -- Care Delivery ------------------------------------------- */
+  part def CareDeliverySystem {
+    part acuteCare     : AcuteCareNetwork;
+    part primaryCare   : PrimaryCareNetwork;
+    part specialtyCare : SpecialtyCareNetwork;
+    part longTermCare  : LongTermPostAcuteCare;
+    part emergencySvc  : EmergencyMedicalServices;
+    port clinicalIn    : ClinicalDataPort;
+    port claimsOut     : ClaimsPort;
+  }
+
+  part def AcuteCareNetwork {
+    part emergencyDept : EmergencyDepartment;
+    part surgery       : SurgicalServices;
+    part icu           : IntensiveCareUnits;
+    part wards         : GeneralInpatientWards;
+  }
+
+  part def EmergencyDepartment {
+    attribute capacityBeds   : Integer = 40;
+    attribute avgWaitTimeMin : Real = 18.0;
+  }
+
+  part def SurgicalServices {
+    attribute orCount : Integer = 12;
+  }
+
+  part def IntensiveCareUnits {
+    attribute icuBeds         : Integer = 24;
+    attribute ventilatorCount : Integer = 16;
+  }
+
+  part def GeneralInpatientWards {
+    attribute wardBeds : Integer = 180;
+  }
+
+  part def PrimaryCareNetwork {
+    part familyMedicine  : FamilyMedicinePractices;
+    part communityHealth : CommunityHealthCenters;
+    part preventiveSvc   : PreventiveServices;
+  }
+
+  part def FamilyMedicinePractices {
+    attribute patientPanelSize : Integer = 2500;
+  }
+
+  part def CommunityHealthCenters {
+    attribute underservedPopPct : Real = 0.65;
+  }
+
+  part def PreventiveServices {
+    attribute immunizationRate : Real = 0.78;
+  }
+
+  part def SpecialtyCareNetwork {
+    part cardiology  : CardiologyServices;
+    part oncology    : OncologyServices;
+    part orthopedics : OrthopedicsRehabilitation;
+    part behavioral  : BehavioralHealth;
+  }
+
+  part def CardiologyServices {
+    attribute cathLabCount : Integer = 3;
+  }
+
+  part def OncologyServices {
+    attribute infusionChairs : Integer = 24;
+  }
+
+  part def OrthopedicsRehabilitation {
+    attribute jointReplacementVol : Integer = 400;
+  }
+
+  part def BehavioralHealth {
+    attribute crisisBeds : Integer = 12;
+  }
+
+  part def LongTermPostAcuteCare {
+    part skilledNursing : SkilledNursingFacilities;
+    part homeHealth     : HomeHealthAgencies;
+    part hospice        : HospicePalliativeCare;
+  }
+
+  part def SkilledNursingFacilities {
+    attribute snfBeds    : Integer = 120;
+    attribute starRating : Real = 3.8;
+  }
+
+  part def HomeHealthAgencies {
+    attribute visitCapacityDaily : Integer = 80;
+  }
+
+  part def HospicePalliativeCare {
+    attribute hospiceBeds : Integer = 20;
+  }
+
+  part def EmergencyMedicalServices {
+    part emsTransport     : EMSTransport;
+    part traumaCenters    : TraumaCenterNetwork;
+    part disasterResponse : DisasterMedicalResponse;
+  }
+
+  part def EMSTransport {
+    attribute ambulanceCount     : Integer = 25;
+    attribute avgResponseTimeMin : Real = 8.5;
+  }
+
+  part def TraumaCenterNetwork {
+    attribute levelOneCount : Integer = 1;
+    attribute levelTwoCount : Integer = 3;
+  }
+
+  part def DisasterMedicalResponse {
+    attribute surgeBeds        : Integer = 200;
+    attribute stockpilePpeDays : Integer = 30;
+  }
+
+  /* -- Health Financing ---------------------------------------- */
+  part def HealthFinancingSystem {
+    part privateInsurance : PrivateInsuranceSector;
+    part publicPrograms   : PublicCoveragePrograms;
+    part pbm              : PharmacyBenefitManagers;
+    port premiumIn        : PremiumPort;
+    port paymentOut       : PaymentPort;
+  }
+
+  part def PrivateInsuranceSector {
+    part employerPlans     : EmployerSponsoredPlans;
+    part individualMarket  : IndividualInsuranceMarket;
+    part medicareAdvantage : MedicareAdvantage;
+  }
+
+  part def EmployerSponsoredPlans {
+    attribute coveredLives : Integer = 450000;
+  }
+
+  part def IndividualInsuranceMarket {
+    attribute exchangeEnrollment : Integer = 85000;
+  }
+
+  part def MedicareAdvantage {
+    attribute planCount : Integer = 12;
+  }
+
+  part def PublicCoveragePrograms {
+    part traditionalMedicare : TraditionalMedicare;
+    part medicaid            : MedicaidCHIP;
+    part vaBenefits          : VAHealthBenefits;
+  }
+
+  part def TraditionalMedicare {
+    attribute partABeneficiaries : Integer = 120000;
+  }
+
+  part def MedicaidCHIP {
+    attribute totalEnrollment : Integer = 180000;
+  }
+
+  part def VAHealthBenefits {
+    attribute enrolledVeterans : Integer = 25000;
+  }
+
+  part def PharmacyBenefitManagers {
+    part formularyMgmt     : FormularyManagement;
+    part rebateNegotiation : RebateNegotiation;
+    part mailOrderPharmacy : MailOrderPharmacy;
+  }
+
+  part def FormularyManagement {
+    attribute coveredDrugs : Integer = 4500;
+  }
+
+  part def RebateNegotiation {
+    attribute avgRebatePct : Real = 0.24;
+  }
+
+  part def MailOrderPharmacy {
+    attribute dailyFillCapacity : Integer = 5000;
+  }
+
+  /* -- Pharma & Life Sciences ---------------------------------- */
+  part def PharmaLifeSciences {
+    part rdPipeline    : RDPipeline;
+    part manufacturing : ManufacturingSupplyChain;
+    part devices       : MedicalDevicesDiagnostics;
+    port marketEntry   : MarketEntryPort;
+  }
+
+  part def RDPipeline {
+    part drugDiscovery  : DrugDiscovery;
+    part preclinical    : PreclinicalDevelopment;
+    part clinicalTrials : ClinicalTrialsOperations;
+  }
+
+  part def DrugDiscovery {
+    attribute targetCount : Integer = 45;
+  }
+
+  part def PreclinicalDevelopment {
+    attribute glpStudies : Integer = 8;
+  }
+
+  part def ClinicalTrialsOperations {
+    attribute activeTrials : Integer = 22;
+  }
+
+  part def ManufacturingSupplyChain {
+    part apiSynthesis     : APISynthesis;
+    part formulationPlant : FormulationFillFinish;
+    part packagingDist    : PackagingDistribution;
+  }
+
+  part def APISynthesis {
+    attribute batchSizeKg : Real = 500.0;
+    attribute yieldPct    : Real = 0.82;
+  }
+
+  part def FormulationFillFinish {
+    attribute vialFillRatePerHr : Integer = 1200;
+  }
+
+  part def PackagingDistribution {
+    attribute globalDistCenters : Integer = 4;
+  }
+
+  part def MedicalDevicesDiagnostics {
+    part classII  : ClassIIMedicalDevices;
+    part classIII : ClassIIIMedicalDevices;
+  }
+
+  part def ClassIIMedicalDevices {
+    attribute imagingModalities : Integer = 6;
+  }
+
+  part def ClassIIIMedicalDevices {
+    attribute implantModels : Integer = 18;
+  }
+
+  /* -- Public Health ------------------------------------------- */
+  part def PublicHealthInfrastructure {
+    part surveillance         : DiseaseSurveillanceSystem;
+    part prevention           : PreventionHealthPromotion;
+    part emergencyPreparedness : EmergencyPreparedness;
+    port clinicalOut          : ClinicalDataPort;
+  }
+
+  part def DiseaseSurveillanceSystem {
+    attribute reportableConditions : Integer = 120;
+    attribute labReportingLagDays  : Real = 2.5;
+  }
+
+  part def PreventionHealthPromotion {
+    attribute vaccinationCoveragePct : Real = 0.72;
+  }
+
+  part def EmergencyPreparedness {
+    attribute strategicStockpileDays : Integer = 90;
+  }
+
+  /* -- Regulatory & Policy ------------------------------------- */
+  part def RegulatoryPolicyFramework {
+    part fda           : FDA;
+    part cms           : CMS;
+    part accreditation : AccreditationBodies;
+    port policyOut     : PolicyPort;
+  }
+
+  part def FDA {
+    attribute activeGuidances : Integer = 85;
+  }
+
+  part def CMS {
+    attribute qualityMeasures : Integer = 32;
+  }
+
+  part def AccreditationBodies {
+    attribute accreditedOrgs : Integer = 450;
+  }
+
+  /* -- Health IT ----------------------------------------------- */
+  part def HealthInformationTechnology {
+    part ehrVendors      : EHRClinicalPlatforms;
+    part hieNetworks     : HealthInformationExchange;
+    part telehealth      : TelehealthRemoteCare;
+    part healthAnalytics : HealthAnalyticsAI;
+    port clinicalOut     : ClinicalDataPort;
+    port clinicalIn      : ClinicalDataPort;
+  }
+
+  part def EHRClinicalPlatforms {
+    attribute certifiedEhrCount     : Integer = 8;
+    attribute interoperabilityScore : Real = 0.74;
+  }
+
+  part def HealthInformationExchange {
+    attribute connectedOrgs : Integer = 340;
+  }
+
+  part def TelehealthRemoteCare {
+    attribute virtualVisitCapDaily : Integer = 1200;
+    attribute rpmEnrolledPatients  : Integer = 15000;
+  }
+
+  part def HealthAnalyticsAI {
+    attribute predictiveModels : Integer = 18;
+  }
+
+  /* -- Ports & Interfaces -------------------------------------- */
+  port def ClinicalDataPort;
+  port def ClaimsPort;
+  port def PremiumPort;
+  port def PaymentPort;
+  port def PolicyPort;
+  port def MarketEntryPort;
+
+  interface def ClinicalFinancialDataExchange {
+    end careDelivery.clinicalIn    : ClinicalDataPort;
+    end healthFinancing.paymentOut : PaymentPort;
+  }
+
+  interface def RegulatoryMandateInterface {
+    end regulatory.policyOut     : PolicyPort;
+    end careDelivery.clinicalIn  : ClinicalDataPort;
+    end pharma.marketEntry       : MarketEntryPort;
+  }
+
+  interface def HealthITInteroperabilityInterface {
+    end healthIT.clinicalOut    : ClinicalDataPort;
+    end careDelivery.clinicalIn : ClinicalDataPort;
+    end publicHealth.clinicalOut : ClinicalDataPort;
+  }
+
+  /* -- Requirements -------------------------------------------- */
+  requirement def UniversalAccessMandate {
+    doc /* All residents must have timely access to essential health services without financial hardship. */
+  }
+
+  requirement def HippaPrivacySecurity {
+    doc /* Protected health information must be safeguarded with administrative, physical, and technical controls. */
+  }
+
+  requirement def QualityReportingRequirements {
+    doc /* Providers and payers must report standardized clinical quality measures and outcomes to regulators. */
+  }
+
+  requirement def FdaSafetyEfficacyStandards {
+    doc /* All marketed drugs and devices must demonstrate adequate safety and efficacy through controlled trials. */
+  }
+
+  requirement def InteroperabilityStandards {
+    doc /* EHR systems must support standardized APIs and data formats for seamless health information exchange. */
+  }
+
+  requirement def CostContainmentTargets {
+    doc /* Annual healthcare expenditure growth must not exceed GDP growth plus a defined margin. */
+  }
+
+  requirement def HealthEquityGoals {
+    doc /* Disparities in outcomes, access, and quality across racial, ethnic, and socioeconomic groups must be reduced. */
+  }
+
+  satisfy UniversalAccessMandate by CareDeliverySystem, PublicCoveragePrograms;
+  satisfy HippaPrivacySecurity by HealthInformationTechnology;
+  satisfy QualityReportingRequirements by CareDeliverySystem, HealthFinancingSystem;
+  satisfy FdaSafetyEfficacyStandards by PharmaLifeSciences, FDA;
+  satisfy InteroperabilityStandards by HealthInformationTechnology;
+  satisfy CostContainmentTargets by HealthFinancingSystem, PharmacyBenefitManagers;
+  satisfy HealthEquityGoals by PublicHealthInfrastructure, CareDeliverySystem;
+}

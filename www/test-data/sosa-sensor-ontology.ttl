@@ -1,0 +1,160 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix schema: <http://schema.org/> .
+
+sosa: a owl:Ontology ;
+  dcterms:title "Sensor, Observation, Sample, and Actuator (SOSA) Ontology"@en ;
+  dcterms:description "W3C SOSA ontology — sensors, observations, actuators, and sampling."@en ;
+  dcterms:created "2017-04-17"^^xsd:date .
+
+sosa:FeatureOfInterest a rdfs:Class , owl:Class ;
+  rdfs:label "Feature Of Interest"@en ;
+  skos:definition "The thing whose property is being estimated or calculated in the course of an Observation."@en .
+
+sosa:ObservableProperty a rdfs:Class , owl:Class ;
+  rdfs:label "Observable Property"@en ;
+  skos:definition "An observable quality (property, characteristic) of a FeatureOfInterest."@en .
+
+sosa:ActuatableProperty a rdfs:Class , owl:Class ;
+  rdfs:label "Actuatable Property"@en ;
+  skos:definition "An actuatable quality (property, characteristic) of a FeatureOfInterest."@en .
+
+sosa:Sample a rdfs:Class , owl:Class ;
+  rdfs:label "Sample"@en ;
+  skos:definition "Feature which is intended to be representative of a FeatureOfInterest on which Observations may be made."@en .
+
+sosa:Platform a rdfs:Class , owl:Class ;
+  rdfs:label "Platform"@en ;
+  skos:definition "An entity that hosts other entities, particularly Sensors, Actuators, Samplers, and other Platforms."@en .
+
+sosa:Sensor a rdfs:Class , owl:Class ;
+  rdfs:label "Sensor"@en ;
+  skos:definition "Device, agent (including humans), or software involved in, or implementing, a Procedure."@en .
+
+sosa:Actuator a rdfs:Class , owl:Class ;
+  rdfs:label "Actuator"@en ;
+  skos:definition "A device that is used by, or implements, an (Actuation) Procedure that changes the state of the world."@en .
+
+sosa:Sampler a rdfs:Class , owl:Class ;
+  rdfs:label "Sampler"@en ;
+  skos:definition "A device that implements a Sampling Procedure to create or transform one or more samples."@en .
+
+sosa:Procedure a rdfs:Class , owl:Class ;
+  rdfs:label "Procedure"@en ;
+  skos:definition "A workflow, protocol, plan, algorithm, or computational method specifying how to make an Observation."@en .
+
+sosa:Observation a rdfs:Class , owl:Class ;
+  rdfs:label "Observation"@en ;
+  skos:definition "Act of carrying out an (Observation) Procedure to estimate or calculate a value of a property of a FeatureOfInterest."@en .
+
+sosa:Actuation a rdfs:Class , owl:Class ;
+  rdfs:label "Actuation"@en ;
+  skos:definition "An Actuation carries out an (Actuation) Procedure to change the state of the world using an Actuator."@en .
+
+sosa:Sampling a rdfs:Class , owl:Class ;
+  rdfs:label "Sampling"@en ;
+  skos:definition "An act of Sampling carries out a sampling Procedure to create or transform one or more samples."@en .
+
+sosa:Result a rdfs:Class , owl:Class ;
+  rdfs:label "Result"@en ;
+  skos:definition "The Result of an Observation, Actuation, or act of Sampling."@en .
+
+sosa:observes a owl:ObjectProperty ;
+  rdfs:label "observes"@en ;
+  schema:domainIncludes sosa:Sensor ;
+  schema:rangeIncludes sosa:ObservableProperty ;
+  owl:inverseOf sosa:isObservedBy .
+
+sosa:isObservedBy a owl:ObjectProperty ;
+  rdfs:label "is observed by"@en ;
+  schema:domainIncludes sosa:ObservableProperty ;
+  schema:rangeIncludes sosa:Sensor .
+
+sosa:hosts a owl:ObjectProperty ;
+  rdfs:label "hosts"@en ;
+  schema:domainIncludes sosa:Platform ;
+  schema:rangeIncludes sosa:Sensor ;
+  owl:inverseOf sosa:isHostedBy .
+
+sosa:isHostedBy a owl:ObjectProperty ;
+  rdfs:label "is hosted by"@en ;
+  schema:domainIncludes sosa:Sensor ;
+  schema:rangeIncludes sosa:Platform .
+
+sosa:madeBySensor a owl:ObjectProperty ;
+  rdfs:label "made by sensor"@en ;
+  schema:domainIncludes sosa:Observation ;
+  schema:rangeIncludes sosa:Sensor ;
+  owl:inverseOf sosa:madeObservation .
+
+sosa:madeObservation a owl:ObjectProperty ;
+  rdfs:label "made observation"@en ;
+  schema:domainIncludes sosa:Sensor ;
+  schema:rangeIncludes sosa:Observation .
+
+sosa:observedProperty a owl:ObjectProperty ;
+  rdfs:label "observed property"@en ;
+  schema:domainIncludes sosa:Observation ;
+  schema:rangeIncludes sosa:ObservableProperty .
+
+sosa:hasFeatureOfInterest a owl:ObjectProperty ;
+  rdfs:label "has feature of interest"@en ;
+  schema:domainIncludes sosa:Observation ;
+  schema:rangeIncludes sosa:FeatureOfInterest ;
+  owl:inverseOf sosa:isFeatureOfInterestOf .
+
+sosa:isFeatureOfInterestOf a owl:ObjectProperty ;
+  rdfs:label "is feature of interest of"@en ;
+  schema:domainIncludes sosa:FeatureOfInterest ;
+  schema:rangeIncludes sosa:Observation .
+
+sosa:hasResult a owl:ObjectProperty ;
+  rdfs:label "has result"@en ;
+  schema:domainIncludes sosa:Observation ;
+  schema:rangeIncludes sosa:Result ;
+  owl:inverseOf sosa:isResultOf .
+
+sosa:isResultOf a owl:ObjectProperty ;
+  rdfs:label "is result of"@en ;
+  schema:domainIncludes sosa:Result ;
+  schema:rangeIncludes sosa:Observation .
+
+sosa:hasSimpleResult a owl:DatatypeProperty ;
+  rdfs:label "has simple result"@en ;
+  schema:domainIncludes sosa:Observation .
+
+sosa:resultTime a owl:DatatypeProperty ;
+  rdfs:label "result time"@en ;
+  schema:domainIncludes sosa:Observation ;
+  rdfs:range xsd:dateTime .
+
+sosa:usedProcedure a owl:ObjectProperty ;
+  rdfs:label "used procedure"@en ;
+  schema:domainIncludes sosa:Observation ;
+  schema:rangeIncludes sosa:Procedure .
+
+sosa:madeByActuator a owl:ObjectProperty ;
+  rdfs:label "made by actuator"@en ;
+  schema:domainIncludes sosa:Actuation ;
+  schema:rangeIncludes sosa:Actuator .
+
+sosa:actsOnProperty a owl:ObjectProperty ;
+  rdfs:label "acts on property"@en ;
+  schema:domainIncludes sosa:Actuation ;
+  schema:rangeIncludes sosa:ActuatableProperty .
+
+sosa:hasSample a owl:ObjectProperty ;
+  rdfs:label "has sample"@en ;
+  schema:domainIncludes sosa:FeatureOfInterest ;
+  schema:rangeIncludes sosa:Sample ;
+  owl:inverseOf sosa:isSampleOf .
+
+sosa:isSampleOf a owl:ObjectProperty ;
+  rdfs:label "is sample of"@en ;
+  schema:domainIncludes sosa:Sample ;
+  schema:rangeIncludes sosa:FeatureOfInterest .

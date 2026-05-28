@@ -1,0 +1,3535 @@
+{
+  "nodes": [
+    {
+      "id": "sh_oem",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Vehicle OEM",
+        "role": "system_owner",
+        "organization": "Automaker Engineering Division",
+        "description": "Defines top-level system requirements, owns the vehicle architecture, and bears legal responsibility for homologation",
+        "interest": "Performance, cost, safety, regulatory compliance, warranty exposure",
+        "influence": "high",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "sh_battery_supplier",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Battery Cell Supplier",
+        "role": "supplier",
+        "organization": "Tier-1 Battery Manufacturer",
+        "description": "Supplies lithium-ion cells, cell-level characterisation data, and safety datasheets. Defines cell operating limits.",
+        "interest": "Cell operating envelope respected, SOP/SoH algorithms validated against supplier data",
+        "influence": "high",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "sh_pe_supplier",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Power Electronics Supplier",
+        "role": "supplier",
+        "organization": "Tier-1 Power Electronics Manufacturer",
+        "description": "Supplies the inverter, OBC, and DC-DC converter. Defines thermal derating curves and electrical interfaces.",
+        "interest": "Interface specs met, derating curves honoured, warranty conditions not exceeded",
+        "influence": "medium",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "sh_charging_op",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Charging Network Operator",
+        "role": "infrastructure_provider",
+        "organization": "Public EVSE Network",
+        "description": "Operates DC fast chargers and AC Level 2 stations. Requires CCS/CHAdeMO/OCPP compatibility and reliable handshake protocol.",
+        "interest": "OCPP 2.0.1 compliance, ISO 15118 Plug & Charge, reliable session establishment",
+        "influence": "medium",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "sh_end_customer",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "End Customer / Vehicle Owner",
+        "role": "primary_user",
+        "description": "Purchases and daily-drives the vehicle. Cares about range, charge time, ride quality, and total cost of ownership.",
+        "interest": "250+ mile range, <30 min 10\u201380% DC fast charge, smooth regen, transparent SOC display",
+        "influence": "high",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "sh_insurer",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Insurance Provider",
+        "role": "risk_assessor",
+        "description": "Assesses vehicle safety record, crash response, and telematics data for underwriting and claims processing.",
+        "interest": "Automatic collision reporting, HV safe-state after crash, telematics API access",
+        "influence": "low",
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "sh_dealership",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Dealership / Service Network",
+        "role": "service_provider",
+        "description": "Performs warranty repairs, scheduled maintenance, and OTA-triggered field fixes. Uses OEM diagnostic tools.",
+        "interest": "Clear DTCs, OBD-II access, OTA update capability, safe HV handling procedures",
+        "influence": "medium",
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "sh_regulator",
+      "kind": "Stakeholder",
+      "attributes": {
+        "name": "Government / Regulatory Body",
+        "role": "regulator",
+        "organization": "NHTSA / UNECE / ISO",
+        "description": "Mandates safety, emissions, and electromagnetic compatibility standards. Approval required before vehicle sale.",
+        "interest": "FMVSS 305, UN ECE R100 (HV safety), ISO 26262 ASIL evidence, CARB/EPA emissions",
+        "influence": "high",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "actor_charger",
+      "kind": "Actor",
+      "attributes": {
+        "name": "Charging Station (EVSE)",
+        "role": "external_system",
+        "description": "External AC or DC charging equipment that negotiates charge parameters with the vehicle via CCS/CHAdeMO or J1772 protocol"
+      }
+    },
+    {
+      "id": "sys_ev",
+      "kind": "System",
+      "attributes": {
+        "name": "Electric Vehicle Powertrain System",
+        "description": "Full-vehicle EV powertrain architecture covering traction, energy storage, charging, and thermal management",
+        "version": "1.0",
+        "classification": "ASIL-D"
+      }
+    },
+    {
+      "id": "actor_driver",
+      "kind": "Actor",
+      "attributes": {
+        "name": "Driver",
+        "role": "vehicle_operator",
+        "description": "Primary operator of the vehicle, interacts with HMI, accelerator, brake, and gear selector"
+      }
+    },
+    {
+      "id": "actor_fleet_mgr",
+      "kind": "Actor",
+      "attributes": {
+        "name": "Fleet Manager",
+        "role": "remote_operator",
+        "description": "Monitors vehicle health, range, and charge status remotely via telematics"
+      }
+    },
+    {
+      "id": "actor_technician",
+      "kind": "Actor",
+      "attributes": {
+        "name": "Service Technician",
+        "role": "maintenance",
+        "description": "Performs diagnostics, firmware updates, and hardware repairs using service tools"
+      }
+    },
+    {
+      "id": "actor_regulator",
+      "kind": "Actor",
+      "attributes": {
+        "name": "Regulatory Authority",
+        "role": "compliance",
+        "description": "Defines safety, EMC, and environmental standards the vehicle must meet (FMVSS, UN ECE, ISO 26262)"
+      }
+    },
+    {
+      "id": "uc_normal_drive",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Normal Drive Operation",
+        "description": "Driver accelerates and cruises on road power. VCU translates pedal position to motor torque command.",
+        "precondition": "Vehicle in READY state, SOC > 5%, no active faults",
+        "postcondition": "Motor delivers requested torque; vehicle speed changes",
+        "primary_actor": "driver",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "uc_regen_braking",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Regenerative Braking",
+        "description": "Motor operates as generator during deceleration, recovering kinetic energy to battery",
+        "precondition": "Vehicle moving, SOC < 95%, brake pedal applied",
+        "postcondition": "Vehicle decelerates; battery charge increases",
+        "primary_actor": "driver",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "uc_dc_fast_charge",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "DC Fast Charging",
+        "description": "Vehicle connected to DC fast charger (CCS/CHAdeMO). BMS negotiates charge parameters.",
+        "precondition": "Vehicle parked, HV interlock closed, charger connected",
+        "postcondition": "Battery SOC increased; cell temps within bounds",
+        "primary_actor": "driver",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "uc_ac_charge",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "AC Level 2 Charging",
+        "description": "On-board charger converts AC from grid to DC for battery charging",
+        "precondition": "Vehicle parked, AC inlet connected, OBC active",
+        "postcondition": "Battery charged at up to 11 kW",
+        "primary_actor": "driver",
+        "priority": "high"
+      }
+    },
+    {
+      "id": "uc_thermal_mgmt",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Thermal Management",
+        "description": "System maintains battery and motor within operating temperature range using active cooling/heating",
+        "precondition": "Any operational state",
+        "postcondition": "Cell temps 15\u201345\u00b0C during charge, 0\u201360\u00b0C during drive",
+        "primary_actor": "actor_fleet_mgr",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "uc_fault_response",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Fault Detection and Response",
+        "description": "BMS and VCU detect hardware/software faults, isolate HV, and alert driver",
+        "precondition": "Any operational state",
+        "postcondition": "Safe state entered; fault codes logged; driver alerted",
+        "primary_actor": "actor_technician",
+        "priority": "critical"
+      }
+    },
+    {
+      "id": "uc_remote_diag",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Remote Diagnostics",
+        "description": "Fleet manager reads live telemetry and fault codes over cellular link without physical access",
+        "precondition": "Telematics module active, data connection available",
+        "postcondition": "Fault codes and live signals visible in fleet portal",
+        "primary_actor": "actor_fleet_mgr",
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "uc_service_mode",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Service Mode",
+        "description": "Technician puts vehicle in service mode to perform calibration, firmware update, and diagnostics",
+        "precondition": "Vehicle parked, service tool connected via OBD-II",
+        "postcondition": "ECU parameters updated, faults cleared, tests passed",
+        "primary_actor": "actor_technician",
+        "priority": "medium"
+      }
+    },
+    {
+      "id": "comp_battery",
+      "kind": "Component",
+      "attributes": {
+        "name": "Battery Pack",
+        "description": "400V lithium-ion NMC battery pack, 75 kWh capacity, 288 prismatic cells in 96s3p configuration",
+        "voltage_nominal": 400,
+        "voltage_unit": "V",
+        "capacity_kwh": 75,
+        "cell_chemistry": "NMC",
+        "cell_count": 288,
+        "configuration": "96s3p",
+        "weight_kg": 520,
+        "asil": "ASIL-D"
+      }
+    },
+    {
+      "id": "comp_bms",
+      "kind": "Component",
+      "attributes": {
+        "name": "Battery Management System",
+        "description": "Master BMS with cell voltage/temp monitoring, SOC/SOH estimation, cell balancing, and safety relay control",
+        "processor": "TMS320F28386D",
+        "can_interfaces": 2,
+        "asil": "ASIL-D",
+        "supply_voltage": 12,
+        "supply_unit": "V"
+      }
+    },
+    {
+      "id": "comp_inverter",
+      "kind": "Component",
+      "attributes": {
+        "name": "Power Inverter",
+        "description": "3-phase SiC MOSFET inverter, 150 kW peak, 450V max DC link, 650A peak phase current",
+        "power_peak_kw": 150,
+        "dc_voltage_max": 450,
+        "phase_current_peak_a": 650,
+        "switching_freq_khz": 20,
+        "efficiency_pct": 97.5,
+        "asil": "ASIL-C"
+      }
+    },
+    {
+      "id": "comp_motor",
+      "kind": "Component",
+      "attributes": {
+        "name": "Permanent Magnet Synchronous Motor",
+        "description": "IPMSM, 150 kW peak / 100 kW continuous, 3500 Nm peak torque at wheel (via single-speed gearbox)",
+        "power_peak_kw": 150,
+        "power_cont_kw": 100,
+        "torque_peak_nm": 320,
+        "speed_max_rpm": 16000,
+        "pole_pairs": 4,
+        "weight_kg": 85
+      }
+    },
+    {
+      "id": "comp_mcu",
+      "kind": "Component",
+      "attributes": {
+        "name": "Motor Control Unit",
+        "description": "High-performance motor controller implementing FOC/DTC, torque vectoring, and regen control",
+        "control_strategy": "FOC",
+        "pwm_freq_khz": 20,
+        "asil": "ASIL-C",
+        "can_interfaces": 2
+      }
+    },
+    {
+      "id": "comp_obc",
+      "kind": "Component",
+      "attributes": {
+        "name": "On-Board Charger",
+        "description": "11 kW bidirectional AC/DC converter supporting J1772/IEC 62196 single and three-phase AC charging",
+        "power_max_kw": 11,
+        "ac_input_phases": 3,
+        "efficiency_pct": 95,
+        "v2g_capable": true
+      }
+    },
+    {
+      "id": "comp_dcdc",
+      "kind": "Component",
+      "attributes": {
+        "name": "DC-DC Converter",
+        "description": "Isolated step-down converter, HV bus to 12V LV bus, 3 kW capacity for 12V ancillary loads",
+        "input_voltage_v": 400,
+        "output_voltage_v": 13.8,
+        "power_kw": 3,
+        "efficiency_pct": 93
+      }
+    },
+    {
+      "id": "comp_tms",
+      "kind": "Component",
+      "attributes": {
+        "name": "Thermal Management System",
+        "description": "Active liquid cooling/heating for battery, motor, and power electronics using shared coolant loop and heat pump",
+        "coolant": "50:50 glycol-water",
+        "pump_flow_lpm": 20,
+        "heat_pump": true,
+        "chiller_kw": 5
+      }
+    },
+    {
+      "id": "comp_vcu",
+      "kind": "Component",
+      "attributes": {
+        "name": "Vehicle Control Unit",
+        "description": "Central coordinator: translates driver inputs to torque/regen commands, manages drive modes and safety interlocks",
+        "processor": "Aurix TC397",
+        "can_interfaces": 4,
+        "lin_interfaces": 2,
+        "eth_interfaces": 1,
+        "asil": "ASIL-D"
+      }
+    },
+    {
+      "id": "comp_hmi",
+      "kind": "Component",
+      "attributes": {
+        "name": "HMI / Dashboard",
+        "description": "12-inch touchscreen cluster showing SOC, range, charge status, fault alerts, and drive mode selector",
+        "display_in": 12,
+        "resolution": "1920x720",
+        "touch": true
+      }
+    },
+    {
+      "id": "comp_hv_junction",
+      "kind": "Component",
+      "attributes": {
+        "name": "HV Junction Box",
+        "description": "Houses main contactors, HV fuses, current sensor, and pyro fuse for emergency HV isolation",
+        "contactors": 2,
+        "pyro_fuse": true,
+        "current_sensor": "hall-effect"
+      }
+    },
+    {
+      "id": "comp_telematics",
+      "kind": "Component",
+      "attributes": {
+        "name": "Telematics Control Unit",
+        "description": "4G/LTE and Wi-Fi connectivity for OTA updates, remote diagnostics, and fleet management APIs",
+        "connectivity": [
+          "4G-LTE",
+          "Wi-Fi",
+          "Bluetooth"
+        ],
+        "gnss": true
+      }
+    },
+    {
+      "id": "iface_can_pt",
+      "kind": "Interface",
+      "attributes": {
+        "name": "Powertrain CAN Bus",
+        "description": "ISO 11898 CAN FD bus connecting VCU, MCU, BMS, and OBC at 2 Mbit/s",
+        "protocol": "CAN FD",
+        "speed_mbit": 2,
+        "arbitration_id_format": "29-bit"
+      }
+    },
+    {
+      "id": "iface_can_body",
+      "kind": "Interface",
+      "attributes": {
+        "name": "Body CAN Bus",
+        "description": "Classic CAN 500 kbit/s bus connecting HMI, TMS, DCDC, and telematics",
+        "protocol": "CAN 2.0B",
+        "speed_kbit": 500
+      }
+    },
+    {
+      "id": "iface_hv_dc",
+      "kind": "Interface",
+      "attributes": {
+        "name": "HV DC Bus",
+        "description": "400V DC high-voltage bus from battery pack through HV junction box to inverter and OBC",
+        "voltage_nominal_v": 400,
+        "current_max_a": 650,
+        "connector": "CCS Type 2"
+      }
+    },
+    {
+      "id": "iface_ac_inlet",
+      "kind": "Interface",
+      "attributes": {
+        "name": "AC Charge Inlet",
+        "description": "IEC 62196-2 Type 2 AC inlet for Level 1 and Level 2 AC charging",
+        "standard": "IEC 62196-2",
+        "max_current_a": 32,
+        "phases": 3
+      }
+    },
+    {
+      "id": "iface_dc_inlet",
+      "kind": "Interface",
+      "attributes": {
+        "name": "DC Fast Charge Inlet",
+        "description": "CCS Combo 2 inlet for DC fast charging up to 150 kW",
+        "standard": "CCS Combo 2",
+        "max_voltage_v": 500,
+        "max_current_a": 300
+      }
+    },
+    {
+      "id": "iface_obd",
+      "kind": "Interface",
+      "attributes": {
+        "name": "OBD-II Diagnostic Port",
+        "description": "ISO 15765-4 compliant OBD-II port for UDS diagnostics and service tool access",
+        "standard": "ISO 15765-4",
+        "protocols": [
+          "UDS",
+          "OBD-II"
+        ]
+      }
+    },
+    {
+      "id": "sig_soc",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_SOC",
+        "description": "Battery state of charge as a percentage of usable capacity",
+        "unit": "%",
+        "range": "0\u2013100",
+        "resolution": 0.1,
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU,HMI,Telematics",
+        "can_id": "0x300",
+        "length_bits": 16
+      }
+    },
+    {
+      "id": "sig_soh",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_SOH",
+        "description": "Battery state of health \u2014 ratio of current to nominal capacity",
+        "unit": "%",
+        "range": "0\u2013100",
+        "resolution": 0.1,
+        "rate": "1s",
+        "producer": "BMS",
+        "can_id": "0x301"
+      }
+    },
+    {
+      "id": "sig_pack_voltage",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_PackVoltage",
+        "description": "Total pack voltage measured at HV bus terminals",
+        "unit": "V",
+        "range": "280\u2013420",
+        "resolution": 0.1,
+        "rate": "10ms",
+        "producer": "BMS",
+        "consumer": "MCU,VCU,OBC",
+        "can_id": "0x302",
+        "length_bits": 16
+      }
+    },
+    {
+      "id": "sig_pack_current",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_PackCurrent",
+        "description": "Pack current \u2014 positive = discharge, negative = charge",
+        "unit": "A",
+        "range": "-300 to +650",
+        "resolution": 0.1,
+        "rate": "10ms",
+        "producer": "BMS",
+        "consumer": "VCU,MCU",
+        "can_id": "0x303",
+        "length_bits": 16
+      }
+    },
+    {
+      "id": "sig_cell_temp_max",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_CellTempMax",
+        "description": "Maximum cell temperature across all 288 cells",
+        "unit": "\u00b0C",
+        "range": "-40 to +80",
+        "resolution": 0.1,
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU,TMS",
+        "can_id": "0x304"
+      }
+    },
+    {
+      "id": "sig_cell_temp_min",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_CellTempMin",
+        "description": "Minimum cell temperature across all cells",
+        "unit": "\u00b0C",
+        "range": "-40 to +80",
+        "resolution": 0.1,
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU,TMS",
+        "can_id": "0x305"
+      }
+    },
+    {
+      "id": "sig_cell_volt_max",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_CellVoltMax",
+        "description": "Highest individual cell voltage",
+        "unit": "V",
+        "range": "2.5\u20134.25",
+        "resolution": 0.001,
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU",
+        "can_id": "0x306"
+      }
+    },
+    {
+      "id": "sig_cell_volt_min",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_CellVoltMin",
+        "description": "Lowest individual cell voltage",
+        "unit": "V",
+        "range": "2.5\u20134.25",
+        "resolution": 0.001,
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU",
+        "can_id": "0x307"
+      }
+    },
+    {
+      "id": "sig_motor_speed",
+      "kind": "Signal",
+      "attributes": {
+        "name": "MCU_MotorSpeed",
+        "description": "Actual electrical motor speed (rotor RPM)",
+        "unit": "RPM",
+        "range": "0\u201316000",
+        "resolution": 1,
+        "rate": "10ms",
+        "producer": "MCU",
+        "consumer": "VCU,BMS",
+        "can_id": "0x200"
+      }
+    },
+    {
+      "id": "sig_motor_torque_actual",
+      "kind": "Signal",
+      "attributes": {
+        "name": "MCU_TorqueActual",
+        "description": "Actual electromagnetic torque produced by motor",
+        "unit": "Nm",
+        "range": "-320 to +320",
+        "resolution": 0.1,
+        "rate": "10ms",
+        "producer": "MCU",
+        "consumer": "VCU",
+        "can_id": "0x201"
+      }
+    },
+    {
+      "id": "sig_motor_torque_cmd",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_TorqueCommand",
+        "description": "Torque command sent from VCU to MCU",
+        "unit": "Nm",
+        "range": "-320 to +320",
+        "resolution": 0.1,
+        "rate": "10ms",
+        "producer": "VCU",
+        "consumer": "MCU",
+        "can_id": "0x100"
+      }
+    },
+    {
+      "id": "sig_motor_temp",
+      "kind": "Signal",
+      "attributes": {
+        "name": "MCU_MotorTemp",
+        "description": "Motor winding temperature (averaged across 3 phases)",
+        "unit": "\u00b0C",
+        "range": "-40 to +180",
+        "resolution": 0.5,
+        "rate": "100ms",
+        "producer": "MCU",
+        "consumer": "VCU,TMS",
+        "can_id": "0x202"
+      }
+    },
+    {
+      "id": "sig_inverter_temp",
+      "kind": "Signal",
+      "attributes": {
+        "name": "MCU_InverterTemp",
+        "description": "IGBT/SiC baseplate temperature of the power stage",
+        "unit": "\u00b0C",
+        "range": "-40 to +150",
+        "resolution": 0.5,
+        "rate": "100ms",
+        "producer": "MCU",
+        "consumer": "VCU,TMS",
+        "can_id": "0x203"
+      }
+    },
+    {
+      "id": "sig_accel_pedal",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_AccelPedal",
+        "description": "Accelerator pedal position (0 = released, 100 = full)",
+        "unit": "%",
+        "range": "0\u2013100",
+        "resolution": 0.1,
+        "rate": "20ms",
+        "producer": "Pedal Module",
+        "consumer": "VCU",
+        "can_id": "0x110"
+      }
+    },
+    {
+      "id": "sig_brake_pressure",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_BrakePressure",
+        "description": "Hydraulic brake line pressure from brake pedal transducer",
+        "unit": "bar",
+        "range": "0\u2013200",
+        "resolution": 0.1,
+        "rate": "20ms",
+        "producer": "Brake Module",
+        "consumer": "VCU",
+        "can_id": "0x111"
+      }
+    },
+    {
+      "id": "sig_vehicle_speed",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_VehicleSpeed",
+        "description": "Estimated vehicle speed derived from wheel speed sensors",
+        "unit": "km/h",
+        "range": "0\u2013250",
+        "resolution": 0.1,
+        "rate": "20ms",
+        "producer": "VCU",
+        "consumer": "HMI,Telematics,BMS",
+        "can_id": "0x101"
+      }
+    },
+    {
+      "id": "sig_range_estimate",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_RangeEstimate",
+        "description": "Estimated remaining range based on SOC and recent energy consumption",
+        "unit": "km",
+        "range": "0\u2013700",
+        "resolution": 1,
+        "rate": "1s",
+        "producer": "VCU",
+        "consumer": "HMI",
+        "can_id": "0x102"
+      }
+    },
+    {
+      "id": "sig_hv_interlock",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_HVInterlock",
+        "description": "HV interlock loop status \u2014 true = all connectors seated, HV safe to enable",
+        "unit": "bool",
+        "range": "0 or 1",
+        "rate": "10ms",
+        "producer": "BMS",
+        "consumer": "VCU,MCU",
+        "can_id": "0x310"
+      }
+    },
+    {
+      "id": "sig_contactor_state",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_ContactorState",
+        "description": "HV main contactor state (0=open, 1=precharge, 2=closed, 3=fault)",
+        "unit": "enum",
+        "range": "0\u20133",
+        "rate": "10ms",
+        "producer": "BMS",
+        "consumer": "VCU",
+        "can_id": "0x311"
+      }
+    },
+    {
+      "id": "sig_bms_fault",
+      "kind": "Signal",
+      "attributes": {
+        "name": "BMS_FaultCode",
+        "description": "BMS active fault code (0 = no fault). Bit-encoded: bit0=OV, bit1=UV, bit2=OT, bit3=UT, bit4=OC, bit5=interlock",
+        "unit": "bitfield",
+        "rate": "100ms",
+        "producer": "BMS",
+        "consumer": "VCU,HMI,Telematics",
+        "can_id": "0x320"
+      }
+    },
+    {
+      "id": "sig_mcu_fault",
+      "kind": "Signal",
+      "attributes": {
+        "name": "MCU_FaultCode",
+        "description": "MCU active fault code (0 = no fault). Bit-encoded: bit0=overcurrent, bit1=overtemp, bit2=gate-driver, bit3=resolver",
+        "unit": "bitfield",
+        "rate": "100ms",
+        "producer": "MCU",
+        "consumer": "VCU,HMI",
+        "can_id": "0x210"
+      }
+    },
+    {
+      "id": "sig_charge_current",
+      "kind": "Signal",
+      "attributes": {
+        "name": "OBC_ChargeCurrent",
+        "description": "DC charge current commanded by OBC or DCFC station",
+        "unit": "A",
+        "range": "0\u2013300",
+        "resolution": 0.1,
+        "rate": "100ms",
+        "producer": "OBC/DCFC",
+        "consumer": "BMS",
+        "can_id": "0x400"
+      }
+    },
+    {
+      "id": "sig_charge_voltage",
+      "kind": "Signal",
+      "attributes": {
+        "name": "OBC_ChargeVoltage",
+        "description": "DC charge voltage at pack terminals",
+        "unit": "V",
+        "range": "280\u2013500",
+        "resolution": 0.1,
+        "rate": "100ms",
+        "producer": "OBC/DCFC",
+        "consumer": "BMS",
+        "can_id": "0x401"
+      }
+    },
+    {
+      "id": "sig_coolant_temp",
+      "kind": "Signal",
+      "attributes": {
+        "name": "TMS_CoolantTemp",
+        "description": "Coolant temperature at the battery inlet",
+        "unit": "\u00b0C",
+        "range": "-40 to +80",
+        "resolution": 0.1,
+        "rate": "500ms",
+        "producer": "TMS",
+        "consumer": "BMS,VCU",
+        "can_id": "0x500"
+      }
+    },
+    {
+      "id": "sig_fan_speed",
+      "kind": "Signal",
+      "attributes": {
+        "name": "TMS_FanSpeed",
+        "description": "Cooling fan commanded speed as % of max",
+        "unit": "%",
+        "range": "0\u2013100",
+        "resolution": 1,
+        "rate": "1s",
+        "producer": "TMS",
+        "consumer": "VCU",
+        "can_id": "0x501"
+      }
+    },
+    {
+      "id": "sig_drive_mode",
+      "kind": "Signal",
+      "attributes": {
+        "name": "VCU_DriveMode",
+        "description": "Active drive mode (0=Eco, 1=Normal, 2=Sport, 3=OneP)",
+        "unit": "enum",
+        "range": "0\u20133",
+        "rate": "1s",
+        "producer": "VCU",
+        "consumer": "MCU,HMI",
+        "can_id": "0x103"
+      }
+    },
+    {
+      "id": "fn_torque_control",
+      "kind": "Function",
+      "attributes": {
+        "name": "Torque Control",
+        "description": "Translates driver accelerator and brake inputs into a motor torque command, applying torque blending between regen and friction braking",
+        "status": "active",
+        "allocated_to": "VCU,MCU"
+      }
+    },
+    {
+      "id": "fn_soc_estimation",
+      "kind": "Function",
+      "attributes": {
+        "name": "SOC Estimation",
+        "description": "Extended Kalman Filter\u2013based state-of-charge estimator using current integration, OCV lookup, and temperature correction",
+        "status": "active",
+        "algorithm": "EKF",
+        "allocated_to": "BMS"
+      }
+    },
+    {
+      "id": "fn_cell_balancing",
+      "kind": "Function",
+      "attributes": {
+        "name": "Cell Balancing",
+        "description": "Passive or active balancing to equalise cell voltages within 10 mV tolerance during charge tail phase",
+        "status": "active",
+        "strategy": "passive_dissipative",
+        "tolerance_mv": 10,
+        "allocated_to": "BMS"
+      }
+    },
+    {
+      "id": "fn_thermal_regulation",
+      "kind": "Function",
+      "attributes": {
+        "name": "Thermal Regulation",
+        "description": "PID-controlled coolant pump and fan speed to maintain battery and motor temps within safe operating range",
+        "status": "active",
+        "control": "PID",
+        "allocated_to": "TMS,VCU"
+      }
+    },
+    {
+      "id": "fn_charge_mgmt",
+      "kind": "Function",
+      "attributes": {
+        "name": "Charge Management",
+        "description": "Negotiates charge parameters with EVSE/DCFC, implements CC-CV charge profile, and terminates on full charge or fault",
+        "status": "active",
+        "profile": "CC-CV",
+        "allocated_to": "BMS,OBC"
+      }
+    },
+    {
+      "id": "fn_hv_safety",
+      "kind": "Function",
+      "attributes": {
+        "name": "HV Safety Monitoring",
+        "description": "Continuously monitors HV interlock, insulation resistance, and contactor state. Opens main contactors on fault within 10 ms.",
+        "status": "active",
+        "response_time_ms": 10,
+        "asil": "ASIL-D",
+        "allocated_to": "BMS,VCU"
+      }
+    },
+    {
+      "id": "fn_fault_detection",
+      "kind": "Function",
+      "attributes": {
+        "name": "Fault Detection and Response",
+        "description": "Aggregates BMS and MCU fault codes, classifies severity (warning/critical), triggers safe state transitions, and logs DTC codes",
+        "status": "active",
+        "allocated_to": "VCU"
+      }
+    },
+    {
+      "id": "fn_regen_control",
+      "kind": "Function",
+      "attributes": {
+        "name": "Regenerative Braking Control",
+        "description": "Calculates recoverable regen torque limited by SOC, temperature, and stability constraints; blends with hydraulic braking",
+        "status": "active",
+        "allocated_to": "VCU,MCU"
+      }
+    },
+    {
+      "id": "fn_driver_interface",
+      "kind": "Function",
+      "attributes": {
+        "name": "Driver Interface",
+        "description": "Renders SOC, range estimate, speed, fault alerts, and drive mode on HMI. Handles drive mode selection input.",
+        "status": "active",
+        "allocated_to": "HMI,VCU"
+      }
+    },
+    {
+      "id": "fn_range_estimation",
+      "kind": "Function",
+      "attributes": {
+        "name": "Range Estimation",
+        "description": "Predicts remaining range using SOC, recent energy consumption rate, and route terrain data",
+        "status": "active",
+        "model": "rolling_average_energy_model",
+        "allocated_to": "VCU"
+      }
+    },
+    {
+      "id": "fn_precharge",
+      "kind": "Function",
+      "attributes": {
+        "name": "Pre-Charge Control",
+        "description": "Controls pre-charge resistor and contactor sequence to safely charge DC link capacitors before main contactors close",
+        "status": "active",
+        "allocated_to": "BMS"
+      }
+    },
+    {
+      "id": "fn_soh_estimation",
+      "kind": "Function",
+      "attributes": {
+        "name": "SOH Estimation",
+        "description": "Estimates battery state of health via capacity fade tracking and internal resistance measurement over charge cycles",
+        "status": "active",
+        "allocated_to": "BMS"
+      }
+    },
+    {
+      "id": "pin_in_accel_torque",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "AccelPedal_In",
+        "signal_ref": "sig_accel_pedal",
+        "description": "Accelerator pedal % input to torque control"
+      }
+    },
+    {
+      "id": "pin_in_brake_torque",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "BrakePressure_In",
+        "signal_ref": "sig_brake_pressure",
+        "description": "Brake pressure input to torque control"
+      }
+    },
+    {
+      "id": "pin_in_soc_torque",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "SOC_In_Torque",
+        "signal_ref": "sig_soc",
+        "description": "SOC used to limit regen torque near full charge"
+      }
+    },
+    {
+      "id": "pin_out_torque_cmd",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "TorqueCmd_Out",
+        "signal_ref": "sig_motor_torque_cmd",
+        "description": "Torque command output"
+      }
+    },
+    {
+      "id": "pin_in_pack_voltage",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "PackVoltage_In",
+        "signal_ref": "sig_pack_voltage",
+        "description": "Pack voltage for SOC estimation"
+      }
+    },
+    {
+      "id": "pin_in_pack_current",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "PackCurrent_In",
+        "signal_ref": "sig_pack_current",
+        "description": "Pack current for coulomb counting"
+      }
+    },
+    {
+      "id": "pin_in_cell_temp_soc",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "CellTemp_In_SOC",
+        "signal_ref": "sig_cell_temp_max",
+        "description": "Cell temp for temperature-corrected OCV lookup"
+      }
+    },
+    {
+      "id": "pin_out_soc",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "SOC_Out",
+        "signal_ref": "sig_soc",
+        "description": "Estimated SOC output"
+      }
+    },
+    {
+      "id": "pin_in_cell_volt_max_bal",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "CellVoltMax_In",
+        "signal_ref": "sig_cell_volt_max",
+        "description": "Max cell voltage for balancing trigger"
+      }
+    },
+    {
+      "id": "pin_in_cell_volt_min_bal",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "CellVoltMin_In",
+        "signal_ref": "sig_cell_volt_min",
+        "description": "Min cell voltage for balancing reference"
+      }
+    },
+    {
+      "id": "pin_in_cell_temp_tms",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "CellTemp_In_TMS",
+        "signal_ref": "sig_cell_temp_max",
+        "description": "Cell temp input to thermal regulation"
+      }
+    },
+    {
+      "id": "pin_in_motor_temp_tms",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "MotorTemp_In_TMS",
+        "signal_ref": "sig_motor_temp",
+        "description": "Motor temp input to thermal regulation"
+      }
+    },
+    {
+      "id": "pin_out_fan_speed",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "FanSpeed_Out",
+        "signal_ref": "sig_fan_speed",
+        "description": "Fan speed command output from thermal regulation"
+      }
+    },
+    {
+      "id": "pin_out_coolant_flow",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "CoolantFlow_Out",
+        "signal_ref": "sig_coolant_temp",
+        "description": "Coolant flow command (temp setpoint output)"
+      }
+    },
+    {
+      "id": "pin_in_charge_current",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "ChargeCurrent_In",
+        "signal_ref": "sig_charge_current",
+        "description": "Charge current request from EVSE"
+      }
+    },
+    {
+      "id": "pin_in_soc_charge",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "SOC_In_Charge",
+        "signal_ref": "sig_soc",
+        "description": "SOC input to charge management (cut-off logic)"
+      }
+    },
+    {
+      "id": "pin_in_cell_temp_charge",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "CellTemp_In_Charge",
+        "signal_ref": "sig_cell_temp_max",
+        "description": "Cell temp for charge enable/derate decision"
+      }
+    },
+    {
+      "id": "pin_out_charge_voltage",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "ChargeVoltage_Out",
+        "signal_ref": "sig_charge_voltage",
+        "description": "Target charge voltage sent to charger"
+      }
+    },
+    {
+      "id": "pin_in_interlock",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "HVInterlock_In",
+        "signal_ref": "sig_hv_interlock",
+        "description": "HV interlock status for safety monitoring"
+      }
+    },
+    {
+      "id": "pin_out_contactor",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "ContactorState_Out",
+        "signal_ref": "sig_contactor_state",
+        "description": "Contactor open/close command"
+      }
+    },
+    {
+      "id": "pin_in_bms_fault",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "BMSFault_In",
+        "signal_ref": "sig_bms_fault",
+        "description": "BMS fault code input to fault detection"
+      }
+    },
+    {
+      "id": "pin_in_mcu_fault",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "MCUFault_In",
+        "signal_ref": "sig_mcu_fault",
+        "description": "MCU fault code input to fault detection"
+      }
+    },
+    {
+      "id": "pin_in_brake_regen",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "BrakePressure_In_Regen",
+        "signal_ref": "sig_brake_pressure",
+        "description": "Brake pressure for regen/friction blend calculation"
+      }
+    },
+    {
+      "id": "pin_in_soc_regen",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "SOC_In_Regen",
+        "signal_ref": "sig_soc",
+        "description": "SOC limit \u2014 regen disabled when SOC >= 95%"
+      }
+    },
+    {
+      "id": "pin_out_regen_cmd",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "RegenTorque_Out",
+        "signal_ref": "sig_motor_torque_cmd",
+        "description": "Negative torque command for regen operation"
+      }
+    },
+    {
+      "id": "pin_in_soc_range",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "SOC_In_Range",
+        "signal_ref": "sig_soc",
+        "description": "SOC input to range estimation"
+      }
+    },
+    {
+      "id": "pin_in_speed_range",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "Speed_In_Range",
+        "signal_ref": "sig_vehicle_speed",
+        "description": "Speed input to range model"
+      }
+    },
+    {
+      "id": "pin_out_range",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "Range_Out",
+        "signal_ref": "sig_range_estimate",
+        "description": "Estimated range output"
+      }
+    },
+    {
+      "id": "pin_in_soc_hmi",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "SOC_In_HMI",
+        "signal_ref": "sig_soc",
+        "description": "SOC displayed on dashboard"
+      }
+    },
+    {
+      "id": "pin_in_speed_hmi",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "Speed_In_HMI",
+        "signal_ref": "sig_vehicle_speed",
+        "description": "Vehicle speed shown on speedometer"
+      }
+    },
+    {
+      "id": "pin_in_fault_hmi",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "BMSFault_In_HMI",
+        "signal_ref": "sig_bms_fault",
+        "description": "Fault code for dashboard warning display"
+      }
+    },
+    {
+      "id": "pin_in_range_hmi",
+      "kind": "InputPin",
+      "attributes": {
+        "name": "Range_In_HMI",
+        "signal_ref": "sig_range_estimate",
+        "description": "Range estimate displayed on HMI"
+      }
+    },
+    {
+      "id": "pin_out_drivemode_hmi",
+      "kind": "OutputPin",
+      "attributes": {
+        "name": "DriveMode_Out_HMI",
+        "signal_ref": "sig_drive_mode",
+        "description": "Selected drive mode from HMI input"
+      }
+    },
+    {
+      "id": "state_bms_idle",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Idle",
+        "description": "Battery at rest, no charge or discharge, contactors open",
+        "entry_action": "open_contactors",
+        "exit_action": "run_precharge"
+      }
+    },
+    {
+      "id": "state_bms_precharge",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Pre-Charge",
+        "description": "Pre-charge resistor in circuit, DC link voltage ramping to battery voltage",
+        "timeout_ms": 5000,
+        "entry_action": "close_precharge_contactor"
+      }
+    },
+    {
+      "id": "state_bms_ready",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Ready",
+        "description": "Main contactors closed, HV available, no active faults",
+        "entry_action": "close_main_contactors"
+      }
+    },
+    {
+      "id": "state_bms_charging",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Charging",
+        "description": "Battery accepting charge current from OBC or DCFC",
+        "entry_action": "enable_charge_path"
+      }
+    },
+    {
+      "id": "state_bms_balancing",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Balancing",
+        "description": "Passive cell balancing active during charge tail (SOC > 80%)",
+        "entry_action": "enable_balancing_resistors"
+      }
+    },
+    {
+      "id": "state_bms_fault",
+      "kind": "State",
+      "attributes": {
+        "name": "BMS Fault",
+        "description": "Active fault \u2014 HV isolated, fault code broadcast on CAN",
+        "entry_action": "open_contactors,set_fault_code",
+        "severity": "critical"
+      }
+    },
+    {
+      "id": "state_drive_park",
+      "kind": "State",
+      "attributes": {
+        "name": "Drive: Park",
+        "description": "Vehicle stationary, drive disabled, parking brake engaged"
+      }
+    },
+    {
+      "id": "state_drive_ready",
+      "kind": "State",
+      "attributes": {
+        "name": "Drive: Ready",
+        "description": "HV enabled, motor energised, vehicle ready to move on torque command"
+      }
+    },
+    {
+      "id": "state_drive_drive",
+      "kind": "State",
+      "attributes": {
+        "name": "Drive: Drive",
+        "description": "Vehicle moving under motor torque in forward or reverse"
+      }
+    },
+    {
+      "id": "state_drive_regen",
+      "kind": "State",
+      "attributes": {
+        "name": "Drive: Regen",
+        "description": "Vehicle decelerating with regenerative torque active"
+      }
+    },
+    {
+      "id": "state_charge_standby",
+      "kind": "State",
+      "attributes": {
+        "name": "Charge: Standby",
+        "description": "Charge inlet connected, EVSE handshake not yet complete"
+      }
+    },
+    {
+      "id": "state_charge_active",
+      "kind": "State",
+      "attributes": {
+        "name": "Charge: Active",
+        "description": "Charge current flowing into battery per CC-CV profile"
+      }
+    },
+    {
+      "id": "state_charge_complete",
+      "kind": "State",
+      "attributes": {
+        "name": "Charge: Complete",
+        "description": "Battery reached target SOC; charge terminated normally"
+      }
+    },
+    {
+      "id": "guard_soc_min_drive",
+      "kind": "Guard",
+      "attributes": {
+        "name": "SOC Above Minimum Drive Threshold",
+        "condition": "SOC > 5%",
+        "parameter": "sig_soc",
+        "threshold": 5,
+        "unit": "%",
+        "description": "Vehicle may only enter Drive state if battery SOC exceeds 5% to prevent deep discharge damage"
+      }
+    },
+    {
+      "id": "guard_soc_regen_limit",
+      "kind": "Guard",
+      "attributes": {
+        "name": "SOC Below Regen Limit",
+        "condition": "SOC < 95%",
+        "parameter": "sig_soc",
+        "threshold": 95,
+        "unit": "%",
+        "description": "Regenerative braking only permitted when SOC is below 95% to prevent overcharge"
+      }
+    },
+    {
+      "id": "guard_temp_charge_enable",
+      "kind": "Guard",
+      "attributes": {
+        "name": "Cell Temp Within Charge Window",
+        "condition": "CellTempMax < 45\u00b0C AND CellTempMin > 0\u00b0C",
+        "parameter": "sig_cell_temp_max",
+        "threshold": 45,
+        "unit": "\u00b0C",
+        "description": "Charging enabled only when all cells are within 0\u201345\u00b0C thermal window"
+      }
+    },
+    {
+      "id": "guard_temp_discharge_enable",
+      "kind": "Guard",
+      "attributes": {
+        "name": "Cell Temp Within Discharge Window",
+        "condition": "CellTempMax < 60\u00b0C AND CellTempMin > -20\u00b0C",
+        "parameter": "sig_cell_temp_max",
+        "threshold": 60,
+        "unit": "\u00b0C",
+        "description": "Discharge permitted when cell temps are in safe range"
+      }
+    },
+    {
+      "id": "guard_precharge_done",
+      "kind": "Guard",
+      "attributes": {
+        "name": "DC Link Voltage Within 10V of Pack Voltage",
+        "condition": "|DCLinkVoltage - PackVoltage| < 10V",
+        "parameter": "sig_pack_voltage",
+        "threshold": 10,
+        "unit": "V",
+        "description": "Pre-charge complete when DC link has ramped to within 10V of battery terminal voltage"
+      }
+    },
+    {
+      "id": "guard_hv_interlock_ok",
+      "kind": "Guard",
+      "attributes": {
+        "name": "HV Interlock Closed",
+        "condition": "HVInterlock == 1",
+        "parameter": "sig_hv_interlock",
+        "threshold": 1,
+        "unit": "bool",
+        "description": "HV may only be enabled when interlock loop confirms all HV connectors are fully seated"
+      }
+    },
+    {
+      "id": "guard_cell_ov",
+      "kind": "Guard",
+      "attributes": {
+        "name": "Cell Overvoltage Detected",
+        "condition": "CellVoltMax >= 4.25V",
+        "parameter": "sig_cell_volt_max",
+        "threshold": 4.25,
+        "unit": "V",
+        "description": "Triggers fault state immediately if any cell exceeds maximum voltage limit"
+      }
+    },
+    {
+      "id": "guard_cell_uv",
+      "kind": "Guard",
+      "attributes": {
+        "name": "Cell Undervoltage Detected",
+        "condition": "CellVoltMin <= 2.7V",
+        "parameter": "sig_cell_volt_min",
+        "threshold": 2.7,
+        "unit": "V",
+        "description": "Triggers fault state if any cell falls below minimum safe voltage"
+      }
+    },
+    {
+      "id": "guard_soc_balance_enter",
+      "kind": "Guard",
+      "attributes": {
+        "name": "SOC Above Balance Entry Threshold",
+        "condition": "SOC >= 80%",
+        "parameter": "sig_soc",
+        "threshold": 80,
+        "unit": "%",
+        "description": "Cell balancing activates during charge when SOC reaches 80%"
+      }
+    },
+    {
+      "id": "guard_charge_complete",
+      "kind": "Guard",
+      "attributes": {
+        "name": "SOC Reached Target",
+        "condition": "SOC >= 100%",
+        "parameter": "sig_soc",
+        "threshold": 100,
+        "unit": "%",
+        "description": "Charge session terminated when SOC reaches configured target (default 100%)"
+      }
+    },
+    {
+      "id": "guard_fault_cleared",
+      "kind": "Guard",
+      "attributes": {
+        "name": "All Faults Cleared",
+        "condition": "BMS_FaultCode == 0 AND MCU_FaultCode == 0",
+        "parameter": "sig_bms_fault",
+        "threshold": 0,
+        "unit": "bitfield",
+        "description": "System may exit fault state only when all fault conditions have been cleared and safety checks passed"
+      }
+    },
+    {
+      "id": "req_soc_accuracy",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-001",
+        "name": "SOC Estimation Accuracy",
+        "text": "The BMS shall estimate state of charge with an accuracy of \u00b13% across a temperature range of -20\u00b0C to +45\u00b0C and for SOC values between 5% and 100%.",
+        "category": "performance",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved",
+        "source": "EV Safety Standard ISO 6469-3"
+      }
+    },
+    {
+      "id": "req_hv_isolation",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-002",
+        "name": "HV Isolation on Fault",
+        "text": "The BMS shall open the main HV contactors within 10 ms of detecting any fault condition classified as critical (overvoltage, undervoltage, overcurrent, overtemperature).",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved",
+        "source": "ISO 26262 ASIL-D",
+        "asil": "ASIL-D"
+      }
+    },
+    {
+      "id": "req_peak_torque",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-003",
+        "name": "Peak Motor Torque",
+        "text": "The motor drive system shall produce a peak torque of no less than 320 Nm at the motor shaft for a duration of at least 30 seconds from a cold start at 25\u00b0C.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_regen_efficiency",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-004",
+        "name": "Regenerative Braking Efficiency",
+        "text": "The regenerative braking system shall recover no less than 70% of kinetic energy during a standard deceleration from 80 km/h to 0 km/h on level road.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req_charge_rate_ac",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-005",
+        "name": "AC Charge Rate",
+        "text": "The on-board charger shall accept 11 kW three-phase AC charging at 230V/32A per phase and shall charge the battery from 20% to 80% SOC within 4 hours.",
+        "category": "functional",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_charge_rate_dc",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-006",
+        "name": "DC Fast Charge Rate",
+        "text": "The system shall support DC fast charging at up to 150 kW peak and shall charge the battery from 10% to 80% SOC in no more than 30 minutes at 25\u00b0C ambient.",
+        "category": "functional",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_thermal_drive",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-007",
+        "name": "Battery Thermal Operating Range \u2014 Drive",
+        "text": "The thermal management system shall maintain all battery cells within 0\u00b0C to 60\u00b0C during normal drive operation across all drive modes.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved",
+        "source": "ISO 6469-1"
+      }
+    },
+    {
+      "id": "req_thermal_charge",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-008",
+        "name": "Battery Thermal Operating Range \u2014 Charge",
+        "text": "The thermal management system shall limit battery cell temperature to a maximum of 45\u00b0C during charging and shall derate charge current when cell temperature exceeds 40\u00b0C.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_soh_tracking",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-009",
+        "name": "SOH Tracking",
+        "text": "The BMS shall track battery state of health and report SOH with an accuracy of \u00b15% after the first full charge-discharge cycle.",
+        "category": "performance",
+        "priority": "medium",
+        "verification_method": "analysis",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req_fault_dtc",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-010",
+        "name": "Fault Logging with DTC",
+        "text": "The VCU shall log all fault events with a diagnostic trouble code (DTC), timestamp, and vehicle state to non-volatile memory and make them accessible via OBD-II UDS protocol.",
+        "category": "functional",
+        "priority": "high",
+        "verification_method": "inspection",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_range_display",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-011",
+        "name": "Range Estimation Display Accuracy",
+        "text": "The range estimation algorithm shall predict remaining range within \u00b115 km under mixed-cycle driving conditions (50% city, 50% highway) at temperatures between -10\u00b0C and +40\u00b0C.",
+        "category": "performance",
+        "priority": "medium",
+        "verification_method": "test",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req_can_latency",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-012",
+        "name": "CAN Safety Signal Latency",
+        "text": "Safety-critical CAN signals (BMS_FaultCode, BMS_HVInterlock, VCU_TorqueCommand) shall be transmitted and received within 10 ms end-to-end under maximum bus load conditions.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved",
+        "asil": "ASIL-D"
+      }
+    },
+    {
+      "id": "req_precharge_time",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-013",
+        "name": "Pre-Charge Completion Time",
+        "text": "The pre-charge sequence shall bring the DC link capacitor voltage within 10V of the battery pack voltage within 5 seconds of initiating the pre-charge contactor.",
+        "category": "functional",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_obd_compliance",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-014",
+        "name": "OBD-II Compliance",
+        "text": "The vehicle shall implement ISO 15765-4 compliant OBD-II communication over the diagnostic port and shall support UDS services 0x10, 0x11, 0x14, 0x19, 0x22, 0x27, 0x2E, 0x2F, 0x31, 0x34, 0x36, 0x37, 0x3E.",
+        "category": "regulatory",
+        "priority": "critical",
+        "verification_method": "inspection",
+        "status": "approved",
+        "source": "ISO 15765-4"
+      }
+    },
+    {
+      "id": "req_ota_update",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-015",
+        "name": "Over-The-Air Software Update",
+        "text": "The telematics unit shall support over-the-air firmware updates for VCU, BMS, and MCU ECUs with cryptographic signature verification, rollback protection, and update installation within 30 minutes.",
+        "category": "functional",
+        "priority": "medium",
+        "verification_method": "demonstration",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req_cell_balance_tolerance",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-016",
+        "name": "Cell Balance Voltage Tolerance",
+        "text": "The BMS cell balancing function shall equalise all cell voltages to within 10 mV of each other within 4 hours of entering the balancing state.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_motor_efficiency",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-017",
+        "name": "Motor System Peak Efficiency",
+        "text": "The motor and inverter combined shall achieve a peak electrical-to-mechanical efficiency of no less than 95% at operating points between 3000\u20138000 RPM and 50\u2013150 kW.",
+        "category": "performance",
+        "priority": "high",
+        "verification_method": "test",
+        "status": "draft"
+      }
+    },
+    {
+      "id": "req_eol_test",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-018",
+        "name": "End-of-Line Test Coverage",
+        "text": "All safety-critical functions (HV isolation, contactor operation, BMS fault detection) shall be exercised and verified at end-of-line production test with pass/fail results recorded per unit.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "req_insulation_resistance",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-019",
+        "name": "HV Insulation Resistance",
+        "text": "The HV system shall maintain an insulation resistance of no less than 100 \u03a9/V (40 k\u03a9 at 400V) between any HV conductor and the vehicle chassis under all operating conditions.",
+        "category": "safety",
+        "priority": "critical",
+        "verification_method": "test",
+        "status": "approved",
+        "source": "ISO 6469-3",
+        "asil": "ASIL-D"
+      }
+    },
+    {
+      "id": "req_startup_time",
+      "kind": "Requirement",
+      "attributes": {
+        "req_id": "REQ-020",
+        "name": "Drive-Ready Time",
+        "text": "From key-on, the vehicle shall reach the READY-to-drive state (HV enabled, motor energised) within 3 seconds under nominal conditions.",
+        "category": "performance",
+        "priority": "medium",
+        "verification_method": "test",
+        "status": "approved"
+      }
+    },
+    {
+      "id": "sc_launch_from_stop",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "EV Launch from Stop",
+        "description": "Driver presses accelerator from standstill. VCU maps AccelPedal (0\u219280%) to a torque ramp of 0\u2192256 Nm over 500 ms. MCU_MotorSpeed rises from 0 to 3200 RPM; VehicleSpeed reaches 50 km/h in 4.2 s. SOC decreases ~0.5% per km. Guard: SOC > 5%, CellTempMax < 60\u00b0C.",
+        "precondition": "Vehicle in Drive:Ready state, SOC=45%, CellTempMax=28\u00b0C, VehicleSpeed=0",
+        "trigger": "AccelPedal rises from 0% to 80% over 200 ms",
+        "observable_signals": "VCU_AccelPedal, VCU_TorqueCommand, MCU_TorqueActual, MCU_MotorSpeed, VCU_VehicleSpeed, BMS_SOC",
+        "expected_result": "VehicleSpeed reaches 50 km/h within 4.5 s; TorqueActual tracks TorqueCommand within \u00b15 Nm",
+        "drive_mode": "Normal",
+        "duration_s": 6
+      }
+    },
+    {
+      "id": "sc_regen_braking",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Regenerative Braking Activation",
+        "description": "Driver releases accelerator at 80 km/h; BrakePressure rises to 30 bar. VCU requests negative torque (-120 Nm). Motor acts as generator returning energy. SOC increases. Guard: SOC < 95%; if SOC >= 95%, regen is disabled and full hydraulic braking applied.",
+        "precondition": "Vehicle in Drive:Drive state, VehicleSpeed=80 km/h, SOC=60%, BrakePressure=0 bar",
+        "trigger": "AccelPedal drops to 0%, BrakePressure rises to 30 bar over 100 ms",
+        "observable_signals": "VCU_BrakePressure, VCU_TorqueCommand, MCU_TorqueActual, MCU_MotorSpeed, VCU_VehicleSpeed, BMS_SOC, BMS_PackCurrent",
+        "expected_result": "TorqueCommand goes to -120 Nm; PackCurrent goes negative (charging); SOC increases by ~1% per 10 s of regen; VehicleSpeed decelerates at ~3 m/s\u00b2",
+        "duration_s": 8
+      }
+    },
+    {
+      "id": "sc_cell_ov_fault",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Cell Overvoltage Fault During Charging",
+        "description": "During DC fast charge, a cell reaches 4.25 V (overvoltage threshold). BMS detects guard_cell_ov, sets BMS_FaultCode bit0=1, opens main contactors within 10 ms, transitions to BMS Fault state. VCU receives fault over CAN and halts charge session. Driver HMI displays fault alert.",
+        "precondition": "BMS in Charging state, SOC=95%, OBC_ChargeCurrent=150 A, CellVoltMax=4.20 V",
+        "trigger": "CellVoltMax rises above 4.25 V",
+        "observable_signals": "BMS_CellVoltMax, BMS_FaultCode, BMS_ContactorState, OBC_ChargeCurrent, BMS_SOC",
+        "expected_result": "BMS_FaultCode bit0 set within 10 ms; BMS_ContactorState transitions to 0 (open); OBC_ChargeCurrent drops to 0 within 200 ms; HMI displays OV fault alert",
+        "fault_code_bit": 0,
+        "response_time_ms": 10
+      }
+    },
+    {
+      "id": "sc_dc_fast_charge",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "DC Fast Charge Session (20%\u219280%)",
+        "description": "Vehicle connects to 150 kW DCFC. BMS negotiates parameters over CAN (OBC_ChargeVoltage=410 V, max current based on SOC and temp). Charge follows CC-CV profile: constant current 200 A until SOC=80%, then CV with current taper. TMS maintains CellTempMax < 40\u00b0C via active cooling.",
+        "precondition": "Vehicle parked, BMS in Charging state, SOC=20%, CellTempMax=25\u00b0C, DCFC connected",
+        "trigger": "EVSE handshake complete; BMS closes charge contactor",
+        "observable_signals": "BMS_SOC, BMS_PackVoltage, BMS_PackCurrent, OBC_ChargeCurrent, OBC_ChargeVoltage, BMS_CellTempMax, TMS_CoolantTemp, TMS_FanSpeed",
+        "expected_result": "SOC rises from 20% to 80% within 30 min; CellTempMax stays below 40\u00b0C throughout; charge terminates on SOC\u226580%",
+        "target_soc_pct": 80,
+        "max_duration_min": 30
+      }
+    },
+    {
+      "id": "sc_thermal_derating",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Motor Thermal Derating Under Sustained Load",
+        "description": "During sustained high-speed motorway driving (120 km/h), MCU_MotorTemp rises toward 155\u00b0C. VCU activates thermal derating: TorqueCommand reduced linearly 5% per \u00b0C above 150\u00b0C. TMS ramps TMS_FanSpeed to 100%. If MotorTemp exceeds 180\u00b0C, VCU commands 0 Nm and driver alert issued.",
+        "precondition": "Vehicle in Drive:Drive state, VehicleSpeed=120 km/h, MotorTemp=130\u00b0C, FanSpeed=60%",
+        "trigger": "MCU_MotorTemp crosses 150\u00b0C after 8 min sustained high load",
+        "observable_signals": "MCU_MotorTemp, VCU_TorqueCommand, MCU_TorqueActual, TMS_FanSpeed, TMS_CoolantTemp, VCU_VehicleSpeed",
+        "expected_result": "TorqueCommand derated proportionally above 150\u00b0C; FanSpeed reaches 100% within 500 ms of 150\u00b0C threshold; vehicle maintains safe operation without entering fault state",
+        "derate_start_temp_c": 150,
+        "fault_temp_c": 180
+      }
+    },
+    {
+      "id": "sc_low_soc_limp",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Low SOC Limp-Home Mode",
+        "description": "SOC drops below 10%. VCU limits VCU_TorqueCommand to 50% of maximum to extend range. At SOC=5% (guard_soc_min_drive threshold), VCU issues driver warning and further limits to 20% torque. At SOC=2%, VCU commands 0 Nm and transitions vehicle to Park to prevent deep discharge.",
+        "precondition": "Vehicle in Drive:Drive state, VehicleSpeed=60 km/h, SOC=12%",
+        "trigger": "BMS_SOC drops below 10% due to energy consumption",
+        "observable_signals": "BMS_SOC, VCU_TorqueCommand, VCU_VehicleSpeed, VCU_RangeEstimate, HMI warning status",
+        "expected_result": "TorqueCommand capped at 50% at SOC=10%; further capped to 20% at SOC=5%; vehicle halted at SOC=2%; HMI shows low-SOC warning at each threshold",
+        "limp_soc_pct": 10,
+        "warning_soc_pct": 5,
+        "cutoff_soc_pct": 2
+      }
+    },
+    {
+      "id": "constraint_cell_ov",
+      "kind": "Constraint",
+      "attributes": {
+        "name": "Cell Overvoltage Limit",
+        "expression": "CellVoltMax <= 4.25 V",
+        "parameter": "sig_cell_volt_max",
+        "severity": "critical",
+        "description": "Absolute maximum cell voltage \u2014 exceeding causes permanent capacity loss and thermal runaway risk"
+      }
+    },
+    {
+      "id": "constraint_cell_uv",
+      "kind": "Constraint",
+      "attributes": {
+        "name": "Cell Undervoltage Limit",
+        "expression": "CellVoltMin >= 2.7 V",
+        "parameter": "sig_cell_volt_min",
+        "severity": "critical",
+        "description": "Minimum cell voltage \u2014 below this causes copper dissolution and permanent capacity loss"
+      }
+    },
+    {
+      "id": "constraint_cell_ot",
+      "kind": "Constraint",
+      "attributes": {
+        "name": "Cell Overtemperature Limit",
+        "expression": "CellTempMax <= 60\u00b0C",
+        "parameter": "sig_cell_temp_max",
+        "severity": "critical",
+        "description": "Maximum allowable cell temperature \u2014 above this accelerates degradation and thermal runaway"
+      }
+    },
+    {
+      "id": "constraint_motor_ot",
+      "kind": "Constraint",
+      "attributes": {
+        "name": "Motor Overtemperature Limit",
+        "expression": "MotorTemp <= 180\u00b0C",
+        "parameter": "sig_motor_temp",
+        "severity": "critical",
+        "description": "Motor winding insulation degradation starts above 180\u00b0C"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "sys_ev",
+      "target": "comp_battery",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_bms",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_inverter",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_motor",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_mcu",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_obc",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_dcdc",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_tms",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_vcu",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_hmi",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_hv_junction",
+      "type": "contains"
+    },
+    {
+      "source": "sys_ev",
+      "target": "comp_telematics",
+      "type": "contains"
+    },
+    {
+      "source": "actor_driver",
+      "target": "uc_normal_drive",
+      "type": "association"
+    },
+    {
+      "source": "actor_driver",
+      "target": "uc_regen_braking",
+      "type": "association"
+    },
+    {
+      "source": "actor_driver",
+      "target": "uc_dc_fast_charge",
+      "type": "association"
+    },
+    {
+      "source": "actor_driver",
+      "target": "uc_ac_charge",
+      "type": "association"
+    },
+    {
+      "source": "actor_fleet_mgr",
+      "target": "uc_remote_diag",
+      "type": "association"
+    },
+    {
+      "source": "actor_fleet_mgr",
+      "target": "uc_thermal_mgmt",
+      "type": "association"
+    },
+    {
+      "source": "actor_technician",
+      "target": "uc_service_mode",
+      "type": "association"
+    },
+    {
+      "source": "actor_technician",
+      "target": "uc_fault_response",
+      "type": "association"
+    },
+    {
+      "source": "actor_regulator",
+      "target": "uc_fault_response",
+      "type": "association"
+    },
+    {
+      "source": "uc_normal_drive",
+      "target": "fn_torque_control",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_regen_braking",
+      "target": "fn_regen_control",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_dc_fast_charge",
+      "target": "fn_charge_mgmt",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_ac_charge",
+      "target": "fn_charge_mgmt",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_thermal_mgmt",
+      "target": "fn_thermal_regulation",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_fault_response",
+      "target": "fn_fault_detection",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_fault_response",
+      "target": "fn_hv_safety",
+      "type": "realizes"
+    },
+    {
+      "source": "uc_service_mode",
+      "target": "fn_soh_estimation",
+      "type": "realizes"
+    },
+    {
+      "source": "comp_bms",
+      "target": "iface_can_pt",
+      "type": "connect"
+    },
+    {
+      "source": "comp_mcu",
+      "target": "iface_can_pt",
+      "type": "connect"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "iface_can_pt",
+      "type": "connect"
+    },
+    {
+      "source": "comp_obc",
+      "target": "iface_can_pt",
+      "type": "connect"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "iface_can_body",
+      "type": "connect"
+    },
+    {
+      "source": "comp_hmi",
+      "target": "iface_can_body",
+      "type": "connect"
+    },
+    {
+      "source": "comp_tms",
+      "target": "iface_can_body",
+      "type": "connect"
+    },
+    {
+      "source": "comp_telematics",
+      "target": "iface_can_body",
+      "type": "connect"
+    },
+    {
+      "source": "comp_battery",
+      "target": "iface_hv_dc",
+      "type": "connect"
+    },
+    {
+      "source": "comp_inverter",
+      "target": "iface_hv_dc",
+      "type": "connect"
+    },
+    {
+      "source": "comp_obc",
+      "target": "iface_hv_dc",
+      "type": "connect"
+    },
+    {
+      "source": "comp_hv_junction",
+      "target": "iface_hv_dc",
+      "type": "connect"
+    },
+    {
+      "source": "comp_bms",
+      "target": "comp_battery",
+      "type": "monitors"
+    },
+    {
+      "source": "comp_bms",
+      "target": "comp_hv_junction",
+      "type": "controls"
+    },
+    {
+      "source": "comp_mcu",
+      "target": "comp_inverter",
+      "type": "controls"
+    },
+    {
+      "source": "comp_mcu",
+      "target": "comp_motor",
+      "type": "drives"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "comp_mcu",
+      "type": "controls"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "comp_bms",
+      "type": "controls"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "comp_tms",
+      "type": "controls"
+    },
+    {
+      "source": "comp_vcu",
+      "target": "comp_hmi",
+      "type": "controls"
+    },
+    {
+      "source": "comp_tms",
+      "target": "comp_battery",
+      "type": "cools"
+    },
+    {
+      "source": "comp_tms",
+      "target": "comp_motor",
+      "type": "cools"
+    },
+    {
+      "source": "comp_tms",
+      "target": "comp_inverter",
+      "type": "cools"
+    },
+    {
+      "source": "comp_obc",
+      "target": "comp_battery",
+      "type": "charges"
+    },
+    {
+      "source": "comp_dcdc",
+      "target": "comp_battery",
+      "type": "connect"
+    },
+    {
+      "source": "sig_soc",
+      "target": "pin_in_soc_torque",
+      "type": "flow"
+    },
+    {
+      "source": "sig_accel_pedal",
+      "target": "pin_in_accel_torque",
+      "type": "flow"
+    },
+    {
+      "source": "sig_brake_pressure",
+      "target": "pin_in_brake_torque",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_torque_cmd",
+      "target": "sig_motor_torque_cmd",
+      "type": "flow"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "pin_in_accel_torque",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "pin_in_brake_torque",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "pin_in_soc_torque",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "pin_out_torque_cmd",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_pack_voltage",
+      "target": "pin_in_pack_voltage",
+      "type": "flow"
+    },
+    {
+      "source": "sig_pack_current",
+      "target": "pin_in_pack_current",
+      "type": "flow"
+    },
+    {
+      "source": "sig_cell_temp_max",
+      "target": "pin_in_cell_temp_soc",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_soc",
+      "target": "sig_soc",
+      "type": "flow"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "pin_in_pack_voltage",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "pin_in_pack_current",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "pin_in_cell_temp_soc",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "pin_out_soc",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_cell_volt_max",
+      "target": "pin_in_cell_volt_max_bal",
+      "type": "flow"
+    },
+    {
+      "source": "sig_cell_volt_min",
+      "target": "pin_in_cell_volt_min_bal",
+      "type": "flow"
+    },
+    {
+      "source": "fn_cell_balancing",
+      "target": "pin_in_cell_volt_max_bal",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_cell_balancing",
+      "target": "pin_in_cell_volt_min_bal",
+      "type": "has_input"
+    },
+    {
+      "source": "sig_cell_temp_max",
+      "target": "pin_in_cell_temp_tms",
+      "type": "flow"
+    },
+    {
+      "source": "sig_motor_temp",
+      "target": "pin_in_motor_temp_tms",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_fan_speed",
+      "target": "sig_fan_speed",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_coolant_flow",
+      "target": "sig_coolant_temp",
+      "type": "flow"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "pin_in_cell_temp_tms",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "pin_in_motor_temp_tms",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "pin_out_fan_speed",
+      "type": "has_output"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "pin_out_coolant_flow",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_charge_current",
+      "target": "pin_in_charge_current",
+      "type": "flow"
+    },
+    {
+      "source": "sig_soc",
+      "target": "pin_in_soc_charge",
+      "type": "flow"
+    },
+    {
+      "source": "sig_cell_temp_max",
+      "target": "pin_in_cell_temp_charge",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_charge_voltage",
+      "target": "sig_charge_voltage",
+      "type": "flow"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "pin_in_charge_current",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "pin_in_soc_charge",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "pin_in_cell_temp_charge",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "pin_out_charge_voltage",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_hv_interlock",
+      "target": "pin_in_interlock",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_contactor",
+      "target": "sig_contactor_state",
+      "type": "flow"
+    },
+    {
+      "source": "fn_hv_safety",
+      "target": "pin_in_interlock",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_hv_safety",
+      "target": "pin_out_contactor",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_bms_fault",
+      "target": "pin_in_bms_fault",
+      "type": "flow"
+    },
+    {
+      "source": "sig_mcu_fault",
+      "target": "pin_in_mcu_fault",
+      "type": "flow"
+    },
+    {
+      "source": "fn_fault_detection",
+      "target": "pin_in_bms_fault",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_fault_detection",
+      "target": "pin_in_mcu_fault",
+      "type": "has_input"
+    },
+    {
+      "source": "sig_brake_pressure",
+      "target": "pin_in_brake_regen",
+      "type": "flow"
+    },
+    {
+      "source": "sig_soc",
+      "target": "pin_in_soc_regen",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_regen_cmd",
+      "target": "sig_motor_torque_cmd",
+      "type": "flow"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "pin_in_brake_regen",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "pin_in_soc_regen",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "pin_out_regen_cmd",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_soc",
+      "target": "pin_in_soc_range",
+      "type": "flow"
+    },
+    {
+      "source": "sig_vehicle_speed",
+      "target": "pin_in_speed_range",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_range",
+      "target": "sig_range_estimate",
+      "type": "flow"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "pin_in_soc_range",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "pin_in_speed_range",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "pin_out_range",
+      "type": "has_output"
+    },
+    {
+      "source": "sig_soc",
+      "target": "pin_in_soc_hmi",
+      "type": "flow"
+    },
+    {
+      "source": "sig_vehicle_speed",
+      "target": "pin_in_speed_hmi",
+      "type": "flow"
+    },
+    {
+      "source": "sig_bms_fault",
+      "target": "pin_in_fault_hmi",
+      "type": "flow"
+    },
+    {
+      "source": "sig_range_estimate",
+      "target": "pin_in_range_hmi",
+      "type": "flow"
+    },
+    {
+      "source": "pin_out_drivemode_hmi",
+      "target": "sig_drive_mode",
+      "type": "flow"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "pin_in_soc_hmi",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "pin_in_speed_hmi",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "pin_in_fault_hmi",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "pin_in_range_hmi",
+      "type": "has_input"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "pin_out_drivemode_hmi",
+      "type": "has_output"
+    },
+    {
+      "source": "state_bms_idle",
+      "target": "state_bms_precharge",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_precharge",
+      "target": "state_bms_ready",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_ready",
+      "target": "state_bms_charging",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_ready",
+      "target": "state_bms_fault",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_charging",
+      "target": "state_bms_balancing",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_balancing",
+      "target": "state_bms_ready",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_charging",
+      "target": "state_bms_fault",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_fault",
+      "target": "state_bms_idle",
+      "type": "transition"
+    },
+    {
+      "source": "state_drive_park",
+      "target": "state_drive_ready",
+      "type": "transition"
+    },
+    {
+      "source": "state_drive_ready",
+      "target": "state_drive_drive",
+      "type": "transition"
+    },
+    {
+      "source": "state_drive_drive",
+      "target": "state_drive_regen",
+      "type": "transition"
+    },
+    {
+      "source": "state_drive_regen",
+      "target": "state_drive_drive",
+      "type": "transition"
+    },
+    {
+      "source": "state_drive_drive",
+      "target": "state_drive_park",
+      "type": "transition"
+    },
+    {
+      "source": "state_charge_standby",
+      "target": "state_charge_active",
+      "type": "transition"
+    },
+    {
+      "source": "state_charge_active",
+      "target": "state_charge_complete",
+      "type": "transition"
+    },
+    {
+      "source": "state_charge_active",
+      "target": "state_bms_fault",
+      "type": "transition"
+    },
+    {
+      "source": "state_bms_idle",
+      "target": "guard_hv_interlock_ok",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_hv_interlock_ok",
+      "target": "state_bms_precharge",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_hv_interlock_ok",
+      "target": "sig_hv_interlock",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_precharge",
+      "target": "guard_precharge_done",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_precharge_done",
+      "target": "state_bms_ready",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_precharge_done",
+      "target": "sig_pack_voltage",
+      "type": "constrains"
+    },
+    {
+      "source": "state_drive_park",
+      "target": "guard_soc_min_drive",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_soc_min_drive",
+      "target": "state_drive_ready",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_soc_min_drive",
+      "target": "sig_soc",
+      "type": "constrains"
+    },
+    {
+      "source": "state_drive_drive",
+      "target": "guard_soc_regen_limit",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_soc_regen_limit",
+      "target": "state_drive_regen",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_soc_regen_limit",
+      "target": "sig_soc",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_ready",
+      "target": "guard_temp_charge_enable",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_temp_charge_enable",
+      "target": "state_bms_charging",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_temp_charge_enable",
+      "target": "sig_cell_temp_max",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_charging",
+      "target": "guard_soc_balance_enter",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_soc_balance_enter",
+      "target": "state_bms_balancing",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_soc_balance_enter",
+      "target": "sig_soc",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_charging",
+      "target": "guard_cell_ov",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_cell_ov",
+      "target": "state_bms_fault",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_cell_ov",
+      "target": "sig_cell_volt_max",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_ready",
+      "target": "guard_cell_uv",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_cell_uv",
+      "target": "state_bms_fault",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_cell_uv",
+      "target": "sig_cell_volt_min",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_fault",
+      "target": "guard_fault_cleared",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_fault_cleared",
+      "target": "state_bms_idle",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_fault_cleared",
+      "target": "sig_bms_fault",
+      "type": "constrains"
+    },
+    {
+      "source": "state_charge_active",
+      "target": "guard_charge_complete",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_charge_complete",
+      "target": "state_charge_complete",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_charge_complete",
+      "target": "sig_soc",
+      "type": "constrains"
+    },
+    {
+      "source": "state_bms_ready",
+      "target": "guard_temp_discharge_enable",
+      "type": "has_guard"
+    },
+    {
+      "source": "guard_temp_discharge_enable",
+      "target": "state_drive_drive",
+      "type": "enables_transition"
+    },
+    {
+      "source": "guard_temp_discharge_enable",
+      "target": "sig_cell_temp_max",
+      "type": "constrains"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "fn_soc_estimation",
+      "type": "constrains"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "fn_hv_safety",
+      "type": "constrains"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "fn_torque_control",
+      "type": "constrains"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "fn_regen_control",
+      "type": "constrains"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "fn_charge_mgmt",
+      "type": "constrains"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "fn_charge_mgmt",
+      "type": "constrains"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "fn_thermal_regulation",
+      "type": "constrains"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "fn_thermal_regulation",
+      "type": "constrains"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "fn_soh_estimation",
+      "type": "constrains"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "fn_fault_detection",
+      "type": "constrains"
+    },
+    {
+      "source": "req_range_display",
+      "target": "fn_range_estimation",
+      "type": "constrains"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "fn_precharge",
+      "type": "constrains"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "fn_cell_balancing",
+      "type": "constrains"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "iface_can_pt",
+      "type": "constrains"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_hv_junction",
+      "type": "constrains"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "fn_precharge",
+      "type": "constrains"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_motor",
+      "type": "constrains"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_inverter",
+      "type": "constrains"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "iface_obd",
+      "type": "constrains"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "fn_hv_safety",
+      "type": "constrains"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_telematics",
+      "type": "constrains"
+    },
+    {
+      "source": "constraint_cell_ov",
+      "target": "sig_cell_volt_max",
+      "type": "constrains"
+    },
+    {
+      "source": "constraint_cell_uv",
+      "target": "sig_cell_volt_min",
+      "type": "constrains"
+    },
+    {
+      "source": "constraint_cell_ot",
+      "target": "sig_cell_temp_max",
+      "type": "constrains"
+    },
+    {
+      "source": "constraint_motor_ot",
+      "target": "sig_motor_temp",
+      "type": "constrains"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_cell_balancing",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_hv_safety",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_precharge",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_soh_estimation",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "comp_vcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "comp_vcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_fault_detection",
+      "target": "comp_vcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "comp_vcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "comp_tms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "comp_hmi",
+      "type": "allocated_to"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "uc_normal_drive",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "fn_torque_control",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "sig_accel_pedal",
+      "type": "observes"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "sig_motor_torque_cmd",
+      "type": "observes"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "sig_motor_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "sig_vehicle_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "sig_soc",
+      "type": "observes"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "guard_soc_min_drive",
+      "type": "checks"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "guard_temp_discharge_enable",
+      "type": "checks"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "state_drive_ready",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "state_drive_drive",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "comp_vcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_launch_from_stop",
+      "target": "comp_mcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "uc_regen_braking",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "fn_regen_control",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_brake_pressure",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_motor_torque_cmd",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_motor_torque_actual",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_motor_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_pack_current",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "sig_soc",
+      "type": "observes"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "guard_soc_regen_limit",
+      "type": "checks"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "state_drive_drive",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "state_drive_regen",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "comp_vcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "comp_mcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_regen_braking",
+      "target": "comp_bms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "uc_fault_response",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "fn_hv_safety",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "fn_fault_detection",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "sig_cell_volt_max",
+      "type": "observes"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "sig_bms_fault",
+      "type": "observes"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "sig_contactor_state",
+      "type": "observes"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "sig_charge_current",
+      "type": "observes"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "guard_cell_ov",
+      "type": "checks"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "state_bms_charging",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "state_bms_fault",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "comp_bms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "comp_hv_junction",
+      "type": "involves"
+    },
+    {
+      "source": "sc_cell_ov_fault",
+      "target": "req_hv_isolation",
+      "type": "validates"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "uc_dc_fast_charge",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "fn_charge_mgmt",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "fn_thermal_regulation",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_soc",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_pack_voltage",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_pack_current",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_charge_current",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_charge_voltage",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_cell_temp_max",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "sig_coolant_temp",
+      "type": "observes"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "guard_temp_charge_enable",
+      "type": "checks"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "guard_charge_complete",
+      "type": "checks"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "state_bms_charging",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "state_bms_balancing",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "state_charge_active",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "state_charge_complete",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "comp_bms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "comp_obc",
+      "type": "involves"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "comp_tms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_dc_fast_charge",
+      "target": "req_charge_rate_dc",
+      "type": "validates"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "uc_thermal_mgmt",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "fn_thermal_regulation",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "fn_torque_control",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "sig_motor_temp",
+      "type": "observes"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "sig_motor_torque_cmd",
+      "type": "observes"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "sig_fan_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "sig_coolant_temp",
+      "type": "observes"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "sig_vehicle_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "comp_vcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "comp_tms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "comp_mcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_thermal_derating",
+      "target": "req_thermal_drive",
+      "type": "validates"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "uc_normal_drive",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "uc_fault_response",
+      "type": "instance_of"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "fn_torque_control",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "fn_range_estimation",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "fn_driver_interface",
+      "type": "exercises"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "sig_soc",
+      "type": "observes"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "sig_motor_torque_cmd",
+      "type": "observes"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "sig_vehicle_speed",
+      "type": "observes"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "sig_range_estimate",
+      "type": "observes"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "guard_soc_min_drive",
+      "type": "checks"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "state_drive_drive",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "state_drive_park",
+      "type": "passes_through"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "comp_vcu",
+      "type": "involves"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "comp_bms",
+      "type": "involves"
+    },
+    {
+      "source": "sc_low_soc_limp",
+      "target": "comp_hmi",
+      "type": "involves"
+    },
+    {
+      "source": "sh_oem",
+      "target": "sys_ev",
+      "type": "responsible_for"
+    },
+    {
+      "source": "sh_oem",
+      "target": "req_charge_rate_dc",
+      "type": "derives_requirement"
+    },
+    {
+      "source": "sh_oem",
+      "target": "req_hv_isolation",
+      "type": "derives_requirement"
+    },
+    {
+      "source": "sh_oem",
+      "target": "req_thermal_drive",
+      "type": "derives_requirement"
+    },
+    {
+      "source": "sh_oem",
+      "target": "req_regen_efficiency",
+      "type": "derives_requirement"
+    },
+    {
+      "source": "sh_oem",
+      "target": "uc_fault_response",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_oem",
+      "target": "uc_thermal_mgmt",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_battery_supplier",
+      "target": "comp_battery",
+      "type": "supplies"
+    },
+    {
+      "source": "sh_battery_supplier",
+      "target": "comp_bms",
+      "type": "interface_owner"
+    },
+    {
+      "source": "sh_battery_supplier",
+      "target": "req_thermal_charge",
+      "type": "derives_requirement"
+    },
+    {
+      "source": "sh_pe_supplier",
+      "target": "comp_inverter",
+      "type": "supplies"
+    },
+    {
+      "source": "sh_pe_supplier",
+      "target": "comp_obc",
+      "type": "supplies"
+    },
+    {
+      "source": "sh_pe_supplier",
+      "target": "comp_dcdc",
+      "type": "supplies"
+    },
+    {
+      "source": "sh_charging_op",
+      "target": "uc_dc_fast_charge",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_charging_op",
+      "target": "uc_ac_charge",
+      "type": "interested_in"
+    },
+    {
+      "source": "actor_charger",
+      "target": "uc_dc_fast_charge",
+      "type": "association"
+    },
+    {
+      "source": "actor_charger",
+      "target": "uc_ac_charge",
+      "type": "association"
+    },
+    {
+      "source": "sh_end_customer",
+      "target": "uc_normal_drive",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_end_customer",
+      "target": "uc_regen_braking",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_end_customer",
+      "target": "uc_dc_fast_charge",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_end_customer",
+      "target": "uc_ac_charge",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_insurer",
+      "target": "comp_telematics",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_insurer",
+      "target": "uc_remote_diag",
+      "type": "interested_in"
+    },
+    {
+      "source": "sh_dealership",
+      "target": "uc_service_mode",
+      "type": "participates_in"
+    },
+    {
+      "source": "sh_dealership",
+      "target": "comp_vcu",
+      "type": "services"
+    },
+    {
+      "source": "sh_dealership",
+      "target": "comp_bms",
+      "type": "services"
+    },
+    {
+      "source": "sh_regulator",
+      "target": "req_hv_isolation",
+      "type": "mandates"
+    },
+    {
+      "source": "sh_regulator",
+      "target": "uc_fault_response",
+      "type": "interested_in"
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+/**
+ * VectorOWL Sample: Earth Observation Spacecraft
+ * SysML v2 model of a LEO remote sensing satellite.
+ */
+
+package 'EarthObservationSpacecraft' {
+
+  part def 'Spacecraft' {
+    part payload     : 'OpticalPayload';
+    part adcs        : 'AttitudeControlSystem';
+    part eps         : 'ElectricalPowerSystem';
+    part comms       : 'CommunicationsSubsystem';
+    part obdh        : 'OnboardDataHandling';
+    part thermal     : 'ThermalControlSystem';
+    part structure   : 'StructureSubsystem';
+    part propulsion  : 'PropulsionSubsystem';
+  }
+
+  /* -- Payload -------------------------------------------------- */
+  part def 'OpticalPayload' {
+    part telescope   : 'ReflectorTelescope';
+    part fpa         : 'FocalPlaneAssembly';
+    part electronics : 'PayloadElectronics';
+  }
+
+  part def 'ReflectorTelescope' {
+    attribute apertureMm       : Real;
+    attribute focalLengthMm    : Real;
+    attribute gsdAtNadirM      : Real;
+  }
+
+  part def 'FocalPlaneAssembly' {
+    attribute detectorType     : String;
+    attribute pixelCount       : Integer;
+    attribute spectralBands    : Integer;
+    attribute frameRateHz      : Real;
+  }
+
+  part def 'PayloadElectronics' {
+    attribute compressionRatio : Real;
+    attribute storageGb        : Real;
+    attribute powerW           : Real;
+  }
+
+  /* -- ADCS ----------------------------------------------------- */
+  part def 'AttitudeControlSystem' {
+    part starTracker[2]   : 'StarTracker';
+    part imu              : 'SpaceIMU';
+    part reactionWheel[4] : 'ReactionWheel';
+    part magnetorquer[3]  : 'Magnetorquer';
+    part gpsSensor        : 'SpaceGPS';
+  }
+
+  part def 'StarTracker' {
+    attribute accuracyArcsec  : Real;
+    attribute updateRateHz    : Real;
+    attribute fovDeg          : Real;
+  }
+
+  part def 'SpaceIMU' {
+    attribute gyroNoiseRad    : Real;
+    attribute accelBiasUg     : Real;
+  }
+
+  part def 'ReactionWheel' {
+    attribute momentumNms     : Real;
+    attribute torqueNm        : Real;
+    attribute massKg          : Real;
+  }
+
+  part def 'Magnetorquer' {
+    attribute dipoleMomentAm2 : Real;
+  }
+
+  part def 'SpaceGPS' {
+    attribute positionAccuracyM : Real;
+    attribute velocityAccuracyMs : Real;
+  }
+
+  /* -- EPS ------------------------------------------------------ */
+  part def 'ElectricalPowerSystem' {
+    part solarArray[2]    : 'SolarArray';
+    part battery          : 'SpaceBattery';
+    part pcu              : 'PowerConditioningUnit';
+    part pdu              : 'PowerDistributionUnit';
+  }
+
+  part def 'SolarArray' {
+    attribute powerWEOL        : Real;
+    attribute cellType         : String;
+    attribute areaM2           : Real;
+    attribute deployable       : Boolean;
+  }
+
+  part def 'SpaceBattery' {
+    attribute capacityWh       : Real;
+    attribute chemistry        : String;
+    attribute dod              : Real;
+    attribute cycleLife        : Integer;
+  }
+
+  part def 'PowerConditioningUnit' {
+    attribute busVoltage       : Real;
+    attribute efficiency       : Real;
+  }
+
+  part def 'PowerDistributionUnit' {
+    attribute switchedLines    : Integer;
+    attribute protection       : String;
+  }
+
+  /* -- Communications ------------------------------------------- */
+  part def 'CommunicationsSubsystem' {
+    part xBandTx      : 'XBandTransmitter';
+    part sBandTrx     : 'SBandTransceiver';
+    part antennas     : 'AntennaAssembly';
+  }
+
+  part def 'XBandTransmitter' {
+    attribute dataRateMbps     : Real;
+    attribute powerW           : Real;
+    attribute frequencyGhz     : Real;
+    attribute codingScheme     : String;
+  }
+
+  part def 'SBandTransceiver' {
+    attribute uplinkRateKbps   : Real;
+    attribute downlinkRateKbps : Real;
+    attribute powerW           : Real;
+  }
+
+  part def 'AntennaAssembly' {
+    attribute gainDbi          : Real;
+    attribute beamwidthDeg     : Real;
+    attribute steering         : Boolean;
+  }
+
+  /* -- OBDH ----------------------------------------------------- */
+  part def 'OnboardDataHandling' {
+    part obc[2]       : 'OnboardComputer';
+    part massMemory   : 'MassMemoryUnit';
+    part bus          : 'SpacewireBus';
+  }
+
+  part def 'OnboardComputer' {
+    attribute processorType    : String;
+    attribute clockMhz         : Real;
+    attribute ramMb            : Integer;
+    attribute flashMb          : Integer;
+    attribute radiationHardened : Boolean;
+  }
+
+  part def 'MassMemoryUnit' {
+    attribute capacityGb       : Real;
+    attribute readRateMbps     : Real;
+    attribute writeRateMbps    : Real;
+  }
+
+  part def 'SpacewireBus' {
+    attribute dataRateMbps     : Real;
+    attribute nodeCount        : Integer;
+  }
+
+  /* -- Propulsion ----------------------------------------------- */
+  part def 'PropulsionSubsystem' {
+    part thruster[4]  : 'Thruster';
+    part tank         : 'PropellantTank';
+  }
+
+  part def 'Thruster' {
+    attribute thrustMN      : Real;
+    attribute isp           : Real;
+    attribute propellantType : String;
+  }
+
+  part def 'PropellantTank' {
+    attribute volumeL       : Real;
+    attribute materialType  : String;
+  }
+
+  /* -- Thermal Control ------------------------------------------ */
+  part def 'ThermalControlSystem' {
+    part heater       : 'ElectricHeater';
+    part radiator     : 'RadiatorPanel';
+    part heatpipe     : 'HeatPipeAssembly';
+  }
+
+  part def 'ElectricHeater' {
+    attribute powerW       : Real;
+    attribute setpointDegC : Real;
+  }
+
+  part def 'RadiatorPanel' {
+    attribute areaM2          : Real;
+    attribute emissivity      : Real;
+  }
+
+  part def 'HeatPipeAssembly' {
+    attribute conductanceW_K  : Real;
+  }
+
+  /* -- Structure ------------------------------------------------- */
+  part def 'StructureSubsystem' {
+    part primaryStructure : 'PrimaryStructure';
+    part deployable       : 'DeployableMechanism';
+  }
+
+  part def 'PrimaryStructure' {
+    attribute materialType  : String;
+    attribute massKg        : Real;
+  }
+
+  part def 'DeployableMechanism' {
+    attribute deployCount   : Integer;
+    attribute reliability   : Real;
+  }
+
+  /* -- Requirements --------------------------------------------- */
+  requirement def 'ImageResolutionReq' {
+    doc /* The payload shall achieve ground sampling distance <= 0.5 m at nadir for panchromatic band. */
+  }
+
+  requirement def 'PointingAccuracyReq' {
+    doc /* The ADCS shall maintain pointing accuracy <= 0.005 deg (3sigma) during imaging operations. */
+  }
+
+  requirement def 'DataDownlinkReq' {
+    doc /* The communications subsystem shall downlink >= 300 Gb of payload data per day. */
+  }
+
+  requirement def 'PowerBudgetReq' {
+    doc /* The EPS shall provide >= 800 W orbit-average power with >= 30% margin. */
+  }
+
+  requirement def 'LifetimeReq' {
+    doc /* The spacecraft shall operate nominally for a minimum of 7 years in LEO. */
+  }
+
+  requirement def 'RadiationReq' {
+    doc /* All electronics shall be tolerant to a total ionizing dose of >= 30 krad(Si). */
+  }
+
+  satisfy 'ImageResolutionReq' by 'OpticalPayload';
+  satisfy 'PointingAccuracyReq' by 'AttitudeControlSystem';
+  satisfy 'DataDownlinkReq' by 'CommunicationsSubsystem';
+  satisfy 'PowerBudgetReq' by 'ElectricalPowerSystem';
+  satisfy 'LifetimeReq' by 'ElectricalPowerSystem', 'StructureSubsystem', 'ThermalControlSystem';
+  satisfy 'RadiationReq' by 'OnboardDataHandling', 'AttitudeControlSystem';
+}

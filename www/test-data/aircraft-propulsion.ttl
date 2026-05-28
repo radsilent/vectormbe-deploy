@@ -1,0 +1,202 @@
+@prefix : <http://vectorowl.example/AircraftPropulsion/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vo: <http://vectorowl.example/vocab#> .
+
+<http://vectorowl.example/AircraftPropulsion> rdf:type owl:Ontology ;
+    rdfs:label "Aircraft Propulsion Subsystem" ;
+    owl:versionInfo "1.0" .
+
+# Classes
+vo:Engine rdf:type owl:Class ;
+    rdfs:label "Engine" ;
+    rdfs:subClassOf vo:Hardware .
+
+vo:FuelSystem rdf:type owl:Class ;
+    rdfs:label "Fuel System" ;
+    rdfs:subClassOf vo:Hardware .
+
+vo:Propeller rdf:type owl:Class ;
+    rdfs:label "Propeller" ;
+    rdfs:subClassOf vo:Hardware .
+
+vo:EngineControlUnit rdf:type owl:Class ;
+    rdfs:label "Engine Control Unit" ;
+    rdfs:subClassOf vo:Avionics .
+
+vo:PropulsionAssembly rdf:type owl:Class ;
+    rdfs:label "Propulsion Assembly" ;
+    rdfs:subClassOf vo:Hardware .
+
+vo:Requirement rdf:type owl:Class ;
+    rdfs:label "Requirement" .
+
+vo:Hardware rdf:type owl:Class ;
+    rdfs:label "Hardware" .
+
+vo:Avionics rdf:type owl:Class ;
+    rdfs:label "Avionics" ;
+    rdfs:subClassOf vo:Hardware .
+
+# Properties
+vo:hasPart rdf:type owl:ObjectProperty ;
+    rdfs:label "has part" ;
+    rdfs:domain vo:PropulsionAssembly ;
+    rdfs:range vo:Hardware .
+
+vo:allocatedTo rdf:type owl:ObjectProperty ;
+    rdfs:label "allocated to" ;
+    rdfs:domain vo:Requirement ;
+    rdfs:range vo:Hardware .
+
+vo:model rdf:type owl:DatatypeProperty ;
+    rdfs:label "model" ;
+    rdfs:range xsd:string .
+
+vo:maxThrust rdf:type owl:DatatypeProperty ;
+    rdfs:label "maximum thrust" ;
+    rdfs:range xsd:decimal .
+
+vo:sfc rdf:type owl:DatatypeProperty ;
+    rdfs:label "specific fuel consumption" ;
+    rdfs:range xsd:decimal .
+
+vo:dryWeight rdf:type owl:DatatypeProperty ;
+    rdfs:label "dry weight" ;
+    rdfs:range xsd:decimal .
+
+vo:capacity rdf:type owl:DatatypeProperty ;
+    rdfs:label "capacity" ;
+    rdfs:range xsd:decimal .
+
+vo:tankCount rdf:type owl:DatatypeProperty ;
+    rdfs:label "tank count" ;
+    rdfs:range xsd:integer .
+
+vo:isRedundant rdf:type owl:DatatypeProperty ;
+    rdfs:label "is redundant" ;
+    rdfs:range xsd:boolean .
+
+vo:diameter rdf:type owl:DatatypeProperty ;
+    rdfs:label "diameter" ;
+    rdfs:range xsd:decimal .
+
+vo:bladeCount rdf:type owl:DatatypeProperty ;
+    rdfs:label "blade count" ;
+    rdfs:range xsd:integer .
+
+vo:bladeMaterial rdf:type owl:DatatypeProperty ;
+    rdfs:label "blade material" ;
+    rdfs:range xsd:string .
+
+vo:partNumber rdf:type owl:DatatypeProperty ;
+    rdfs:label "part number" ;
+    rdfs:range xsd:string .
+
+vo:softwareVersion rdf:type owl:DatatypeProperty ;
+    rdfs:label "software version" ;
+    rdfs:range xsd:string .
+
+vo:assemblyId rdf:type owl:DatatypeProperty ;
+    rdfs:label "assembly ID" ;
+    rdfs:range xsd:string .
+
+vo:mttfHours rdf:type owl:DatatypeProperty ;
+    rdfs:label "mean time to failure (hours)" ;
+    rdfs:range xsd:decimal .
+
+vo:identifier rdf:type owl:DatatypeProperty ;
+    rdfs:label "identifier" ;
+    rdfs:range xsd:string .
+
+vo:text rdf:type owl:DatatypeProperty ;
+    rdfs:label "text" ;
+    rdfs:range xsd:string .
+
+vo:priority rdf:type owl:DatatypeProperty ;
+    rdfs:label "priority" ;
+    rdfs:range xsd:string .
+
+vo:verificationMethod rdf:type owl:DatatypeProperty ;
+    rdfs:label "verification method" ;
+    rdfs:range xsd:string .
+
+# Individuals — Components
+:engine-001 rdf:type vo:Engine ;
+    vo:model "TurboProp-X1" ;
+    vo:maxThrust "120.0"^^xsd:decimal ;
+    vo:sfc "0.018"^^xsd:decimal ;
+    vo:dryWeight "285.0"^^xsd:decimal .
+
+:engine-002 rdf:type vo:Engine ;
+    vo:model "TurboProp-X1" ;
+    vo:maxThrust "120.0"^^xsd:decimal ;
+    vo:sfc "0.018"^^xsd:decimal ;
+    vo:dryWeight "285.0"^^xsd:decimal .
+
+:fuel-system-001 rdf:type vo:FuelSystem ;
+    vo:capacity "450.0"^^xsd:decimal ;
+    vo:tankCount "4"^^xsd:integer ;
+    vo:isRedundant "true"^^xsd:boolean .
+
+:propeller-001 rdf:type vo:Propeller ;
+    vo:diameter "2.1"^^xsd:decimal ;
+    vo:bladeCount "6"^^xsd:integer ;
+    vo:bladeMaterial "CarbonFiberComposite" .
+
+:ecu-001 rdf:type vo:EngineControlUnit ;
+    vo:partNumber "ECU-MarkIV-2026" ;
+    vo:softwareVersion "4.2.1" .
+
+:ecu-002 rdf:type vo:EngineControlUnit ;
+    vo:partNumber "ECU-MarkIV-2026" ;
+    vo:softwareVersion "4.2.1" .
+
+:assembly-001 rdf:type vo:PropulsionAssembly ;
+    vo:assemblyId "PA-2026-Alpha" ;
+    vo:mttfHours "45000.0"^^xsd:decimal ;
+    vo:hasPart :engine-001 ;
+    vo:hasPart :engine-002 ;
+    vo:hasPart :fuel-system-001 ;
+    vo:hasPart :propeller-001 .
+
+# Individuals — Requirements
+:req-001 rdf:type vo:Requirement ;
+    vo:identifier "REQ-PROP-001" ;
+    vo:text "The propulsion assembly shall provide minimum 200 kN total thrust." ;
+    vo:priority "Critical" ;
+    vo:verificationMethod "Analysis and Test" ;
+    vo:allocatedTo :engine-001 ;
+    vo:allocatedTo :engine-002 .
+
+:req-002 rdf:type vo:Requirement ;
+    vo:identifier "REQ-PROP-002" ;
+    vo:text "Fuel system shall maintain supply to all engines after single tank breach." ;
+    vo:priority "Critical" ;
+    vo:verificationMethod "Test" ;
+    vo:allocatedTo :fuel-system-001 .
+
+:req-003 rdf:type vo:Requirement ;
+    vo:identifier "REQ-PROP-003" ;
+    vo:text "Engine control unit software shall be DO-178C DAL B compliant." ;
+    vo:priority "Critical" ;
+    vo:verificationMethod "Inspection" ;
+    vo:allocatedTo :ecu-001 ;
+    vo:allocatedTo :ecu-002 .
+
+:req-004 rdf:type vo:Requirement ;
+    vo:identifier "REQ-PROP-004" ;
+    vo:text "Propeller diameter shall not exceed 2.5 m for ground clearance." ;
+    vo:priority "High" ;
+    vo:verificationMethod "Analysis" ;
+    vo:allocatedTo :propeller-001 .
+
+:req-005 rdf:type vo:Requirement ;
+    vo:identifier "REQ-PROP-005" ;
+    vo:text "Mean time to failure shall exceed 40000 flight hours." ;
+    vo:priority "Critical" ;
+    vo:verificationMethod "Analysis and Test" ;
+    vo:allocatedTo :assembly-001 .

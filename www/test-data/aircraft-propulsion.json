@@ -1,0 +1,1214 @@
+{
+  "nodes": [
+    {
+      "id": "aps",
+      "kind": "System",
+      "name": "System Under Design",
+      "description": "Integrated power and control system for engineered applications",
+      "status": "Operational",
+      "mtbf_hours": 10000
+    },
+    {
+      "id": "engine",
+      "kind": "Component",
+      "name": "Prime Mover",
+      "description": "High-capacity prime mover with regulated output",
+      "status": "Certified",
+      "thrust_lbf": 29000,
+      "bypass_ratio": 5.5
+    },
+    {
+      "id": "fan",
+      "kind": "Component",
+      "name": "Inlet Assembly",
+      "description": "Single-stage front impeller with specified diameter",
+      "status": "Certified",
+      "diameter_in": 78,
+      "blades": 22
+    },
+    {
+      "id": "lpc",
+      "kind": "Component",
+      "name": "Pre-Compressor",
+      "description": "Low-pressure compression stage with 4 stages",
+      "status": "Certified",
+      "stages": 4,
+      "pressure_ratio": 3.5
+    },
+    {
+      "id": "hpc",
+      "kind": "Component",
+      "name": "Main Compressor",
+      "description": "High-pressure compression stage with 9 stages",
+      "status": "Certified",
+      "stages": 9,
+      "pressure_ratio": 20
+    },
+    {
+      "id": "combustor",
+      "kind": "Component",
+      "name": "Reaction Chamber",
+      "description": "Annular reaction chamber with 18 injection ports",
+      "status": "Certified",
+      "nozzles": 18,
+      "max_temp_f": 3000
+    },
+    {
+      "id": "hpt",
+      "kind": "Component",
+      "name": "Primary Turbine",
+      "description": "High-pressure turbine stage with active cooling",
+      "status": "Certified",
+      "stages": 2,
+      "cooled": true
+    },
+    {
+      "id": "lpt",
+      "kind": "Component",
+      "name": "Secondary Turbine",
+      "description": "Low-pressure turbine stage with 5 stages",
+      "status": "Certified",
+      "stages": 5
+    },
+    {
+      "id": "nozzle",
+      "kind": "Component",
+      "name": "Exhaust Stage",
+      "description": "Convergent-divergent exhaust outlet",
+      "status": "Certified",
+      "type": "fixed_geometry"
+    },
+    {
+      "id": "fadec",
+      "kind": "Component",
+      "name": "Digital Controller",
+      "description": "Full-authority digital control system",
+      "status": "Certified",
+      "channels": 2,
+      "software_version": "4.2.1"
+    },
+    {
+      "id": "fuel_pump",
+      "kind": "Component",
+      "name": "Fluid Pump",
+      "description": "High-pressure positive-displacement pump",
+      "status": "Certified",
+      "pressure_psi": 1200
+    },
+    {
+      "id": "fmu",
+      "kind": "Component",
+      "name": "Flow Regulator",
+      "description": "Digital flow metering valve with servo control",
+      "status": "Certified",
+      "accuracy_percent": 0.5
+    },
+    {
+      "id": "oil_pump",
+      "kind": "Component",
+      "name": "Lubrication Pump",
+      "description": "Positive-displacement return and pressure pump",
+      "status": "Certified"
+    },
+    {
+      "id": "oil_cooler",
+      "kind": "Component",
+      "name": "Heat Exchanger",
+      "description": "Fluid-air heat exchanger for thermal management",
+      "status": "Certified"
+    },
+    {
+      "id": "bleed_valve",
+      "kind": "Component",
+      "name": "Bypass Valve",
+      "description": "Variable bleed valve for compressor stall margin",
+      "status": "Certified"
+    },
+    {
+      "id": "vsv",
+      "kind": "Component",
+      "name": "Position Actuator",
+      "description": "Variable Stator Vane actuator for Main Compressor surge control",
+      "status": "Certified"
+    },
+    {
+      "id": "func_thrust",
+      "kind": "Function",
+      "name": "Produce Output",
+      "description": "Convert chemical energy into propulsive force via Brayton cycle"
+    },
+    {
+      "id": "func_fuel",
+      "kind": "Function",
+      "name": "Regulate Flow",
+      "description": "Deliver precisely metered fuel to combustor based on throttle command"
+    },
+    {
+      "id": "func_control",
+      "kind": "Function",
+      "name": "Manage Operation",
+      "description": "Monitor parameters and adjust actuators to maintain safe operation"
+    },
+    {
+      "id": "func_cool",
+      "kind": "Function",
+      "name": "Dissipate Heat",
+      "description": "Provide internal air flow to cool Primary Turbine blades and maintain material limits"
+    },
+    {
+      "id": "func_lube",
+      "kind": "Function",
+      "name": "Reduce Friction",
+      "description": "Deliver filtered oil to main bearings and gearbox at regulated pressure/temp"
+    },
+    {
+      "id": "func_bleed",
+      "kind": "Function",
+      "name": "Provide Auxiliary Output",
+      "description": "Supply compressed air to aircraft environmental and anti-ice systems"
+    },
+    {
+      "id": "func_start",
+      "kind": "Function",
+      "name": "Initialize System",
+      "description": "Accelerate from zero to idle speed using starter and fuel ignition sequence"
+    },
+    {
+      "id": "req_thrust",
+      "kind": "Requirement",
+      "name": "REQ-001 Output Capacity",
+      "text": "System shall produce minimum specified output at rated conditions",
+      "priority": "Critical",
+      "verification": "Ground test cell measurement"
+    },
+    {
+      "id": "req_sfc",
+      "kind": "Requirement",
+      "name": "REQ-002 Efficiency",
+      "text": "Specific consumption shall not exceed rated limit at steady state",
+      "priority": "High",
+      "verification": "Flight test instrumentation"
+    },
+    {
+      "id": "req_tbo",
+      "kind": "Requirement",
+      "name": "REQ-003 Time Between Overhauls",
+      "text": "Time between overhauls shall exceed 10,000 flight hours",
+      "priority": "High",
+      "verification": "Fleet operational data"
+    },
+    {
+      "id": "req_dispatch",
+      "kind": "Requirement",
+      "name": "REQ-004 Availability",
+      "text": "System shall achieve 99.99% operational availability",
+      "priority": "Critical",
+      "verification": "Airline reported metrics"
+    },
+    {
+      "id": "req_containment",
+      "kind": "Requirement",
+      "name": "REQ-005 Containment",
+      "text": "Component release event shall not penetrate containment boundary",
+      "priority": "Critical",
+      "verification": "Blade-out rig test"
+    },
+    {
+      "id": "req_egt",
+      "kind": "Requirement",
+      "name": "REQ-006 Process Temperature Limit",
+      "text": "Process temperature shall not exceed rated limit during normal operation",
+      "priority": "Critical",
+      "verification": "Flight test thermocouples"
+    },
+    {
+      "id": "req_vib",
+      "kind": "Requirement",
+      "name": "REQ-007 Oscillation",
+      "text": "Oscillation levels shall remain below 1.0 ips across all operating regimes",
+      "priority": "High",
+      "verification": "Accelerometer measurement"
+    },
+    {
+      "id": "req_oil",
+      "kind": "Requirement",
+      "name": "REQ-008 Fluid Temperature",
+      "text": "Oil temperature shall remain between 140\u00b0F and 260\u00b0F",
+      "priority": "High",
+      "verification": "Thermocouple"
+    },
+    {
+      "id": "sig_n1",
+      "kind": "Signal",
+      "name": "Primary Rotation Speed",
+      "description": "Low-pressure rotor speed",
+      "unit": "RPM",
+      "min": 0,
+      "max": 4500
+    },
+    {
+      "id": "sig_n2",
+      "kind": "Signal",
+      "name": "N2 Core Speed",
+      "description": "High-pressure rotor speed",
+      "unit": "RPM",
+      "min": 0,
+      "max": 15000
+    },
+    {
+      "id": "sig_egt",
+      "kind": "Signal",
+      "name": "Process Temperature",
+      "description": "Exhaust gas temperature",
+      "unit": "\u00b0F",
+      "min": 0,
+      "max": 2000
+    },
+    {
+      "id": "sig_ff",
+      "kind": "Signal",
+      "name": "Flow Rate",
+      "description": "Total engine fuel flow rate",
+      "unit": "pph",
+      "min": 0,
+      "max": 15000
+    },
+    {
+      "id": "sig_p0",
+      "kind": "Signal",
+      "name": "P0 Total Pressure",
+      "description": "Compressor discharge total pressure",
+      "unit": "psi",
+      "min": 0,
+      "max": 400
+    },
+    {
+      "id": "sig_t0",
+      "kind": "Signal",
+      "name": "T0 Total Temperature",
+      "description": "Compressor discharge total temperature",
+      "unit": "\u00b0F",
+      "min": 0,
+      "max": 1200
+    },
+    {
+      "id": "sig_vib",
+      "kind": "Signal",
+      "name": "Oscillation",
+      "description": "Overall engine vibration level",
+      "unit": "ips",
+      "min": 0,
+      "max": 2.0
+    },
+    {
+      "id": "sig_oilp",
+      "kind": "Signal",
+      "name": "Lubrication Pressure",
+      "description": "Main oil supply pressure",
+      "unit": "psi",
+      "min": 0,
+      "max": 200
+    },
+    {
+      "id": "sig_oilt",
+      "kind": "Signal",
+      "name": "Oil Temperature",
+      "description": "Oil supply temperature",
+      "unit": "\u00b0F",
+      "min": 0,
+      "max": 350
+    },
+    {
+      "id": "iface_fuel",
+      "kind": "Interface",
+      "name": "Supply Interface",
+      "description": "JP-8 fuel supply from aircraft tanks to engine FMU",
+      "protocol": "Hydraulic",
+      "pressure_psi": 1200
+    },
+    {
+      "id": "iface_air",
+      "kind": "Interface",
+      "name": "Air Interface",
+      "description": "Ambient air intake and core airflow path",
+      "protocol": "Aerodynamic",
+      "mass_flow_pps": 1800
+    },
+    {
+      "id": "iface_elec",
+      "kind": "Interface",
+      "name": "Electrical Interface",
+      "description": "28VDC and 115VAC power for Digital Controller and actuators",
+      "protocol": "Electrical",
+      "voltage": "28VDC/115VAC"
+    },
+    {
+      "id": "iface_ctrl",
+      "kind": "Interface",
+      "name": "Control Interface",
+      "description": "ARINC 429 digital data bus for throttle and status",
+      "protocol": "ARINC-429",
+      "bitrate": 100000
+    },
+    {
+      "id": "iface_bleed",
+      "kind": "Interface",
+      "name": "Bleed Air Interface",
+      "description": "Compressed air output for ECS and wing anti-ice",
+      "protocol": "Pneumatic",
+      "pressure_psi": 45
+    },
+    {
+      "id": "state_off",
+      "kind": "State",
+      "name": "IDLE",
+      "description": "Engine shutdown, no rotation"
+    },
+    {
+      "id": "state_start",
+      "kind": "State",
+      "name": "START",
+      "description": "Starter engaged, ignition on, accelerating to idle"
+    },
+    {
+      "id": "state_idle",
+      "kind": "State",
+      "name": "IDLE",
+      "description": "Minimum sustainable speed, ground or flight idle"
+    },
+    {
+      "id": "state_cruise",
+      "kind": "State",
+      "name": "STEADY",
+      "description": "Normal cruise thrust setting"
+    },
+    {
+      "id": "state_max",
+      "kind": "State",
+      "name": "OVERLOAD",
+      "description": "Maximum continuous thrust"
+    },
+    {
+      "id": "state_to",
+      "kind": "State",
+      "name": "TAKEIDLE",
+      "description": "Maximum thrust for takeoff, 5-minute limit"
+    },
+    {
+      "id": "state_shutdown",
+      "kind": "State",
+      "name": "STOP",
+      "description": "Fuel cut, decelerating to stop"
+    },
+    {
+      "id": "con_egt",
+      "kind": "Constraint",
+      "name": "CON-Process Temperature Limit",
+      "text": "Process Temperature shall never exceed 1,750\u00b0F under any condition",
+      "severity": "Critical",
+      "limit": 1750,
+      "unit": "\u00b0F"
+    },
+    {
+      "id": "con_vib",
+      "kind": "Constraint",
+      "name": "CON-VIB Limit",
+      "text": "Oscillation shall not exceed 1.2 ips before mandatory inspection",
+      "severity": "Warning",
+      "limit": 1.2,
+      "unit": "ips"
+    },
+    {
+      "id": "func_accel_air",
+      "kind": "Function",
+      "name": "Condition Input",
+      "description": "Increase air velocity through fan blade aerodynamics"
+    },
+    {
+      "id": "func_gen_bypass",
+      "kind": "Function",
+      "name": "Create Auxiliary Flow",
+      "description": "Divert majority of air around core for propulsive efficiency"
+    },
+    {
+      "id": "func_compress_lp",
+      "kind": "Function",
+      "name": "Pre-Compress",
+      "description": "Raise incoming air pressure before Main Compressor entry"
+    },
+    {
+      "id": "func_compress_hp",
+      "kind": "Function",
+      "name": "High-Pressure Compress",
+      "description": "Achieve high pressure ratio for efficient combustion"
+    },
+    {
+      "id": "func_ignite_fuel",
+      "kind": "Function",
+      "name": "Initiate Reaction-Air Mixture",
+      "description": "Stabilize flame front across operating envelope"
+    },
+    {
+      "id": "func_contain_flame",
+      "kind": "Function",
+      "name": "Contain Flame",
+      "description": "Maintain combustion within liner walls"
+    },
+    {
+      "id": "func_extract_hp_work",
+      "kind": "Function",
+      "name": "Extract Primary Work",
+      "description": "Convert high-pressure gas energy into shaft torque for Main Compressor"
+    },
+    {
+      "id": "func_extract_lp_work",
+      "kind": "Function",
+      "name": "Extract Secondary Work",
+      "description": "Convert remaining gas energy into shaft torque for fan/Pre-Compressor"
+    },
+    {
+      "id": "func_accelerate_exhaust",
+      "kind": "Function",
+      "name": "Expel Output",
+      "description": "Expand hot gas to maximize exit velocity and thrust"
+    },
+    {
+      "id": "func_schedule_fuel",
+      "kind": "Function",
+      "name": "Sequence Supply",
+      "description": "Compute fuel flow based on throttle and limiters"
+    },
+    {
+      "id": "func_surge_protect",
+      "kind": "Function",
+      "name": "Protect System",
+      "description": "Detect and prevent compressor stall via VSV and bleed modulation"
+    },
+    {
+      "id": "func_limit_egt",
+      "kind": "Function",
+      "name": "Limit Temperature",
+      "description": "Reduce fuel if Process Temperature approaches redline"
+    },
+    {
+      "id": "func_pressurize_fuel",
+      "kind": "Function",
+      "name": "Pressurize Supply",
+      "description": "Raise fuel pressure to FMU inlet requirement"
+    },
+    {
+      "id": "func_scavenge_oil",
+      "kind": "Function",
+      "name": "Return Fluid",
+      "description": "Return oil from bearing chambers to reservoir"
+    },
+    {
+      "id": "func_regulate_temp",
+      "kind": "Function",
+      "name": "Regulate Oil Temp",
+      "description": "Maintain oil temperature within operating band"
+    },
+    {
+      "id": "port_eng_fuel_in",
+      "kind": "InputPin",
+      "name": "Fuel Inlet",
+      "description": "JP-8 fuel input port",
+      "type": "Hydraulic",
+      "pressure_psi": 1200
+    },
+    {
+      "id": "port_eng_thrust_out",
+      "kind": "OutputPin",
+      "name": "Thrust Output",
+      "description": "Propulsive force output",
+      "type": "Mechanical",
+      "thrust_lbf": 29000
+    },
+    {
+      "id": "port_eng_bleed_out",
+      "kind": "OutputPin",
+      "name": "Bleed Air Outlet",
+      "description": "Compressed air for ECS and anti-ice",
+      "type": "Pneumatic",
+      "pressure_psi": 45
+    },
+    {
+      "id": "port_eng_elec_in",
+      "kind": "InputPin",
+      "name": "Power Inlet",
+      "description": "28VDC / 115VAC power input",
+      "type": "Electrical",
+      "voltage": "28VDC/115VAC"
+    },
+    {
+      "id": "port_fadec_pwr_in",
+      "kind": "InputPin",
+      "name": "Controller Power",
+      "description": "FADEC power supply",
+      "type": "Electrical",
+      "voltage": "28VDC"
+    },
+    {
+      "id": "port_fadec_sens_in",
+      "kind": "InputPin",
+      "name": "Sensor Bus",
+      "description": "Analog and digital sensor inputs",
+      "type": "ARINC-429",
+      "channels": 16
+    },
+    {
+      "id": "port_fadec_act_out",
+      "kind": "OutputPin",
+      "name": "Actuator Bus",
+      "description": "Digital control outputs to actuators",
+      "type": "ARINC-429",
+      "channels": 8
+    },
+    {
+      "id": "port_fmu_fuel_in",
+      "kind": "InputPin",
+      "name": "Metered Fuel In",
+      "description": "Fuel from pump to metering valve",
+      "type": "Hydraulic",
+      "pressure_psi": 1200
+    },
+    {
+      "id": "port_fmu_fuel_out",
+      "kind": "OutputPin",
+      "name": "Metered Fuel Out",
+      "description": "Regulated fuel to combustor nozzles",
+      "type": "Hydraulic",
+      "pressure_psi": 1200
+    },
+    {
+      "id": "port_fan_air_in",
+      "kind": "InputPin",
+      "name": "Ambient Air In",
+      "description": "Free stream air intake",
+      "type": "Aerodynamic",
+      "diameter_in": 78
+    },
+    {
+      "id": "port_fan_air_out",
+      "kind": "OutputPin",
+      "name": "Compressed Air Out",
+      "description": "Fan discharge to LPC",
+      "type": "Aerodynamic"
+    },
+    {
+      "id": "port_hpt_cool_in",
+      "kind": "InputPin",
+      "name": "Cooling Air In",
+      "description": "Internal cooling flow for turbine blades",
+      "type": "Pneumatic",
+      "pressure_psi": 200
+    }
+  ],
+  "edges": [
+    {
+      "source": "aps",
+      "target": "engine",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "fadec",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "fuel_pump",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "fmu",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "oil_pump",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "oil_cooler",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "bleed_valve",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "vsv",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "fan",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "lpc",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "hpc",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "combustor",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "hpt",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "lpt",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "nozzle",
+      "type": "contains"
+    },
+    {
+      "source": "func_thrust",
+      "target": "engine",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_fuel",
+      "target": "fmu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_fuel",
+      "target": "fuel_pump",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_control",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_cool",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_lube",
+      "target": "oil_pump",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_lube",
+      "target": "oil_cooler",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_bleed",
+      "target": "bleed_valve",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_start",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req_thrust",
+      "target": "func_thrust",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_sfc",
+      "target": "func_fuel",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "engine",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_dispatch",
+      "target": "fadec",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "fan",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_egt",
+      "target": "func_cool",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "func_thrust",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_oil",
+      "target": "func_lube",
+      "type": "satisfy"
+    },
+    {
+      "source": "sig_n1",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_n2",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_egt",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_ff",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_p0",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_t0",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_vib",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_oilp",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "sig_oilt",
+      "target": "fadec",
+      "type": "flow"
+    },
+    {
+      "source": "iface_fuel",
+      "target": "fmu",
+      "type": "connect"
+    },
+    {
+      "source": "iface_fuel",
+      "target": "fuel_pump",
+      "type": "connect"
+    },
+    {
+      "source": "iface_air",
+      "target": "fan",
+      "type": "connect"
+    },
+    {
+      "source": "iface_elec",
+      "target": "fadec",
+      "type": "connect"
+    },
+    {
+      "source": "iface_ctrl",
+      "target": "fadec",
+      "type": "connect"
+    },
+    {
+      "source": "iface_bleed",
+      "target": "bleed_valve",
+      "type": "connect"
+    },
+    {
+      "source": "fan",
+      "target": "lpc",
+      "type": "drives"
+    },
+    {
+      "source": "lpc",
+      "target": "hpc",
+      "type": "drives"
+    },
+    {
+      "source": "hpc",
+      "target": "combustor",
+      "type": "feeds"
+    },
+    {
+      "source": "combustor",
+      "target": "hpt",
+      "type": "drives"
+    },
+    {
+      "source": "hpt",
+      "target": "hpc",
+      "type": "drives"
+    },
+    {
+      "source": "hpt",
+      "target": "lpt",
+      "type": "drives"
+    },
+    {
+      "source": "lpt",
+      "target": "fan",
+      "type": "drives"
+    },
+    {
+      "source": "lpt",
+      "target": "lpc",
+      "type": "drives"
+    },
+    {
+      "source": "state_off",
+      "target": "state_start",
+      "type": "transition"
+    },
+    {
+      "source": "state_start",
+      "target": "state_idle",
+      "type": "transition"
+    },
+    {
+      "source": "state_idle",
+      "target": "state_cruise",
+      "type": "transition"
+    },
+    {
+      "source": "state_idle",
+      "target": "state_to",
+      "type": "transition"
+    },
+    {
+      "source": "state_cruise",
+      "target": "state_max",
+      "type": "transition"
+    },
+    {
+      "source": "state_cruise",
+      "target": "state_idle",
+      "type": "transition"
+    },
+    {
+      "source": "state_max",
+      "target": "state_idle",
+      "type": "transition"
+    },
+    {
+      "source": "state_to",
+      "target": "state_cruise",
+      "type": "transition"
+    },
+    {
+      "source": "state_to",
+      "target": "state_shutdown",
+      "type": "transition"
+    },
+    {
+      "source": "state_cruise",
+      "target": "state_shutdown",
+      "type": "transition"
+    },
+    {
+      "source": "state_idle",
+      "target": "state_shutdown",
+      "type": "transition"
+    },
+    {
+      "source": "con_egt",
+      "target": "sig_egt",
+      "type": "constrains"
+    },
+    {
+      "source": "con_vib",
+      "target": "sig_vib",
+      "type": "constrains"
+    },
+    {
+      "source": "fan",
+      "target": "func_accel_air",
+      "type": "contains"
+    },
+    {
+      "source": "fan",
+      "target": "func_gen_bypass",
+      "type": "contains"
+    },
+    {
+      "source": "lpc",
+      "target": "func_compress_lp",
+      "type": "contains"
+    },
+    {
+      "source": "hpc",
+      "target": "func_compress_hp",
+      "type": "contains"
+    },
+    {
+      "source": "combustor",
+      "target": "func_ignite_fuel",
+      "type": "contains"
+    },
+    {
+      "source": "combustor",
+      "target": "func_contain_flame",
+      "type": "contains"
+    },
+    {
+      "source": "hpt",
+      "target": "func_extract_hp_work",
+      "type": "contains"
+    },
+    {
+      "source": "lpt",
+      "target": "func_extract_lp_work",
+      "type": "contains"
+    },
+    {
+      "source": "nozzle",
+      "target": "func_accelerate_exhaust",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "func_schedule_fuel",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "func_surge_protect",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "func_limit_egt",
+      "type": "contains"
+    },
+    {
+      "source": "fuel_pump",
+      "target": "func_pressurize_fuel",
+      "type": "contains"
+    },
+    {
+      "source": "oil_pump",
+      "target": "func_scavenge_oil",
+      "type": "contains"
+    },
+    {
+      "source": "oil_cooler",
+      "target": "func_regulate_temp",
+      "type": "contains"
+    },
+    {
+      "source": "fan",
+      "target": "sig_n1",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "sig_n2",
+      "type": "contains"
+    },
+    {
+      "source": "combustor",
+      "target": "sig_egt",
+      "type": "contains"
+    },
+    {
+      "source": "fmu",
+      "target": "sig_ff",
+      "type": "contains"
+    },
+    {
+      "source": "hpc",
+      "target": "sig_p0",
+      "type": "contains"
+    },
+    {
+      "source": "hpc",
+      "target": "sig_t0",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "sig_vib",
+      "type": "contains"
+    },
+    {
+      "source": "oil_pump",
+      "target": "sig_oilp",
+      "type": "contains"
+    },
+    {
+      "source": "oil_cooler",
+      "target": "sig_oilt",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_thrust",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_sfc",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_tbo",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_dispatch",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_containment",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_egt",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_vib",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "req_oil",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_off",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_start",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_idle",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_cruise",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_max",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_to",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "state_shutdown",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "con_egt",
+      "type": "contains"
+    },
+    {
+      "source": "aps",
+      "target": "con_vib",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "port_eng_fuel_in",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "port_eng_thrust_out",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "port_eng_bleed_out",
+      "type": "contains"
+    },
+    {
+      "source": "engine",
+      "target": "port_eng_elec_in",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "port_fadec_pwr_in",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "port_fadec_sens_in",
+      "type": "contains"
+    },
+    {
+      "source": "fadec",
+      "target": "port_fadec_act_out",
+      "type": "contains"
+    },
+    {
+      "source": "fmu",
+      "target": "port_fmu_fuel_in",
+      "type": "contains"
+    },
+    {
+      "source": "fmu",
+      "target": "port_fmu_fuel_out",
+      "type": "contains"
+    },
+    {
+      "source": "fan",
+      "target": "port_fan_air_in",
+      "type": "contains"
+    },
+    {
+      "source": "fan",
+      "target": "port_fan_air_out",
+      "type": "contains"
+    },
+    {
+      "source": "hpt",
+      "target": "port_hpt_cool_in",
+      "type": "contains"
+    }
+  ]
+}
