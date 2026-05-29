@@ -359,6 +359,208 @@
         "description": "Electronic stability control using yaw rate and lateral acceleration",
         "safety_level": "ASIL-D"
       }
+    },
+    {
+      "uri": "uc-as-001",
+      "type": "UseCase",
+      "attributes": {
+        "name": "Torque Demand Management",
+        "description": "The driver requests acceleration via throttle pedal. The TorqueManagement function reads ThrottlePos and EngineSpeed from the Powertrain-CAN-Bus, arbitrates engine and motor torque demands, and commands the MotorControlUnit within 20 ms.",
+        "actor": "Driver, EngineControlUnit, MotorControlUnit",
+        "priority": "critical",
+        "domain": "Automotive Powertrain"
+      }
+    },
+    {
+      "uri": "uc-as-002",
+      "type": "UseCase",
+      "description": "High-voltage battery protection use case",
+      "attributes": {
+        "name": "High-Voltage Battery Protection",
+        "description": "The BMS continuously monitors PackVoltage, PackCurrent, and SOC on the Battery-Management-Bus. On detecting an overvoltage or overcurrent condition, it opens the main contactors and broadcasts a fault DTC within 10 ms.",
+        "actor": "BatteryManagementMaster, SafetyMonitor, VehicleECU",
+        "priority": "critical",
+        "domain": "Automotive Powertrain"
+      }
+    },
+    {
+      "uri": "uc-as-003",
+      "type": "UseCase",
+      "attributes": {
+        "name": "Electronic Stability Control Intervention",
+        "description": "During cornering, the ADAS Controller reads YawRate, LatAccel, and SteeringAngle from the Chassis-CAN-Bus. If vehicle trajectory deviates from driver intent, it applies selective braking to individual wheels to restore stability.",
+        "actor": "ADASController, BrakeActuator, Driver",
+        "priority": "critical",
+        "domain": "Automotive ADAS"
+      }
+    },
+    {
+      "uri": "sc-as-001",
+      "type": "Scenario",
+      "attributes": {
+        "name": "Normal Acceleration — Torque Coordination",
+        "description": "Driver applies 60% throttle from standstill. ECU reads ThrottlePos (60%) and EngineSpeed (800 rpm idle) at 100 Hz. TorqueManagement computes blended torque split: 40% engine, 60% motor. MCU receives torque command within 15 ms. Vehicle accelerates smoothly to target speed.",
+        "precondition": "Vehicle at standstill, SOC > 30%, engine at idle, no fault DTCs active",
+        "postcondition": "Target torque achieved, all signals within nominal range, no fault events",
+        "steps": "1. Driver depresses throttle to 60% | 2. ThrottlePos broadcast on Powertrain-CAN-Bus | 3. TorqueManagement receives signal (≤2 ms) | 4. Compute torque arbitration | 5. Issue motor torque command to MCU | 6. MCU ramps motor current | 7. MotorTorque feedback confirms target reached"
+      }
+    },
+    {
+      "uri": "sc-as-002",
+      "type": "Scenario",
+      "attributes": {
+        "name": "Battery Overvoltage Fault — Contactor Trip",
+        "description": "During regenerative braking at high SOC, PackVoltage rises toward 422 V. BMS detects threshold breach (>420 V), immediately opens main contactors, sets DTC P0A0F, and broadcasts fault frame on Battery-Management-Bus within 10 ms.",
+        "precondition": "SOC > 95%, regenerative braking active, coolant temperature nominal",
+        "postcondition": "Main contactors open, regen disabled, DTC logged, driver alert active",
+        "steps": "1. Regen braking raises PackVoltage | 2. BMS reads PackVoltage at 10 Hz | 3. Voltage threshold 420 V exceeded | 4. BMS triggers contactor open command (≤5 ms) | 5. Motor regen disabled | 6. DTC P0A0F set and broadcast | 7. Instrument cluster alert illuminated"
+      }
+    },
+    {
+      "uri": "sc-as-003",
+      "type": "Scenario",
+      "attributes": {
+        "name": "ESC Intervention — Oversteer Correction",
+        "description": "Vehicle enters a high-speed corner at 80 km/h. Rear loses traction; YawRate rises 8 deg/s above model prediction. ADAS Controller detects deviation, applies front-left brake 40 bar within 12 ms to restore yaw moment. SteeringAngle confirms driver correction.",
+        "precondition": "Vehicle speed > 60 km/h, ESC enabled, no sensor faults on chassis-bus",
+        "postcondition": "Yaw rate returned to predicted value ±2 deg/s, no wheel lockup, driver alerted via HMI",
+        "steps": "1. YawRate and LatAccel sampled at 100 Hz | 2. ADAS detects yaw deviation > 4 deg/s | 3. ESC intervention triggered | 4. Selective brake pressure applied to front-left (40 bar, ≤12 ms) | 5. VehicleSpeed and YawRate monitored for convergence | 6. Intervention released when deviation < 1 deg/s | 7. ESC event logged to DTC memory"
+      }
+    },
+    {
+      "uri": "req-as-001",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-001",
+        "name": "EngineSpeed Signal Accuracy",
+        "description": "When the engine is running, the ECU shall transmit EngineSpeed with an accuracy of ±25 rpm at a rate of 100 Hz on the Powertrain-CAN-Bus.",
+        "ears_pattern": "EVENT-DRIVEN",
+        "regulation": "ISO-26262-5",
+        "safety_level": "ASIL-C",
+        "priority": "Critical",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-002",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-002",
+        "name": "HV Battery Overvoltage Protection",
+        "description": "The BMS shall assert a fault and open the battery contactors within 10 ms when PackVoltage exceeds 420 V or PackCurrent exceeds 300 A.",
+        "ears_pattern": "WHILE",
+        "regulation": "ISO-26262-3",
+        "safety_level": "ASIL-D",
+        "priority": "Critical",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-003",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-003",
+        "name": "Torque Demand Response Latency",
+        "description": "When the driver applies throttle, the TorqueManagement function shall command the motor controller within 20 ms of receiving ThrottlePos on the Powertrain-CAN-Bus.",
+        "ears_pattern": "EVENT-DRIVEN",
+        "regulation": "ISO-26262-5",
+        "safety_level": "ASIL-D",
+        "priority": "Critical",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-004",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-004",
+        "name": "Engine Overheat Shutdown",
+        "description": "While EngineTemp exceeds 210 degC, the ThermalManagement function shall reduce engine load to 30% of maximum within 500 ms and generate a DTC.",
+        "ears_pattern": "WHILE",
+        "regulation": "UNECE-R83",
+        "safety_level": "ASIL-B",
+        "priority": "High",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-005",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-005",
+        "name": "ESC Activation on Yaw Deviation",
+        "description": "When the measured YawRate deviates from the model-predicted value by more than 4 deg/s, the VehicleStabilityControl function shall apply selective wheel braking within 15 ms.",
+        "ears_pattern": "EVENT-DRIVEN",
+        "regulation": "UNECE-R13H",
+        "safety_level": "ASIL-D",
+        "priority": "Critical",
+        "verification_method": "Analysis",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-006",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-006",
+        "name": "State-of-Charge Accuracy",
+        "description": "The BMS shall maintain SOC estimation accuracy within ±3% across the full operating temperature range of -20 degC to 60 degC.",
+        "ears_pattern": "UBIQUITOUS",
+        "regulation": "ISO-6469-1",
+        "safety_level": "ASIL-B",
+        "priority": "High",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-007",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-007",
+        "name": "Powertrain CAN Bus Fault Tolerance",
+        "description": "The Powertrain-CAN-Bus shall maintain message delivery within 5 ms end-to-end latency under a bus load of up to 70% with no single-point failures causing loss of safety-critical signals.",
+        "ears_pattern": "UBIQUITOUS",
+        "regulation": "ISO-26262-5",
+        "safety_level": "ASIL-C",
+        "priority": "Critical",
+        "verification_method": "Analysis",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-008",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-008",
+        "name": "Lateral Stability Envelope",
+        "description": "Where the vehicle is operating above 30 km/h, the VehicleStabilityControl function shall prevent lateral acceleration from exceeding 0.8 g during normal maneuvers.",
+        "ears_pattern": "WHERE",
+        "regulation": "UNECE-R13H",
+        "safety_level": "ASIL-D",
+        "priority": "Critical",
+        "verification_method": "Demonstration",
+        "status": "Proposed"
+      }
+    },
+    {
+      "uri": "req-as-009",
+      "type": "Requirement",
+      "attributes": {
+        "identifier": "REQ-AS-009",
+        "name": "ADAS Sensor Degradation Notification",
+        "description": "When a chassis-bus sensor signal is absent for more than 100 ms, the ADAS Controller shall switch to degraded mode and alert the driver via the instrument cluster within 500 ms.",
+        "ears_pattern": "EVENT-DRIVEN",
+        "regulation": "ISO-26262-5",
+        "safety_level": "ASIL-D",
+        "priority": "Critical",
+        "verification_method": "Test",
+        "status": "Proposed"
+      }
     }
   ],
   "relations": [
@@ -391,6 +593,45 @@
     {"source": "func-stability", "predicate": "consumes", "target": "sig-lat-accel"},
     {"source": "func-stability", "predicate": "consumes", "target": "sig-steering-angle"},
     {"source": "func-stability", "predicate": "consumes", "target": "sig-vehicle-speed"},
-    {"source": "func-stability", "predicate": "allocatedTo", "target": "adas-controller"}
+    {"source": "func-stability", "predicate": "allocatedTo", "target": "adas-controller"},
+    {"source": "req-as-001", "predicate": "derivedFrom", "target": "sig-engine-speed"},
+    {"source": "req-as-001", "predicate": "allocatedTo", "target": "ecu-engine"},
+    {"source": "req-as-002", "predicate": "derivedFrom", "target": "sig-pack-voltage"},
+    {"source": "req-as-002", "predicate": "derivedFrom", "target": "sig-pack-current"},
+    {"source": "req-as-002", "predicate": "allocatedTo", "target": "bms-master"},
+    {"source": "req-as-003", "predicate": "derivedFrom", "target": "sig-throttle-pos"},
+    {"source": "req-as-003", "predicate": "derivedFrom", "target": "sig-motor-torque"},
+    {"source": "req-as-003", "predicate": "satisfies", "target": "func-torque-mgmt"},
+    {"source": "req-as-004", "predicate": "derivedFrom", "target": "sig-engine-temp"},
+    {"source": "req-as-004", "predicate": "satisfies", "target": "func-thermal-mgmt"},
+    {"source": "req-as-005", "predicate": "derivedFrom", "target": "sig-yaw-rate"},
+    {"source": "req-as-005", "predicate": "derivedFrom", "target": "sig-steering-angle"},
+    {"source": "req-as-005", "predicate": "satisfies", "target": "func-stability"},
+    {"source": "req-as-006", "predicate": "derivedFrom", "target": "sig-soc"},
+    {"source": "req-as-006", "predicate": "allocatedTo", "target": "bms-master"},
+    {"source": "req-as-007", "predicate": "derivedFrom", "target": "powertrain-bus"},
+    {"source": "req-as-007", "predicate": "allocatedTo", "target": "ecu-engine"},
+    {"source": "req-as-007", "predicate": "allocatedTo", "target": "mcu-inverter"},
+    {"source": "req-as-008", "predicate": "derivedFrom", "target": "sig-vehicle-speed"},
+    {"source": "req-as-008", "predicate": "derivedFrom", "target": "sig-lat-accel"},
+    {"source": "req-as-008", "predicate": "satisfies", "target": "func-stability"},
+    {"source": "req-as-009", "predicate": "derivedFrom", "target": "chassis-bus"},
+    {"source": "req-as-009", "predicate": "allocatedTo", "target": "adas-controller"},
+    {"source": "uc-as-001", "predicate": "allocatedTo", "target": "func-torque-mgmt"},
+    {"source": "uc-as-001", "predicate": "involves", "target": "ecu-engine"},
+    {"source": "uc-as-001", "predicate": "involves", "target": "mcu-inverter"},
+    {"source": "uc-as-002", "predicate": "allocatedTo", "target": "bms-master"},
+    {"source": "uc-as-002", "predicate": "involves", "target": "sig-pack-voltage"},
+    {"source": "uc-as-002", "predicate": "involves", "target": "sig-pack-current"},
+    {"source": "uc-as-003", "predicate": "allocatedTo", "target": "func-stability"},
+    {"source": "uc-as-003", "predicate": "involves", "target": "adas-controller"},
+    {"source": "sc-as-001", "predicate": "realizes", "target": "uc-as-001"},
+    {"source": "sc-as-001", "predicate": "involves", "target": "sig-throttle-pos"},
+    {"source": "sc-as-001", "predicate": "involves", "target": "sig-motor-torque"},
+    {"source": "sc-as-002", "predicate": "realizes", "target": "uc-as-002"},
+    {"source": "sc-as-002", "predicate": "involves", "target": "sig-pack-voltage"},
+    {"source": "sc-as-003", "predicate": "realizes", "target": "uc-as-003"},
+    {"source": "sc-as-003", "predicate": "involves", "target": "sig-yaw-rate"},
+    {"source": "sc-as-003", "predicate": "involves", "target": "sig-lat-accel"}
   ]
 }
