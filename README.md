@@ -99,7 +99,7 @@ Open **http://localhost:8080**.
 
 - `docker-compose.yml` — pulls `radsilent/vectorowl:latest` from Docker Hub
 - `Caddyfile` — reverse proxy for API + static UI
-- `.env.example` — license key and optional LLM config
+- `.env.example` — license key, LLM config, and optional feature flags
 
 ---
 
@@ -123,11 +123,59 @@ docker logs -f vectorowl-caddy
 
 ---
 
+## Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `VECTOROWL_LICENSE_KEY` | *(required)* | License activation key |
+| `VECTOROWL_PORT` | `8080` | HTTP port |
+| `VECTOROWL_HOST` | `0.0.0.0` | Bind address |
+| `VECTOROWL_REQUIRE_TORCH_GPU` | `false` | Set `true` for GPU-accelerated hosts |
+| `VECTOROWL_STARTUP_GRAPH` | `demo` | Preload `demo` graph on startup (set empty to start blank) |
+| `VECTOROWL_ISOLATE_BY_SESSION` | `false` | Multi-tenant isolation — each API key gets its own isolated workspace |
+| `VECTOROWL_QDRANT_URL` | *(unset)* | Qdrant endpoint (e.g. `http://qdrant:6333`) for persistent vector storage |
+| `VECTOROWL_LLM_PROVIDER` | *(unset)* | `openai`, `anthropic`, or `ollama` for AI synthesis |
+| `VECTOROWL_LLM_API_KEY` | *(unset)* | API key for the LLM provider |
+| `OPENAI_API_KEY` | *(unset)* | OpenAI key (shorthand when provider is `openai`) |
+| `ANTHROPIC_API_KEY` | *(unset)* | Anthropic key (shorthand when provider is `anthropic`) |
+
+---
+
+## Multi-tenant isolation (shared / demo servers)
+
+When running a shared instance where multiple users connect with different API keys, enable workspace isolation:
+
+```env
+VECTOROWL_ISOLATE_BY_SESSION=true
+VECTOROWL_ADMIN_KEY=your-admin-key
+VECTOROWL_EDITOR_KEY=user-a-key
+```
+
+Each distinct API key gets a fully isolated graph workspace — entities, relations, and vector searches are scoped per key. Users cannot see each other's uploaded models.
+
+---
+
+## Optional: Qdrant persistent vector store
+
+For large-scale deployments (50k+ entities), add Qdrant for production-grade ANN with hybrid RRF retrieval:
+
+1. Uncomment the `qdrant` service block in `docker-compose.yml`
+2. Uncomment `qdrant_data` in the `volumes` section
+3. Add to your `.env`:
+
+```env
+VECTOROWL_QDRANT_URL=http://qdrant:6333
+```
+
+VectorOWL automatically creates per-kind collections (`vectorowl_requirement`, etc.) and a cross-kind `vectorowl_entities_all` collection on first use. Without Qdrant, the in-process HNSW index handles vector search (suitable for most deployments).
+
+---
+
 ## Troubleshooting
 
 ### `docker: unknown command: docker compose`
 
-Your installation uses the standalone `docker-compose` binary (older style). Simply replace `docker compose` with `docker-compose` (hyphen) in every command:
+Your installation uses the standalone `docker-compose` binary (older style). Replace `docker compose` with `docker-compose` in every command:
 
 ```bash
 docker-compose up -d
@@ -135,7 +183,7 @@ docker-compose pull
 docker-compose logs -f
 ```
 
-If you'd rather use the modern plugin syntax, install it:
+To install the modern plugin:
 
 ```bash
 sudo apt-get install docker-compose-plugin   # Debian/Ubuntu

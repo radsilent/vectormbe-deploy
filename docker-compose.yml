@@ -11,12 +11,40 @@ services:
       - VECTOROWL_HOST=0.0.0.0
       - VECTOROWL_REQUIRE_TORCH_GPU=false
       - VECTOROWL_STARTUP_GRAPH=demo
+      # Multi-tenant isolation: set to true on shared/demo servers so each
+      # API key gets its own isolated graph workspace.
+      - VECTOROWL_ISOLATE_BY_SESSION=${VECTOROWL_ISOLATE_BY_SESSION:-false}
+      # Optional: persistent vector store. Leave blank to use the in-process
+      # HNSW index. Set to http://qdrant:6333 when running the Qdrant service below.
+      - VECTOROWL_QDRANT_URL=${VECTOROWL_QDRANT_URL:-}
+      # LLM provider for AI synthesis and semantic embeddings
       - VECTOROWL_LLM_PROVIDER=${VECTOROWL_LLM_PROVIDER:-}
       - VECTOROWL_LLM_API_KEY=${VECTOROWL_LLM_API_KEY:-}
       - VECTOROWL_LLM_ENDPOINT=${VECTOROWL_LLM_ENDPOINT:-}
       - VECTOROWL_LLM_MODEL=${VECTOROWL_LLM_MODEL:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    depends_on:
+      qdrant:
+        condition: service_healthy
+        required: false
+
+  # Optional: Qdrant persistent vector store.
+  # Uncomment this service and set VECTOROWL_QDRANT_URL=http://qdrant:6333 in
+  # your .env to enable production-scale ANN with hybrid RRF retrieval.
+  # Without it, VectorOWL uses an in-process HNSW index (fine for most use cases).
+  #
+  # qdrant:
+  #   image: qdrant/qdrant:v1.18.0
+  #   container_name: vectorowl-qdrant
+  #   restart: unless-stopped
+  #   volumes:
+  #     - qdrant_data:/qdrant/storage
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:6333/readyz"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
 
   caddy:
     image: caddy:2-alpine
@@ -37,3 +65,5 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  # Uncomment when enabling Qdrant:
+  # qdrant_data:
