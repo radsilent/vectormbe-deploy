@@ -1,219 +1,170 @@
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix vowl: <http://vectorowl.org/ontology/engineering#> .
-@prefix cad: <http://vectorowl.org/ontology/cad#> .
-@prefix cae: <http://vectorowl.org/ontology/cae#> .
-@prefix plm: <http://vectorowl.org/ontology/plm#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix cad:  <http://vectorowl.org/ontology/cad#> .
+@prefix cae:  <http://vectorowl.org/ontology/cae#> .
+@prefix plm:  <http://vectorowl.org/ontology/plm#> .
+@prefix ex:   <http://vectorowl.org/demo/eng-v2#> .
 
-# ─── Classes ──────────────────────────────────────────────────────────────────
+# ─── Ontology ─────────────────────────────────────────────────────────────────
+<http://vectorowl.org/demo/engineering-v2> a owl:Ontology ;
+    rdfs:label "Engineering Lifecycle Demo v2" ;
+    rdfs:comment "CAD/CAE/PLM instance dataset for VectorMBE import demos." .
 
-cad:Part a owl:Class ;
-    rdfs:label "CAD Part" ;
-    rdfs:comment "A discrete solid body designed in a CAD system." .
+# ─── Materials ────────────────────────────────────────────────────────────────
+ex:mat_al7075 a owl:NamedIndividual , plm:Material ;
+    rdfs:label "Al 7075-T6" ;
+    plm:hasYieldStrength "503000000.0"^^xsd:decimal ;
+    plm:hasDensity "2810.0"^^xsd:decimal ;
+    plm:hasYoungsModulus "71700000000.0"^^xsd:decimal ;
+    plm:hasPoissonRatio "0.33"^^xsd:decimal ;
+    plm:hasDescription "High-strength aerospace aluminium alloy." .
 
-cad:Assembly a owl:Class ;
-    rdfs:label "CAD Assembly" ;
-    rdfs:comment "A collection of parts and sub-assemblies." .
+ex:mat_cfrp a owl:NamedIndividual , plm:Material ;
+    rdfs:label "CFRP T700/M21" ;
+    plm:hasYieldStrength "2000000000.0"^^xsd:decimal ;
+    plm:hasDensity "1580.0"^^xsd:decimal ;
+    plm:hasYoungsModulus "135000000000.0"^^xsd:decimal ;
+    plm:hasPoissonRatio "0.28"^^xsd:decimal ;
+    plm:hasDescription "Carbon fibre reinforced polymer — aerospace primary structure." .
 
-cad:Surface a owl:Class ;
-    rdfs:label "CAD Surface" ;
-    rdfs:comment "A topological face or surface region on a part." .
+ex:mat_inco718 a owl:NamedIndividual , plm:Material ;
+    rdfs:label "Inconel 718" ;
+    plm:hasYieldStrength "1100000000.0"^^xsd:decimal ;
+    plm:hasDensity "8190.0"^^xsd:decimal ;
+    plm:hasYoungsModulus "200000000000.0"^^xsd:decimal ;
+    plm:hasPoissonRatio "0.29"^^xsd:decimal ;
+    plm:hasDescription "Nickel superalloy for high-temperature turbine applications." .
 
-cae:SimulationRun a owl:Class ;
-    rdfs:label "Simulation Run" ;
-    rdfs:comment "A single execution of a CAE solver with defined inputs and outputs." .
+# ─── CAD Parts ────────────────────────────────────────────────────────────────
+ex:part_wing_spar a owl:NamedIndividual , cad:Part ;
+    rdfs:label "Main Wing Spar" ;
+    cad:hasMaterial ex:mat_cfrp ;
+    cad:hasMass "47.3"^^xsd:decimal ;
+    cad:hasVolume "29937.0"^^xsd:decimal ;
+    cad:hasRevision "C" ;
+    plm:hasDescription "Primary load-bearing spar running span-wise through the wing box." .
 
-cae:BoundaryCondition a owl:Class ;
-    rdfs:label "Boundary Condition" ;
-    rdfs:comment "A constraint or load applied to a model in a simulation." .
+ex:part_rib_001 a owl:NamedIndividual , cad:Part ;
+    rdfs:label "Wing Rib 001" ;
+    cad:hasMaterial ex:mat_al7075 ;
+    cad:hasMass "3.12"^^xsd:decimal ;
+    cad:hasVolume "1110.0"^^xsd:decimal ;
+    cad:hasRevision "B" .
 
-cae:NamedSelection a owl:Class ;
-    rdfs:label "Named Selection" ;
-    rdfs:comment "A user-defined set of geometric entities (faces, edges, bodies) identified by name for applying loads or constraints." .
+ex:part_rib_002 a owl:NamedIndividual , cad:Part ;
+    rdfs:label "Wing Rib 002" ;
+    cad:hasMaterial ex:mat_al7075 ;
+    cad:hasMass "2.88"^^xsd:decimal ;
+    cad:hasVolume "1024.0"^^xsd:decimal ;
+    cad:hasRevision "B" .
 
-cae:SimulationResult a owl:Class ;
-    rdfs:label "Simulation Result" ;
-    rdfs:comment "Aggregated results from a simulation run (max stress, max displacement, etc.)." .
+ex:part_skin_upper a owl:NamedIndividual , cad:Part ;
+    rdfs:label "Upper Wing Skin Panel" ;
+    cad:hasMaterial ex:mat_cfrp ;
+    cad:hasMass "18.5"^^xsd:decimal ;
+    cad:hasRevision "A" .
 
-cae:SimulationNode a owl:Class ;
-    rdfs:label "Simulation Node" ;
-    rdfs:comment "A single nodal result point from a finite element mesh." .
+ex:part_skin_lower a owl:NamedIndividual , cad:Part ;
+    rdfs:label "Lower Wing Skin Panel" ;
+    cad:hasMaterial ex:mat_cfrp ;
+    cad:hasMass "16.2"^^xsd:decimal ;
+    cad:hasRevision "A" .
 
-plm:Material a owl:Class ;
-    rdfs:label "Engineering Material" ;
-    rdfs:comment "A material with certified mechanical, thermal, and chemical properties." .
+ex:part_turbine_blade a owl:NamedIndividual , cad:Part ;
+    rdfs:label "HPT Rotor Blade" ;
+    cad:hasMaterial ex:mat_inco718 ;
+    cad:hasMass "0.48"^^xsd:decimal ;
+    cad:hasRevision "D" ;
+    plm:hasDescription "High-pressure turbine rotor blade; operates at 1450°C TIT." .
 
-plm:Requirement a owl:Class ;
-    rdfs:label "Requirement" ;
-    rdfs:comment "A formal system or component requirement." .
+# ─── CAD Assembly ─────────────────────────────────────────────────────────────
+ex:asm_wing_box a owl:NamedIndividual , cad:Assembly ;
+    rdfs:label "Wing Box Assembly" ;
+    cad:hasMass "88.0"^^xsd:decimal ;
+    cad:hasRevision "B" ;
+    cad:hasPart ex:part_wing_spar ;
+    cad:hasPart ex:part_rib_001 ;
+    cad:hasPart ex:part_rib_002 ;
+    cad:hasPart ex:part_skin_upper ;
+    cad:hasPart ex:part_skin_lower .
 
-# ─── Object Properties ────────────────────────────────────────────────────────
+# ─── Simulation Boundary Conditions ───────────────────────────────────────────
+ex:bc_fixed_root a owl:NamedIndividual , cae:BoundaryCondition ;
+    rdfs:label "Fixed Root BC" ;
+    cae:bcType "Fixed Support" ;
+    cae:appliedTo ex:part_wing_spar .
 
-cad:hasMaterial a owl:ObjectProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range plm:Material ;
-    rdfs:label "has material" .
+ex:bc_limit_load a owl:NamedIndividual , cae:BoundaryCondition ;
+    rdfs:label "2.5g Limit Load" ;
+    cae:bcType "Force" ;
+    cae:magnitude "450000.0"^^xsd:decimal ;
+    cae:appliedTo ex:part_skin_upper .
 
-cad:hasSurface a owl:ObjectProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range cad:Surface ;
-    rdfs:label "has surface" .
+# ─── Simulation Runs ──────────────────────────────────────────────────────────
+ex:sim_static_001 a owl:NamedIndividual , cae:SimulationRun ;
+    rdfs:label "Static Strength — 2.5g Limit" ;
+    cae:solver "ANSYS Mechanical 2024 R1" ;
+    cae:meshElements "412000"^^xsd:integer ;
+    cae:wallClockSeconds "1842"^^xsd:integer ;
+    cae:converged "true"^^xsd:boolean ;
+    cae:hasBoundaryCondition ex:bc_fixed_root ;
+    cae:hasBoundaryCondition ex:bc_limit_load .
 
-cae:analyzes a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cad:Part ;
-    rdfs:label "analyzes" .
+ex:sim_modal_001 a owl:NamedIndividual , cae:SimulationRun ;
+    rdfs:label "Free-Vibration Modal Analysis" ;
+    cae:solver "ANSYS Mechanical 2024 R1" ;
+    cae:meshElements "380000"^^xsd:integer ;
+    cae:wallClockSeconds "920"^^xsd:integer ;
+    cae:converged "true"^^xsd:boolean .
 
-cae:hasBoundaryCondition a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cae:BoundaryCondition ;
-    rdfs:label "has boundary condition" .
+# ─── Simulation Results ───────────────────────────────────────────────────────
+ex:result_static_001 a owl:NamedIndividual , cae:SimulationResult ;
+    rdfs:label "Static Result — Max Von Mises" ;
+    cae:maxVonMises "486000000.0"^^xsd:decimal ;
+    cae:maxDisplacement "0.0341"^^xsd:decimal ;
+    cae:safetyFactor "1.034"^^xsd:decimal ;
+    cae:fromRun ex:sim_static_001 .
 
-cae:hasNamedSelection a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cae:NamedSelection ;
-    rdfs:label "has named selection" .
+ex:result_modal_001 a owl:NamedIndividual , cae:SimulationResult ;
+    rdfs:label "Modal Result — 1st Bending Frequency" ;
+    cae:firstNaturalFrequency "8.72"^^xsd:decimal ;
+    cae:fromRun ex:sim_modal_001 .
 
-cae:hasResult a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cae:SimulationResult ;
-    rdfs:label "has result" .
+# ─── PLM Items ────────────────────────────────────────────────────────────────
+ex:item_wing_box_plm a owl:NamedIndividual , plm:Item ;
+    rdfs:label "Wing Box — PLM Item" ;
+    plm:itemNumber "WB-001-A" ;
+    plm:lifecycle "In Design" ;
+    plm:owner "Structures Team" ;
+    plm:refersTo ex:asm_wing_box .
 
-cae:producesNodeResult a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cae:SimulationNode ;
-    rdfs:label "produces node result" .
+ex:chg_rev_b a owl:NamedIndividual , plm:ChangeOrder ;
+    rdfs:label "ECO-2024-0312 — Rib gauge change" ;
+    plm:changeReason "Mass reduction per weight budget rev B" ;
+    plm:affectsItem ex:item_wing_box_plm .
 
-cae:mapsToCADSurface a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range cad:Surface ;
-    rdfs:label "maps to CAD surface" .
+# ─── Requirements ─────────────────────────────────────────────────────────────
+ex:req_static_strength a owl:NamedIndividual , plm:Requirement ;
+    rdfs:label "Static Strength" ;
+    plm:identifier "REQ-STR-001" ;
+    plm:text "The wing box shall withstand 2.5g limit load with a margin of safety ≥ 0." ;
+    plm:priority "High" ;
+    plm:status "Verified" ;
+    plm:verifiedBy ex:result_static_001 .
 
-cae:appliedTo a owl:ObjectProperty ;
-    rdfs:domain cae:BoundaryCondition ;
-    rdfs:range cae:NamedSelection ;
-    rdfs:label "applied to" .
+ex:req_flutter_margin a owl:NamedIndividual , plm:Requirement ;
+    rdfs:label "Flutter Margin" ;
+    plm:identifier "REQ-AER-007" ;
+    plm:text "First natural frequency shall exceed 8 Hz to maintain flutter clearance." ;
+    plm:priority "High" ;
+    plm:status "Verified" ;
+    plm:verifiedBy ex:result_modal_001 .
 
-plm:satisfiesRequirement a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationResult ;
-    rdfs:range plm:Requirement ;
-    rdfs:label "satisfies requirement" .
-
-plm:derivedFrom a owl:ObjectProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range cad:Part ;
-    rdfs:label "derived from" .
-
-# ─── Datatype Properties ──────────────────────────────────────────────────────
-
-cad:hasVolume a owl:DatatypeProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "volume in cubic millimeters" .
-
-cad:hasMass a owl:DatatypeProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "mass in kilograms" .
-
-cad:hasCADFileURI a owl:DatatypeProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range xsd:anyURI ;
-    rdfs:label "CAD file URI" .
-
-cad:hasSTEPFileURI a owl:DatatypeProperty ;
-    rdfs:domain cad:Part ;
-    rdfs:range xsd:anyURI ;
-    rdfs:label "STEP file URI" .
-
-cae:hasUnitSystem a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range xsd:string ;
-    rdfs:label "unit system" .
-
-cae:hasSolver a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range xsd:string ;
-    rdfs:label "solver name" .
-
-cae:hasSolverVersion a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range xsd:string ;
-    rdfs:label "solver version" .
-
-cae:hasMeshDensity a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationRun ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "characteristic mesh element size" .
-
-cae:hasLoadValue a owl:DatatypeProperty ;
-    rdfs:domain cae:BoundaryCondition ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "load magnitude" .
-
-cae:hasLoadDirection a owl:DatatypeProperty ;
-    rdfs:domain cae:BoundaryCondition ;
-    rdfs:range xsd:string ;
-    rdfs:label "load direction vector" .
-
-cae:hasMaxStress a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationResult ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "maximum von Mises stress in Pa" .
-
-cae:hasMaxDisplacement a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationResult ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "maximum displacement in meters" .
-
-cae:hasSafetyFactor a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationResult ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "minimum safety factor" .
-
-cae:nodeX a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "node X coordinate in meters" .
-
-cae:nodeY a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "node Y coordinate in meters" .
-
-cae:nodeZ a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "node Z coordinate in meters" .
-
-cae:nodeStress a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "node von Mises stress in Pa" .
-
-cae:nodeDisplacement a owl:DatatypeProperty ;
-    rdfs:domain cae:SimulationNode ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "node displacement magnitude in meters" .
-
-plm:hasYieldStrength a owl:DatatypeProperty ;
-    rdfs:domain plm:Material ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "yield strength in Pa" .
-
-plm:hasDensity a owl:DatatypeProperty ;
-    rdfs:domain plm:Material ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "density in kg/m³" .
-
-plm:hasYoungsModulus a owl:DatatypeProperty ;
-    rdfs:domain plm:Material ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "Young's modulus in Pa" .
-
-plm:hasPoissonRatio a owl:DatatypeProperty ;
-    rdfs:domain plm:Material ;
-    rdfs:range xsd:decimal ;
-    rdfs:label "Poisson's ratio (dimensionless)" .
+ex:req_mass_budget a owl:NamedIndividual , plm:Requirement ;
+    rdfs:label "Wing Box Mass Budget" ;
+    plm:identifier "REQ-MAS-002" ;
+    plm:text "Wing box structural mass shall not exceed 90 kg." ;
+    plm:priority "Medium" ;
+    plm:status "Open" .

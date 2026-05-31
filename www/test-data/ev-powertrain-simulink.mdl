@@ -1,402 +1,682 @@
 Model {
-  Name "EV_Powertrain_Control"
-  Description "EV powertrain control model: driver demand processing, torque arbitration, motor control, and regenerative braking."
+  Name                    "EV_Powertrain_Control"
+  Version                 9.0
+  Description             "EV powertrain control model: driver demand processing, torque arbitration, motor control, and regenerative braking."
+  SolverType              "FixedStep"
+  FixedStep               "0.001"
+  StartTime               "0.0"
+  StopTime                "100.0"
 
   System {
-    Name "EV_Powertrain_Control"
-    Description "Top-level system"
+    Name                  "EV_Powertrain_Control"
 
-    SubSystem {
-      Name "DriverDemandProcessing"
-      Description "Converts pedal position to torque and power demand"
-      Tag "driver-demand"
-
-      Inport {
-        Name "AcceleratorPedalPos_pct"
-        Port "1"
-      }
-
-      Inport {
-        Name "BrakePedalPos_pct"
-        Port "2"
-      }
-
-      Inport {
-        Name "VehicleSpeed_kph"
-        Port "3"
-      }
-
-      MATLABFunction {
-        Name "PedalMapInterpolation"
-        Description "2D look-up of requested torque from pedal position and vehicle speed"
-      }
-
-      MATLABFunction {
-        Name "BrakePedalDecoder"
-        Description "Splits brake demand into friction and regenerative fractions"
-      }
-
-      Outport {
-        Name "DemandTorque_Nm"
-        Port "1"
-      }
-
-      Outport {
-        Name "RegenDemand_Nm"
-        Port "2"
-      }
-
-      Line {
-        SrcBlock "AcceleratorPedalPos_pct"
-        DstBlock "PedalMapInterpolation"
-      }
-
-      Line {
-        SrcBlock "VehicleSpeed_kph"
-        DstBlock "PedalMapInterpolation"
-      }
-
-      Line {
-        SrcBlock "BrakePedalPos_pct"
-        DstBlock "BrakePedalDecoder"
-      }
-
-      Line {
-        SrcBlock "PedalMapInterpolation"
-        DstBlock "DemandTorque_Nm"
-      }
-
-      Line {
-        SrcBlock "BrakePedalDecoder"
-        DstBlock "RegenDemand_Nm"
-      }
-    }
-
-    SubSystem {
-      Name "TorqueArbitration"
-      Description "Arbitrates between driver demand, traction control, and stability intervention"
-      Tag "torque-arbitration"
-
-      Inport {
-        Name "DemandTorque_Nm"
-        Port "1"
-      }
-
-      Inport {
-        Name "RegenDemand_Nm"
-        Port "2"
-      }
-
-      Inport {
-        Name "SoC_pct"
-        Port "3"
-      }
-
-      Inport {
-        Name "MotorTemp_C"
-        Port "4"
-      }
-
-      MATLABFunction {
-        Name "PowerLimitDerating"
-        Description "Reduces available torque based on SoC floor and motor over-temperature derating"
-        SampleTime "0.01"
-      }
-
-      MATLABFunction {
-        Name "TractionControlInterventionLogic"
-        Description "Computes wheel-slip torque reduction commands from wheel speed sensors"
-        SampleTime "0.005"
-      }
-
-      MATLABFunction {
-        Name "RegenerativeBrakingArbitration"
-        Description "Balances regen torque against friction brake allocation and battery charge acceptance"
-        SampleTime "0.01"
-      }
-
-      Gain {
-        Name "TorqueSafetyMargin"
-        Gain "0.95"
-        Description "5% safety headroom on peak motor torque"
-      }
-
-      Outport {
-        Name "CommandedTorque_Nm"
-        Port "1"
-      }
-
-      Outport {
-        Name "RegenCmd_Nm"
-        Port "2"
-      }
-
-      Line {
-        SrcBlock "DemandTorque_Nm"
-        DstBlock "PowerLimitDerating"
-      }
-
-      Line {
-        SrcBlock "SoC_pct"
-        DstBlock "PowerLimitDerating"
-      }
-
-      Line {
-        SrcBlock "MotorTemp_C"
-        DstBlock "PowerLimitDerating"
-      }
-
-      Line {
-        SrcBlock "PowerLimitDerating"
-        DstBlock "TractionControlInterventionLogic"
-      }
-
-      Line {
-        SrcBlock "RegenDemand_Nm"
-        DstBlock "RegenerativeBrakingArbitration"
-      }
-
-      Line {
-        SrcBlock "SoC_pct"
-        DstBlock "RegenerativeBrakingArbitration"
-      }
-
-      Line {
-        SrcBlock "TractionControlInterventionLogic"
-        DstBlock "TorqueSafetyMargin"
-      }
-
-      Line {
-        SrcBlock "TorqueSafetyMargin"
-        DstBlock "CommandedTorque_Nm"
-      }
-
-      Line {
-        SrcBlock "RegenerativeBrakingArbitration"
-        DstBlock "RegenCmd_Nm"
+    Block {
+      BlockType           SubSystem
+      Name                "DriverDemandProcessing"
+      SID                 "1"
+      Description         "Converts accelerator/brake pedal positions and vehicle speed into requested torque and regenerative braking demand."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "AcceleratorPedalPos_pct"
+          SID             "101"
+          Port            "1"
+          Description     "Accelerator pedal position in percent (0–100 %)"
+        }
+        Block {
+          BlockType       Inport
+          Name            "BrakePedalPos_pct"
+          SID             "102"
+          Port            "2"
+          Description     "Brake pedal position in percent (0–100 %)"
+        }
+        Block {
+          BlockType       Inport
+          Name            "VehicleSpeed_kph"
+          SID             "103"
+          Port            "3"
+          Description     "Longitudinal vehicle speed in km/h from ABS wheel-speed sensors"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "PedalMapInterpolation"
+          SID             "104"
+          Description     "2D interpolation of requested drive torque from pedal position and vehicle speed using calibration lookup table"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "BrakePedalDecoder"
+          SID             "105"
+          Description     "Splits total brake demand into regenerative fraction (sent to motor) and friction fraction (sent to foundation brakes)"
+        }
+        Block {
+          BlockType       Outport
+          Name            "DemandTorque_Nm"
+          SID             "106"
+          Port            "1"
+          Description     "Drive torque demand to torque arbitration (Nm)"
+        }
+        Block {
+          BlockType       Outport
+          Name            "RegenDemand_Nm"
+          SID             "107"
+          Port            "2"
+          Description     "Regenerative braking torque demand (Nm)"
+        }
+        Line {
+          SrcBlock        "AcceleratorPedalPos_pct"
+          SrcPort         1
+          DstBlock        "PedalMapInterpolation"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "VehicleSpeed_kph"
+          SrcPort         1
+          DstBlock        "PedalMapInterpolation"
+          DstPort         2
+        }
+        Line {
+          SrcBlock        "PedalMapInterpolation"
+          SrcPort         1
+          DstBlock        "DemandTorque_Nm"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "BrakePedalPos_pct"
+          SrcPort         1
+          DstBlock        "BrakePedalDecoder"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "BrakePedalDecoder"
+          SrcPort         1
+          DstBlock        "RegenDemand_Nm"
+          DstPort         1
+        }
       }
     }
 
-    SubSystem {
-      Name "MotorController"
-      Description "Field-oriented control (FOC) for PMSM: current regulation, space-vector modulation"
-      Tag "motor-foc"
-
-      Inport {
-        Name "CommandedTorque_Nm"
-        Port "1"
-      }
-
-      Inport {
-        Name "RotorAngle_rad"
-        Port "2"
-      }
-
-      Inport {
-        Name "PhaseCurrents_A"
-        Port "3"
-      }
-
-      Inport {
-        Name "BusVoltage_V"
-        Port "4"
-      }
-
-      MATLABFunction {
-        Name "ClarkeTransform"
-        Description "Transforms 3-phase (abc) currents to stationary alpha-beta frame"
-      }
-
-      MATLABFunction {
-        Name "ParkTransform"
-        Description "Rotates alpha-beta currents to synchronous d-q frame using rotor angle"
-      }
-
-      MATLABFunction {
-        Name "MaxTorquePerAmpere"
-        Description "Computes optimal d-q current references for maximum torque per ampere operation"
-      }
-
-      MATLABFunction {
-        Name "CurrentRegulatorDQ"
-        Description "PI current controllers in d-q frame with back-EMF feedforward decoupling"
-        SampleTime "0.0001"
-      }
-
-      MATLABFunction {
-        Name "InverseParkTransform"
-        Description "Converts d-q voltage commands back to alpha-beta stationary frame"
-      }
-
-      MATLABFunction {
-        Name "SpaceVectorModulation"
-        Description "Generates IGBT gate signals from alpha-beta voltage references and DC bus voltage"
-        SampleTime "0.0001"
-      }
-
-      Outport {
-        Name "GateSignals_PWM"
-        Port "1"
-      }
-
-      Outport {
-        Name "ActualTorque_Nm"
-        Port "2"
-      }
-
-      Line {
-        SrcBlock "PhaseCurrents_A"
-        DstBlock "ClarkeTransform"
-      }
-
-      Line {
-        SrcBlock "ClarkeTransform"
-        DstBlock "ParkTransform"
-      }
-
-      Line {
-        SrcBlock "RotorAngle_rad"
-        DstBlock "ParkTransform"
-      }
-
-      Line {
-        SrcBlock "CommandedTorque_Nm"
-        DstBlock "MaxTorquePerAmpere"
-      }
-
-      Line {
-        SrcBlock "MaxTorquePerAmpere"
-        DstBlock "CurrentRegulatorDQ"
-      }
-
-      Line {
-        SrcBlock "ParkTransform"
-        DstBlock "CurrentRegulatorDQ"
-      }
-
-      Line {
-        SrcBlock "CurrentRegulatorDQ"
-        DstBlock "InverseParkTransform"
-      }
-
-      Line {
-        SrcBlock "RotorAngle_rad"
-        DstBlock "InverseParkTransform"
-      }
-
-      Line {
-        SrcBlock "InverseParkTransform"
-        DstBlock "SpaceVectorModulation"
-      }
-
-      Line {
-        SrcBlock "BusVoltage_V"
-        DstBlock "SpaceVectorModulation"
-      }
-
-      Line {
-        SrcBlock "SpaceVectorModulation"
-        DstBlock "GateSignals_PWM"
+    Block {
+      BlockType           SubSystem
+      Name                "TorqueArbitration"
+      SID                 "2"
+      Description         "Arbitrates competing torque requests from driver demand, traction control, and energy management; outputs final motor torque setpoint."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "DemandTorque_Nm"
+          SID             "201"
+          Port            "1"
+        }
+        Block {
+          BlockType       Inport
+          Name            "TCSTorqueLimit_Nm"
+          SID             "202"
+          Port            "2"
+          Description     "Traction control system torque limit (Nm); reduces demand on wheel slip"
+        }
+        Block {
+          BlockType       Inport
+          Name            "EMSTorqueLimit_Nm"
+          SID             "203"
+          Port            "3"
+          Description     "Energy management system torque cap to protect battery state-of-charge"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "ArbitrationLogic"
+          SID             "204"
+          Description     "Selects minimum of driver demand, TCS limit, and EMS cap; applies torque rate limiter and smoothing filter"
+        }
+        Block {
+          BlockType       Saturation
+          Name            "TorqueSaturation"
+          SID             "205"
+          UpperLimit      "280"
+          LowerLimit      "-150"
+          Description     "Clips motor torque command to rated limits: +280 Nm drive / -150 Nm regen"
+        }
+        Block {
+          BlockType       Outport
+          Name            "MotorTorqueCmd_Nm"
+          SID             "206"
+          Port            "1"
+          Description     "Final arbitrated motor torque command (Nm)"
+        }
+        Line {
+          Name            "demand_torque"
+          SrcBlock        "DemandTorque_Nm"
+          SrcPort         1
+          DstBlock        "ArbitrationLogic"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "TCSTorqueLimit_Nm"
+          SrcPort         1
+          DstBlock        "ArbitrationLogic"
+          DstPort         2
+        }
+        Line {
+          SrcBlock        "EMSTorqueLimit_Nm"
+          SrcPort         1
+          DstBlock        "ArbitrationLogic"
+          DstPort         3
+        }
+        Line {
+          SrcBlock        "ArbitrationLogic"
+          SrcPort         1
+          DstBlock        "TorqueSaturation"
+          DstPort         1
+        }
+        Line {
+          Name            "motor_torque_cmd"
+          SrcBlock        "TorqueSaturation"
+          SrcPort         1
+          DstBlock        "MotorTorqueCmd_Nm"
+          DstPort         1
+        }
       }
     }
 
-    SubSystem {
-      Name "VehicleDynamics"
-      Description "Longitudinal vehicle dynamics: tractive force, drag, rolling resistance, and grade load"
-      Tag "vehicle-dynamics"
-
-      Inport {
-        Name "ActualTorque_Nm"
-        Port "1"
-      }
-
-      Inport {
-        Name "BrakeForce_N"
-        Port "2"
-      }
-
-      Gain {
-        Name "WheelRadiusScaling"
-        Gain "3.3784"
-        Description "Converts motor torque to wheel-level force via gear ratio / wheel radius"
-      }
-
-      MATLABFunction {
-        Name "AerodynamicDragModel"
-        Description "Computes aerodynamic drag force: 0.5 * rho * Cd * A * v^2"
-      }
-
-      MATLABFunction {
-        Name "RollingResistanceModel"
-        Description "Computes tire rolling resistance force from load and speed-dependent coefficient"
-      }
-
-      Integrator {
-        Name "VelocityIntegrator"
-        Description "Integrates net longitudinal acceleration to obtain vehicle speed"
-        SampleTime "continuous"
-      }
-
-      Outport {
-        Name "VehicleSpeed_kph"
-        Port "1"
-      }
-
-      Outport {
-        Name "WheelSlipRatio"
-        Port "2"
-      }
-
-      Line {
-        SrcBlock "ActualTorque_Nm"
-        DstBlock "WheelRadiusScaling"
-      }
-
-      Line {
-        SrcBlock "WheelRadiusScaling"
-        DstBlock "VelocityIntegrator"
-      }
-
-      Line {
-        SrcBlock "AerodynamicDragModel"
-        DstBlock "VelocityIntegrator"
-      }
-
-      Line {
-        SrcBlock "RollingResistanceModel"
-        DstBlock "VelocityIntegrator"
-      }
-
-      Line {
-        SrcBlock "BrakeForce_N"
-        DstBlock "VelocityIntegrator"
-      }
-
-      Line {
-        SrcBlock "VelocityIntegrator"
-        DstBlock "VehicleSpeed_kph"
+    Block {
+      BlockType           SubSystem
+      Name                "MotorControl"
+      SID                 "3"
+      Description         "Field-oriented control (FOC) for the permanent-magnet synchronous motor: current regulators, Park/Clarke transforms, and PWM generation."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "TorqueCmd_Nm"
+          SID             "301"
+          Port            "1"
+        }
+        Block {
+          BlockType       Inport
+          Name            "MotorSpeed_rpm"
+          SID             "302"
+          Port            "2"
+          Description     "Motor shaft speed feedback from resolver (rpm)"
+        }
+        Block {
+          BlockType       Inport
+          Name            "DCBusVoltage_V"
+          SID             "303"
+          Port            "3"
+          Description     "HV battery bus voltage (V) for feedforward modulation index"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "TorqueToCurrentMap"
+          SID             "304"
+          Description     "Maps torque demand and speed to d-q reference currents (Id_ref, Iq_ref) using MTPA curve"
+        }
+        Block {
+          BlockType       "PID Controller"
+          Name            "Id_Regulator"
+          SID             "305"
+          Description     "d-axis current PI regulator — controls flux-producing current component"
+          P               "12.5"
+          I               "280.0"
+        }
+        Block {
+          BlockType       "PID Controller"
+          Name            "Iq_Regulator"
+          SID             "306"
+          Description     "q-axis current PI regulator — controls torque-producing current component"
+          P               "12.5"
+          I               "280.0"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "InverseParkTransform"
+          SID             "307"
+          Description     "Transforms d-q voltage commands to alpha-beta frame using rotor angle"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "SVPWMGenerator"
+          SID             "308"
+          Description     "Space vector PWM modulator — generates three-phase duty cycles from alpha-beta voltage commands"
+        }
+        Block {
+          BlockType       Outport
+          Name            "PWM_DutyCycles"
+          SID             "309"
+          Port            "1"
+          Description     "Three-phase PWM duty cycles to gate driver (0–1)"
+        }
+        Block {
+          BlockType       Outport
+          Name            "MotorTorqueEstimate_Nm"
+          SID             "310"
+          Port            "2"
+          Description     "Estimated actual motor torque from Iq_actual × Kt"
+        }
+        Line {
+          SrcBlock        "TorqueCmd_Nm"
+          SrcPort         1
+          DstBlock        "TorqueToCurrentMap"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "MotorSpeed_rpm"
+          SrcPort         1
+          DstBlock        "TorqueToCurrentMap"
+          DstPort         2
+        }
+        Line {
+          Name            "Id_ref"
+          SrcBlock        "TorqueToCurrentMap"
+          SrcPort         1
+          DstBlock        "Id_Regulator"
+          DstPort         1
+        }
+        Line {
+          Name            "Iq_ref"
+          SrcBlock        "TorqueToCurrentMap"
+          SrcPort         2
+          DstBlock        "Iq_Regulator"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "Id_Regulator"
+          SrcPort         1
+          DstBlock        "InverseParkTransform"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "Iq_Regulator"
+          SrcPort         1
+          DstBlock        "InverseParkTransform"
+          DstPort         2
+        }
+        Line {
+          SrcBlock        "InverseParkTransform"
+          SrcPort         1
+          DstBlock        "SVPWMGenerator"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "SVPWMGenerator"
+          SrcPort         1
+          DstBlock        "PWM_DutyCycles"
+          DstPort         1
+        }
       }
     }
 
-    % Top-level signal routing
+    Block {
+      BlockType           SubSystem
+      Name                "RegenerativeBrakingControl"
+      SID                 "4"
+      Description         "Manages energy recovery during braking: blends regen with friction brakes, limits regen based on SOC and temperature."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "RegenDemand_Nm"
+          SID             "401"
+          Port            "1"
+        }
+        Block {
+          BlockType       Inport
+          Name            "BattSOC_pct"
+          SID             "402"
+          Port            "2"
+          Description     "Battery state-of-charge (0–100 %) from BMS"
+        }
+        Block {
+          BlockType       Inport
+          Name            "BattTemp_C"
+          SID             "403"
+          Port            "3"
+          Description     "Battery temperature (°C) from BMS thermal model"
+        }
+        Block {
+          BlockType       "Lookup Table"
+          Name            "SOC_RegenLimit"
+          SID             "404"
+          Description     "1D lookup: reduces regen torque limit as SOC approaches 100 % to prevent overcharge"
+        }
+        Block {
+          BlockType       "Lookup Table"
+          Name            "Temp_RegenLimit"
+          SID             "405"
+          Description     "1D lookup: derate regen limit below 5 °C and above 45 °C to protect cell chemistry"
+        }
+        Block {
+          BlockType       Product
+          Name            "RegenLimitBlend"
+          SID             "406"
+          Description     "Multiplies SOC and temperature derating factors to compute composite regen limit"
+        }
+        Block {
+          BlockType       Switch
+          Name            "RegenEnable"
+          SID             "407"
+          Threshold       "5.0"
+          Description     "Gates regen torque output — disabled below 5 Nm demand to avoid hunting"
+        }
+        Block {
+          BlockType       Outport
+          Name            "RegenTorqueCmd_Nm"
+          SID             "408"
+          Port            "1"
+          Description     "Conditioned regenerative torque command to motor control (Nm)"
+        }
+        Block {
+          BlockType       Outport
+          Name            "FrictionBrakeCmd_Nm"
+          SID             "409"
+          Port            "2"
+          Description     "Residual friction brake torque demand sent to brake controller (Nm)"
+        }
+        Line {
+          SrcBlock        "BattSOC_pct"
+          SrcPort         1
+          DstBlock        "SOC_RegenLimit"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "BattTemp_C"
+          SrcPort         1
+          DstBlock        "Temp_RegenLimit"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "SOC_RegenLimit"
+          SrcPort         1
+          DstBlock        "RegenLimitBlend"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "Temp_RegenLimit"
+          SrcPort         1
+          DstBlock        "RegenLimitBlend"
+          DstPort         2
+        }
+        Line {
+          SrcBlock        "RegenDemand_Nm"
+          SrcPort         1
+          DstBlock        "RegenEnable"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "RegenLimitBlend"
+          SrcPort         1
+          DstBlock        "RegenEnable"
+          DstPort         2
+        }
+        Line {
+          Name            "regen_torque_cmd"
+          SrcBlock        "RegenEnable"
+          SrcPort         1
+          DstBlock        "RegenTorqueCmd_Nm"
+          DstPort         1
+        }
+      }
+    }
+
+    Block {
+      BlockType           SubSystem
+      Name                "BatteryThermalModel"
+      SID                 "5"
+      Description         "Equivalent-circuit battery model with thermal dynamics — estimates SOC, voltage, current limits, and cell temperature."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "MotorCurrentDraw_A"
+          SID             "501"
+          Port            "1"
+          Description     "Net DC bus current draw from motor inverter (A)"
+        }
+        Block {
+          BlockType       Inport
+          Name            "AmbientTemp_C"
+          SID             "502"
+          Port            "2"
+          Description     "Ambient temperature from vehicle thermal management system (°C)"
+        }
+        Block {
+          BlockType       Integrator
+          Name            "SOC_Integrator"
+          SID             "503"
+          InitialCondition "0.85"
+          Description     "Coulomb counting integrator — integrates current/capacity to track SOC"
+        }
+        Block {
+          BlockType       Gain
+          Name            "CurrentToSOCRate"
+          SID             "504"
+          Gain            "-2.7778e-7"
+          Description     "Converts ampere input to SOC rate (1/Ah): -1/(3600 × 100 Ah capacity)"
+        }
+        Block {
+          BlockType       "Transfer Fcn"
+          Name            "ThermalDynamics"
+          SID             "505"
+          Numerator       "[1]"
+          Denominator     "[800 1]"
+          Description     "First-order thermal model: τ=800 s lumped cell thermal time constant"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "OCVLookup"
+          SID             "506"
+          Description     "Maps SOC to open-circuit voltage using NMC cell OCV-SOC curve (Voc = f(SOC))"
+        }
+        Block {
+          BlockType       Outport
+          Name            "BattSOC_pct"
+          SID             "507"
+          Port            "1"
+        }
+        Block {
+          BlockType       Outport
+          Name            "BattVoltage_V"
+          SID             "508"
+          Port            "2"
+          Description     "Estimated HV bus voltage (V)"
+        }
+        Block {
+          BlockType       Outport
+          Name            "CellTemp_C"
+          SID             "509"
+          Port            "3"
+          Description     "Estimated mean cell temperature (°C)"
+        }
+        Line {
+          SrcBlock        "MotorCurrentDraw_A"
+          SrcPort         1
+          DstBlock        "CurrentToSOCRate"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "CurrentToSOCRate"
+          SrcPort         1
+          DstBlock        "SOC_Integrator"
+          DstPort         1
+        }
+        Line {
+          Name            "soc"
+          SrcBlock        "SOC_Integrator"
+          SrcPort         1
+          DstBlock        "OCVLookup"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "SOC_Integrator"
+          SrcPort         1
+          DstBlock        "BattSOC_pct"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "OCVLookup"
+          SrcPort         1
+          DstBlock        "BattVoltage_V"
+          DstPort         1
+        }
+      }
+    }
+
+    Block {
+      BlockType           SubSystem
+      Name                "TractionControl"
+      SID                 "6"
+      Description         "Wheel-slip detection and torque reduction to recover traction on low-mu surfaces."
+      System {
+        Block {
+          BlockType       Inport
+          Name            "WheelSpeed_FL_rads"
+          SID             "601"
+          Port            "1"
+          Description     "Front-left wheel speed (rad/s) from ABS sensor"
+        }
+        Block {
+          BlockType       Inport
+          Name            "WheelSpeed_FR_rads"
+          SID             "602"
+          Port            "2"
+          Description     "Front-right wheel speed (rad/s) from ABS sensor"
+        }
+        Block {
+          BlockType       Inport
+          Name            "VehicleSpeed_ms"
+          SID             "603"
+          Port            "3"
+          Description     "Reference vehicle speed (m/s)"
+        }
+        Block {
+          BlockType       "MATLAB Function"
+          Name            "SlipRatioEstimator"
+          SID             "604"
+          Description     "Computes longitudinal slip ratio λ = (ω·r - v) / max(ω·r, v) for each driven wheel"
+        }
+        Block {
+          BlockType       "PID Controller"
+          Name            "TCS_PID"
+          SID             "605"
+          P               "50"
+          I               "5"
+          D               "0"
+          Description     "PI controller that reduces torque demand when slip ratio exceeds 0.15 threshold"
+        }
+        Block {
+          BlockType       Saturation
+          Name            "TCS_OutputClamp"
+          SID             "606"
+          UpperLimit      "0"
+          LowerLimit      "-280"
+          Description     "Ensures TCS only reduces (never increases) torque"
+        }
+        Block {
+          BlockType       Outport
+          Name            "TCSTorqueReduction_Nm"
+          SID             "607"
+          Port            "1"
+          Description     "Torque reduction command from TCS (Nm, always ≤ 0)"
+        }
+        Line {
+          SrcBlock        "WheelSpeed_FL_rads"
+          SrcPort         1
+          DstBlock        "SlipRatioEstimator"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "WheelSpeed_FR_rads"
+          SrcPort         1
+          DstBlock        "SlipRatioEstimator"
+          DstPort         2
+        }
+        Line {
+          SrcBlock        "VehicleSpeed_ms"
+          SrcPort         1
+          DstBlock        "SlipRatioEstimator"
+          DstPort         3
+        }
+        Line {
+          Name            "slip_ratio"
+          SrcBlock        "SlipRatioEstimator"
+          SrcPort         1
+          DstBlock        "TCS_PID"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "TCS_PID"
+          SrcPort         1
+          DstBlock        "TCS_OutputClamp"
+          DstPort         1
+        }
+        Line {
+          SrcBlock        "TCS_OutputClamp"
+          SrcPort         1
+          DstBlock        "TCSTorqueReduction_Nm"
+          DstPort         1
+        }
+      }
+    }
+
+    Block {
+      BlockType           Scope
+      Name                "MotorTorque_Scope"
+      SID                 "901"
+      Description         "Displays motor torque command and estimate during simulation"
+    }
+
+    Block {
+      BlockType           "To Workspace"
+      Name                "LogTorqueData"
+      SID                 "902"
+      VariableName        "torque_log"
+      Description         "Logs motor torque command to MATLAB workspace for post-processing"
+    }
+
+    Block {
+      BlockType           "From Workspace"
+      Name                "DriveCycleInput"
+      SID                 "903"
+      VariableName        "drive_cycle"
+      Description         "Loads standardised drive cycle (WLTP Class 3) from workspace as pedal position time series"
+    }
+
     Line {
-      SrcBlock "DriverDemandProcessing"
-      DstBlock "TorqueArbitration"
+      Name                "driver_torque_demand"
+      SrcBlock            "DriverDemandProcessing"
+      SrcPort             1
+      DstBlock            "TorqueArbitration"
+      DstPort             1
     }
-
     Line {
-      SrcBlock "TorqueArbitration"
-      DstBlock "MotorController"
+      Name                "regen_demand"
+      SrcBlock            "DriverDemandProcessing"
+      SrcPort             2
+      DstBlock            "RegenerativeBrakingControl"
+      DstPort             1
     }
-
     Line {
-      SrcBlock "MotorController"
-      DstBlock "VehicleDynamics"
+      Name                "motor_torque_cmd"
+      SrcBlock            "TorqueArbitration"
+      SrcPort             1
+      DstBlock            "MotorControl"
+      DstPort             1
     }
-
     Line {
-      SrcBlock "VehicleDynamics"
-      DstBlock "DriverDemandProcessing"
+      Name                "tcs_limit"
+      SrcBlock            "TractionControl"
+      SrcPort             1
+      DstBlock            "TorqueArbitration"
+      DstPort             2
+    }
+    Line {
+      SrcBlock            "MotorControl"
+      SrcPort             1
+      DstBlock            "MotorTorque_Scope"
+      DstPort             1
+    }
+    Line {
+      SrcBlock            "MotorControl"
+      SrcPort             1
+      DstBlock            "LogTorqueData"
+      DstPort             1
     }
   }
 }

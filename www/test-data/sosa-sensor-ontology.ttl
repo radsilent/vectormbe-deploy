@@ -1,160 +1,214 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix sosa: <http://www.w3.org/ns/sosa/> .
-@prefix schema: <http://schema.org/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa:  <http://www.w3.org/ns/sosa/> .
+@prefix ex:    <http://vectorowl.org/demo/iot-monitoring#> .
 
-sosa: a owl:Ontology ;
-  dcterms:title "Sensor, Observation, Sample, and Actuator (SOSA) Ontology"@en ;
-  dcterms:description "W3C SOSA ontology — sensors, observations, actuators, and sampling."@en ;
-  dcterms:created "2017-04-17"^^xsd:date .
+# ─── Ontology ─────────────────────────────────────────────────────────────────
+<http://vectorowl.org/demo/iot-monitoring> a owl:Ontology ;
+    rdfs:label "Smart Factory IoT Monitoring — Instance Dataset" ;
+    rdfs:comment "SOSA-aligned sensor, observation, and feature instances for a manufacturing floor." .
 
-sosa:FeatureOfInterest a rdfs:Class , owl:Class ;
-  rdfs:label "Feature Of Interest"@en ;
-  skos:definition "The thing whose property is being estimated or calculated in the course of an Observation."@en .
+# ─── Features of Interest ─────────────────────────────────────────────────────
+ex:feat_cnc_spindle a owl:NamedIndividual , sosa:FeatureOfInterest ;
+    rdfs:label "CNC Spindle Bearing #4" ;
+    ex:assetTag "MACH-CNC-004" ;
+    ex:location "Bay 3, Station 4" ;
+    ex:criticality "High" .
 
-sosa:ObservableProperty a rdfs:Class , owl:Class ;
-  rdfs:label "Observable Property"@en ;
-  skos:definition "An observable quality (property, characteristic) of a FeatureOfInterest."@en .
+ex:feat_hvac_unit a owl:NamedIndividual , sosa:FeatureOfInterest ;
+    rdfs:label "HVAC Unit — Cleanroom A" ;
+    ex:assetTag "HVAC-CLN-001" ;
+    ex:location "Building 2, Cleanroom A" ;
+    ex:criticality "Medium" .
 
-sosa:ActuatableProperty a rdfs:Class , owl:Class ;
-  rdfs:label "Actuatable Property"@en ;
-  skos:definition "An actuatable quality (property, characteristic) of a FeatureOfInterest."@en .
+ex:feat_conveyor_motor a owl:NamedIndividual , sosa:FeatureOfInterest ;
+    rdfs:label "Conveyor Drive Motor" ;
+    ex:assetTag "CONV-MOT-012" ;
+    ex:location "Assembly Line 1" ;
+    ex:criticality "High" .
 
-sosa:Sample a rdfs:Class , owl:Class ;
-  rdfs:label "Sample"@en ;
-  skos:definition "Feature which is intended to be representative of a FeatureOfInterest on which Observations may be made."@en .
+ex:feat_tank_chemical a owl:NamedIndividual , sosa:FeatureOfInterest ;
+    rdfs:label "Etching Bath Tank" ;
+    ex:assetTag "TANK-ETCH-003" ;
+    ex:location "Bay 7, Process Zone" ;
+    ex:criticality "High" .
 
-sosa:Platform a rdfs:Class , owl:Class ;
-  rdfs:label "Platform"@en ;
-  skos:definition "An entity that hosts other entities, particularly Sensors, Actuators, Samplers, and other Platforms."@en .
+ex:feat_ambient_floor a owl:NamedIndividual , sosa:FeatureOfInterest ;
+    rdfs:label "Factory Floor Ambient Conditions" ;
+    ex:location "Building 1, General" ;
+    ex:criticality "Low" .
 
-sosa:Sensor a rdfs:Class , owl:Class ;
-  rdfs:label "Sensor"@en ;
-  skos:definition "Device, agent (including humans), or software involved in, or implementing, a Procedure."@en .
+# ─── Observable Properties ────────────────────────────────────────────────────
+ex:prop_vibration a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Vibration (RMS)" ;
+    ex:unit "mm/s" .
 
-sosa:Actuator a rdfs:Class , owl:Class ;
-  rdfs:label "Actuator"@en ;
-  skos:definition "A device that is used by, or implements, an (Actuation) Procedure that changes the state of the world."@en .
+ex:prop_temperature a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Temperature" ;
+    ex:unit "°C" .
 
-sosa:Sampler a rdfs:Class , owl:Class ;
-  rdfs:label "Sampler"@en ;
-  skos:definition "A device that implements a Sampling Procedure to create or transform one or more samples."@en .
+ex:prop_current a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Motor Phase Current" ;
+    ex:unit "A" .
 
-sosa:Procedure a rdfs:Class , owl:Class ;
-  rdfs:label "Procedure"@en ;
-  skos:definition "A workflow, protocol, plan, algorithm, or computational method specifying how to make an Observation."@en .
+ex:prop_ph a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Chemical pH" ;
+    ex:unit "pH" .
 
-sosa:Observation a rdfs:Class , owl:Class ;
-  rdfs:label "Observation"@en ;
-  skos:definition "Act of carrying out an (Observation) Procedure to estimate or calculate a value of a property of a FeatureOfInterest."@en .
+ex:prop_humidity a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Relative Humidity" ;
+    ex:unit "%" .
 
-sosa:Actuation a rdfs:Class , owl:Class ;
-  rdfs:label "Actuation"@en ;
-  skos:definition "An Actuation carries out an (Actuation) Procedure to change the state of the world using an Actuator."@en .
+ex:prop_pressure a owl:NamedIndividual , sosa:ObservableProperty ;
+    rdfs:label "Differential Pressure" ;
+    ex:unit "Pa" .
 
-sosa:Sampling a rdfs:Class , owl:Class ;
-  rdfs:label "Sampling"@en ;
-  skos:definition "An act of Sampling carries out a sampling Procedure to create or transform one or more samples."@en .
+# ─── Sensors ──────────────────────────────────────────────────────────────────
+ex:sensor_vib_cnc a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "MEMS Vibration Sensor — CNC#4" ;
+    ex:serialNumber "VIB-9924-A" ;
+    ex:protocol "MQTT" ;
+    ex:sampleRate_Hz "1000"^^xsd:integer ;
+    ex:installDate "2024-03-15" ;
+    sosa:observes ex:prop_vibration ;
+    sosa:isHostedBy ex:feat_cnc_spindle .
 
-sosa:Result a rdfs:Class , owl:Class ;
-  rdfs:label "Result"@en ;
-  skos:definition "The Result of an Observation, Actuation, or act of Sampling."@en .
+ex:sensor_temp_cnc a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "PT100 Temperature — CNC#4 Bearing" ;
+    ex:serialNumber "TMP-0443-B" ;
+    ex:protocol "Modbus RTU" ;
+    ex:accuracy_degC "0.15"^^xsd:decimal ;
+    ex:installDate "2024-03-15" ;
+    sosa:observes ex:prop_temperature ;
+    sosa:isHostedBy ex:feat_cnc_spindle .
 
-sosa:observes a owl:ObjectProperty ;
-  rdfs:label "observes"@en ;
-  schema:domainIncludes sosa:Sensor ;
-  schema:rangeIncludes sosa:ObservableProperty ;
-  owl:inverseOf sosa:isObservedBy .
+ex:sensor_temp_hvac a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "Thermocouple — HVAC Cleanroom A Supply" ;
+    ex:serialNumber "TMP-0887-C" ;
+    ex:protocol "BACnet" ;
+    ex:accuracy_degC "0.5"^^xsd:decimal ;
+    sosa:observes ex:prop_temperature ;
+    sosa:isHostedBy ex:feat_hvac_unit .
 
-sosa:isObservedBy a owl:ObjectProperty ;
-  rdfs:label "is observed by"@en ;
-  schema:domainIncludes sosa:ObservableProperty ;
-  schema:rangeIncludes sosa:Sensor .
+ex:sensor_hum_hvac a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "Capacitive Humidity — HVAC Cleanroom A" ;
+    ex:serialNumber "HUM-2210-A" ;
+    ex:protocol "BACnet" ;
+    sosa:observes ex:prop_humidity ;
+    sosa:isHostedBy ex:feat_hvac_unit .
 
-sosa:hosts a owl:ObjectProperty ;
-  rdfs:label "hosts"@en ;
-  schema:domainIncludes sosa:Platform ;
-  schema:rangeIncludes sosa:Sensor ;
-  owl:inverseOf sosa:isHostedBy .
+ex:sensor_press_hvac a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "Differential Pressure — Cleanroom A" ;
+    ex:serialNumber "PRS-0034-B" ;
+    ex:protocol "BACnet" ;
+    sosa:observes ex:prop_pressure ;
+    sosa:isHostedBy ex:feat_hvac_unit .
 
-sosa:isHostedBy a owl:ObjectProperty ;
-  rdfs:label "is hosted by"@en ;
-  schema:domainIncludes sosa:Sensor ;
-  schema:rangeIncludes sosa:Platform .
+ex:sensor_curr_motor a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "Current Transformer — Conveyor Drive" ;
+    ex:serialNumber "CUR-1182-A" ;
+    ex:protocol "OPC-UA" ;
+    ex:range_A "0-200"^^xsd:string ;
+    sosa:observes ex:prop_current ;
+    sosa:isHostedBy ex:feat_conveyor_motor .
 
-sosa:madeBySensor a owl:ObjectProperty ;
-  rdfs:label "made by sensor"@en ;
-  schema:domainIncludes sosa:Observation ;
-  schema:rangeIncludes sosa:Sensor ;
-  owl:inverseOf sosa:madeObservation .
+ex:sensor_ph_tank a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "pH Electrode — Etching Bath" ;
+    ex:serialNumber "PH-7731-D" ;
+    ex:protocol "4-20mA" ;
+    ex:calibrationDate "2025-01-10" ;
+    sosa:observes ex:prop_ph ;
+    sosa:isHostedBy ex:feat_tank_chemical .
 
-sosa:madeObservation a owl:ObjectProperty ;
-  rdfs:label "made observation"@en ;
-  schema:domainIncludes sosa:Sensor ;
-  schema:rangeIncludes sosa:Observation .
+ex:sensor_temp_tank a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "RTD Temperature — Etching Bath" ;
+    ex:serialNumber "TMP-5560-C" ;
+    ex:protocol "4-20mA" ;
+    sosa:observes ex:prop_temperature ;
+    sosa:isHostedBy ex:feat_tank_chemical .
 
-sosa:observedProperty a owl:ObjectProperty ;
-  rdfs:label "observed property"@en ;
-  schema:domainIncludes sosa:Observation ;
-  schema:rangeIncludes sosa:ObservableProperty .
+ex:sensor_temp_ambient a owl:NamedIndividual , sosa:Sensor ;
+    rdfs:label "Ambient Temperature — Floor" ;
+    ex:serialNumber "TMP-ENV-001" ;
+    ex:protocol "LoRaWAN" ;
+    sosa:observes ex:prop_temperature ;
+    sosa:isHostedBy ex:feat_ambient_floor .
 
-sosa:hasFeatureOfInterest a owl:ObjectProperty ;
-  rdfs:label "has feature of interest"@en ;
-  schema:domainIncludes sosa:Observation ;
-  schema:rangeIncludes sosa:FeatureOfInterest ;
-  owl:inverseOf sosa:isFeatureOfInterestOf .
+# ─── Sensor Platforms ─────────────────────────────────────────────────────────
+ex:platform_edge_node_bay3 a owl:NamedIndividual , sosa:Platform ;
+    rdfs:label "Edge Node — Bay 3" ;
+    ex:manufacturer "Siemens" ;
+    ex:model "SIMATIC IPC427E" ;
+    ex:ipAddress "192.168.10.43" ;
+    sosa:hosts ex:sensor_vib_cnc ;
+    sosa:hosts ex:sensor_temp_cnc .
 
-sosa:isFeatureOfInterestOf a owl:ObjectProperty ;
-  rdfs:label "is feature of interest of"@en ;
-  schema:domainIncludes sosa:FeatureOfInterest ;
-  schema:rangeIncludes sosa:Observation .
+ex:platform_bms_controller a owl:NamedIndividual , sosa:Platform ;
+    rdfs:label "BMS Controller — Building 2" ;
+    ex:manufacturer "Honeywell" ;
+    ex:model "WEBstation-AX" ;
+    ex:ipAddress "192.168.20.11" ;
+    sosa:hosts ex:sensor_temp_hvac ;
+    sosa:hosts ex:sensor_hum_hvac ;
+    sosa:hosts ex:sensor_press_hvac .
 
-sosa:hasResult a owl:ObjectProperty ;
-  rdfs:label "has result"@en ;
-  schema:domainIncludes sosa:Observation ;
-  schema:rangeIncludes sosa:Result ;
-  owl:inverseOf sosa:isResultOf .
+# ─── Sample Observations ──────────────────────────────────────────────────────
+ex:obs_vib_001 a owl:NamedIndividual , sosa:Observation ;
+    rdfs:label "Vibration Obs #001 — CNC#4" ;
+    sosa:madeBySensor ex:sensor_vib_cnc ;
+    sosa:observedProperty ex:prop_vibration ;
+    sosa:hasFeatureOfInterest ex:feat_cnc_spindle ;
+    sosa:resultTime "2025-05-30T08:14:22Z"^^xsd:dateTime ;
+    sosa:hasSimpleResult "4.72"^^xsd:decimal ;
+    ex:alert "false"^^xsd:boolean .
 
-sosa:isResultOf a owl:ObjectProperty ;
-  rdfs:label "is result of"@en ;
-  schema:domainIncludes sosa:Result ;
-  schema:rangeIncludes sosa:Observation .
+ex:obs_vib_002 a owl:NamedIndividual , sosa:Observation ;
+    rdfs:label "Vibration Obs #002 — CNC#4 (ALERT)" ;
+    sosa:madeBySensor ex:sensor_vib_cnc ;
+    sosa:observedProperty ex:prop_vibration ;
+    sosa:hasFeatureOfInterest ex:feat_cnc_spindle ;
+    sosa:resultTime "2025-05-30T09:02:11Z"^^xsd:dateTime ;
+    sosa:hasSimpleResult "12.34"^^xsd:decimal ;
+    ex:alert "true"^^xsd:boolean ;
+    ex:alertMessage "Vibration exceeds warning threshold of 10 mm/s" .
 
-sosa:hasSimpleResult a owl:DatatypeProperty ;
-  rdfs:label "has simple result"@en ;
-  schema:domainIncludes sosa:Observation .
+ex:obs_temp_cnc_001 a owl:NamedIndividual , sosa:Observation ;
+    rdfs:label "Bearing Temp Obs #001 — CNC#4" ;
+    sosa:madeBySensor ex:sensor_temp_cnc ;
+    sosa:observedProperty ex:prop_temperature ;
+    sosa:hasFeatureOfInterest ex:feat_cnc_spindle ;
+    sosa:resultTime "2025-05-30T09:02:11Z"^^xsd:dateTime ;
+    sosa:hasSimpleResult "78.4"^^xsd:decimal .
 
-sosa:resultTime a owl:DatatypeProperty ;
-  rdfs:label "result time"@en ;
-  schema:domainIncludes sosa:Observation ;
-  rdfs:range xsd:dateTime .
+ex:obs_ph_001 a owl:NamedIndividual , sosa:Observation ;
+    rdfs:label "Etch Bath pH Obs #001" ;
+    sosa:madeBySensor ex:sensor_ph_tank ;
+    sosa:observedProperty ex:prop_ph ;
+    sosa:hasFeatureOfInterest ex:feat_tank_chemical ;
+    sosa:resultTime "2025-05-30T07:30:00Z"^^xsd:dateTime ;
+    sosa:hasSimpleResult "3.21"^^xsd:decimal .
 
-sosa:usedProcedure a owl:ObjectProperty ;
-  rdfs:label "used procedure"@en ;
-  schema:domainIncludes sosa:Observation ;
-  schema:rangeIncludes sosa:Procedure .
+# ─── Actuatable Properties & Actuators ───────────────────────────────────────
+ex:prop_valve_position a owl:NamedIndividual , sosa:ActuatableProperty ;
+    rdfs:label "Chemical Feed Valve Position" ;
+    ex:unit "% open" .
 
-sosa:madeByActuator a owl:ObjectProperty ;
-  rdfs:label "made by actuator"@en ;
-  schema:domainIncludes sosa:Actuation ;
-  schema:rangeIncludes sosa:Actuator .
+ex:actuator_feed_valve a owl:NamedIndividual , sosa:Actuator ;
+    rdfs:label "Chemical Feed Valve — Etching Bath" ;
+    ex:serialNumber "ACT-7701-A" ;
+    ex:protocol "4-20mA" ;
+    sosa:actsOnProperty ex:prop_valve_position .
 
-sosa:actsOnProperty a owl:ObjectProperty ;
-  rdfs:label "acts on property"@en ;
-  schema:domainIncludes sosa:Actuation ;
-  schema:rangeIncludes sosa:ActuatableProperty .
+# ─── Sampling & Procedures ────────────────────────────────────────────────────
+ex:proc_vibration_rms a owl:NamedIndividual , sosa:Procedure ;
+    rdfs:label "RMS Vibration Measurement Procedure" ;
+    ex:standard "ISO 10816-3" ;
+    ex:windowSize_ms "500"^^xsd:integer .
 
-sosa:hasSample a owl:ObjectProperty ;
-  rdfs:label "has sample"@en ;
-  schema:domainIncludes sosa:FeatureOfInterest ;
-  schema:rangeIncludes sosa:Sample ;
-  owl:inverseOf sosa:isSampleOf .
-
-sosa:isSampleOf a owl:ObjectProperty ;
-  rdfs:label "is sample of"@en ;
-  schema:domainIncludes sosa:Sample ;
-  schema:rangeIncludes sosa:FeatureOfInterest .
+ex:sample_bearing_oil a owl:NamedIndividual , sosa:Sample ;
+    rdfs:label "Bearing Oil Sample #20250528" ;
+    ex:collectedDate "2025-05-28" ;
+    ex:labReference "OIL-2025-0248" ;
+    sosa:isSampleOf ex:feat_cnc_spindle .
