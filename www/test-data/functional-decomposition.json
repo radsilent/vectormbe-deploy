@@ -1,5 +1,5 @@
 {
-  "_comment": "VectorOWL functional decomposition demo — Satellite Attitude Determination and Control System (ADCS)",
+  "_comment": "VectorMBE functional decomposition demo — Satellite Attitude Determination and Control System (ADCS)",
   "nodes": [
     {
       "id": "f-adcs",

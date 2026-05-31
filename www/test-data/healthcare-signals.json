@@ -1,5 +1,5 @@
 {
-  "_comment": "VectorOWL JSON graph import — Healthcare Patient Monitoring Signal Architecture",
+  "_comment": "VectorMBE JSON graph import — Healthcare Patient Monitoring Signal Architecture",
   "entities": [
     {
       "uri": "patient-monitor-bus",

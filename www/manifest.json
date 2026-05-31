@@ -1,6 +1,6 @@
 {
-  "name": "VectorOWL",
-  "short_name": "VectorOWL",
+  "name": "VectorMBE",
+  "short_name": "VectorMBE",
   "description": "Neuro-symbolic architecture for AI-native systems engineering",
   "start_url": ".",
   "display": "standalone",

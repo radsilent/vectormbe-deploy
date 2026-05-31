@@ -1,5 +1,5 @@
 {
-  "_comment": "VectorOWL JSON graph import — Automotive Powertrain Signal Architecture",
+  "_comment": "VectorMBE JSON graph import — Automotive Powertrain Signal Architecture",
   "entities": [
     {
       "uri": "powertrain-bus",

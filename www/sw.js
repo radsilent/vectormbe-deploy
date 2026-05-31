@@ -1,5 +1,5 @@
 /**
- * VectorOWL Service Worker — disabled fetch interception.
+ * VectorMBE Service Worker — disabled fetch interception.
  * Previous versions caused stale-cache issues during rapid deployments.
  * Browsers' native HTTP caching (Cache-Control: immutable on hashed assets)
  * is sufficient and more reliable.
