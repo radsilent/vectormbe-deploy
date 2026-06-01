@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AUTOSAR EV Powertrain ECU Software Architecture
+     AUTOSAR Schema R22-11 — Classic Platform
+     Domain: Automotive / EV Powertrain
+     Scope: Battery Management, Motor Control, Vehicle Control Unit, Thermal Management
+     Standard: AUTOSAR CP R22-11, ISO 26262 ASIL-D (BMS, VCU), ASIL-B (TMS)
+-->
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
+
+  <AR-PACKAGES>
+
+    <!-- ═══════════════════════════════════════════════════════
+         DATA TYPES
+    ═══════════════════════════════════════════════════════ -->
+    <AR-PACKAGE>
+      <SHORT-NAME>DataTypes</SHORT-NAME>
+      <ELEMENTS>
+
+        <!-- Primitive: StateOfCharge 0..100 % -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>StateOfCharge_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/uint8</BASE-TYPE-REF>
+                <COMPU-METHOD-REF DEST="COMPU-METHOD">/DataTypes/SocPercent_CM</COMPU-METHOD-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/Percent</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Primitive: CellVoltage 0..5 V -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>CellVoltage_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/uint16</BASE-TYPE-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/Volt</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Primitive: PackTemperature -40..125 degC -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>PackTemperature_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/sint16</BASE-TYPE-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/DegC</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Primitive: TorqueDemand -500..500 Nm -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>TorqueDemand_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/sint16</BASE-TYPE-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/NewtonMetre</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Primitive: MotorSpeed -15000..15000 rpm -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>MotorSpeed_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/sint16</BASE-TYPE-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/RevPerMin</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Primitive: DCLinkVoltage -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>DCLinkVoltage_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+          <SW-DATA-DEF-PROPS>
+            <SW-DATA-DEF-PROPS-VARIANTS>
+              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                <BASE-TYPE-REF DEST="SW-BASE-TYPE">/DataTypes/uint16</BASE-TYPE-REF>
+                <UNIT-REF DEST="UNIT">/DataTypes/Volt</UNIT-REF>
+              </SW-DATA-DEF-PROPS-CONDITIONAL>
+            </SW-DATA-DEF-PROPS-VARIANTS>
+          </SW-DATA-DEF-PROPS>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Enum: DriveModeRequest -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>DriveMode_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Enum: ContactorState -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>ContactorState_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Enum: FaultSeverity -->
+        <APPLICATION-PRIMITIVE-DATA-TYPE>
+          <SHORT-NAME>FaultSeverity_T</SHORT-NAME>
+          <CATEGORY>VALUE</CATEGORY>
+        </APPLICATION-PRIMITIVE-DATA-TYPE>
+
+        <!-- Base Types -->
+        <SW-BASE-TYPE>
+          <SHORT-NAME>uint8</SHORT-NAME>
+          <CATEGORY>FIXED_LENGTH</CATEGORY>
+          <BASE-TYPE-SIZE>8</BASE-TYPE-SIZE>
+          <BASE-TYPE-ENCODING>2C</BASE-TYPE-ENCODING>
+        </SW-BASE-TYPE>
+        <SW-BASE-TYPE>
+          <SHORT-NAME>uint16</SHORT-NAME>
+          <CATEGORY>FIXED_LENGTH</CATEGORY>
+          <BASE-TYPE-SIZE>16</BASE-TYPE-SIZE>
+          <BASE-TYPE-ENCODING>2C</BASE-TYPE-ENCODING>
+        </SW-BASE-TYPE>
+        <SW-BASE-TYPE>
+          <SHORT-NAME>sint16</SHORT-NAME>
+          <CATEGORY>FIXED_LENGTH</CATEGORY>
+          <BASE-TYPE-SIZE>16</BASE-TYPE-SIZE>
+          <BASE-TYPE-ENCODING>2C</BASE-TYPE-ENCODING>
+        </SW-BASE-TYPE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PORT INTERFACES
+    ═══════════════════════════════════════════════════════ -->
+    <AR-PACKAGE>
+      <SHORT-NAME>PortInterfaces</SHORT-NAME>
+      <ELEMENTS>
+
+        <!-- Sender-Receiver: SOC signal -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>SocSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>StateOfCharge</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/StateOfCharge_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Cell Voltage -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>CellVoltageSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>MinCellVoltage</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/CellVoltage_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>MaxCellVoltage</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/CellVoltage_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Pack Temperature -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>PackTempSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>PackTemperature</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/PackTemperature_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>MaxCellTemperature</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/PackTemperature_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Torque Demand (VCU → MCU) -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>TorqueDemandSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>TorqueDemand</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/TorqueDemand_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>RegenTorqueLimit</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/TorqueDemand_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Motor Speed -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>MotorSpeedSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>MotorSpeedActual</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/MotorSpeed_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: DC Link Voltage -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>DCLinkSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>DCLinkVoltage</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/DCLinkVoltage_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Drive Mode -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>DriveModeSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>DriveMode</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/DriveMode_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Contactor Command -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>ContactorSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>MainContactorCmd</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ContactorState_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>PrechargeContactorCmd</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ContactorState_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Sender-Receiver: Fault Reporting -->
+        <SENDER-RECEIVER-INTERFACE>
+          <SHORT-NAME>FaultSR_I</SHORT-NAME>
+          <DATA-ELEMENTS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>FaultSeverity</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/FaultSeverity_T</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>FaultCode</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/uint16</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-ELEMENTS>
+        </SENDER-RECEIVER-INTERFACE>
+
+        <!-- Client-Server: Contactor Control -->
+        <CLIENT-SERVER-INTERFACE>
+          <SHORT-NAME>ContactorControl_CS_I</SHORT-NAME>
+          <OPERATIONS>
+            <CLIENT-SERVER-OPERATION>
+              <SHORT-NAME>CloseMainContactor</SHORT-NAME>
+              <ARGUMENTS>
+                <ARGUMENT-DATA-PROTOTYPE>
+                  <SHORT-NAME>result</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/uint8</TYPE-TREF>
+                  <DIRECTION>OUT</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+              </ARGUMENTS>
+            </CLIENT-SERVER-OPERATION>
+            <CLIENT-SERVER-OPERATION>
+              <SHORT-NAME>OpenMainContactor</SHORT-NAME>
+              <ARGUMENTS>
+                <ARGUMENT-DATA-PROTOTYPE>
+                  <SHORT-NAME>result</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/uint8</TYPE-TREF>
+                  <DIRECTION>OUT</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+              </ARGUMENTS>
+            </CLIENT-SERVER-OPERATION>
+          </OPERATIONS>
+        </CLIENT-SERVER-INTERFACE>
+
+        <!-- Client-Server: Diagnostic Event Reporting -->
+        <CLIENT-SERVER-INTERFACE>
+          <SHORT-NAME>DiagEventReport_CS_I</SHORT-NAME>
+          <OPERATIONS>
+            <CLIENT-SERVER-OPERATION>
+              <SHORT-NAME>ReportFaultDetected</SHORT-NAME>
+              <ARGUMENTS>
+                <ARGUMENT-DATA-PROTOTYPE>
+                  <SHORT-NAME>faultCode</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/uint16</TYPE-TREF>
+                  <DIRECTION>IN</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+                <ARGUMENT-DATA-PROTOTYPE>
+                  <SHORT-NAME>severity</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/FaultSeverity_T</TYPE-TREF>
+                  <DIRECTION>IN</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+              </ARGUMENTS>
+            </CLIENT-SERVER-OPERATION>
+          </OPERATIONS>
+        </CLIENT-SERVER-INTERFACE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SOFTWARE COMPONENT TYPES
+    ═══════════════════════════════════════════════════════ -->
+    <AR-PACKAGE>
+      <SHORT-NAME>SWComponents</SHORT-NAME>
+      <ELEMENTS>
+
+        <!-- ─── BMS: Battery Management System SWC ─────────────── -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>BatteryManagementSystem_SWC</SHORT-NAME>
+          <ADMIN-DATA>
+            <SDGS>
+              <SDG GID="ASIL">
+                <SD GID="ASIL-LEVEL">D</SD>
+              </SDG>
+            </SDGS>
+          </ADMIN-DATA>
+          <PORTS>
+            <!-- Required: raw cell voltage from ADC driver -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>CellVoltage_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/CellVoltageSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: cell temperature from NTC sensors -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>CellTemperature_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/PackTempSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: pack current from Hall sensor -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>PackCurrent_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DCLinkSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Provided: SOC to VCU -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>SOC_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/SocSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: pack temperature to TMS -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>PackTemperature_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/PackTempSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: fault status to VCU -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>BmsFault_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Client: contactor control -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>ContactorControl_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="CLIENT-SERVER-INTERFACE">/PortInterfaces/ContactorControl_CS_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Client: diagnostic reporting to DEM -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>DiagReport_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="CLIENT-SERVER-INTERFACE">/PortInterfaces/DiagEventReport_CS_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR>
+              <SHORT-NAME>BMS_IB</SHORT-NAME>
+              <RUNNABLES>
+                <!-- Runnable: SOC estimation 10 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>BMS_SOC_Estimate_10ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.01</MINIMUM-START-INTERVAL>
+                  <DATA-READ-ACCESSS>
+                    <VARIABLE-ACCESS>
+                      <SHORT-NAME>ReadCellVoltage</SHORT-NAME>
+                      <ACCESSED-VARIABLE>
+                        <AUTOSAR-VARIABLE-IREF>
+                          <PORT-PROTOTYPE-REF DEST="R-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/CellVoltage_R</PORT-PROTOTYPE-REF>
+                          <TARGET-DATA-PROTOTYPE-REF DEST="VARIABLE-DATA-PROTOTYPE">/PortInterfaces/CellVoltageSR_I/MinCellVoltage</TARGET-DATA-PROTOTYPE-REF>
+                        </AUTOSAR-VARIABLE-IREF>
+                      </ACCESSED-VARIABLE>
+                    </VARIABLE-ACCESS>
+                  </DATA-READ-ACCESSS>
+                  <DATA-WRITE-ACCESSS>
+                    <VARIABLE-ACCESS>
+                      <SHORT-NAME>WriteSOC</SHORT-NAME>
+                      <ACCESSED-VARIABLE>
+                        <AUTOSAR-VARIABLE-IREF>
+                          <PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/SOC_P</PORT-PROTOTYPE-REF>
+                          <TARGET-DATA-PROTOTYPE-REF DEST="VARIABLE-DATA-PROTOTYPE">/PortInterfaces/SocSR_I/StateOfCharge</TARGET-DATA-PROTOTYPE-REF>
+                        </AUTOSAR-VARIABLE-IREF>
+                      </ACCESSED-VARIABLE>
+                    </VARIABLE-ACCESS>
+                  </DATA-WRITE-ACCESSS>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: cell balancing 1000 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>BMS_CellBalance_1000ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>1.0</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: fault detection 5 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>BMS_FaultDetection_5ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.005</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+        <!-- ─── VCU: Vehicle Control Unit SWC ──────────────────── -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>VehicleControlUnit_SWC</SHORT-NAME>
+          <ADMIN-DATA>
+            <SDGS>
+              <SDG GID="ASIL">
+                <SD GID="ASIL-LEVEL">D</SD>
+              </SDG>
+            </SDGS>
+          </ADMIN-DATA>
+          <PORTS>
+            <!-- Required: SOC from BMS -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>SOC_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/SocSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: motor speed feedback from MCU -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>MotorSpeed_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/MotorSpeedSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: BMS fault status -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>BmsFault_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: driver pedal demand (ADAS or accelerator) -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>DriveMode_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DriveModeSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Provided: torque demand to MCU -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>TorqueDemand_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/TorqueDemandSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: contactor command to BMS -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>ContactorCmd_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/ContactorSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: VCU fault to diagnostic -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>VcuFault_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR>
+              <SHORT-NAME>VCU_IB</SHORT-NAME>
+              <RUNNABLES>
+                <!-- Runnable: torque arbitration 5 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>VCU_TorqueArbitration_5ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.005</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: drive mode management 20 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>VCU_DriveMode_20ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.02</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: energy recovery management 10 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>VCU_RegenControl_10ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.01</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+        <!-- ─── MCU: Motor Control Unit SWC ────────────────────── -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>MotorControlUnit_SWC</SHORT-NAME>
+          <ADMIN-DATA>
+            <SDGS>
+              <SDG GID="ASIL">
+                <SD GID="ASIL-LEVEL">C</SD>
+              </SDG>
+            </SDGS>
+          </ADMIN-DATA>
+          <PORTS>
+            <!-- Required: torque demand from VCU -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>TorqueDemand_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/TorqueDemandSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: DC link voltage from inverter -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>DCLink_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DCLinkSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Provided: actual motor speed to VCU -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>MotorSpeed_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/MotorSpeedSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: MCU fault status -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>McuFault_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR>
+              <SHORT-NAME>MCU_IB</SHORT-NAME>
+              <RUNNABLES>
+                <!-- Runnable: field-oriented control 1 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>MCU_FOC_1ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.001</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: speed estimation 1 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>MCU_SpeedEstimation_1ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.001</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: IGBT gate drive protection 0.1 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>MCU_GateDrive_100us</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.0001</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+        <!-- ─── TMS: Thermal Management System SWC ─────────────── -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>ThermalManagementSystem_SWC</SHORT-NAME>
+          <ADMIN-DATA>
+            <SDGS>
+              <SDG GID="ASIL">
+                <SD GID="ASIL-LEVEL">B</SD>
+              </SDG>
+            </SDGS>
+          </ADMIN-DATA>
+          <PORTS>
+            <!-- Required: pack temperature from BMS -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>PackTemp_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/PackTempSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Provided: coolant pump speed demand -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>CoolantDemand_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DCLinkSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- Provided: TMS fault -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>TmsFault_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+          <INTERNAL-BEHAVIORS>
+            <SWC-INTERNAL-BEHAVIOR>
+              <SHORT-NAME>TMS_IB</SHORT-NAME>
+              <RUNNABLES>
+                <!-- Runnable: thermal control 100 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>TMS_ThermalControl_100ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.1</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+                <!-- Runnable: battery pre-conditioning 500 ms -->
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>TMS_Precondition_500ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.5</MINIMUM-START-INTERVAL>
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+        <!-- ─── OBC: Onboard Charger SWC ────────────────────────── -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>OnboardCharger_SWC</SHORT-NAME>
+          <PORTS>
+            <!-- Required: SOC for charge termination -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>SOC_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/SocSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Required: DC link voltage for grid sync -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>DCLink_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DCLinkSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- Provided: charge current demand -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>ChargeCurrent_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/TorqueDemandSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- ═══════════════════════════════════════════════════════
+         COMPOSITION: EV POWERTRAIN ECU
+    ═══════════════════════════════════════════════════════ -->
+    <AR-PACKAGE>
+      <SHORT-NAME>Compositions</SHORT-NAME>
+      <ELEMENTS>
+
+        <COMPOSITION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>EVPowertrain_ECU_Composition</SHORT-NAME>
+          <PORTS>
+            <!-- External: driver torque demand (pedal/ADAS) -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>DriverDemand_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/DriveModeSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- External: vehicle speed from ABS ECU -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>VehicleSpeed_R</SHORT-NAME>
+              <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/MotorSpeedSR_I</REQUIRED-INTERFACE-TREF>
+            </R-PORT-PROTOTYPE>
+            <!-- External: SOC to instrument cluster -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>SOC_Display_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/SocSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+            <!-- External: powertrain fault to body controller -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>PowertrainFault_P</SHORT-NAME>
+              <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/PortInterfaces/FaultSR_I</PROVIDED-INTERFACE-TREF>
+            </P-PORT-PROTOTYPE>
+          </PORTS>
+          <COMPONENTS>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>BMS</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/SWComponents/BatteryManagementSystem_SWC</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>VCU</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/SWComponents/VehicleControlUnit_SWC</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>MCU</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/SWComponents/MotorControlUnit_SWC</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>TMS</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/SWComponents/ThermalManagementSystem_SWC</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+            <SW-COMPONENT-PROTOTYPE>
+              <SHORT-NAME>OBC</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-SW-COMPONENT-TYPE">/SWComponents/OnboardCharger_SWC</TYPE-TREF>
+            </SW-COMPONENT-PROTOTYPE>
+          </COMPONENTS>
+          <CONNECTORS>
+            <!-- BMS SOC → VCU SOC_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>BMS_SOC_to_VCU</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/BMS</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/SOC_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/VCU</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/VehicleControlUnit_SWC/SOC_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+            <!-- BMS SOC → OBC SOC_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>BMS_SOC_to_OBC</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/BMS</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/SOC_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/OBC</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/OnboardCharger_SWC/SOC_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+            <!-- BMS PackTemp → TMS PackTemp_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>BMS_PackTemp_to_TMS</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/BMS</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/PackTemperature_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/TMS</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/ThermalManagementSystem_SWC/PackTemp_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+            <!-- VCU TorqueDemand → MCU TorqueDemand_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>VCU_Torque_to_MCU</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/VCU</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/VehicleControlUnit_SWC/TorqueDemand_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/MCU</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/MotorControlUnit_SWC/TorqueDemand_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+            <!-- MCU MotorSpeed → VCU MotorSpeed_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>MCU_Speed_to_VCU</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/MCU</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/MotorControlUnit_SWC/MotorSpeed_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/VCU</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/VehicleControlUnit_SWC/MotorSpeed_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+            <!-- BMS BmsFault → VCU BmsFault_R -->
+            <ASSEMBLY-SW-CONNECTOR>
+              <SHORT-NAME>BMS_Fault_to_VCU</SHORT-NAME>
+              <PROVIDER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/BMS</CONTEXT-COMPONENT-REF>
+                <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/SWComponents/BatteryManagementSystem_SWC/BmsFault_P</TARGET-P-PORT-REF>
+              </PROVIDER-IREF>
+              <REQUESTER-IREF>
+                <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Compositions/EVPowertrain_ECU_Composition/VCU</CONTEXT-COMPONENT-REF>
+                <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/SWComponents/VehicleControlUnit_SWC/BmsFault_R</TARGET-R-PORT-REF>
+              </REQUESTER-IREF>
+            </ASSEMBLY-SW-CONNECTOR>
+          </CONNECTORS>
+        </COMPOSITION-SW-COMPONENT-TYPE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+    <!-- ═══════════════════════════════════════════════════════
+         ECU CONFIGURATION
+    ═══════════════════════════════════════════════════════ -->
+    <AR-PACKAGE>
+      <SHORT-NAME>EcuConfiguration</SHORT-NAME>
+      <ELEMENTS>
+
+        <ECU-INSTANCE>
+          <SHORT-NAME>EVPowertrain_ECU</SHORT-NAME>
+          <COM-CONTROLLERS>
+            <COM-CONTROLLER>
+              <SHORT-NAME>CAN_Controller_HS</SHORT-NAME>
+            </COM-CONTROLLER>
+            <COM-CONTROLLER>
+              <SHORT-NAME>CAN_Controller_PT</SHORT-NAME>
+            </COM-CONTROLLER>
+          </COM-CONTROLLERS>
+        </ECU-INSTANCE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+
+  </AR-PACKAGES>
+</AUTOSAR>

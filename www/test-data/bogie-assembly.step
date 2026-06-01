@@ -1,0 +1,113 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('HSR Power Bogie Assembly'
+  'AP242 Mechanical Design - Rail Systems'
+  'System: Shinkansen N700S Class Power Bogie WDT254'
+  'Assembly: Complete Motorized Bogie - 14 Components'
+  'Standard: JIS E 4207, UIC 515-1, EN 13749'),
+  '2;1');
+FILE_NAME('/rail/Bogie_WDT254_PowerBogie.step',
+  '2026-05-31T08:00:00',
+  ('Rail Systems Engineering','Bogies & Running Gear'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP242 Exporter v2.4',
+  'HSR Power Bogie WDT254 Rev E',
+  'PROPRIETARY - NOT FOR DISTRIBUTION');
+FILE_SCHEMA(('AP242_MANAGED_MODEL_BASED_3D_ENGINEERING_MIM_LF { 1 0 10303 242 3 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ---- APPLICATION CONTEXT ---- */
+#1 = APPLICATION_CONTEXT('managed model based 3d engineering');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','ap242_managed_model_based_3d_engineering_mim_lf',2014,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ---- TOP-LEVEL BOGIE ASSEMBLY ---- */
+#10 = PRODUCT('BG-WDT254-001','Power Bogie Assembly WDT254',
+     'Motorised bogie, 2-axle, wheelbase 2500mm, 350km/h rated, 17t axle load',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('E','Production Series 2',#10);
+#12 = PRODUCT_DEFINITION(#11,'Bogie_Assembly_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ---- BOGIE FRAME ---- */
+#20 = PRODUCT('BG-FRAME-001','Bogie Frame (H-frame)',
+     'Welded steel H-frame, SM570Q, L=3600mm W=1800mm, FEA-rated 2.5x static',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('E','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'BogieFrame_Body',#13);
+
+/* ---- WHEELSET #1 ---- */
+#30 = PRODUCT('BG-WS-001','Wheelset No.1',
+     'Solid axle + wheels, ER8 steel, dia=860mm, gauge 1435mm, max 17t axle load',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('D','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'Wheelset1_Body',#13);
+
+/* ---- WHEELSET #2 ---- */
+#40 = PRODUCT('BG-WS-002','Wheelset No.2',
+     'Solid axle + wheels, ER8 steel, dia=860mm, gauge 1435mm, max 17t axle load',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('D','Release',#40);
+#42 = PRODUCT_DEFINITION(#41,'Wheelset2_Body',#13);
+
+/* ---- AXLE BOX (x4) ---- */
+#50 = PRODUCT('BG-AB-001','Axle Box Assembly (per unit)',
+     'Roller bearing 130x230x64 TAPER, rubber-metal primary spring integrated',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('C','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'AxleBox_Body',#13);
+
+/* ---- PRIMARY SUSPENSION ---- */
+#60 = PRODUCT('BG-PS-001','Primary Suspension Assembly',
+     'Coil spring k=1.6MN/m + hydraulic damper, vertical 60mm stroke',(#3));
+#61 = PRODUCT_DEFINITION_FORMATION('C','Release',#60);
+#62 = PRODUCT_DEFINITION(#61,'PrimarySusp_Body',#13);
+
+/* ---- SECONDARY SUSPENSION ---- */
+#70 = PRODUCT('BG-SS-001','Secondary Suspension (Air Spring)',
+     'Air spring 500mm dia, stiffness k_v=0.3MN/m, lateral damper, anti-roll bar',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('C','Release',#70);
+#72 = PRODUCT_DEFINITION(#71,'SecondarySusp_Body',#13);
+
+/* ---- TRACTION MOTOR ---- */
+#80 = PRODUCT('BG-MTR-001','Traction Motor MT207 (per axle)',
+     'PMSM, P=305kW cont, 2050Nm peak, IP55, 850V DC link, forced air cooled',(#3));
+#81 = PRODUCT_DEFINITION_FORMATION('D','Production',#80);
+#82 = PRODUCT_DEFINITION(#81,'TractionMotor_Body',#13);
+
+/* ---- GEARBOX ---- */
+#90 = PRODUCT('BG-GB-001','Hollow Shaft Gearbox',
+     'Single-reduction, ratio 2.719:1, helical gears, oil bath, quill drive shaft',(#3));
+#91 = PRODUCT_DEFINITION_FORMATION('D','Production',#90);
+#92 = PRODUCT_DEFINITION(#91,'Gearbox_Body',#13);
+
+/* ---- DISC BRAKES (x4 per bogie) ---- */
+#100 = PRODUCT('BG-BRAKE-001','Axle-Mounted Disc Brake Unit',
+     '3x disc per axle, 640mm dia, cast iron / MMC disc, pneumatic caliper',(#3));
+#101 = PRODUCT_DEFINITION_FORMATION('C','Release',#100);
+#102 = PRODUCT_DEFINITION(#101,'DiscBrake_Body',#13);
+
+/* ---- YAWDAMPERS ---- */
+#110 = PRODUCT('BG-YD-001','Yaw Damper Pair',
+     'Hydraulic yaw dampers, c=8kN/(m/s), 350mm stroke, both ends bogie',(#3));
+#111 = PRODUCT_DEFINITION_FORMATION('B','Release',#110);
+#112 = PRODUCT_DEFINITION(#111,'YawDamper_Body',#13);
+
+/* ---- NEXT ASSEMBLY USAGES ---- */
+#200 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FRAME-QTY1','',#12,#22,$,$);
+#201 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WS1-QTY1','',#12,#32,$,$);
+#202 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WS2-QTY1','',#12,#42,$,$);
+#203 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AB-QTY4','4 axle boxes',#12,#52,$,$);
+#204 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PS-QTY4','4 primary springs',#12,#62,$,$);
+#205 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('SS-QTY2','2 air spring sets',#12,#72,$,$);
+#206 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MTR-QTY2','2 motors per bogie',#12,#82,$,$);
+#207 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('GB-QTY2','2 gearboxes',#12,#92,$,$);
+#208 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('BRAKE-QTY2','2 brake units',#12,#102,$,$);
+#209 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('YD-QTY1','1 yaw damper pair',#12,#112,$,$);
+
+/* ---- PROPERTIES ---- */
+#300 = PROPERTY_DEFINITION('bogie_mass_kg','4850 kg unsprung + 1100 kg sprung',#12);
+#301 = PROPERTY_DEFINITION('max_speed_kmh','360 km/h continuous, 400 km/h design',#12);
+#302 = PROPERTY_DEFINITION('wheelbase_mm','2500 mm',#12);
+#303 = PROPERTY_DEFINITION('track_gauge_mm','1435 mm (standard gauge)',#12);
+#304 = PROPERTY_DEFINITION('installed_power_kW','610 kW per bogie (2x305 kW)',#12);
+
+ENDSEC;
+END-ISO-10303-21;

@@ -1,0 +1,248 @@
+-- Offshore Wind Turbine Control and SCADA Architecture
+-- 15 MW turbine reference; IEC 61400-25 / IEC 61131-3 / IEC 62443
+-- Turbine controller, pitch (×3), yaw, SCADA gateway, CMS, safety PLC
+-- Profibus DP and EtherCAT fieldbus; OPC-UA northbound
+
+package WindTurbineSCADA
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data types ─────────────────────────────────────────────────────────────
+  data PitchAngleCmd
+    properties
+      Data_Model::Data_Representation => IEEE754_Single;
+      Data_Size => 4 Bytes;   -- degrees, -5 to 95
+  end PitchAngleCmd;
+
+  data YawPositionCmd
+    properties
+      Data_Model::Data_Representation => IEEE754_Single;
+      Data_Size => 4 Bytes;   -- degrees absolute
+  end YawPositionCmd;
+
+  data TurbineStatusMsg
+    -- Comprehensive turbine state for SCADA; ~50 signals
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 200 Bytes;
+  end TurbineStatusMsg;
+
+  data CMSVibrationSample
+    -- Condition monitoring accelerometer sample block
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 4096 Bytes;  -- 1024 × float32 at 25.6 kHz burst
+  end CMSVibrationSample;
+
+  data SafetyChainState
+    properties
+      Data_Model::Data_Representation => Integer;
+      Data_Size => 4 Bytes;    -- safety chain bitmask
+  end SafetyChainState;
+
+  -- ── Buses ──────────────────────────────────────────────────────────────────
+  bus ProfibusDPBus
+    -- Profibus DP V1; 12 Mbit/s; blade pitch actuators and yaw drives
+    properties
+      SEI::BandWidthCapacity => 12.0 MBytesps;
+      SEI::BandWidthBudget   => 6.0 MBytesps;
+  end ProfibusDPBus;
+
+  bus EtherCATBus
+    -- EtherCAT; 100 Mbit/s; CMS sensors, power converter telemetry
+    properties
+      SEI::BandWidthCapacity => 100.0 MBytesps;
+      SEI::BandWidthBudget   => 40.0 MBytesps;
+  end EtherCATBus;
+
+  bus NacelleEthernet
+    -- 1000BASE-T nacelle LAN; connects controllers and gateway
+    properties
+      SEI::BandWidthCapacity => 1000.0 MBytesps;
+      SEI::BandWidthBudget   => 200.0 MBytesps;
+  end NacelleEthernet;
+
+  bus OffshoreSubseaCable
+    -- Submarine fibre; 10 Gbit/s uplink to offshore substation SCADA
+    properties
+      SEI::BandWidthCapacity => 10000.0 MBytesps;
+      SEI::BandWidthBudget   => 100.0 MBytesps;
+  end OffshoreSubseaCable;
+
+  bus SafetyBus
+    -- Hardwired safety chain bus; ProfiSafe over Profibus
+    properties
+      SEI::BandWidthCapacity => 1.5 MBytesps;
+  end SafetyBus;
+
+  -- ── Processors ────────────────────────────────────────────────────────────
+  processor TurbineController
+    -- Main turbine PLC; IEC 61131-3; hot-standby redundant pair
+    features
+      nacelleNet    : requires bus access NacelleEthernet;
+      profibusAccess: requires bus access ProfibusDPBus;
+      safetyBus     : requires bus access SafetyBus;
+    properties
+      SEI::MIPSCapacity   => 600.0 MIPS;
+      SEI::MIPSBudget     => 400.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 5 ms;
+  end TurbineController;
+
+  processor PitchController
+    -- Individual blade pitch IPC; runs on dedicated hub computer
+    features
+      profibusAccess: requires bus access ProfibusDPBus;
+      safetyBus     : requires bus access SafetyBus;
+    properties
+      SEI::MIPSCapacity   => 200.0 MIPS;
+      SEI::MIPSBudget     => 120.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 5 ms;
+  end PitchController;
+
+  processor YawController
+    -- Yaw drive sequencer; 12-motor yaw ring coordination
+    features
+      nacelleNet    : requires bus access NacelleEthernet;
+      profibusAccess: requires bus access ProfibusDPBus;
+    properties
+      SEI::MIPSCapacity   => 150.0 MIPS;
+      SEI::MIPSBudget     => 80.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 100 ms;
+  end YawController;
+
+  processor SCADAGateway
+    -- OPC-UA server; IEC 61400-25 data model; SCADA northbound aggregation
+    features
+      nacelleNet    : requires bus access NacelleEthernet;
+      subseaCable   : requires bus access OffshoreSubseaCable;
+    properties
+      SEI::MIPSCapacity   => 2000.0 MIPS;
+      SEI::MIPSBudget     => 800.0 MIPS;
+      Scheduling_Protocol => (EDF);
+  end SCADAGateway;
+
+  processor CMSUnit
+    -- Condition monitoring; vibration, oil particle, temperature trending
+    features
+      etherCATAccess: requires bus access EtherCATBus;
+      nacelleNet    : requires bus access NacelleEthernet;
+    properties
+      SEI::MIPSCapacity   => 1000.0 MIPS;
+      SEI::MIPSBudget     => 700.0 MIPS;
+      Scheduling_Protocol => (EDF);
+  end CMSUnit;
+
+  processor SafetyPLC
+    -- IEC 62061 SIL-2 safety PLC; emergency feather and grid disconnect
+    features
+      safetyBus     : requires bus access SafetyBus;
+      nacelleNet    : requires bus access NacelleEthernet;
+    properties
+      SEI::MIPSCapacity   => 100.0 MIPS;
+      SEI::MIPSBudget     => 50.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 10 ms;
+  end SafetyPLC;
+
+  -- ── Processes ─────────────────────────────────────────────────────────────
+  process PowerCurveControl
+    -- MPPT below rated; constant-power above rated; curtailment mode
+    features
+      windSpeedIn    : in data port PitchAngleCmd;
+      rotorSpeedIn   : in data port PitchAngleCmd;
+      pitchSetpoint  : out data port PitchAngleCmd;
+      torqueSetpoint : out data port PitchAngleCmd;
+    properties
+      Period    => 5 ms;
+      Deadline  => 5 ms;
+      Priority  => 9;
+  end PowerCurveControl;
+
+  process IndividualPitchControl
+    -- Per-blade IPC for load reduction; 3P harmonic cancellation
+    features
+      bladeLoadIn    : in data port PitchAngleCmd;
+      pitchCmd_B1    : out data port PitchAngleCmd;
+      pitchCmd_B2    : out data port PitchAngleCmd;
+      pitchCmd_B3    : out data port PitchAngleCmd;
+    properties
+      Period    => 5 ms;
+      Deadline  => 5 ms;
+      Priority  => 8;
+  end IndividualPitchControl;
+
+  process SCADADataAggregation
+    features
+      statusIn       : in data port TurbineStatusMsg;
+      cmsIn          : in data port CMSVibrationSample;
+      opcUAPublish   : out data port TurbineStatusMsg;
+    properties
+      Period    => 1000 ms;   -- 1 Hz SCADA scan
+      Deadline  => 1000 ms;
+      Priority  => 5;
+  end SCADADataAggregation;
+
+  process SafetyChainMonitor
+    features
+      chainIn        : in data port SafetyChainState;
+      emergencyStop  : out event port;
+      featherCmd     : out event port;
+    properties
+      Period    => 10 ms;
+      Deadline  => 10 ms;
+      Priority  => 10;
+  end SafetyChainMonitor;
+
+  -- ── Top-level system ──────────────────────────────────────────────────────
+  system WindTurbineControlSystem
+  end WindTurbineControlSystem;
+
+  system implementation WindTurbineControlSystem.offshore15MW
+    subcomponents
+      turbCtrl       : processor TurbineController;
+      pitchCtrl_B1   : processor PitchController;
+      pitchCtrl_B2   : processor PitchController;
+      pitchCtrl_B3   : processor PitchController;
+      yawCtrl        : processor YawController;
+      scadaGW        : processor SCADAGateway;
+      cmsUnit        : processor CMSUnit;
+      safetyPLC      : processor SafetyPLC;
+      powerCurve     : process PowerCurveControl;
+      ipc            : process IndividualPitchControl;
+      scadaAgg       : process SCADADataAggregation;
+      safetyMon      : process SafetyChainMonitor;
+      nacelleNet     : bus NacelleEthernet;
+      profibusHub    : bus ProfibusDPBus;
+      etherCATNet    : bus EtherCATBus;
+      subseaCable    : bus OffshoreSubseaCable;
+      safetyBusSeg   : bus SafetyBus;
+    connections
+      n1: bus access nacelleNet  -> turbCtrl.nacelleNet;
+      n2: bus access nacelleNet  -> yawCtrl.nacelleNet;
+      n3: bus access nacelleNet  -> scadaGW.nacelleNet;
+      n4: bus access nacelleNet  -> cmsUnit.nacelleNet;
+      n5: bus access nacelleNet  -> safetyPLC.nacelleNet;
+      p1: bus access profibusHub -> turbCtrl.profibusAccess;
+      p2: bus access profibusHub -> pitchCtrl_B1.profibusAccess;
+      p3: bus access profibusHub -> pitchCtrl_B2.profibusAccess;
+      p4: bus access profibusHub -> pitchCtrl_B3.profibusAccess;
+      p5: bus access profibusHub -> yawCtrl.profibusAccess;
+      e1: bus access etherCATNet -> cmsUnit.etherCATAccess;
+      sc: bus access subseaCable -> scadaGW.subseaCable;
+      sb1: bus access safetyBusSeg -> turbCtrl.safetyBus;
+      sb2: bus access safetyBusSeg -> pitchCtrl_B1.safetyBus;
+      sb3: bus access safetyBusSeg -> pitchCtrl_B2.safetyBus;
+      sb4: bus access safetyBusSeg -> pitchCtrl_B3.safetyBus;
+      sb5: bus access safetyBusSeg -> safetyPLC.safetyBus;
+    properties
+      Actual_Processor_Binding => (reference (turbCtrl))   applies to powerCurve;
+      Actual_Processor_Binding => (reference (turbCtrl))   applies to ipc;
+      Actual_Processor_Binding => (reference (scadaGW))    applies to scadaAgg;
+      Actual_Processor_Binding => (reference (safetyPLC))  applies to safetyMon;
+  end WindTurbineControlSystem.offshore15MW;
+
+end WindTurbineSCADA;

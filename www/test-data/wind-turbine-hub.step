@@ -1,0 +1,107 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Offshore Wind Turbine Hub Assembly'
+  'AP242 Mechanical Design - Wind Energy Systems'
+  'System: IEA-15-240-RWT 15MW Hub Assembly'
+  'Assembly: Hub with Pitch Bearing Interfaces and Spinner - 10 Components'
+  'Standard: IEC 61400-1 Ed.4, DNV-ST-0126, ISO 281 (Bearings)'),
+  '2;1');
+FILE_NAME('/wind/Hub_IEA15MW_Assembly.step',
+  '2026-05-31T08:00:00',
+  ('Wind Structures Group','Nacelle & Hub Engineering'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP242 Exporter v2.4',
+  'IEA-15MW Hub Assembly Rev C',
+  'PROPRIETARY DESIGN DATA');
+FILE_SCHEMA(('AP242_MANAGED_MODEL_BASED_3D_ENGINEERING_MIM_LF { 1 0 10303 242 3 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ---- APPLICATION CONTEXT ---- */
+#1 = APPLICATION_CONTEXT('managed model based 3d engineering');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','ap242_managed_model_based_3d_engineering_mim_lf',2014,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ---- TOP-LEVEL HUB ASSEMBLY ---- */
+#10 = PRODUCT('HUB-IEA15-001','Wind Turbine Hub Assembly 15MW',
+     'Cast ductile iron hub, 3-blade IEC I, 120-deg pitch axes, 7.56 RPM rated',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('C','Production Release',#10);
+#12 = PRODUCT_DEFINITION(#11,'Hub_Assembly_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ---- HUB BODY CASTING ---- */
+#20 = PRODUCT('HUB-BODY','Hub Body Casting',
+     'EN-GJS-400-18-LT (Spheroidal graphite iron), mass ~47,000 kg, 6.2m span',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('C','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'HubBody_Body',#13);
+
+/* ---- PITCH BEARING BLADE 1 ---- */
+#30 = PRODUCT('HUB-PB-1','Pitch Bearing Interface - Blade 1',
+     'Four-point contact ball bearing, OD=4520mm, ID=4200mm, 100-yr rated life',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('C','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'PitchBearing1_Body',#13);
+
+/* ---- PITCH BEARING BLADE 2 ---- */
+#40 = PRODUCT('HUB-PB-2','Pitch Bearing Interface - Blade 2',
+     'Four-point contact ball bearing, OD=4520mm, ID=4200mm, 100-yr rated life',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('C','Release',#40);
+#42 = PRODUCT_DEFINITION(#41,'PitchBearing2_Body',#13);
+
+/* ---- PITCH BEARING BLADE 3 ---- */
+#50 = PRODUCT('HUB-PB-3','Pitch Bearing Interface - Blade 3',
+     'Four-point contact ball bearing, OD=4520mm, ID=4200mm, 100-yr rated life',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('C','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'PitchBearing3_Body',#13);
+
+/* ---- PITCH DRIVE UNITS (3x) ---- */
+#60 = PRODUCT('HUB-PDU','Pitch Drive Unit (per blade)',
+     'Electric pitch drive, 250kNm torque, ±8 deg/s rate, encoder feedback, UPS',(#3));
+#61 = PRODUCT_DEFINITION_FORMATION('B','Release',#60);
+#62 = PRODUCT_DEFINITION(#61,'PitchDrive_Body',#13);
+
+/* ---- MAIN SHAFT FLANGE ---- */
+#70 = PRODUCT('HUB-FLANGE','Main Shaft Connecting Flange',
+     '42CrMo4 steel forging, 2800mm dia, 48x M72 bolts, torque 28 MN·m rated',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('C','Release',#70);
+#72 = PRODUCT_DEFINITION(#71,'MainShaftFlange_Body',#13);
+
+/* ---- SPINNER NOSE CONE ---- */
+#80 = PRODUCT('HUB-SPINNER','Spinner Nose Cone Assembly',
+     'GRP sandwich structure, 7.5m dia, lightning protection, access door 800x600',(#3));
+#81 = PRODUCT_DEFINITION_FORMATION('B','Release',#80);
+#82 = PRODUCT_DEFINITION(#81,'Spinner_Body',#13);
+
+/* ---- HUB INTERNAL FRAME ---- */
+#90 = PRODUCT('HUB-INT-FRAME','Hub Internal Access Structure',
+     'S355 welded steel walkway + ladder, rated 250kg person load, cable trays',(#3));
+#91 = PRODUCT_DEFINITION_FORMATION('B','Release',#90);
+#92 = PRODUCT_DEFINITION(#91,'HubInternalFrame_Body',#13);
+
+/* ---- SLIP RING / ROTARY UNION ---- */
+#95 = PRODUCT('HUB-SLIPRING','Slip Ring and Rotary Joint',
+     'Electrical slip ring 360-deg, 3x power + 12x signal, CAN/EtherCAT pass-through',(#3));
+#96 = PRODUCT_DEFINITION_FORMATION('B','Release',#95);
+#97 = PRODUCT_DEFINITION(#96,'SlipRing_Body',#13);
+
+/* ---- NEXT ASSEMBLY USAGES ---- */
+#200 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('HUBBODY-QTY1','Main structural casting',#12,#22,$,$);
+#201 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PB1-QTY1','Blade 1 pitch bearing',#12,#32,$,$);
+#202 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PB2-QTY1','Blade 2 pitch bearing',#12,#42,$,$);
+#203 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PB3-QTY1','Blade 3 pitch bearing',#12,#52,$,$);
+#204 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PDU-QTY3','3 pitch drives',#12,#62,$,$);
+#205 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FLANGE-QTY1','Drivetrain interface',#12,#72,$,$);
+#206 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('SPINNER-QTY1','Aerodynamic fairing',#12,#82,$,$);
+#207 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('INTFRAME-QTY1','Internal access',#12,#92,$,$);
+#208 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('SLIPRING-QTY1','E&I interface',#12,#97,$,$);
+
+/* ---- PROPERTIES ---- */
+#300 = PROPERTY_DEFINITION('hub_mass_kg','~52000 kg including pitch drives',#12);
+#301 = PROPERTY_DEFINITION('design_life_yr','25 years fatigue, IEC Class I wind',#12);
+#302 = PROPERTY_DEFINITION('rated_torque_MNm','15.7 MN·m at rated power',#12);
+#303 = PROPERTY_DEFINITION('pitch_bearing_OD_mm','4520 mm OD four-point contact',#12);
+#304 = PROPERTY_DEFINITION('material_hub','EN-GJS-400-18-LT per EN 1563',#12);
+#305 = PROPERTY_DEFINITION('certification','DNV-ST-0126 / GL 2012 / IEC 61400-1 Ed4',#12);
+
+ENDSEC;
+END-ISO-10303-21;

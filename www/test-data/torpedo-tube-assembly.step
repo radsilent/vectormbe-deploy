@@ -1,0 +1,99 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Submarine Torpedo Tube Assembly'
+  'AP214 Mechanical Design - Weapons Systems'
+  'System: SSN 21-inch (533mm) Torpedo Tube MK-67 Mod 1'
+  'Assembly: Torpedo Tube Full Set - 8 Components'
+  'Standard: MIL-S-22054, NAVSEA Drawing 802-6340000'),
+  '2;1');
+FILE_NAME('/submarine/TorpedoTube_MK67_Assembly.step',
+  '2026-05-31T08:00:00',
+  ('Weapons Systems Group','Naval Architecture'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP214 Exporter v2.4',
+  'MK-67 Torpedo Tube Rev D',
+  'CONTROLLED - DISTRIBUTION LIMITED');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 3 1 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ---- APPLICATION CONTEXT ---- */
+#1 = APPLICATION_CONTEXT('automotive design');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ---- TOP-LEVEL ASSEMBLY ---- */
+#10 = PRODUCT('TT-MK67-001','Torpedo Tube Assembly MK-67 Mod 1',
+     '533mm torpedo tube, impulse water ram, 0-300m depth rating',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('D','Rev D - Production Release',#10);
+#12 = PRODUCT_DEFINITION(#11,'TorpedoTube_Assy_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ---- OUTER HULL PENETRATION TUBE ---- */
+#20 = PRODUCT('TT-HULL-PENET','Outer Hull Penetration Sleeve',
+     'HY-100 steel sleeve, OD=635mm, t=25mm, L=900mm, pressure-rated 3 MPa',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('C','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'Hull_Penetration_Body',#13);
+
+/* ---- TUBE BODY (OUTER) ---- */
+#30 = PRODUCT('TT-TUBE-BODY','Torpedo Tube Outer Body',
+     'AISI 4340 steel, ID=533mm, OD=610mm, L=6200mm, hard chrome bore',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('D','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'TubeBody_Body',#13);
+
+/* ---- BREECH DOOR ASSEMBLY ---- */
+#40 = PRODUCT('TT-BREECH','Breech Door and Mechanism',
+     'Titanium Gr5 door, 660mm bore seal, hydraulic actuator 3000 psi, IBIS',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('C','Production',#40);
+#42 = PRODUCT_DEFINITION(#41,'BreechDoor_Body',#13);
+
+/* ---- MUZZLE DOOR ASSEMBLY ---- */
+#50 = PRODUCT('TT-MUZZLE','Muzzle Door and Flood/Drain Valve',
+     'HY-100 door, flood valve 200mm dia, depth-compensated seal, sea-pressure rated',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('C','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'MuzzleDoor_Body',#13);
+
+/* ---- IMPULSE TANK ---- */
+#60 = PRODUCT('TT-IMP-TANK','Impulse Water Tank',
+     'Stored water impulse system, 250L tank, SA-516-70, P_design=7MPa, N2 pressurised',(#3));
+#61 = PRODUCT_DEFINITION_FORMATION('B','Release',#60);
+#62 = PRODUCT_DEFINITION(#61,'ImpulseTank_Body',#13);
+
+/* ---- TUBE LINER / GUIDE RAILS ---- */
+#70 = PRODUCT('TT-LINER','Bore Liner and Weapon Guide Rails',
+     'Bronze guide rails, 4x rail full length, weapon support shoes, shock-mounted',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('B','Release',#70);
+#72 = PRODUCT_DEFINITION(#71,'BoreLiner_Body',#13);
+
+/* ---- HYDRAULIC CONTROL UNIT ---- */
+#80 = PRODUCT('TT-HCU','Tube Hydraulic Control Unit',
+     'Hydraulic manifold block, 5 solenoid valves, 3000 psi, IBIS/SEIS interface',(#3));
+#81 = PRODUCT_DEFINITION_FORMATION('C','Release',#80);
+#82 = PRODUCT_DEFINITION(#81,'HCU_Body',#13);
+
+/* ---- TUBE DRAIN / FLOOD PIPING ---- */
+#90 = PRODUCT('TT-PLUMBING','Flood and Drain Piping Subassembly',
+     'Schedule 160 Ti piping, flood valve, drain valve, equalising line, depth sensor',(#3));
+#91 = PRODUCT_DEFINITION_FORMATION('B','Release',#90);
+#92 = PRODUCT_DEFINITION(#91,'Plumbing_Body',#13);
+
+/* ---- NEXT ASSEMBLY USAGE OCCURRENCES ---- */
+#100 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-HULL-QTY1','Hull interface',#12,#22,$,$);
+#101 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-TUBE-QTY1','Main tube body',#12,#32,$,$);
+#102 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-BREECH-QTY1','Breech end',#12,#42,$,$);
+#103 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-MUZZLE-QTY1','Muzzle end',#12,#52,$,$);
+#104 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-IMP-QTY1','Impulse system',#12,#62,$,$);
+#105 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-LINER-QTY1','Bore equipment',#12,#72,$,$);
+#106 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-HCU-QTY1','Control systems',#12,#82,$,$);
+#107 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('TT-PLUMB-QTY1','Flood/drain',#12,#92,$,$);
+
+/* ---- PROPERTIES ---- */
+#200 = PROPERTY_DEFINITION('weapon_compatibility','MK-48 ADCAP, MK-48 Mod7, Tomahawk Block IV',#12);
+#201 = PROPERTY_DEFINITION('operating_depth_m','300 m rated / 450 m proof pressure',#12);
+#202 = PROPERTY_DEFINITION('impulse_pressure_MPa','0.62 initial, 0.41 muzzle exit',#12);
+#203 = PROPERTY_DEFINITION('launch_cycle_time_s','< 3.5 s tube-to-fired',#12);
+#204 = PROPERTY_DEFINITION('material_outer','HY-100 / AISI 4340 / Ti-6Al-4V per MIL-S-22054',#12);
+
+ENDSEC;
+END-ISO-10303-21;

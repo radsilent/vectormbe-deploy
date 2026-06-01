@@ -1,0 +1,201 @@
+-- Submarine Combat Management System Architecture
+-- Virginia-class SSN AN/BYG-1 combat system reference
+-- Integrated sonar, fire control, navigation, comms, and weapons
+-- Watchdog and fault-tolerance per SUBSAFE requirements
+
+package SubmarineCombat
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data types ─────────────────────────────────────────────────────────────
+  data AcousticSample
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 64 Bytes;   -- 4-byte float × 16 channels per packet
+  end AcousticSample;
+
+  data TrackData
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 128 Bytes;  -- position, velocity, bearing, classification
+  end TrackData;
+
+  data WeaponFireOrder
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 32 Bytes;
+  end WeaponFireOrder;
+
+  data NavigationFix
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 48 Bytes;   -- lat, lon, depth, heading, speed, time
+  end NavigationFix;
+
+  -- ── Buses ──────────────────────────────────────────────────────────────────
+  bus CombatSystemBus
+    -- Gigabit Ethernet combat LAN; segregated from ship service network
+    properties
+      SEI::BandWidthCapacity => 1000.0 MBytesps;
+      SEI::BandWidthBudget   => 500.0 MBytesps;
+  end CombatSystemBus;
+
+  bus SonarHydrophoneBus
+    -- High-bandwidth analogue/digital sonar array interface
+    properties
+      SEI::BandWidthCapacity => 200.0 MBytesps;
+  end SonarHydrophoneBus;
+
+  bus WeaponInterfaceBus
+    -- MIL-STD-1553B weapon interface
+    properties
+      SEI::BandWidthCapacity => 1.0 MBytesps;
+  end WeaponInterfaceBus;
+
+  -- ── Processors ────────────────────────────────────────────────────────────
+  processor SonarProcessor
+    -- Multi-COTS blade server for beamforming and classification
+    features
+      hydrophoneBus  : requires bus access SonarHydrophoneBus;
+      combatBus      : requires bus access CombatSystemBus;
+    properties
+      SEI::MIPSCapacity   => 16000.0 MIPS;
+      SEI::MIPSBudget     => 12000.0 MIPS;
+      Scheduling_Protocol => (EDF);
+  end SonarProcessor;
+
+  processor FireControlComputer
+    -- Dual-redundant fire control; hot standby failover < 500 ms
+    features
+      combatBus      : requires bus access CombatSystemBus;
+      weaponBus      : requires bus access WeaponInterfaceBus;
+    properties
+      SEI::MIPSCapacity   => 8000.0 MIPS;
+      SEI::MIPSBudget     => 5000.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 100 ms;
+  end FireControlComputer;
+
+  processor WeaponsController
+    -- Torpedo tube sequencer and VLS launch controller
+    features
+      combatBus      : requires bus access CombatSystemBus;
+      weaponBus      : requires bus access WeaponInterfaceBus;
+    properties
+      SEI::MIPSCapacity   => 2000.0 MIPS;
+      SEI::MIPSBudget     => 1200.0 MIPS;
+      Scheduling_Protocol => (RMS);
+  end WeaponsController;
+
+  processor NavigationProcessor
+    -- Inertial navigation + GPS/SINS correlator
+    features
+      combatBus      : requires bus access CombatSystemBus;
+    properties
+      SEI::MIPSCapacity   => 4000.0 MIPS;
+      SEI::MIPSBudget     => 2500.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 50 ms;
+  end NavigationProcessor;
+
+  processor CommsProcessor
+    -- VLF/UHF/EHF comms gateway and message router
+    features
+      combatBus      : requires bus access CombatSystemBus;
+    properties
+      SEI::MIPSCapacity   => 2000.0 MIPS;
+  end CommsProcessor;
+
+  -- ── Processes ─────────────────────────────────────────────────────────────
+  process BeamformingProcess
+    features
+      rawHydrophones : in data port AcousticSample;
+      beamData       : out data port AcousticSample;
+    properties
+      Period   => 1 ms;
+      Deadline => 1 ms;
+      Priority => 10;
+  end BeamformingProcess;
+
+  process ContactTrackingProcess
+    features
+      processedAcoustic : in data port AcousticSample;
+      trackOutput       : out data port TrackData;
+    properties
+      Period   => 100 ms;
+      Deadline => 100 ms;
+      Priority => 8;
+  end ContactTrackingProcess;
+
+  process FireControlProcess
+    features
+      trackInput     : in data port TrackData;
+      navInput       : in data port NavigationFix;
+      fireOrder      : out event data port WeaponFireOrder;
+    properties
+      Period   => 100 ms;
+      Deadline => 100 ms;
+      Priority => 9;
+  end FireControlProcess;
+
+  process NavigationProcess
+    features
+      navOutput      : out data port NavigationFix;
+    properties
+      Period   => 50 ms;
+      Deadline => 50 ms;
+      Priority => 10;
+  end NavigationProcess;
+
+  -- ── Watchdog ──────────────────────────────────────────────────────────────
+  device HardwareWatchdog
+    features
+      heartbeatIn    : in event port;
+      resetOut       : out event port;
+    properties
+      Period          => 500 ms;
+  end HardwareWatchdog;
+
+  -- ── Top-level system ──────────────────────────────────────────────────────
+  system CombatManagementSystem
+    features
+      shipServiceNet : requires bus access CombatSystemBus;
+  end CombatManagementSystem;
+
+  system implementation CombatManagementSystem.virginia
+    subcomponents
+      sonarProc      : processor SonarProcessor;
+      fcc_primary    : processor FireControlComputer;
+      fcc_backup     : processor FireControlComputer;
+      weapCtrl       : processor WeaponsController;
+      navProc        : processor NavigationProcessor;
+      commsProc      : processor CommsProcessor;
+      beamformer     : process BeamformingProcess;
+      contactTracker : process ContactTrackingProcess;
+      fireCtrl       : process FireControlProcess;
+      navFusion      : process NavigationProcess;
+      watchdog       : device HardwareWatchdog;
+      combatBus      : bus CombatSystemBus;
+      hydrophoneBus  : bus SonarHydrophoneBus;
+      weaponBus      : bus WeaponInterfaceBus;
+    connections
+      hb1: bus access hydrophoneBus -> sonarProc.hydrophoneBus;
+      cb1: bus access combatBus -> sonarProc.combatBus;
+      cb2: bus access combatBus -> fcc_primary.combatBus;
+      cb3: bus access combatBus -> fcc_backup.combatBus;
+      cb4: bus access combatBus -> navProc.combatBus;
+      cb5: bus access combatBus -> commsProc.combatBus;
+      wb1: bus access weaponBus -> fcc_primary.weaponBus;
+      wb2: bus access weaponBus -> weapCtrl.weaponBus;
+      d1 : port beamformer.beamData -> contactTracker.processedAcoustic;
+      d2 : port contactTracker.trackOutput -> fireCtrl.trackInput;
+      d3 : port navFusion.navOutput -> fireCtrl.navInput;
+    properties
+      Actual_Processor_Binding => (reference (sonarProc))  applies to beamformer;
+      Actual_Processor_Binding => (reference (sonarProc))  applies to contactTracker;
+      Actual_Processor_Binding => (reference (fcc_primary)) applies to fireCtrl;
+      Actual_Processor_Binding => (reference (navProc))    applies to navFusion;
+  end CombatManagementSystem.virginia;
+
+end SubmarineCombat;

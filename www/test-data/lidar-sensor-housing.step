@@ -1,0 +1,107 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('AV LIDAR Sensor Housing Assembly'
+  'AP214 Mechanical Design - Autonomous Vehicle Sensors'
+  'System: 128-Channel Solid-State LIDAR Head'
+  'Assembly: Complete LIDAR Unit with Mount and Connector - 9 Components'
+  'Standard: ISO 16750-3 (Vibration), IEC 60529 (IP69K), AEC-Q100'),
+  '2;1');
+FILE_NAME('/av_sensors/LIDAR_128ch_Housing_Assembly.step',
+  '2026-05-31T08:00:00',
+  ('AV Sensor Systems Engineering','Mechanical Design'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP214 Exporter v2.4',
+  'LIDAR Housing Assembly Rev B',
+  'COMPANY CONFIDENTIAL');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 3 1 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ---- APPLICATION CONTEXT ---- */
+#1 = APPLICATION_CONTEXT('automotive design');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ---- TOP-LEVEL ASSEMBLY ---- */
+#10 = PRODUCT('LIDAR-128-001','LIDAR Sensor Assembly 128CH',
+     '128-channel rotating LIDAR, 300m range, 360 deg h-fov, IP69K',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('B','Rev B Production',#10);
+#12 = PRODUCT_DEFINITION(#11,'LIDAR_Assembly_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ---- OUTER HOUSING COVER (DOME) ---- */
+#20 = PRODUCT('LIDAR-DOME','Optical Dome Cover',
+     'Polycarbonate dome, T=3mm, 200mm dia, anti-reflective coating, UV stabilised',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('B','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'Dome_Body',#13);
+
+/* ---- HOUSING BODY / CHASSIS ---- */
+#30 = PRODUCT('LIDAR-BODY','Housing Chassis Body',
+     'Die-cast AlSi10Mg, 192mm dia x 160mm H, anodised, IP sealing groove',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('B','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'HousingBody_Body',#13);
+
+/* ---- ROTATING OPTICAL HEAD ---- */
+#40 = PRODUCT('LIDAR-OPT-HEAD','Rotating Optical Head Module',
+     '128x laser emitter/detector array, 10 Hz rotation, 360 deg scan, ±25 V FOV',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('A','Engineering Release',#40);
+#42 = PRODUCT_DEFINITION(#41,'OpticalHead_Body',#13);
+
+/* ---- MOTOR ASSEMBLY ---- */
+#50 = PRODUCT('LIDAR-MOTOR','Rotation Drive Motor Assembly',
+     'BLDC 24V, 10Hz ±0.05Hz, Hall encoder 0.01 deg resolution, integrated bearing',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('B','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'MotorAssembly_Body',#13);
+
+/* ---- PCB STACK - SIGNAL PROCESSING ---- */
+#60 = PRODUCT('LIDAR-PCB','Signal Processing PCB Stack',
+     'FPGA Xilinx Kintex, TDC array, 4x Ethernet 1G, power supply 9-32V input',(#3));
+#61 = PRODUCT_DEFINITION_FORMATION('B','Release',#60);
+#62 = PRODUCT_DEFINITION(#61,'PCBStack_Body',#13);
+
+/* ---- MOUNTING BRACKET ---- */
+#70 = PRODUCT('LIDAR-MOUNT','Vehicle Mounting Bracket',
+     '6061-T6 aluminium bracket, 4x M8 mounts, shock isolators, angle adjust ±5deg',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('C','Production',#70);
+#72 = PRODUCT_DEFINITION(#71,'MountBracket_Body',#13);
+
+/* ---- CONNECTOR PLATE ---- */
+#80 = PRODUCT('LIDAR-CONN','Rear Connector Plate',
+     '4-pin DEUTSCH DT power + M12-8 Ethernet, IP69K, SS316L plate, 60mm x 40mm',(#3));
+#81 = PRODUCT_DEFINITION_FORMATION('B','Release',#80);
+#82 = PRODUCT_DEFINITION(#81,'ConnectorPlate_Body',#13);
+
+/* ---- THERMAL INTERFACE / HEAT SPREADER ---- */
+#90 = PRODUCT('LIDAR-THERMAL','Thermal Management Plate',
+     'Copper heat spreader + graphite pad, 2W/(m·K) TIM, anchored to housing base',(#3));
+#91 = PRODUCT_DEFINITION_FORMATION('A','Release',#90);
+#92 = PRODUCT_DEFINITION(#91,'ThermalPlate_Body',#13);
+
+/* ---- SEAL / GASKET SET ---- */
+#95 = PRODUCT('LIDAR-SEAL','IP69K Seal Kit',
+     'EPDM dome gasket + silicone connector seals + housing base O-ring, -40 to +85C',(#3));
+#96 = PRODUCT_DEFINITION_FORMATION('B','Release',#95);
+#97 = PRODUCT_DEFINITION(#96,'SealKit_Body',#13);
+
+/* ---- NEXT ASSEMBLY USAGES ---- */
+#200 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('DOME-QTY1','Top optical cover',#12,#22,$,$);
+#201 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('BODY-QTY1','Main housing',#12,#32,$,$);
+#202 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('OPTHEAD-QTY1','Optical module',#12,#42,$,$);
+#203 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MOTOR-QTY1','Drive motor',#12,#52,$,$);
+#204 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('PCB-QTY1','Electronics',#12,#62,$,$);
+#205 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MOUNT-QTY1','Vehicle interface',#12,#72,$,$);
+#206 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('CONN-QTY1','External connector',#12,#82,$,$);
+#207 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('THERMAL-QTY1','Thermal management',#12,#92,$,$);
+#208 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('SEAL-QTY1','IP sealing',#12,#97,$,$);
+
+/* ---- PROPERTIES ---- */
+#300 = PROPERTY_DEFINITION('mass_g','2450 g total assembly',#12);
+#301 = PROPERTY_DEFINITION('dimensions_mm','Dia=192 x H=160 mm',#12);
+#302 = PROPERTY_DEFINITION('ip_rating','IP69K (IEC 60529)',#12);
+#303 = PROPERTY_DEFINITION('operating_temp_C','-40 to +85 deg C',#12);
+#304 = PROPERTY_DEFINITION('power_w','30 W nominal, 45 W max',#12);
+#305 = PROPERTY_DEFINITION('vibration_spec','ISO 16750-3 Cat 1 road vehicle',#12);
+
+ENDSEC;
+END-ISO-10303-21;

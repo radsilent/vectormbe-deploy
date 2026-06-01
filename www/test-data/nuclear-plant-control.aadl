@@ -1,0 +1,171 @@
+-- Nuclear Plant Digital I&C System Architecture
+-- Reactor Protection System and ESFAS
+-- Based on Westinghouse Common Q / IEC 61513 platform
+-- Four-division logic; 2-of-4 coincidence voting
+
+package NuclearPlantControl
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data types ─────────────────────────────────────────────────────────────
+  data SensorReading
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 8 Bytes;
+  end SensorReading;
+
+  data ReactorTripBitfield
+    properties
+      Data_Model::Data_Representation => Integer;
+      Data_Size => 4 Bytes;
+  end ReactorTripBitfield;
+
+  data ESFASActuationCmd
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 16 Bytes;
+  end ESFASActuationCmd;
+
+  -- ── Buses ──────────────────────────────────────────────────────────────────
+  bus PlantDataBus
+    -- Dedicated fiber-optic data isolation bus (unidirectional where required)
+    properties
+      SEI::BandWidthCapacity => 100.0 MBytesps;
+      SEI::BandWidthBudget   => 40.0 MBytesps;
+  end PlantDataBus;
+
+  bus SensorBus
+    properties
+      SEI::BandWidthCapacity => 10.0 MBytesps;
+  end SensorBus;
+
+  bus ActuatorBus
+    properties
+      SEI::BandWidthCapacity => 10.0 MBytesps;
+  end ActuatorBus;
+
+  -- ── Processors ────────────────────────────────────────────────────────────
+  processor ReactorTripComputer
+    -- Dual-redundant VME processor card; 100 ms trip response requirement
+    features
+      sensorBusAccess   : requires bus access SensorBus;
+      plantBusAccess    : requires bus access PlantDataBus;
+    properties
+      SEI::MIPSCapacity        => 500.0 MIPS;
+      SEI::MIPSBudget          => 350.0 MIPS;
+      Scheduling_Protocol      => (RMS);
+      Clock_Period             => 10 ms;
+  end ReactorTripComputer;
+
+  processor ESFASComputer
+    -- ESFAS actuation logic computer; diverse from RTC
+    features
+      sensorBusAccess   : requires bus access SensorBus;
+      actuatorBusAccess : requires bus access ActuatorBus;
+      plantBusAccess    : requires bus access PlantDataBus;
+    properties
+      SEI::MIPSCapacity        => 400.0 MIPS;
+      SEI::MIPSBudget          => 280.0 MIPS;
+      Scheduling_Protocol      => (RMS);
+      Clock_Period             => 20 ms;
+  end ESFASComputer;
+
+  processor RodControlComputer
+    -- Control rod drive sequencer and position tracking
+    features
+      plantBusAccess    : requires bus access PlantDataBus;
+      actuatorBusAccess : requires bus access ActuatorBus;
+    properties
+      SEI::MIPSCapacity => 200.0 MIPS;
+  end RodControlComputer;
+
+  processor AnnunciatorProcessor
+    -- Alarm management and operator display server
+    features
+      plantBusAccess    : requires bus access PlantDataBus;
+    properties
+      SEI::MIPSCapacity => 300.0 MIPS;
+  end AnnunciatorProcessor;
+
+  -- ── Processes / threads ───────────────────────────────────────────────────
+  process ReactorTripLogic
+    features
+      sensorIn     : in data port SensorReading;
+      tripOut      : out event data port ReactorTripBitfield;
+    properties
+      Period        => 10 ms;
+      Deadline      => 10 ms;
+  end ReactorTripLogic;
+
+  process ESFASLogic
+    features
+      sensorIn      : in data port SensorReading;
+      actuationCmd  : out event data port ESFASActuationCmd;
+    properties
+      Period        => 20 ms;
+      Deadline      => 20 ms;
+  end ESFASLogic;
+
+  -- ── Systems ───────────────────────────────────────────────────────────────
+  system ReactorProtectionSystem
+    -- Four-division RPS; each division has independent RTC + logic
+    features
+      sensorBus_A   : requires bus access SensorBus;
+      sensorBus_B   : requires bus access SensorBus;
+      sensorBus_C   : requires bus access SensorBus;
+      sensorBus_D   : requires bus access SensorBus;
+      tripSignal    : out event port;
+      plantBus      : requires bus access PlantDataBus;
+  end ReactorProtectionSystem;
+
+  system implementation ReactorProtectionSystem.fourDivision
+    subcomponents
+      rtc_A  : processor ReactorTripComputer;
+      rtc_B  : processor ReactorTripComputer;
+      rtc_C  : processor ReactorTripComputer;
+      rtc_D  : processor ReactorTripComputer;
+      logic_A: process ReactorTripLogic;
+      logic_B: process ReactorTripLogic;
+      logic_C: process ReactorTripLogic;
+      logic_D: process ReactorTripLogic;
+    connections
+      sa: bus access sensorBus_A -> rtc_A.sensorBusAccess;
+      sb: bus access sensorBus_B -> rtc_B.sensorBusAccess;
+      sc: bus access sensorBus_C -> rtc_C.sensorBusAccess;
+      sd: bus access sensorBus_D -> rtc_D.sensorBusAccess;
+    properties
+      Actual_Processor_Binding => (reference (rtc_A)) applies to logic_A;
+      Actual_Processor_Binding => (reference (rtc_B)) applies to logic_B;
+      Actual_Processor_Binding => (reference (rtc_C)) applies to logic_C;
+      Actual_Processor_Binding => (reference (rtc_D)) applies to logic_D;
+  end ReactorProtectionSystem.fourDivision;
+
+  system NuclearPlantIandC
+    -- Top-level I&C system; integrates RPS, ESFAS, rod control, annunciator
+  end NuclearPlantIandC;
+
+  system implementation NuclearPlantIandC.complete
+    subcomponents
+      rps           : system ReactorProtectionSystem.fourDivision;
+      esfasComp     : processor ESFASComputer;
+      rodCtrlComp   : processor RodControlComputer;
+      annunciator   : processor AnnunciatorProcessor;
+      plantBus      : bus PlantDataBus;
+      sensorBus_A   : bus SensorBus;
+      sensorBus_B   : bus SensorBus;
+      sensorBus_C   : bus SensorBus;
+      sensorBus_D   : bus SensorBus;
+      actuatorBus   : bus ActuatorBus;
+    connections
+      pb1: bus access plantBus -> esfasComp.plantBusAccess;
+      pb2: bus access plantBus -> rodCtrlComp.plantBusAccess;
+      pb3: bus access plantBus -> annunciator.plantBusAccess;
+      pb4: bus access plantBus -> rps.plantBus;
+      ab1: bus access actuatorBus -> esfasComp.actuatorBusAccess;
+      ab2: bus access actuatorBus -> rodCtrlComp.actuatorBusAccess;
+    properties
+      SEI::MIPSCapacity => 500.0 MIPS applies to esfasComp;
+  end NuclearPlantIandC.complete;
+
+end NuclearPlantControl;

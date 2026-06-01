@@ -1,0 +1,202 @@
+-- Train Control Network Architecture
+-- High-speed rail trainset control system
+-- ETCS Level 2 on-board unit, ATP, TMS, propulsion, door control
+-- IEC 62280 / EN 50128 SIL-4 for ATP; MVB and WTB network buses
+
+package TrainControlNetwork
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data types ─────────────────────────────────────────────────────────────
+  data TrainMovementAuthority
+    -- ETCS Movement Authority from RBC
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 64 Bytes;
+  end TrainMovementAuthority;
+
+  data SpeedDistanceTelemetry
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 32 Bytes;   -- speed, odometer, time, quality
+  end SpeedDistanceTelemetry;
+
+  data PropulsionCommand
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 16 Bytes;   -- notch, mode, traction/brake request
+  end PropulsionCommand;
+
+  data DoorControlMsg
+    properties
+      Data_Model::Data_Representation => Integer;
+      Data_Size => 4 Bytes;    -- open/close/lock bitmask per door leaf
+  end DoorControlMsg;
+
+  -- ── Buses ──────────────────────────────────────────────────────────────────
+  bus MVB
+    -- Multifunction Vehicle Bus (IEC 61375-3-1); 1.5 Mbit/s
+    properties
+      SEI::BandWidthCapacity => 1.5 MBytesps;
+      SEI::BandWidthBudget   => 0.9 MBytesps;
+  end MVB;
+
+  bus WTB
+    -- Wire Train Bus (IEC 61375-2-5); spans entire trainset
+    properties
+      SEI::BandWidthCapacity => 1.0 MBytesps;
+      SEI::BandWidthBudget   => 0.5 MBytesps;
+  end WTB;
+
+  bus ETHERNETConsist
+    -- 100BASE-TX Ethernet consist backbone
+    properties
+      SEI::BandWidthCapacity => 100.0 MBytesps;
+      SEI::BandWidthBudget   => 30.0 MBytesps;
+  end ETHERNETConsist;
+
+  bus GSMRLink
+    -- GSM-R radio link to trackside RBC (4.8 kbps ETCS data channel)
+    properties
+      SEI::BandWidthCapacity => 0.0048 MBytesps;
+  end GSMRLink;
+
+  -- ── Processors ────────────────────────────────────────────────────────────
+  processor ATPComputer
+    -- EN 50128 SIL-4; dual 2oo2 architecture; Bombardier Interflo 450 ref.
+    features
+      mvbAccess      : requires bus access MVB;
+      gsmrAccess     : requires bus access GSMRLink;
+      consistNet     : requires bus access ETHERNETConsist;
+    properties
+      SEI::MIPSCapacity   => 600.0 MIPS;
+      SEI::MIPSBudget     => 400.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 100 ms;
+  end ATPComputer;
+
+  processor TMSCentral
+    -- Train Management System central unit; diagnostics aggregator
+    features
+      wtbAccess      : requires bus access WTB;
+      consistNet     : requires bus access ETHERNETConsist;
+    properties
+      SEI::MIPSCapacity   => 1000.0 MIPS;
+      SEI::MIPSBudget     => 600.0 MIPS;
+      Scheduling_Protocol => (EDF);
+  end TMSCentral;
+
+  processor PropulsionController
+    -- Traction/braking ECU per power car; IGBT drive coordination
+    features
+      mvbAccess      : requires bus access MVB;
+    properties
+      SEI::MIPSCapacity   => 800.0 MIPS;
+      SEI::MIPSBudget     => 500.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 5 ms;
+  end PropulsionController;
+
+  processor DoorController
+    -- Per-car door logic controller; EN 50128 SIL-2
+    features
+      mvbAccess      : requires bus access MVB;
+    properties
+      SEI::MIPSCapacity   => 100.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 100 ms;
+  end DoorController;
+
+  processor ETCSOnboard
+    -- ETCS OBU; Baseline 3 Release 2; includes juridical recorder
+    features
+      mvbAccess      : requires bus access MVB;
+      gsmrAccess     : requires bus access GSMRLink;
+    properties
+      SEI::MIPSCapacity   => 500.0 MIPS;
+      SEI::MIPSBudget     => 350.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 100 ms;
+  end ETCSOnboard;
+
+  -- ── Processes ─────────────────────────────────────────────────────────────
+  process ATPBrakeSupervision
+    features
+      maIn           : in data port TrainMovementAuthority;
+      speedIn        : in data port SpeedDistanceTelemetry;
+      brakeCmd       : out event data port PropulsionCommand;
+    properties
+      Period    => 100 ms;
+      Deadline  => 100 ms;
+      Priority  => 10;
+  end ATPBrakeSupervision;
+
+  process TractionManagement
+    features
+      driverCmd      : in data port PropulsionCommand;
+      atpPermit      : in data port PropulsionCommand;
+      motorCmd       : out data port PropulsionCommand;
+    properties
+      Period    => 5 ms;
+      Deadline  => 5 ms;
+      Priority  => 9;
+  end TractionManagement;
+
+  process DoorLockLogic
+    features
+      platformClear  : in event port;
+      doorCmd        : out event data port DoorControlMsg;
+    properties
+      Period    => 100 ms;
+      Deadline  => 100 ms;
+      Priority  => 7;
+  end DoorLockLogic;
+
+  -- ── WTB gateway device ────────────────────────────────────────────────────
+  device WTBGateway
+    -- Bridges WTB (trainset spine) to per-car MVB
+    features
+      wtbAccess  : requires bus access WTB;
+      mvbAccess  : requires bus access MVB;
+  end WTBGateway;
+
+  -- ── Top-level system ──────────────────────────────────────────────────────
+  system TrainControlSystem
+  end TrainControlSystem;
+
+  system implementation TrainControlSystem.hsr16car
+    subcomponents
+      atpComp        : processor ATPComputer;
+      etcsOBU        : processor ETCSOnboard;
+      tmsCentral     : processor TMSCentral;
+      propCtrl_A     : processor PropulsionController;  -- power car A
+      propCtrl_B     : processor PropulsionController;  -- power car B
+      doorCtrl       : processor DoorController[16];    -- one per car
+      wtbGateway_fwd : device WTBGateway;
+      wtbGateway_aft : device WTBGateway;
+      mvbNet         : bus MVB;
+      wtbNet         : bus WTB;
+      consistNet     : bus ETHERNETConsist;
+      gsmrLink       : bus GSMRLink;
+      atpSupervision : process ATPBrakeSupervision;
+      tractionMgmt   : process TractionManagement;
+      doorLogic      : process DoorLockLogic;
+    connections
+      m1: bus access mvbNet    -> atpComp.mvbAccess;
+      m2: bus access mvbNet    -> etcsOBU.mvbAccess;
+      m3: bus access mvbNet    -> propCtrl_A.mvbAccess;
+      m4: bus access mvbNet    -> propCtrl_B.mvbAccess;
+      w1: bus access wtbNet    -> tmsCentral.wtbAccess;
+      w2: bus access wtbNet    -> wtbGateway_fwd.wtbAccess;
+      w3: bus access wtbNet    -> wtbGateway_aft.wtbAccess;
+      c1: bus access consistNet -> atpComp.consistNet;
+      c2: bus access consistNet -> tmsCentral.consistNet;
+      g1: bus access gsmrLink  -> atpComp.gsmrAccess;
+      g2: bus access gsmrLink  -> etcsOBU.gsmrAccess;
+    properties
+      Actual_Processor_Binding => (reference (atpComp))    applies to atpSupervision;
+      Actual_Processor_Binding => (reference (propCtrl_A)) applies to tractionMgmt;
+  end TrainControlSystem.hsr16car;
+
+end TrainControlNetwork;

@@ -1,0 +1,412 @@
+{
+  "generated": "2026-06-01T04:18:18.095Z",
+  "count": 58,
+  "files": [
+    {
+      "filename": "scenarios.json",
+      "label": "Multi-Domain Use Cases & Scenarios",
+      "category": "Use Cases & Scenarios",
+      "format": "JSON",
+      "description": "Ready-to-explore set of use cases, scenarios, requirements, functions, and components across four domains: EV Battery Management, UAV Search & Rescue, Medical Infusion Pump, and Smart Factory AMR. Full traceability chains included."
+    },
+    {
+      "filename": "healthcare-signals.json",
+      "label": "Healthcare Device Signals (JSON)",
+      "category": "Healthcare",
+      "format": "JSON",
+      "description": "IEC 60601 compliant patient monitoring, infusion pump, and ventilator signal architecture with clinical alarm thresholds and safety classifications."
+    },
+    {
+      "filename": "healthcare-ecosystem.json",
+      "label": "Healthcare Ecosystem (JSON)",
+      "category": "Healthcare",
+      "format": "JSON",
+      "description": "Macro system-of-systems: care delivery, financing, pharma, public health, regulation, IT. With functions, signals, tiered decomposition, requirements, and ports."
+    },
+    {
+      "filename": "healthcare-system.sysml2",
+      "label": "Healthcare System (SysML v2)",
+      "category": "Healthcare",
+      "format": "SysML v2",
+      "description": "Hospital patient monitoring system in SysML v2: vital signs monitoring, clinical alarm management, medication delivery, and integrated EMR interface with safety requirements."
+    },
+    {
+      "filename": "aircraft-propulsion.emof",
+      "label": "Aircraft Propulsion (EMOF)",
+      "category": "Aerospace",
+      "format": "EMOF",
+      "description": "EMOF/Ecore model representation."
+    },
+    {
+      "filename": "aircraft-propulsion.json",
+      "label": "Aircraft Propulsion (JSON)",
+      "category": "Aerospace",
+      "format": "JSON",
+      "description": "81-node propulsion system graph — functions, components, signals, requirements, states, and interfaces with full relation graph."
+    },
+    {
+      "filename": "aircraft-propulsion.ttl",
+      "label": "Aircraft Propulsion (RDF/TTL)",
+      "category": "Aerospace",
+      "format": "Turtle",
+      "description": "Aircraft propulsion model as RDF Turtle triples."
+    },
+    {
+      "filename": "aircraft-propulsion.xmi",
+      "label": "Aircraft Propulsion (XMI)",
+      "category": "Aerospace",
+      "format": "XMI",
+      "description": "UML/SysML XMI export from Cameo."
+    },
+    {
+      "filename": "avionics-icd.json",
+      "label": "Avionics ICD (JSON)",
+      "category": "Aerospace",
+      "format": "JSON",
+      "description": "Avionics Interface Control Document: subsystems, data buses, signals, and protocol interfaces."
+    },
+    {
+      "filename": "bracket-pipeline.ttl",
+      "label": "Bracket / Pipeline Ontology (Turtle)",
+      "category": "Aerospace",
+      "format": "Turtle",
+      "description": "RDF Turtle ontology describing aerospace structural bracket and pipeline entities with material and manufacturing relationships."
+    },
+    {
+      "filename": "flight-telemetry.csv",
+      "label": "Flight Telemetry (CSV)",
+      "category": "Aerospace",
+      "format": "CSV",
+      "description": "Flight test telemetry data in CSV format — time-stamped sensor readings including altitude, airspeed, engine parameters, and control surface positions."
+    },
+    {
+      "filename": "spacecraft-mbse.ttl",
+      "label": "Spacecraft MBSE Ontology (Turtle)",
+      "category": "Aerospace",
+      "format": "Turtle",
+      "description": "MBSE ontology for spacecraft systems in RDF Turtle: subsystems, functions, interfaces, and mission requirements as linked data."
+    },
+    {
+      "filename": "spacecraft-system.sysml2",
+      "label": "Spacecraft System (SysML v2)",
+      "category": "Aerospace",
+      "format": "SysML v2",
+      "description": "Generic spacecraft system in SysML v2: attitude control, power subsystem, communications, propulsion, thermal control, and payload interface with decomposed requirements."
+    },
+    {
+      "filename": "uav-flight-modes.csv",
+      "label": "UAV Flight Modes (CSV)",
+      "category": "Aerospace",
+      "format": "CSV",
+      "description": "UAV flight mode state machine in CSV: mode transitions, guard conditions, and trigger events for autonomous flight management."
+    },
+    {
+      "filename": "aircraft-requirements.reqif",
+      "label": "Aircraft Requirements (ReqIF)",
+      "category": "Systems Engineering",
+      "format": "ReqIF",
+      "description": "Aircraft system requirements in Requirements Interchange Format (ReqIF) — importable directly into DOORS, Polarion, or Codebeamer."
+    },
+    {
+      "filename": "engineering-ontology.ttl",
+      "label": "Engineering Ontology (Turtle)",
+      "category": "Systems Engineering",
+      "format": "Turtle",
+      "description": "General systems engineering ontology in RDF Turtle: components, functions, requirements, and relationships with formal axioms."
+    },
+    {
+      "filename": "functional-decomposition.json",
+      "label": "Functional Decomposition (JSON)",
+      "category": "Systems Engineering",
+      "format": "JSON",
+      "description": "Hierarchical function decomposition model with allocations, interfaces, and requirements linkages."
+    },
+    {
+      "filename": "smart-factory.json",
+      "label": "Smart Factory / AMR (JSON)",
+      "category": "Systems Engineering",
+      "format": "JSON",
+      "description": "Autonomous Mobile Robot fleet in a smart manufacturing environment: navigation, safety, fleet management, and digital twin signals."
+    },
+    {
+      "filename": "sosa-sensor-ontology.ttl",
+      "label": "SOSA Sensor Ontology (Turtle)",
+      "category": "Systems Engineering",
+      "format": "Turtle",
+      "description": "W3C SOSA (Sensor, Observation, Sample, Actuator) ontology instantiation for IoT and cyber-physical systems sensor description."
+    },
+    {
+      "filename": "automotive-can-signals.dbc",
+      "label": "Automotive CAN Signals (DBC)",
+      "category": "Automotive",
+      "format": "DBC",
+      "description": "Vector DBC CAN database: EV powertrain CAN messages for BMS, MCU, VCU, and OBC with signal scaling, offsets, and value descriptions."
+    },
+    {
+      "filename": "automotive-signals.json",
+      "label": "Automotive Signals (JSON)",
+      "category": "Automotive",
+      "format": "JSON",
+      "description": "Automotive signal architecture with ECU interfaces, CAN/LIN bus signals, and sensor/actuator assignments."
+    },
+    {
+      "filename": "ev-powertrain-autosar.arxml",
+      "label": "EV Powertrain ECU — AUTOSAR CP (ARXML)",
+      "category": "Automotive",
+      "format": "AUTOSAR ARXML",
+      "description": "AUTOSAR Classic Platform R22-11 software architecture for an EV powertrain ECU. Covers BMS (ASIL-D), VCU (ASIL-D), MCU (ASIL-C), TMS (ASIL-B), and OBC SWCs with full port interface definitions, sender-receiver and client-server interfaces, runnable entities, and assembly connectors. Demonstrates SOC/torque/temperature/fault signal flows."
+    },
+    {
+      "filename": "ev_powertrain.json",
+      "label": "EV Powertrain System (JSON)",
+      "category": "Automotive",
+      "format": "JSON",
+      "description": "Complete EV powertrain MBSE model: Battery, BMS, Motor, Inverter, VCU, OBC, TMS — 165 entities with 8 stakeholders, 5 actors, 26 CAN bus signals, 20 requirements, 8 use cases, 13 states, 11 guards, and full signal-wired I/O for all 12 functions."
+    },
+    {
+      "filename": "autonomous-vehicle.json",
+      "label": "Autonomous Vehicle (JSON)",
+      "category": "Automotive / Autonomous",
+      "format": "JSON",
+      "description": "Autonomous vehicle JSON snapshot with sensors, perception, planning, and actuation nodes."
+    },
+    {
+      "filename": "autonomous-vehicle.sysml",
+      "label": "Autonomous Vehicle System (SysML v2)",
+      "category": "Automotive / Autonomous",
+      "format": "SysML v2",
+      "description": "SAE L4 autonomous vehicle: LiDAR (128-ch Luminar Hydra), 4D radar (Continental ARS540), camera arrays (8), HD map localization, behavior planning (POMDP), motion planning (MPC), drive-by-wire, cybersecurity gateway (ISO 21434), and ISO 26262 ASIL-D safety architecture."
+    },
+    {
+      "filename": "av-compute-platform.aadl",
+      "label": "AV Compute Platform (AADL)",
+      "category": "Automotive / Autonomous",
+      "format": "AADL",
+      "description": "ISO 26262 ASIL-D AV compute architecture: NVIDIA Orin SoC, perception pipeline threads, Kalman filter fusion, trajectory planning, drive-by-wire CAN interface, AUTOSAR Adaptive partitioning, hardware watchdog, SOTIF power-on self-test."
+    },
+    {
+      "filename": "mathworks-electric-throttle.xmi",
+      "label": "MathWorks Electric Throttle Control (XMI)",
+      "category": "Cameo / MDZIP",
+      "format": "XMI",
+      "description": "Automotive electric throttle control SysML model exported from Cameo by MathWorks. Internal block diagrams, requirements, and signal flow."
+    },
+    {
+      "filename": "nist-central-fill-pharmacy.mdzip",
+      "label": "NIST Central Fill Pharmacy (MDZIP)",
+      "category": "Cameo / MDZIP",
+      "format": "MDZIP",
+      "description": "NIST discrete-event SysML model of an automated pharmacy fulfillment system. Blocks, activities, and constraints."
+    },
+    {
+      "filename": "nist-electronics-assembly.mdzip",
+      "label": "NIST Electronics Assembly (MDZIP)",
+      "category": "Cameo / MDZIP",
+      "format": "MDZIP",
+      "description": "NIST SysML case study for electronics manufacturing assembly — resource allocation, process flow, and production logistics."
+    },
+    {
+      "filename": "aircraft-propulsion-sysml2.sysml",
+      "label": "Aircraft Turbofan Propulsion — LEAP-1B Class (SysML v2)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "2-spool high-bypass turbofan (CFM LEAP-1B class, Boeing 737 MAX). Fan module, LPC, HPC (9-stage, OPR 40:1), TAPS combustor, cooled HPT, FADEC (DO-178C Level A)."
+    },
+    {
+      "filename": "apollo11-spacecraft-propulsion.sysml",
+      "label": "Apollo 11 Spacecraft Propulsion (Airbus SysML v2)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "Real Airbus open-source SysML v2 model (MPL-2.0). Saturn V rocket with F-1 engines, J-2 upper-stage engines, Apollo CSM service propulsion, Lunar Module descent/ascent stages."
+    },
+    {
+      "filename": "ev-powertrain.sysml",
+      "label": "EV Powertrain — Battery Electric Vehicle (SysML v2)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "100 kWh BEV powertrain in native SysML v2: BatteryPack (8 modules, 7104 NMC-811 cells), PMSM traction motor (350 kW peak), SiC inverter (FOC), onboard charger (11.5 kW V2G), CCS Combo2 DCFC (250 kW), thermal management, and full vehicle integration."
+    },
+    {
+      "filename": "omg-vehicle-definitions.sysml",
+      "label": "OMG Vehicle Definitions (Official SysML v2 Spec)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "Official OMG SysML v2 specification example — Vehicle, Transmission, AxleAssembly, Axle, Wheel, Lugbolt with port definitions and Mounting interface."
+    },
+    {
+      "filename": "omg-vehicle-usages.sysml",
+      "label": "OMG Vehicle Usages (Official SysML v2 Spec)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "Official OMG SysML v2 spec example — vehicle configurations C1/C2/C3 with axle assemblies, wheel redefinitions, interface connections, and drive shaft flow."
+    },
+    {
+      "filename": "nuclear-plant-control.aadl",
+      "label": "Nuclear Plant I&C System (AADL)",
+      "category": "Nuclear / Safety-Critical",
+      "format": "AADL",
+      "description": "IEC 61513 nuclear instrumentation & control: Category A safety-critical process, thread, and device components. Core temperature monitoring, emergency shutdown, ECCS actuation, safety bus with explicit scheduling and AADL annex properties."
+    },
+    {
+      "filename": "nuclear-power-plant.json",
+      "label": "Nuclear Power Plant (JSON)",
+      "category": "Nuclear / Safety-Critical",
+      "format": "JSON",
+      "description": "PWR nuclear plant JSON model: reactor, cooling, steam, turbine, and safety system nodes."
+    },
+    {
+      "filename": "nuclear-power-plant.sysml",
+      "label": "Nuclear Power Plant (SysML v2)",
+      "category": "Nuclear / Safety-Critical",
+      "format": "SysML v2",
+      "description": "PWR nuclear power plant MBSE model: reactor pressure vessel, primary/secondary cooling loops, steam generators, turbine-generator, safety systems (ECCS, containment, SCRAM), radiation monitoring, and multi-layered defense-in-depth per NUREG-0800. IEC 61508 safety functions."
+    },
+    {
+      "filename": "submarine-combat.aadl",
+      "label": "Submarine Combat System (AADL)",
+      "category": "Defence / Naval",
+      "format": "AADL",
+      "description": "DO-178C / MIL-STD-882 safety-critical AADL model of sonar signal processing, fire control, and weapons management. Real-time threads with rate monotonic scheduling, redundant safety buses, ARINC 653 partitioning."
+    },
+    {
+      "filename": "submarine-combat-system.json",
+      "label": "Submarine Combat System (JSON)",
+      "category": "Defence / Naval",
+      "format": "JSON",
+      "description": "Submarine combat management system JSON model: sonar, fire control, weapons, and navigation nodes."
+    },
+    {
+      "filename": "submarine-combat-system.sysml",
+      "label": "Submarine Combat System (SysML v2)",
+      "category": "Defence / Naval",
+      "format": "SysML v2",
+      "description": "Virginia-class SSN combat management system: sonar suite (bow sphere, TB-16/29 arrays, MFTA), torpedo tubes (Mk 48 ADCAP/HAAS), VLS (Tomahawk, Harpoon), fire control (AN/BYG-1), electronic warfare, photonics masts. MIL-STD-882 safety architecture."
+    },
+    {
+      "filename": "submarine-sonar-processing.m",
+      "label": "Submarine Sonar Processing (MATLAB .m)",
+      "category": "Defence / Naval",
+      "format": "MATLAB",
+      "description": "Passive sonar signal processing in MATLAB: beamforming, matched filter detection, track-while-scan, and target motion analysis (TMA)."
+    },
+    {
+      "filename": "high-speed-rail.json",
+      "label": "High-Speed Rail (JSON)",
+      "category": "Rail / Transportation",
+      "format": "JSON",
+      "description": "High-speed rail system JSON model: traction, TCMS, signalling, and braking subsystem nodes."
+    },
+    {
+      "filename": "high-speed-rail.sysml",
+      "label": "High-Speed Rail System (SysML v2)",
+      "category": "Rail / Transportation",
+      "format": "SysML v2",
+      "description": "350 km/h high-speed EMU: traction system (IGBT inverter, permanent magnet motors, 25 kV pantograph), TCMS, ETCS Level 2 (FS/SH/SR/SB modes), braking (rheostatic + disc + EDB + magnetic rail), and SIL4 safety architecture per EN 50129."
+    },
+    {
+      "filename": "train-control-network.aadl",
+      "label": "Train Control Network (AADL)",
+      "category": "Rail / Transportation",
+      "format": "AADL",
+      "description": "MVB/Ethernet-based TCMS AADL model: IEC 61375 train bus, SIL4 ATP/ATO safety partition, propulsion control ECU, brake management, door control, and diagnostic gateway."
+    },
+    {
+      "filename": "offshore-wind-turbine.json",
+      "label": "Offshore Wind Turbine (JSON)",
+      "category": "Energy / Wind",
+      "format": "JSON",
+      "description": "Offshore wind turbine JSON model: rotor, nacelle, tower, SCADA, and grid interface nodes."
+    },
+    {
+      "filename": "offshore-wind-turbine.sysml",
+      "label": "Offshore Wind Turbine (SysML v2)",
+      "category": "Energy / Wind",
+      "format": "SysML v2",
+      "description": "15 MW direct-drive NREL offshore turbine: rotor-nacelle assembly, permanent magnet generator, hydraulic pitch & yaw, subsea export cable (66 kV, 20 km), SCADA, grid code compliance (FRT, reactive power), and IEC 61400-1 / 61400-3 safety architecture."
+    },
+    {
+      "filename": "wind-turbine-hub.step",
+      "label": "Wind Turbine Hub (STEP)",
+      "category": "Energy / Wind",
+      "format": "STEP",
+      "description": "Offshore wind turbine hub assembly in STEP format: pitch bearing interfaces, blade root flanges, spinner, and pitch drive mounting provisions."
+    },
+    {
+      "filename": "wind-turbine-scada.aadl",
+      "label": "Wind Turbine SCADA (AADL)",
+      "category": "Energy / Wind",
+      "format": "AADL",
+      "description": "IEC 62443 OT security + IEC 61400-25 SCADA AADL model: turbine controller (pitch, yaw, converter), condition monitoring (CMS), grid interface, remote DMZ gateway, safety PLC, and cybersecurity monitor."
+    },
+    {
+      "filename": "av-sensor-fusion.m",
+      "label": "AV Sensor Fusion (MATLAB .m)",
+      "category": "MATLAB / Simulink",
+      "format": "MATLAB",
+      "description": "Autonomous vehicle sensor fusion algorithm in MATLAB: LiDAR-camera-radar fusion using Kalman filter, object tracking, and occupancy grid updates."
+    },
+    {
+      "filename": "ev-battery-management.m",
+      "label": "EV Battery Management System (MATLAB .m)",
+      "category": "MATLAB / Simulink",
+      "format": "MATLAB",
+      "description": "BMS controller, cell estimator, thermal model, and contactor controller classes with full function decomposition and signal flows. Parses to Blocks, Functions, and Signals."
+    },
+    {
+      "filename": "ev-powertrain-simulink.mdl",
+      "label": "EV Powertrain Control (Simulink MDL)",
+      "category": "MATLAB / Simulink",
+      "format": "Simulink MDL",
+      "description": "EV powertrain Simulink model in MDL format: driver demand processing, torque arbitration with derating, field-oriented motor control (FOC), and vehicle dynamics."
+    },
+    {
+      "filename": "nuclear-reactor-control.m",
+      "label": "Nuclear Reactor Control (MATLAB .m)",
+      "category": "MATLAB / Simulink",
+      "format": "MATLAB",
+      "description": "PWR reactor control system in MATLAB: rod control algorithm, coolant flow regulation, SCRAM logic, and thermal-hydraulic state estimation."
+    },
+    {
+      "filename": "rail-traction-control.m",
+      "label": "Rail Traction Control (MATLAB .m)",
+      "category": "MATLAB / Simulink",
+      "format": "MATLAB",
+      "description": "High-speed rail traction control in MATLAB: torque demand processing, slip detection, anti-skid, and adhesion optimization for variable rail conditions."
+    },
+    {
+      "filename": "wind-turbine-control.m",
+      "label": "Wind Turbine Control (MATLAB .m)",
+      "category": "MATLAB / Simulink",
+      "format": "MATLAB",
+      "description": "Wind turbine control system in MATLAB: pitch control, variable-speed MPPT, tower damping, and fault detection for above-rated wind conditions."
+    },
+    {
+      "filename": "lidar-sensor-housing.step",
+      "label": "LiDAR Sensor Housing (STEP)",
+      "category": "CAD / STEP",
+      "format": "STEP",
+      "description": "Automotive-grade LiDAR sensor housing assembly in STEP AP214 format: protective dome, mounting bracket, thermal management interface, and electrical connector housing."
+    },
+    {
+      "filename": "bogie-assembly.step",
+      "label": "Rail Bogie Assembly (STEP)",
+      "category": "CAD / STEP",
+      "format": "STEP",
+      "description": "High-speed rail bogie assembly in STEP AP242 format: wheelsets, primary/secondary suspension, traction motor mounting, and braking equipment structure."
+    },
+    {
+      "filename": "reactor-pressure-vessel.step",
+      "label": "Reactor Pressure Vessel (STEP)",
+      "category": "CAD / STEP",
+      "format": "STEP",
+      "description": "Nuclear PWR pressure vessel geometry in STEP AP242 format: vessel shell, nozzles, flange, and internals support structure."
+    },
+    {
+      "filename": "torpedo-tube-assembly.step",
+      "label": "Torpedo Tube Assembly (STEP)",
+      "category": "CAD / STEP",
+      "format": "STEP",
+      "description": "Submarine torpedo tube assembly in STEP format: tube structure, breech/muzzle doors, water flood valve, and handling equipment."
+    }
+  ]
+}

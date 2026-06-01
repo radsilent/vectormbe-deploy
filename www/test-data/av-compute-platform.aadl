@@ -1,0 +1,203 @@
+-- Autonomous Vehicle Compute Platform Architecture
+-- SAE Level 4; ISO 26262 ASIL-D safety partitioning
+-- Perception, planning, control, safety monitor ECUs
+-- Automotive Ethernet (100BASE-T1 / 1000BASE-T1) and CAN FD sensor buses
+
+package AVComputePlatform
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data types ─────────────────────────────────────────────────────────────
+  data PointCloud
+    -- LiDAR point cloud frame; 100k points @ 16 bytes each
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 1600000 Bytes;   -- 1.6 MB per frame
+  end PointCloud;
+
+  data CameraFrame
+    -- 1920×1080 YUV420 compressed camera frame
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 311040 Bytes;
+  end CameraFrame;
+
+  data PerceptionOutput
+    -- Tracked object list + free-space map
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 8192 Bytes;
+  end PerceptionOutput;
+
+  data PlannedTrajectory
+    -- 8 s trajectory at 0.1 m resolution; position + velocity + curvature
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 2400 Bytes;
+  end PlannedTrajectory;
+
+  data VehicleActuatorCmd
+    -- Steer angle, throttle %, brake pressure, gear
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 32 Bytes;
+  end VehicleActuatorCmd;
+
+  -- ── Buses ──────────────────────────────────────────────────────────────────
+  bus AutomotiveEthernet1G
+    -- 1000BASE-T1 ECU backbone; 802.1AS time sync
+    properties
+      SEI::BandWidthCapacity => 1000.0 MBytesps;
+      SEI::BandWidthBudget   => 600.0 MBytesps;
+  end AutomotiveEthernet1G;
+
+  bus AutomotiveEthernet100M
+    -- 100BASE-T1 sensor ring bus
+    properties
+      SEI::BandWidthCapacity => 100.0 MBytesps;
+      SEI::BandWidthBudget   => 70.0 MBytesps;
+  end AutomotiveEthernet100M;
+
+  bus CANFD
+    -- CAN FD safety bus; 5 Mbit/s; ISO 11898-1
+    properties
+      SEI::BandWidthCapacity => 5.0 MBytesps;
+      SEI::BandWidthBudget   => 2.0 MBytesps;
+  end CANFD;
+
+  -- ── Processors (ECUs) ─────────────────────────────────────────────────────
+  processor PerceptionECU
+    -- NVIDIA Orin-class SoC; 254 TOPS for DNN inference
+    features
+      lidarBus    : requires bus access AutomotiveEthernet100M;
+      cameraBus   : requires bus access AutomotiveEthernet100M;
+      backboneBus : requires bus access AutomotiveEthernet1G;
+    properties
+      SEI::MIPSCapacity   => 100000.0 MIPS;  -- approximated for model
+      SEI::MIPSBudget     => 80000.0 MIPS;
+      Scheduling_Protocol => (EDF);
+      Clock_Period        => 50 ms;           -- 20 Hz perception cycle
+  end PerceptionECU;
+
+  processor PlanningECU
+    -- x86 high-performance compute module; route + motion planning
+    features
+      backboneBus : requires bus access AutomotiveEthernet1G;
+    properties
+      SEI::MIPSCapacity   => 50000.0 MIPS;
+      SEI::MIPSBudget     => 35000.0 MIPS;
+      Scheduling_Protocol => (EDF);
+      Clock_Period        => 100 ms;          -- 10 Hz planning cycle
+  end PlanningECU;
+
+  processor VehicleControlECU
+    -- AUTOSAR Adaptive ECU; ASIL-B; 1 kHz control loop
+    features
+      backboneBus : requires bus access AutomotiveEthernet1G;
+      canBus      : requires bus access CANFD;
+    properties
+      SEI::MIPSCapacity   => 4000.0 MIPS;
+      SEI::MIPSBudget     => 2800.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 1 ms;
+  end VehicleControlECU;
+
+  processor SafetyMonitorECU
+    -- Dedicated ASIL-D lockstep processor; independent power + supply
+    features
+      backboneBus : requires bus access AutomotiveEthernet1G;
+      canBus      : requires bus access CANFD;
+    properties
+      SEI::MIPSCapacity   => 3000.0 MIPS;
+      SEI::MIPSBudget     => 1500.0 MIPS;
+      Scheduling_Protocol => (RMS);
+      Clock_Period        => 10 ms;
+  end SafetyMonitorECU;
+
+  -- ── Processes ─────────────────────────────────────────────────────────────
+  process LidarFusionProcess
+    features
+      lidarIn        : in data port PointCloud;
+      cameraIn       : in data port CameraFrame;
+      perceptionOut  : out data port PerceptionOutput;
+    properties
+      Period    => 50 ms;
+      Deadline  => 50 ms;
+      Priority  => 10;
+      Compute_Execution_Time => 20 ms .. 45 ms;
+  end LidarFusionProcess;
+
+  process MotionPlanningProcess
+    features
+      perceptionIn   : in data port PerceptionOutput;
+      trajectoryOut  : out data port PlannedTrajectory;
+    properties
+      Period    => 100 ms;
+      Deadline  => 100 ms;
+      Priority  => 9;
+      Compute_Execution_Time => 40 ms .. 95 ms;
+  end MotionPlanningProcess;
+
+  process TrajectoryTrackingProcess
+    features
+      trajectoryIn   : in data port PlannedTrajectory;
+      actuatorOut    : out event data port VehicleActuatorCmd;
+    properties
+      Period    => 10 ms;
+      Deadline  => 10 ms;
+      Priority  => 10;
+      Compute_Execution_Time => 2 ms .. 8 ms;
+  end TrajectoryTrackingProcess;
+
+  process SafetyWatchProcess
+    -- Monitors all ECU heartbeats; triggers MRC on fault
+    features
+      heartbeatPerception : in event port;
+      heartbeatPlanning   : in event port;
+      heartbeatControl    : in event port;
+      mrcTrigger          : out event port;
+    properties
+      Period    => 10 ms;
+      Deadline  => 10 ms;
+      Priority  => 10;
+  end SafetyWatchProcess;
+
+  -- ── Top-level system ──────────────────────────────────────────────────────
+  system AVComputeSystem
+  end AVComputeSystem;
+
+  system implementation AVComputeSystem.l4urban
+    subcomponents
+      perceptionECU  : processor PerceptionECU;
+      planningECU    : processor PlanningECU;
+      controlECU     : processor VehicleControlECU;
+      safetyECU      : processor SafetyMonitorECU;
+      lidarFusion    : process LidarFusionProcess;
+      motionPlan     : process MotionPlanningProcess;
+      trajTrack      : process TrajectoryTrackingProcess;
+      safetyWatch    : process SafetyWatchProcess;
+      backbone       : bus AutomotiveEthernet1G;
+      sensorRing     : bus AutomotiveEthernet100M;
+      safetyCANBus   : bus CANFD;
+    connections
+      s1: bus access sensorRing  -> perceptionECU.lidarBus;
+      s2: bus access sensorRing  -> perceptionECU.cameraBus;
+      b1: bus access backbone    -> perceptionECU.backboneBus;
+      b2: bus access backbone    -> planningECU.backboneBus;
+      b3: bus access backbone    -> controlECU.backboneBus;
+      b4: bus access backbone    -> safetyECU.backboneBus;
+      c1: bus access safetyCANBus -> controlECU.canBus;
+      c2: bus access safetyCANBus -> safetyECU.canBus;
+      d1: port lidarFusion.perceptionOut  -> motionPlan.perceptionIn;
+      d2: port motionPlan.trajectoryOut   -> trajTrack.trajectoryIn;
+    properties
+      Actual_Processor_Binding => (reference (perceptionECU)) applies to lidarFusion;
+      Actual_Processor_Binding => (reference (planningECU))   applies to motionPlan;
+      Actual_Processor_Binding => (reference (controlECU))    applies to trajTrack;
+      Actual_Processor_Binding => (reference (safetyECU))     applies to safetyWatch;
+      -- ASIL decomposition annotations
+      SEI::MIPSCapacity => 3000.0 MIPS applies to safetyECU;
+  end AVComputeSystem.l4urban;
+
+end AVComputePlatform;
