@@ -1,6 +1,6 @@
 {
   "generated": "2026-06-01T04:18:18.095Z",
-  "count": 58,
+  "count": 60,
   "files": [
     {
       "filename": "scenarios.json",
@@ -183,6 +183,20 @@
       "category": "Automotive / Autonomous",
       "format": "AADL",
       "description": "ISO 26262 ASIL-D AV compute architecture: NVIDIA Orin SoC, perception pipeline threads, Kalman filter fusion, trajectory planning, drive-by-wire CAN interface, AUTOSAR Adaptive partitioning, hardware watchdog, SOTIF power-on self-test."
+    },
+    {
+      "filename": "aircraft-avionics-platform.aadl",
+      "label": "Commercial Aircraft Avionics Platform (AADL)",
+      "category": "Aerospace / Aviation",
+      "format": "AADL",
+      "description": "DO-178C / DO-254 / DO-160G integrated avionics architecture: triple-redundant IRS, dual ADIRU, dual GPS, FMS with LNAV/VNAV threads, AFCS pitch/roll/throttle/safety-monitor threads, captain and F/O PFD and ND, dual FADEC, ACMS/QAR prognostics, dual IMA cores, AFDX network, and ARINC 429 sensor buses."
+    },
+    {
+      "filename": "aircraft-flight-control.m",
+      "label": "Commercial Aircraft Flight Control System (MATLAB .m)",
+      "category": "Aerospace / Aviation",
+      "format": "MATLAB",
+      "description": "Narrow-body FBW flight control system in MATLAB: aerodynamic model (m=79000 kg, S=122.6 m², cruise M=0.78/FL370), longitudinal/lateral stability derivatives, short-period and lateral-directional state-space models, C* FBW control law, PID pitch/roll rate controllers, yaw damper, altitude hold, VS hold, IAS autothrottle, heading select, ILS CAT III autoland, actuator TF models (elevator/aileron/rudder), triplex FDI voter, and Breguet range analysis. Requirements REQ-FCS-001–008."
     },
     {
       "filename": "mathworks-electric-throttle.xmi",
