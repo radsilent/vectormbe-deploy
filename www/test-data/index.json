@@ -1,6 +1,6 @@
 {
   "generated": "2026-06-08T00:00:00.000Z",
-  "count": 61,
+  "count": 62,
   "files": [
     {
       "filename": "scenarios.json",
@@ -428,6 +428,13 @@
       "category": "CAD / STEP",
       "format": "STEP",
       "description": "Submarine torpedo tube assembly in STEP format: tube structure, breech/muzzle doors, water flood valve, and handling equipment."
+    },
+    {
+      "filename": "commercial-aircraft-airframe.step",
+      "label": "Commercial Aircraft Airframe (STEP)",
+      "category": "Aerospace / Aviation",
+      "format": "STEP",
+      "description": "Narrow-body twin-engine commercial transport airframe in STEP AP214 format: fuselage sections (nose/fwd/centre/aft), left and right wing assemblies with winglets, flight control surfaces (ailerons, flaps, spoilers, slats, elevators, rudder), engine nacelles with thrust reversers, wing pylons, nose and main landing gear, APU bay, and cargo doors. Covers 40+ components with material callouts and key structural properties."
     }
   ]
 }
