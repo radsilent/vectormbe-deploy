@@ -1,0 +1,159 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Wide-Body Commercial Transport Aircraft — Forward Fuselage Section'
+  'AP242 Managed Model Based 3D Engineering'
+  'Assembly: Forward Pressure Vessel Section (Sta 100–400) — 16 Components'
+  'Standard: CS-25 / FAR Part 25 / ASTM E1411 / MIL-HDBK-5J'),
+  '2;1');
+FILE_NAME('/commercial/WB_Fuselage_Fwd_Section_Sta100_400.step',
+  '2026-06-08T00:00:00',
+  ('Structures Engineering','Fuselage Primary Structure'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP242 Exporter v2.4',
+  'Wide-Body Fuselage Forward Section Rev C',
+  'ENGINEERING REFERENCE — PUBLIC DOMAIN GEOMETRY');
+FILE_SCHEMA(('AP242_MANAGED_MODEL_BASED_3D_ENGINEERING_MIM_LF { 1 0 10303 242 3 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ---- APPLICATION CONTEXT ---- */
+#1 = APPLICATION_CONTEXT('managed model based 3d engineering');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','ap242_managed_model_based_3d_engineering_mim_lf',2014,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ---- TOP-LEVEL FUSELAGE SECTION ASSEMBLY ---- */
+#10 = PRODUCT('FUS-FWD-001','Wide-Body Fuselage Forward Section Sta100-400',
+     'Twin-aisle semi-monocoque pressure vessel section; L=9.14m; OD=6.98m; Al-Li 2050 primary frames; max diff press 9.4 psi; 2 passenger doors + over-wing emergency exits',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('C','Production Design Release',#10);
+#12 = PRODUCT_DEFINITION(#11,'Fus_Fwd_Section_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ---- SKIN PANELS ---- */
+#20 = PRODUCT('FUS-SKIN-U','Upper Crown Skin Panel (Sta100-400)',
+     'Al-Li 2050-T84 machined skin; t_nom=3.2mm; stringer lands integral; chemical milled pockets for weight; lightning strike protection mesh; LN9055 clad surface',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('C','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'SkinUpper_Body',#13);
+
+#30 = PRODUCT('FUS-SKIN-L','Lower Pressure-Vessel Skin Panel',
+     'Al-Li 2099-T83 lower skin; t_nom=4.5mm; reinforced keel beam land; fatigue life 100,000 FC; crack-stopper strap integral; GLARE-like hybrid patch at door corners',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('C','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'SkinLower_Body',#13);
+
+/* ---- MAIN FRAMES ---- */
+#40 = PRODUCT('FUS-FRAME-001','Primary Circumferential Frame (Typ)',
+     'Al-Li 2050-T84 Z-section frame; h=180mm; t_web=3.0mm; shear-web design; flanged lightening holes; double-shear attachment to stringers and skin',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('C','Release',#40);
+#42 = PRODUCT_DEFINITION(#41,'Frame_Typ_Body',#13);
+
+#50 = PRODUCT('FUS-FRAME-DOOR','Reinforced Door-Surround Frame',
+     'Al-Li 2050 heavy-section door frame; integral doublers; load path re-route around door cut-out; titanium hinges pre-installed; fail-safe per CS-25.307',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('C','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'Frame_Door_Body',#13);
+
+/* ---- LONGITUDINAL STRINGERS ---- */
+#60 = PRODUCT('FUS-STR-001','Crown Stringer (Typical)',
+     'Al-Li 2050 T-section stringer; h=58mm; 0.9mm flange; 0.7mm web; integrally machined radius fillets; lightning-strike current return path',(#3));
+#61 = PRODUCT_DEFINITION_FORMATION('C','Release',#60);
+#62 = PRODUCT_DEFINITION(#61,'Stringer_Crown_Body',#13);
+
+#70 = PRODUCT('FUS-STR-KEEL','Keel Beam Stringer',
+     'Heavy-section keel beam; Al-Li 2099 I-section; h=220mm; carries floor beam bending loads; main landing gear load introduction on later stations',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('C','Release',#70);
+#72 = PRODUCT_DEFINITION(#71,'Stringer_Keel_Body',#13);
+
+/* ---- PRESSURE BULKHEAD ---- */
+#80 = PRODUCT('FUS-BHD-FWD','Forward Pressure Bulkhead (Sta100)',
+     'Domed Al-Li 2050 forward pressure dome; r=3250mm; t=4.2mm; spider fitting for nose gear attachment forward; 9.4 psi design differential pressure',(#3));
+#81 = PRODUCT_DEFINITION_FORMATION('C','Release',#80);
+#82 = PRODUCT_DEFINITION(#81,'Bulkhead_Fwd_Body',#13);
+
+/* ---- FLOOR STRUCTURE ---- */
+#90 = PRODUCT('FUS-FLOOR-001','Main Cabin Floor Beam Assembly',
+     'CFRP floor beams (carbon/epoxy box section); 762mm spacing; integral seat track provisions; 16g dynamic load CS-25.562; anti-submarine webbing below front spar',(#3));
+#91 = PRODUCT_DEFINITION_FORMATION('C','Release',#90);
+#92 = PRODUCT_DEFINITION(#91,'FloorBeam_Body',#13);
+
+#100 = PRODUCT('FUS-TRACK-001','Passenger Seat Track (4-track, Typ)',
+     'Aluminium 7075-T73511 seat track; NATO-standard 17.78mm slot pitch; 16g pull-out load rated; 4 tracks total per section; CRES steel inserts at spacing intervals',(#3));
+#101 = PRODUCT_DEFINITION_FORMATION('C','Release',#100);
+#102 = PRODUCT_DEFINITION(#101,'SeatTrack_Body',#13);
+
+/* ---- PASSENGER DOOR ASSEMBLY ---- */
+#110 = PRODUCT('FUS-DOOR-001','Forward Passenger Door Assembly (Type A)',
+     'Al-7075 door structure; plug-type inward opening; 1.07m x 1.83m opening; inflatable slide/raft arming; slide bustle; threshold step; dual latching mechanism; CS-25.783 compliant',(#3));
+#111 = PRODUCT_DEFINITION_FORMATION('C','Release',#110);
+#112 = PRODUCT_DEFINITION(#111,'Door_Pax_Body',#13);
+
+/* ---- WINDOW BELT ---- */
+#120 = PRODUCT('FUS-WIN-001','Passenger Window Frame Assembly (Typical)',
+     'Aluminium 2024-T4 extruded window frame; stretched acrylic dual-pane window; 400mm x 300mm outer aperture; 2x electrical defogging panes; anti-crazing thermal control',(#3));
+#121 = PRODUCT_DEFINITION_FORMATION('C','Release',#120);
+#122 = PRODUCT_DEFINITION(#121,'WindowFrame_Body',#13);
+
+/* ---- SYSTEMS ROUTING STRUCTURE ---- */
+#130 = PRODUCT('FUS-SYS-001','Systems Routing Shelf Assembly (Crown)',
+     'CFRP composite shelf above cabin ceiling; carries electrical conduits, bleed duct, signal wiring; removable panels for access; above-floor zone routing Sta100-400',(#3));
+#131 = PRODUCT_DEFINITION_FORMATION('C','Release',#130);
+#132 = PRODUCT_DEFINITION(#131,'SysShelf_Body',#13);
+
+/* ---- FUSELAGE JOINT SPLICES ---- */
+#140 = PRODUCT('FUS-SPL-001','Longitudinal Skin Splice Assembly',
+     'Titanium splice strap + Al fasteners; 3-row fastener pattern; interleaved design; crack arrest capability; cold-worked fastener holes; CS-25.571 damage tolerant',(#3));
+#141 = PRODUCT_DEFINITION_FORMATION('C','Release',#140);
+#142 = PRODUCT_DEFINITION(#141,'SkinSplice_Body',#13);
+
+/* ---- BARREL JOINT RING ---- */
+#150 = PRODUCT('FUS-RING-001','Section-to-Section Barrel Joint Ring',
+     'Heavy circumferential butt-strap ring; Al-Li 2050 machined; structural shear and bending load transfer Sta200 joint; includes hydraulic line pass-throughs and ECS duct flanges',(#3));
+#151 = PRODUCT_DEFINITION_FORMATION('C','Release',#150);
+#152 = PRODUCT_DEFINITION(#151,'BarrelJoint_Body',#13);
+
+/* ---- KEEL BEAM FITTING ---- */
+#160 = PRODUCT('FUS-KEEL-FIT','Keel Beam Forward Fitting',
+     'Titanium Ti-6Al-4V forged keel fitting; connects keel stringer to bulkhead; main landing gear drag brace attachment lugs; fail-safe 4-bolt pattern; fracture mechanics certified per CS-25.571',(#3));
+#161 = PRODUCT_DEFINITION_FORMATION('C','Release',#160);
+#162 = PRODUCT_DEFINITION(#161,'KeelFitting_Body',#13);
+
+/* ---- ASSEMBLY RELATIONSHIPS ---- */
+#200 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Upper Crown Skin in Section','',#12,#22,$);
+#201 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Lower Skin in Section','',#12,#32,$);
+#202 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Primary Frames in Section','',#12,#42,$);
+#203 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Door Surround Frames','',#12,#52,$);
+#204 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Crown Stringers','',#12,#62,$);
+#205 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Keel Beam Stringer','',#12,#72,$);
+#206 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Forward Pressure Bulkhead','',#12,#82,$);
+#207 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Floor Beam Assembly','',#12,#92,$);
+#208 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Seat Tracks (4x)','',#92,#102,$);
+#209 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Passenger Door Assembly','',#12,#112,$);
+#210 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Window Frame Assembly (Typ)','',#12,#122,$);
+#211 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Systems Routing Shelf','',#12,#132,$);
+#212 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Longitudinal Skin Splices','',#12,#142,$);
+#213 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Barrel Joint Ring Sta200','',#12,#152,$);
+#214 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('','Keel Beam Forward Fitting','',#12,#162,$);
+
+/* ---- MATERIAL SPECIFICATIONS ---- */
+#300 = MATERIAL('AlLi_2050_T84','Aluminium-Lithium 2050 T84',
+     ('UTS 490 MPa','E=77 GPa','Density 2.68 g/cc','AMS 2770 / AMS 2658','Primary frames and skin'));
+#301 = MATERIAL('AlLi_2099_T83','Aluminium-Lithium 2099 T83',
+     ('UTS 560 MPa','E=78 GPa','Density 2.63 g/cc','Better corrosion resistance','Keel and lower skin'));
+#302 = MATERIAL('Ti_6Al_4V','Titanium Ti-6Al-4V ELI',
+     ('UTS 1000 MPa','Density 4.43 g/cc','AMS 4928','Hinges, fittings, keel forward fitting'));
+#303 = MATERIAL('CFRP_IM7_977','CFRP IM7 / Cytec 977-2 Prepreg',
+     ('Longitudinal UTS 2620 MPa','E_11=155 GPa','Density 1.57 g/cc','Floor beams, shelf structures'));
+
+/* ---- KEY DESIGN PROPERTIES ---- */
+/* Section Length                : 9.14 m (Sta 100 to Sta 400) */
+/* Outer Diameter                : 6.98 m */
+/* Max Cabin Width               : 6.19 m (twin-aisle) */
+/* Max Differential Pressure     : 9.4 psi (CS-25.365) */
+/* Service Life (structural)     : 100,000 FH / 40,000 FC */
+/* Fatigue Spectrum              : Short-medium range, 3-4 hr sectors */
+/* Frame Pitch                   : 508 mm (typical) */
+/* Stringer Count (circumference): 76 stringers */
+/* Fastener system               : Hi-Lok titanium + CherryMax blind fasteners */
+/* Fail-safe design concept      : Damage tolerant per CS-25.571 */
+/* Certification Basis           : CS-25 / FAR Part 25 / AC 25.571-1D */
+
+ENDSEC;
+END-ISO-10303-21;

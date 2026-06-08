@@ -2,9 +2,15 @@
 # Place your built UI files in ./www/ for static serving
 
 :80 {
-    # API proxy
+    # API proxy — long timeout for AI agent/chat (~60 s responses)
     handle_path /api/* {
-        reverse_proxy vectormbe:8080
+        reverse_proxy vectormbe:8080 {
+            transport http {
+                response_header_timeout 120s
+                read_timeout            120s
+                write_timeout           120s
+            }
+        }
     }
 
     # Static UI files
