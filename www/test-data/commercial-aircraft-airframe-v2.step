@@ -1,0 +1,847 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('Commercial Transport Aircraft Airframe Assembly — Version 2'
+  'AP214 Mechanical Design - Aerospace'
+  'Aircraft: Narrow-body twin-engine commercial transport'
+  'Assembly: Full airframe structural decomposition with sub-assemblies'
+  'v2: adds individual slats/spoilers, floor structure, CWB, passenger doors,'
+  '    MLG bogie, brake/wheel, NLG drag strut, hydraulic lines, APU detail'
+  'Standard: MIL-STD-31000B, ARP4754A, AS9100D, ASTM E1235'),
+  '2;1');
+FILE_NAME('/aircraft/CommercialAirframe_Assembly_v2.step',
+  '2026-06-10T10:00:00',
+  ('Airframe Structures Group','Aerospace Systems Engineering'),
+  ('VectorMBE CAD Export'),
+  'VectorMBE STEP AP214 Exporter v2.4',
+  'Commercial Airframe Rev B',
+  'DISTRIBUTION UNLIMITED');
+FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 3 1 1 1 }'));
+ENDSEC;
+
+DATA;
+
+/* ============================================================ */
+/* APPLICATION CONTEXT                                           */
+/* ============================================================ */
+#1 = APPLICATION_CONTEXT('automotive design');
+#2 = APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,#1);
+#3 = PRODUCT_CONTEXT('',#1,'mechanical');
+
+/* ============================================================ */
+/* TOP-LEVEL ASSEMBLY: AIRFRAME                                  */
+/* Narrow-body twin-engine, ~180 PAX, MTOW 79 000 kg           */
+/* Wingspan 35.8 m, length 44.5 m, cabin height 2.20 m         */
+/* ============================================================ */
+#10 = PRODUCT('ACF-001','Commercial Aircraft Airframe',
+     'Full airframe: fuselage, wings, empennage, nacelles, landing gear, flight controls, doors',(#3));
+#11 = PRODUCT_DEFINITION_FORMATION('B','Rev B - v2 Detail Release',#10);
+#12 = PRODUCT_DEFINITION(#11,'Airframe_Assy_Body',#13);
+#13 = PRODUCT_DEFINITION_CONTEXT('part definition',#1,'design');
+
+/* ============================================================ */
+/* FUSELAGE ASSEMBLY — semi-monocoque Al-Li                      */
+/* ============================================================ */
+#20 = PRODUCT('FUS-001','Fuselage Assembly',
+     '2219-T87 Al-Li skin panels, 40 frames @ 533 mm pitch, 68 stringers',(#3));
+#21 = PRODUCT_DEFINITION_FORMATION('B','Release',#20);
+#22 = PRODUCT_DEFINITION(#21,'Fuselage_Body',#13);
+
+/* ---- Nose Section 41 ---- */
+#30 = PRODUCT('FUS-S41','Nose Section 41',
+     'Pressure dome, radome bay, avionics bay, NLG well fwd bulkhead, frames F1-F8',(#3));
+#31 = PRODUCT_DEFINITION_FORMATION('B','Release',#30);
+#32 = PRODUCT_DEFINITION(#31,'NoseSection_Body',#13);
+
+/* ---- Radome Assembly ---- */
+#33 = PRODUCT('FUS-RADOME','Radome Assembly',
+     'GFRP radome, 1.2 m diameter, RFT attachment, dielectric properties per RTCA DO-213',(#3));
+#34 = PRODUCT_DEFINITION_FORMATION('A','Release',#33);
+#35 = PRODUCT_DEFINITION(#34,'Radome_Body',#13);
+
+/* ---- Nose Avionics Bay ---- */
+#36 = PRODUCT('FUS-AVN-BAY','Nose Avionics Bay',
+     'Pressurised electronics bay: AFDX switches, IRS units, GPS receivers, EEC/FADEC interface',(#3));
+#37 = PRODUCT_DEFINITION_FORMATION('A','Release',#36);
+#38 = PRODUCT_DEFINITION(#37,'AvnBay_Body',#13);
+
+/* ---- Forward Fuselage Section 43 ---- */
+#40 = PRODUCT('FUS-S43','Forward Fuselage Section 43',
+     'Cockpit, forward cabin, fwd cargo door, frames F8-F21, cabin floor beam structure',(#3));
+#41 = PRODUCT_DEFINITION_FORMATION('B','Release',#40);
+#42 = PRODUCT_DEFINITION(#41,'FwdFuselage_Body',#13);
+
+/* ---- Cockpit Structure ---- */
+#43 = PRODUCT('FUS-COCKPIT','Cockpit Shell Assembly',
+     'Flight deck: windshield frames, glare shield, instrument panel structure, A-pillars',(#3));
+#44 = PRODUCT_DEFINITION_FORMATION('A','Release',#43);
+#45 = PRODUCT_DEFINITION(#44,'Cockpit_Body',#13);
+
+/* ---- Windshield Assembly ---- */
+#46 = PRODUCT('FUS-WSLD','Windshield Assembly',
+     '6-panel heated windshield, stretched acrylic outer, vinyl interlayer, DO-160G bird strike cert',(#3));
+#47 = PRODUCT_DEFINITION_FORMATION('A','Release',#46);
+#48 = PRODUCT_DEFINITION(#47,'Windshield_Body',#13);
+
+/* ---- Centre Fuselage Sections 44/45 ---- */
+#50 = PRODUCT('FUS-S44','Centre Fuselage Section 44-45',
+     'Wing-body join, main gear wells, lower cargo hold, centre fuel tank, frames F21-F47',(#3));
+#51 = PRODUCT_DEFINITION_FORMATION('B','Release',#50);
+#52 = PRODUCT_DEFINITION(#51,'CentreFuselage_Body',#13);
+
+/* ---- Keel Beam Assembly ---- */
+#53 = PRODUCT('FUS-KEEL','Keel Beam Assembly',
+     'Al 7150-T7751 keel beam: central spine from F21 to F47, NLG/MLG load paths, fuel bay boundary',(#3));
+#54 = PRODUCT_DEFINITION_FORMATION('A','Release',#53);
+#55 = PRODUCT_DEFINITION(#54,'KeelBeam_Body',#13);
+
+/* ---- Centre Wing Box (CWB) ---- */
+#56 = PRODUCT('CWB-001','Centre Wing Box',
+     'Structural box connecting left/right wing through fuselage; Ti-6Al-4V/Al hybrid; carry-through spars',(#3));
+#57 = PRODUCT_DEFINITION_FORMATION('A','Release',#56);
+#58 = PRODUCT_DEFINITION(#57,'CWB_Body',#13);
+
+/* ---- Forward Cabin Floor Structure ---- */
+#59 = PRODUCT('FUS-FLR-FWD','Forward Cabin Floor Structure',
+     'Floor beams × 22 (F8-F21), seat tracks (4 rows), cargo/equipment bay floor panels',(#3));
+#60 = PRODUCT_DEFINITION_FORMATION('A','Release',#59);
+#61 = PRODUCT_DEFINITION(#60,'FwdFloor_Body',#13);
+
+/* ---- Centre Cabin Floor Structure ---- */
+#62 = PRODUCT('FUS-FLR-CTR','Centre Cabin Floor Structure',
+     'Floor beams × 26 (F21-F47), seat tracks (4 rows), ML gear bay cover panels',(#3));
+#63 = PRODUCT_DEFINITION_FORMATION('A','Release',#62);
+#64 = PRODUCT_DEFINITION(#63,'CtrFloor_Body',#13);
+
+/* ---- Aft Fuselage Section 46/47 ---- */
+#70 = PRODUCT('FUS-S46','Aft Fuselage Section 46-47',
+     'Aft cabin, aft cargo door, rear pressure dome, APU bay, frames F47-F74',(#3));
+#71 = PRODUCT_DEFINITION_FORMATION('B','Release',#70);
+#72 = PRODUCT_DEFINITION(#71,'AftFuselage_Body',#13);
+
+/* ---- Aft Cabin Floor Structure ---- */
+#73 = PRODUCT('FUS-FLR-AFT','Aft Cabin Floor Structure',
+     'Floor beams × 18 (F47-F65), seat tracks, galley mounting structure',(#3));
+#74 = PRODUCT_DEFINITION_FORMATION('A','Release',#73);
+#75 = PRODUCT_DEFINITION(#74,'AftFloor_Body',#13);
+
+/* ---- Aft Pressure Dome ---- */
+#76 = PRODUCT('FUS-DOME-AFT','Aft Pressure Dome',
+     'Spherical dome, 2219-T87 Al, t=4.5 mm, proof pressure 1.65 PSI differential',(#3));
+#77 = PRODUCT_DEFINITION_FORMATION('A','Release',#76);
+#78 = PRODUCT_DEFINITION(#77,'AftDome_Body',#13);
+
+/* ---- Belly Fairing ---- */
+#79 = PRODUCT('FUS-BELLY-FAIR','Belly Fairing Assembly',
+     'GFRP/Al belly fairing panels, centre wing box lower cover, aerodynamic fillet',(#3));
+#80 = PRODUCT_DEFINITION_FORMATION('A','Release',#79);
+#81 = PRODUCT_DEFINITION(#80,'BellyFair_Body',#13);
+
+/* ============================================================ */
+/* WING ASSEMBLY — LEFT AND RIGHT                                */
+/* Al-Li two-spar torsion box, 17.9 m semi-span, 22 ribs        */
+/* ============================================================ */
+#100 = PRODUCT('WNG-L-001','Left Wing Assembly',
+     'Full-span left wing: torsion box, movable surfaces, pylons, fixed LE/TE, winglet',(#3));
+#101 = PRODUCT_DEFINITION_FORMATION('B','Release',#100);
+#102 = PRODUCT_DEFINITION(#101,'LeftWing_Body',#13);
+
+#110 = PRODUCT('WNG-R-001','Right Wing Assembly',
+     'Full-span right wing: torsion box, movable surfaces, pylons, fixed LE/TE, winglet',(#3));
+#111 = PRODUCT_DEFINITION_FORMATION('B','Release',#110);
+#112 = PRODUCT_DEFINITION(#111,'RightWing_Body',#13);
+
+/* ---- Wing Torsion Box (Left) ---- */
+#120 = PRODUCT('WNG-L-BOX','Left Wing Torsion Box',
+     'Front spar AL 7055-T7751, rear spar AL 7055-T7751, upper/lower skin AL-Li 2197, 22 ribs',(#3));
+#121 = PRODUCT_DEFINITION_FORMATION('B','Release',#120);
+#122 = PRODUCT_DEFINITION(#121,'LeftWingBox_Body',#13);
+
+/* ---- Wing Torsion Box (Right) ---- */
+#123 = PRODUCT('WNG-R-BOX','Right Wing Torsion Box',
+     'Front spar AL 7055-T7751, rear spar AL 7055-T7751, upper/lower skin AL-Li 2197, 22 ribs',(#3));
+#124 = PRODUCT_DEFINITION_FORMATION('B','Release',#123);
+#125 = PRODUCT_DEFINITION(#124,'RightWingBox_Body',#13);
+
+/* ---- Fixed Leading Edge Assembly (Left) ---- */
+#126 = PRODUCT('WNG-L-FLE','Left Fixed Leading Edge Assembly',
+     'Krueger flap bay, de-ice piccolo tube, CFRP skin, erosion shield, heated leading edge brackets',(#3));
+#127 = PRODUCT_DEFINITION_FORMATION('A','Release',#126);
+#128 = PRODUCT_DEFINITION(#127,'LeftFLE_Body',#13);
+
+/* ---- Fixed Leading Edge Assembly (Right) ---- */
+#129 = PRODUCT('WNG-R-FLE','Right Fixed Leading Edge Assembly',
+     'Krueger flap bay, de-ice piccolo tube, CFRP skin, erosion shield',(#3));
+#130 = PRODUCT_DEFINITION_FORMATION('A','Release',#129);
+#131 = PRODUCT_DEFINITION(#130,'RightFLE_Body',#13);
+
+/* ---- Fixed Trailing Edge Assembly (Left) ---- */
+#132 = PRODUCT('WNG-L-FTE','Left Fixed Trailing Edge Assembly',
+     'Flap track fairings ×4, spoiler hinge fittings ×6, CFRP/Al structure',(#3));
+#133 = PRODUCT_DEFINITION_FORMATION('A','Release',#132);
+#134 = PRODUCT_DEFINITION(#133,'LeftFTE_Body',#13);
+
+/* ---- Fixed Trailing Edge Assembly (Right) ---- */
+#135 = PRODUCT('WNG-R-FTE','Right Fixed Trailing Edge Assembly',
+     'Flap track fairings ×4, spoiler hinge fittings ×6, CFRP/Al structure',(#3));
+#136 = PRODUCT_DEFINITION_FORMATION('A','Release',#135);
+#137 = PRODUCT_DEFINITION(#136,'RightFTE_Body',#13);
+
+/* ---- Winglet (Left) ---- */
+#138 = PRODUCT('WNG-L-WGLT','Left Winglet',
+     'Blended winglet, span 2.4 m, cant 17 deg, CFRP skin-stringer, Al 7075 main spar',(#3));
+#139 = PRODUCT_DEFINITION_FORMATION('A','Release',#138);
+#140 = PRODUCT_DEFINITION(#139,'LeftWinglet_Body',#13);
+
+/* ---- Winglet (Right) ---- */
+#141 = PRODUCT('WNG-R-WGLT','Right Winglet',
+     'Blended winglet, span 2.4 m, cant 17 deg, CFRP skin-stringer, Al 7075 main spar',(#3));
+#142 = PRODUCT_DEFINITION_FORMATION('A','Release',#141);
+#143 = PRODUCT_DEFINITION(#142,'RightWinglet_Body',#13);
+
+/* ============================================================ */
+/* INDIVIDUAL SLAT PANELS — Left (S1–S5) and Right (S1–S5)      */
+/* CFRP/Al hybrid; Fowler-type extension; 27 deg max            */
+/* ============================================================ */
+#150 = PRODUCT('SLAT-L-S1','Left Slat Panel 1 (Inboard)',
+     'Inboard slat, span 1.8 m, CFRP upper skin, Al spar, de-ice duct fitting',(#3));
+#151 = PRODUCT_DEFINITION_FORMATION('A','Release',#150);
+#152 = PRODUCT_DEFINITION(#151,'LeftSlatS1_Body',#13);
+
+#153 = PRODUCT('SLAT-L-S2','Left Slat Panel 2',
+     'Slat panel S2, span 2.1 m, CFRP, Fowler track gear, actuator fitting',(#3));
+#154 = PRODUCT_DEFINITION_FORMATION('A','Release',#153);
+#155 = PRODUCT_DEFINITION(#154,'LeftSlatS2_Body',#13);
+
+#156 = PRODUCT('SLAT-L-S3','Left Slat Panel 3',
+     'Slat panel S3, span 2.3 m, CFRP, mid-span actuation',(#3));
+#157 = PRODUCT_DEFINITION_FORMATION('A','Release',#156);
+#158 = PRODUCT_DEFINITION(#157,'LeftSlatS3_Body',#13);
+
+#159 = PRODUCT('SLAT-L-S4','Left Slat Panel 4',
+     'Slat panel S4, span 2.1 m, CFRP, outboard drive',(#3));
+#160 = PRODUCT_DEFINITION_FORMATION('A','Release',#159);
+#161 = PRODUCT_DEFINITION(#160,'LeftSlatS4_Body',#13);
+
+#162 = PRODUCT('SLAT-L-S5','Left Slat Panel 5 (Outboard)',
+     'Outboard slat, span 1.6 m, CFRP, outboard PDU drive, gapless',(#3));
+#163 = PRODUCT_DEFINITION_FORMATION('A','Release',#162);
+#164 = PRODUCT_DEFINITION(#163,'LeftSlatS5_Body',#13);
+
+#165 = PRODUCT('SLAT-R-S1','Right Slat Panel 1 (Inboard)',
+     'Inboard slat, span 1.8 m, CFRP upper skin, Al spar, de-ice duct fitting',(#3));
+#166 = PRODUCT_DEFINITION_FORMATION('A','Release',#165);
+#167 = PRODUCT_DEFINITION(#166,'RightSlatS1_Body',#13);
+
+#168 = PRODUCT('SLAT-R-S2','Right Slat Panel 2',
+     'Slat panel S2, span 2.1 m, CFRP, Fowler track gear',(#3));
+#169 = PRODUCT_DEFINITION_FORMATION('A','Release',#168);
+#170 = PRODUCT_DEFINITION(#169,'RightSlatS2_Body',#13);
+
+#171 = PRODUCT('SLAT-R-S3','Right Slat Panel 3',
+     'Slat panel S3, span 2.3 m, CFRP, mid-span actuation',(#3));
+#172 = PRODUCT_DEFINITION_FORMATION('A','Release',#171);
+#173 = PRODUCT_DEFINITION(#172,'RightSlatS3_Body',#13);
+
+#174 = PRODUCT('SLAT-R-S4','Right Slat Panel 4',
+     'Slat panel S4, span 2.1 m, CFRP, outboard drive',(#3));
+#175 = PRODUCT_DEFINITION_FORMATION('A','Release',#174);
+#176 = PRODUCT_DEFINITION(#175,'RightSlatS4_Body',#13);
+
+#177 = PRODUCT('SLAT-R-S5','Right Slat Panel 5 (Outboard)',
+     'Outboard slat, span 1.6 m, CFRP, gapless seal',(#3));
+#178 = PRODUCT_DEFINITION_FORMATION('A','Release',#177);
+#179 = PRODUCT_DEFINITION(#178,'RightSlatS5_Body',#13);
+
+/* ============================================================ */
+/* INDIVIDUAL SPOILER / SPOILERON PANELS — L × 6, R × 6        */
+/* CFRP sandwich; flight spoilers + ground spoilers             */
+/* ============================================================ */
+#180 = PRODUCT('SPLR-L-P1','Left Spoiler Panel 1 (Ground Lift Dump)',
+     'Inboard ground spoiler, span 0.75 m, CFRP, 60 deg ground deflection only',(#3));
+#181 = PRODUCT_DEFINITION_FORMATION('A','Release',#180);
+#182 = PRODUCT_DEFINITION(#181,'LeftSplr1_Body',#13);
+
+#183 = PRODUCT('SPLR-L-P2','Left Spoiler Panel 2',
+     'Flight spoiler, span 0.75 m, CFRP, 35 deg max in-flight / 60 deg ground',(#3));
+#184 = PRODUCT_DEFINITION_FORMATION('A','Release',#183);
+#185 = PRODUCT_DEFINITION(#184,'LeftSplr2_Body',#13);
+
+#186 = PRODUCT('SPLR-L-P3','Left Spoiler Panel 3',
+     'Flight/ground spoiler, roll assist inboard, CFRP, EHA actuation',(#3));
+#187 = PRODUCT_DEFINITION_FORMATION('A','Release',#186);
+#188 = PRODUCT_DEFINITION(#187,'LeftSplr3_Body',#13);
+
+#189 = PRODUCT('SPLR-L-P4','Left Spoileron Panel 4',
+     'Spoileron (flight spoiler + roll control), span 0.80 m, CFRP, hydraulic/EHA',(#3));
+#190 = PRODUCT_DEFINITION_FORMATION('A','Release',#189);
+#191 = PRODUCT_DEFINITION(#190,'LeftSplr4_Body',#13);
+
+#192 = PRODUCT('SPLR-L-P5','Left Spoileron Panel 5',
+     'Outboard spoileron, primary roll authority, span 0.85 m, CFRP',(#3));
+#193 = PRODUCT_DEFINITION_FORMATION('A','Release',#192);
+#194 = PRODUCT_DEFINITION(#193,'LeftSplr5_Body',#13);
+
+#195 = PRODUCT('SPLR-L-P6','Left Spoiler Panel 6 (Outboard)',
+     'Outboard speed brake / spoileron, span 0.80 m, CFRP',(#3));
+#196 = PRODUCT_DEFINITION_FORMATION('A','Release',#195);
+#197 = PRODUCT_DEFINITION(#196,'LeftSplr6_Body',#13);
+
+#198 = PRODUCT('SPLR-R-P1','Right Spoiler Panel 1 (Ground Lift Dump)',
+     'Inboard ground spoiler, span 0.75 m, CFRP',(#3));
+#199 = PRODUCT_DEFINITION_FORMATION('A','Release',#198);
+#200 = PRODUCT_DEFINITION(#199,'RightSplr1_Body',#13);
+
+#201 = PRODUCT('SPLR-R-P2','Right Spoiler Panel 2',
+     'Flight spoiler, span 0.75 m, CFRP',(#3));
+#202 = PRODUCT_DEFINITION_FORMATION('A','Release',#201);
+#203 = PRODUCT_DEFINITION(#202,'RightSplr2_Body',#13);
+
+#204 = PRODUCT('SPLR-R-P3','Right Spoiler Panel 3',
+     'Flight/ground spoiler, CFRP, EHA actuation',(#3));
+#205 = PRODUCT_DEFINITION_FORMATION('A','Release',#204);
+#206 = PRODUCT_DEFINITION(#205,'RightSplr3_Body',#13);
+
+#207 = PRODUCT('SPLR-R-P4','Right Spoileron Panel 4',
+     'Spoileron, span 0.80 m, CFRP, hydraulic',(#3));
+#208 = PRODUCT_DEFINITION_FORMATION('A','Release',#207);
+#209 = PRODUCT_DEFINITION(#208,'RightSplr4_Body',#13);
+
+#210 = PRODUCT('SPLR-R-P5','Right Spoileron Panel 5',
+     'Outboard spoileron, primary roll, CFRP',(#3));
+#211 = PRODUCT_DEFINITION_FORMATION('A','Release',#210);
+#212 = PRODUCT_DEFINITION(#211,'RightSplr5_Body',#13);
+
+#213 = PRODUCT('SPLR-R-P6','Right Spoiler Panel 6 (Outboard)',
+     'Outboard speed brake/spoileron, CFRP',(#3));
+#214 = PRODUCT_DEFINITION_FORMATION('A','Release',#213);
+#215 = PRODUCT_DEFINITION(#214,'RightSplr6_Body',#13);
+
+/* ============================================================ */
+/* TRAILING EDGE FLAPS — Fowler single-slotted                  */
+/* ============================================================ */
+#220 = PRODUCT('FCS-FLAP-LIB','Left Inboard Trailing Edge Flap',
+     'Single-slotted Fowler, span 4.2 m, Al 2024, max 40 deg, 4 flap tracks',(#3));
+#221 = PRODUCT_DEFINITION_FORMATION('B','Release',#220);
+#222 = PRODUCT_DEFINITION(#221,'LeftIBFlap_Body',#13);
+
+#223 = PRODUCT('FCS-FLAP-LOB','Left Outboard Trailing Edge Flap',
+     'Single-slotted Fowler, span 3.8 m, Al 2024, max 40 deg, 3 flap tracks',(#3));
+#224 = PRODUCT_DEFINITION_FORMATION('B','Release',#223);
+#225 = PRODUCT_DEFINITION(#224,'LeftOBFlap_Body',#13);
+
+#226 = PRODUCT('FCS-FLAP-RIB','Right Inboard Trailing Edge Flap',
+     'Single-slotted Fowler, span 4.2 m, Al 2024, max 40 deg',(#3));
+#227 = PRODUCT_DEFINITION_FORMATION('B','Release',#226);
+#228 = PRODUCT_DEFINITION(#227,'RightIBFlap_Body',#13);
+
+#229 = PRODUCT('FCS-FLAP-ROB','Right Outboard Trailing Edge Flap',
+     'Single-slotted Fowler, span 3.8 m, Al 2024, max 40 deg',(#3));
+#230 = PRODUCT_DEFINITION_FORMATION('B','Release',#229);
+#231 = PRODUCT_DEFINITION(#230,'RightOBFlap_Body',#13);
+
+/* ---- Ailerons ---- */
+#232 = PRODUCT('FCS-AIL-LOB','Left Outboard Aileron',
+     'CFRP aileron, span 3.1 m, hinge 77.5% chord, ±25 deg',(#3));
+#233 = PRODUCT_DEFINITION_FORMATION('B','Release',#232);
+#234 = PRODUCT_DEFINITION(#233,'LeftAileron_Body',#13);
+
+#235 = PRODUCT('FCS-AIL-ROB','Right Outboard Aileron',
+     'CFRP aileron, span 3.1 m, hinge 77.5% chord, ±25 deg',(#3));
+#236 = PRODUCT_DEFINITION_FORMATION('B','Release',#235);
+#237 = PRODUCT_DEFINITION(#236,'RightAileron_Body',#13);
+
+/* ============================================================ */
+/* EMPENNAGE                                                      */
+/* ============================================================ */
+#250 = PRODUCT('STAB-HORIZ','Horizontal Stabiliser Assembly',
+     'All-moving THS, span 12.45 m, CFRP torsion box, ±3 deg trim, ballscrew',(#3));
+#251 = PRODUCT_DEFINITION_FORMATION('B','Release',#250);
+#252 = PRODUCT_DEFINITION(#251,'HorizStab_Body',#13);
+
+#253 = PRODUCT('THS-ACTUATOR','THS Trim Actuator Assembly',
+     'Dual-channel electromechanical ballscrew, Ti-6Al-4V, 0.2 deg/s, DO-178C DAL A',(#3));
+#254 = PRODUCT_DEFINITION_FORMATION('A','Release',#253);
+#255 = PRODUCT_DEFINITION(#254,'THSActuator_Body',#13);
+
+#256 = PRODUCT('FCS-ELEV-L','Left Elevator',
+     'CFRP, two-segment, +25/-30 deg, dual hydraulic actuators (HYD A + B)',(#3));
+#257 = PRODUCT_DEFINITION_FORMATION('B','Release',#256);
+#258 = PRODUCT_DEFINITION(#257,'LeftElevator_Body',#13);
+
+#259 = PRODUCT('FCS-ELEV-R','Right Elevator',
+     'CFRP, two-segment, +25/-30 deg, dual hydraulic actuators',(#3));
+#260 = PRODUCT_DEFINITION_FORMATION('B','Release',#259);
+#261 = PRODUCT_DEFINITION(#260,'RightElevator_Body',#13);
+
+#262 = PRODUCT('FIN-VERT','Vertical Fin Assembly',
+     'CFRP torsion box, height 7.3 m, 35 deg sweep, integral dorsal fairing',(#3));
+#263 = PRODUCT_DEFINITION_FORMATION('B','Release',#262);
+#264 = PRODUCT_DEFINITION(#263,'VertFin_Body',#13);
+
+#265 = PRODUCT('FCS-RUDR','Rudder',
+     'CFRP sandwich, height 5.9 m, ±25 deg, two-segment, three actuators (HYD A/B/C)',(#3));
+#266 = PRODUCT_DEFINITION_FORMATION('B','Release',#265);
+#267 = PRODUCT_DEFINITION(#266,'Rudder_Body',#13);
+
+/* ============================================================ */
+/* ENGINE NACELLES AND PYLONS                                    */
+/* ============================================================ */
+#280 = PRODUCT('NAC-L-001','Left Engine Nacelle Assembly',
+     'Inlet cowl, fan cowl ×2, thrust reverser, core cowl, tail pipe, CFRP/Ti',(#3));
+#281 = PRODUCT_DEFINITION_FORMATION('B','Release',#280);
+#282 = PRODUCT_DEFINITION(#281,'LeftNacelle_Body',#13);
+
+#283 = PRODUCT('NAC-L-INLET','Left Nacelle Inlet Cowl',
+     'CFRP acoustic liner lip, heated LE, fan diameter 1.98 m, ice protection bleed',(#3));
+#284 = PRODUCT_DEFINITION_FORMATION('A','Release',#283);
+#285 = PRODUCT_DEFINITION(#284,'LeftInlet_Body',#13);
+
+#286 = PRODUCT('NAC-L-FANCOWL-L','Left Nacelle Fan Cowl Door (Left)',
+     'CFRP/Al honeycomb fan cowl, hinged at 10 o'clock, service access',(#3));
+#287 = PRODUCT_DEFINITION_FORMATION('A','Release',#286);
+#288 = PRODUCT_DEFINITION(#287,'LeftFanCowlL_Body',#13);
+
+#289 = PRODUCT('NAC-L-FANCOWL-R','Left Nacelle Fan Cowl Door (Right)',
+     'CFRP/Al honeycomb fan cowl, hinged at 2 o'clock, service access',(#3));
+#290 = PRODUCT_DEFINITION_FORMATION('A','Release',#289);
+#291 = PRODUCT_DEFINITION(#290,'LeftFanCowlR_Body',#13);
+
+#292 = PRODUCT('NAC-L-TR','Left Thrust Reverser',
+     'Cascade-type TR, CFRP doors, pneumatic actuation, 40% reverse thrust, ETOPS approved',(#3));
+#293 = PRODUCT_DEFINITION_FORMATION('A','Release',#292);
+#294 = PRODUCT_DEFINITION(#293,'LeftThrustRev_Body',#13);
+
+#295 = PRODUCT('NAC-L-CORE','Left Core Cowl / Exhaust',
+     'Core nozzle plug, Al LHT material, bypass duct fairing, EGT thermocouple bosses',(#3));
+#296 = PRODUCT_DEFINITION_FORMATION('A','Release',#295);
+#297 = PRODUCT_DEFINITION(#296,'LeftCoreCowl_Body',#13);
+
+#298 = PRODUCT('PYLON-L','Left Engine Pylon',
+     'Al 7475 / Ti-6Al-4V pylon box, 3-point engine mount, fuel/hydraulic/bleed routing',(#3));
+#299 = PRODUCT_DEFINITION_FORMATION('B','Release',#298);
+#300 = PRODUCT_DEFINITION(#299,'LeftPylon_Body',#13);
+
+#301 = PRODUCT('NAC-R-001','Right Engine Nacelle Assembly',
+     'Inlet cowl, fan cowl ×2, thrust reverser, core cowl, tail pipe, CFRP/Ti',(#3));
+#302 = PRODUCT_DEFINITION_FORMATION('B','Release',#301);
+#303 = PRODUCT_DEFINITION(#302,'RightNacelle_Body',#13);
+
+#304 = PRODUCT('NAC-R-INLET','Right Nacelle Inlet Cowl',
+     'CFRP acoustic liner, heated LE, fan diameter 1.98 m',(#3));
+#305 = PRODUCT_DEFINITION_FORMATION('A','Release',#304);
+#306 = PRODUCT_DEFINITION(#305,'RightInlet_Body',#13);
+
+#307 = PRODUCT('NAC-R-FANCOWL-L','Right Nacelle Fan Cowl Door (Left)',
+     'CFRP/Al honeycomb fan cowl door, service access port',(#3));
+#308 = PRODUCT_DEFINITION_FORMATION('A','Release',#307);
+#309 = PRODUCT_DEFINITION(#308,'RightFanCowlL_Body',#13);
+
+#310 = PRODUCT('NAC-R-FANCOWL-R','Right Nacelle Fan Cowl Door (Right)',
+     'CFRP/Al honeycomb fan cowl door',(#3));
+#311 = PRODUCT_DEFINITION_FORMATION('A','Release',#310);
+#312 = PRODUCT_DEFINITION(#311,'RightFanCowlR_Body',#13);
+
+#313 = PRODUCT('NAC-R-TR','Right Thrust Reverser',
+     'Cascade TR, CFRP, pneumatic actuation',(#3));
+#314 = PRODUCT_DEFINITION_FORMATION('A','Release',#313);
+#315 = PRODUCT_DEFINITION(#314,'RightThrustRev_Body',#13);
+
+#316 = PRODUCT('NAC-R-CORE','Right Core Cowl / Exhaust',
+     'Core nozzle plug, Al LHT, bypass fairing',(#3));
+#317 = PRODUCT_DEFINITION_FORMATION('A','Release',#316);
+#318 = PRODUCT_DEFINITION(#317,'RightCoreCowl_Body',#13);
+
+#319 = PRODUCT('PYLON-R','Right Engine Pylon',
+     'Al 7475 / Ti-6Al-4V, 3-point engine mount, fuel/hydraulic/bleed',(#3));
+#320 = PRODUCT_DEFINITION_FORMATION('B','Release',#319);
+#321 = PRODUCT_DEFINITION(#320,'RightPylon_Body',#13);
+
+/* ============================================================ */
+/* LANDING GEAR — NOSE (NLG) with SUB-ASSEMBLIES                */
+/* ============================================================ */
+#330 = PRODUCT('LDG-NOSE','Nose Landing Gear Assembly',
+     'Twin-wheel steerable NLG, stroke 508 mm, Ti-10V-2Fe-3Al cylinder',(#3));
+#331 = PRODUCT_DEFINITION_FORMATION('B','Release',#330);
+#332 = PRODUCT_DEFINITION(#331,'NLG_Body',#13);
+
+#333 = PRODUCT('NLG-CYLINDER','NLG Shock Absorber Cylinder',
+     'Ti-10V-2Fe-3Al oleo-pneumatic strut, 508 mm stroke, 28 x 9.0 R15 tyres',(#3));
+#334 = PRODUCT_DEFINITION_FORMATION('A','Release',#333);
+#335 = PRODUCT_DEFINITION(#334,'NLGCylinder_Body',#13);
+
+#336 = PRODUCT('NLG-DRAG-STRUT','NLG Drag Strut Assembly',
+     'Forward drag strut, 300M steel, downlock mechanism, brace assembly',(#3));
+#337 = PRODUCT_DEFINITION_FORMATION('A','Release',#336);
+#338 = PRODUCT_DEFINITION(#337,'NLGDragStrut_Body',#13);
+
+#339 = PRODUCT('NLG-AXLE','NLG Axle and Wheel Assembly',
+     'Twin-wheel axle, forged Al, 28 x 9.0 R15 Michelin tyres, non-braked',(#3));
+#340 = PRODUCT_DEFINITION_FORMATION('A','Release',#339);
+#341 = PRODUCT_DEFINITION(#340,'NLGAxle_Body',#13);
+
+#342 = PRODUCT('NLG-STEERING','NLG Steering Actuator Assembly',
+     'Electro-hydraulic steering actuator, ±70 deg low-speed, ±6 deg high-speed, bypass valve',(#3));
+#343 = PRODUCT_DEFINITION_FORMATION('A','Release',#342);
+#344 = PRODUCT_DEFINITION(#343,'NLGSteering_Body',#13);
+
+#345 = PRODUCT('LDG-NOSE-DOOR','Nose Landing Gear Door Set',
+     'Fwd drag door, two side doors, Al 2024-T3, door actuator linkages',(#3));
+#346 = PRODUCT_DEFINITION_FORMATION('B','Release',#345);
+#347 = PRODUCT_DEFINITION(#346,'NLGDoors_Body',#13);
+
+/* ============================================================ */
+/* LANDING GEAR — LEFT MAIN (MLG) with BOGIE DETAIL             */
+/* ============================================================ */
+#350 = PRODUCT('LDG-MLG-L','Left Main Landing Gear Assembly',
+     '4-wheel bogie MLG, stroke 635 mm, 300M steel, 46 x 16.0 R20 tyres, C-C brakes',(#3));
+#351 = PRODUCT_DEFINITION_FORMATION('B','Release',#350);
+#352 = PRODUCT_DEFINITION(#351,'LeftMLG_Body',#13);
+
+#353 = PRODUCT('MLG-L-CYLINDER','Left MLG Main Shock Strut',
+     '300M high-strength steel oleo-pneumatic strut, 635 mm stroke, 5-stage damping',(#3));
+#354 = PRODUCT_DEFINITION_FORMATION('A','Release',#353);
+#355 = PRODUCT_DEFINITION(#354,'LeftMLGStrut_Body',#13);
+
+#356 = PRODUCT('MLG-L-BOGIE','Left MLG Bogie Beam Assembly',
+     'Titanium 6Al-4V bogie beam, 4-wheel (2×2), anti-shimmy, tilt actuator, axle ×2',(#3));
+#357 = PRODUCT_DEFINITION_FORMATION('A','Release',#356);
+#358 = PRODUCT_DEFINITION(#357,'LeftBogie_Body',#13);
+
+#359 = PRODUCT('MLG-L-WHEEL-FWD','Left MLG Forward Wheel/Tyre Set',
+     '2× 46x16.0 R20 tyres, forged Al wheels, Michelin Air X radial, 100 000 cycle life',(#3));
+#360 = PRODUCT_DEFINITION_FORMATION('A','Release',#359);
+#361 = PRODUCT_DEFINITION(#360,'LeftMLGWheelFwd_Body',#13);
+
+#362 = PRODUCT('MLG-L-WHEEL-AFT','Left MLG Aft Wheel/Tyre Set',
+     '2× 46x16.0 R20 tyres, forged Al wheels, Michelin Air X radial',(#3));
+#363 = PRODUCT_DEFINITION_FORMATION('A','Release',#362);
+#364 = PRODUCT_DEFINITION(#363,'LeftMLGWheelAft_Body',#13);
+
+#365 = PRODUCT('MLG-L-BRAKE-FWD','Left MLG Forward Brake Assembly',
+     'Carbon-carbon multi-disc brake, 8 pistons, heat sink 25 MJ, BSCU/EPAC interface',(#3));
+#366 = PRODUCT_DEFINITION_FORMATION('A','Release',#365);
+#367 = PRODUCT_DEFINITION(#366,'LeftBrakeFwd_Body',#13);
+
+#368 = PRODUCT('MLG-L-BRAKE-AFT','Left MLG Aft Brake Assembly',
+     'Carbon-carbon multi-disc brake, 8 pistons, heat sink 25 MJ',(#3));
+#369 = PRODUCT_DEFINITION_FORMATION('A','Release',#368);
+#370 = PRODUCT_DEFINITION(#369,'LeftBrakeAft_Body',#13);
+
+#371 = PRODUCT('LDG-MLG-L-DOOR','Left Main Landing Gear Door Set',
+     'Main inner door, aft door, Al 7075-T6, hydraulic actuation',(#3));
+#372 = PRODUCT_DEFINITION_FORMATION('B','Release',#371);
+#373 = PRODUCT_DEFINITION(#372,'LeftMLGDoors_Body',#13);
+
+/* ============================================================ */
+/* LANDING GEAR — RIGHT MAIN (MLG)                              */
+/* ============================================================ */
+#374 = PRODUCT('LDG-MLG-R','Right Main Landing Gear Assembly',
+     '4-wheel bogie MLG, stroke 635 mm, 300M steel, C-C brakes',(#3));
+#375 = PRODUCT_DEFINITION_FORMATION('B','Release',#374);
+#376 = PRODUCT_DEFINITION(#375,'RightMLG_Body',#13);
+
+#377 = PRODUCT('MLG-R-CYLINDER','Right MLG Main Shock Strut',
+     '300M steel oleo-pneumatic strut, 635 mm stroke',(#3));
+#378 = PRODUCT_DEFINITION_FORMATION('A','Release',#377);
+#379 = PRODUCT_DEFINITION(#378,'RightMLGStrut_Body',#13);
+
+#380 = PRODUCT('MLG-R-BOGIE','Right MLG Bogie Beam Assembly',
+     'Ti-6Al-4V bogie beam, 4-wheel (2×2), anti-shimmy, tilt actuator',(#3));
+#381 = PRODUCT_DEFINITION_FORMATION('A','Release',#380);
+#382 = PRODUCT_DEFINITION(#381,'RightBogie_Body',#13);
+
+#383 = PRODUCT('MLG-R-WHEEL-FWD','Right MLG Forward Wheel/Tyre Set',
+     '2× 46x16.0 R20 tyres, forged Al, Michelin Air X',(#3));
+#384 = PRODUCT_DEFINITION_FORMATION('A','Release',#383);
+#385 = PRODUCT_DEFINITION(#384,'RightMLGWheelFwd_Body',#13);
+
+#386 = PRODUCT('MLG-R-WHEEL-AFT','Right MLG Aft Wheel/Tyre Set',
+     '2× 46x16.0 R20 tyres, forged Al',(#3));
+#387 = PRODUCT_DEFINITION_FORMATION('A','Release',#386);
+#388 = PRODUCT_DEFINITION(#387,'RightMLGWheelAft_Body',#13);
+
+#389 = PRODUCT('MLG-R-BRAKE-FWD','Right MLG Forward Brake Assembly',
+     'C-C multi-disc brake, 8 pistons, BSCU interface',(#3));
+#390 = PRODUCT_DEFINITION_FORMATION('A','Release',#389);
+#391 = PRODUCT_DEFINITION(#390,'RightBrakeFwd_Body',#13);
+
+#392 = PRODUCT('MLG-R-BRAKE-AFT','Right MLG Aft Brake Assembly',
+     'C-C multi-disc brake, 8 pistons',(#3));
+#393 = PRODUCT_DEFINITION_FORMATION('A','Release',#392);
+#394 = PRODUCT_DEFINITION(#393,'RightBrakeAft_Body',#13);
+
+#395 = PRODUCT('LDG-MLG-R-DOOR','Right Main Landing Gear Door Set',
+     'Main inner door, aft door, Al 7075-T6, hydraulic',(#3));
+#396 = PRODUCT_DEFINITION_FORMATION('B','Release',#395);
+#397 = PRODUCT_DEFINITION(#396,'RightMLGDoors_Body',#13);
+
+/* ============================================================ */
+/* PASSENGER DOORS — L1/R1, L2/R2, L3/R3, L4/R4               */
+/* Type A (762×1956 mm) and Type III over-wing exits            */
+/* ============================================================ */
+#400 = PRODUCT('DOOR-PAX-L1','Passenger Door L1 (Fwd Left)',
+     'Type A plug door, 762×1956 mm, Al 7075 structure, power assist, slide/raft, sill airtight seal',(#3));
+#401 = PRODUCT_DEFINITION_FORMATION('A','Release',#400);
+#402 = PRODUCT_DEFINITION(#401,'DoorL1_Body',#13);
+
+#403 = PRODUCT('DOOR-PAX-R1','Passenger Door R1 (Fwd Right)',
+     'Type A plug door, 762×1956 mm, slide/raft, escape system',(#3));
+#404 = PRODUCT_DEFINITION_FORMATION('A','Release',#403);
+#405 = PRODUCT_DEFINITION(#404,'DoorR1_Body',#13);
+
+#406 = PRODUCT('DOOR-PAX-L2','Passenger Door L2 (Mid Left)',
+     'Type A plug door, escape slide, armed mode lever, pressure sensing',(#3));
+#407 = PRODUCT_DEFINITION_FORMATION('A','Release',#406);
+#408 = PRODUCT_DEFINITION(#407,'DoorL2_Body',#13);
+
+#409 = PRODUCT('DOOR-PAX-R2','Passenger Door R2 (Mid Right)',
+     'Type A plug door, escape slide',(#3));
+#410 = PRODUCT_DEFINITION_FORMATION('A','Release',#409);
+#411 = PRODUCT_DEFINITION(#410,'DoorR2_Body',#13);
+
+#412 = PRODUCT('DOOR-OW-L','Over-Wing Exit Left (Type III)',
+     'Type III over-wing hatch, 508×914 mm, Al, jettisonable, slide carpet',(#3));
+#413 = PRODUCT_DEFINITION_FORMATION('A','Release',#412);
+#414 = PRODUCT_DEFINITION(#413,'OverWingExitL_Body',#13);
+
+#415 = PRODUCT('DOOR-OW-R','Over-Wing Exit Right (Type III)',
+     'Type III over-wing hatch, 508×914 mm, Al, jettisonable',(#3));
+#416 = PRODUCT_DEFINITION_FORMATION('A','Release',#415);
+#417 = PRODUCT_DEFINITION(#416,'OverWingExitR_Body',#13);
+
+#418 = PRODUCT('DOOR-PAX-L4','Passenger Door L4 (Aft Left)',
+     'Type A plug door, evacuation slide, aft galley access',(#3));
+#419 = PRODUCT_DEFINITION_FORMATION('A','Release',#418);
+#420 = PRODUCT_DEFINITION(#419,'DoorL4_Body',#13);
+
+#421 = PRODUCT('DOOR-PAX-R4','Passenger Door R4 (Aft Right)',
+     'Type A plug door, evacuation slide',(#3));
+#422 = PRODUCT_DEFINITION_FORMATION('A','Release',#421);
+#423 = PRODUCT_DEFINITION(#422,'DoorR4_Body',#13);
+
+/* ============================================================ */
+/* CARGO DOORS                                                   */
+/* ============================================================ */
+#430 = PRODUCT('DOOR-FWD-CARGO','Forward Cargo Door',
+     'Outward-opening plug, 2.24×1.78 m, Al 7075, power drive unit',(#3));
+#431 = PRODUCT_DEFINITION_FORMATION('B','Release',#430);
+#432 = PRODUCT_DEFINITION(#431,'FwdCargoDoor_Body',#13);
+
+#433 = PRODUCT('DOOR-AFT-CARGO','Aft Cargo Door',
+     'Outward-opening plug, 2.24×1.78 m, Al 7075, power drive unit',(#3));
+#434 = PRODUCT_DEFINITION_FORMATION('B','Release',#433);
+#435 = PRODUCT_DEFINITION(#434,'AftCargoDoor_Body',#13);
+
+/* ============================================================ */
+/* APU BAY AND ASSEMBLY                                          */
+/* ============================================================ */
+#440 = PRODUCT('APU-BAY','APU Compartment Assembly',
+     'Firewall, air inlet scoop, exhaust duct, APU mount frame, Honeywell HGT750',(#3));
+#441 = PRODUCT_DEFINITION_FORMATION('B','Release',#440);
+#442 = PRODUCT_DEFINITION(#441,'APUBay_Body',#13);
+
+#443 = PRODUCT('APU-INLET-DOOR','APU Inlet Door Assembly',
+     'NACA-type spring-loaded door, CFRP, auto-open on APU start, ice protection',(#3));
+#444 = PRODUCT_DEFINITION_FORMATION('A','Release',#443);
+#445 = PRODUCT_DEFINITION(#444,'APUInletDoor_Body',#13);
+
+#446 = PRODUCT('APU-EXHAUST','APU Exhaust Muffler Assembly',
+     'Rear fuselage exhaust duct, 321 SS, noise suppressor, overboard drain',(#3));
+#447 = PRODUCT_DEFINITION_FORMATION('A','Release',#446);
+#448 = PRODUCT_DEFINITION(#447,'APUExhaust_Body',#13);
+
+/* ============================================================ */
+/* NEXT ASSEMBLY USAGE OCCURRENCES (assembly tree)              */
+/* ============================================================ */
+
+/* Top-level airframe → major assemblies */
+#700 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-FUS','Fuselage in Airframe',#12,#22,$,$);
+#701 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-WNG-L','Left Wing in Airframe',#12,#102,$,$);
+#702 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-WNG-R','Right Wing in Airframe',#12,#112,$,$);
+#703 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-STAB','H-Stab in Airframe',#12,#252,$,$);
+#704 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-FIN','Vert Fin in Airframe',#12,#264,$,$);
+#705 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-NAC-L','Left Nacelle in Airframe',#12,#282,$,$);
+#706 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-NAC-R','Right Nacelle in Airframe',#12,#303,$,$);
+#707 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-PYL-L','Left Pylon in Airframe',#12,#300,$,$);
+#708 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-PYL-R','Right Pylon in Airframe',#12,#321,$,$);
+#709 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-NLG','NLG in Airframe',#12,#332,$,$);
+#710 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-MLG-L','Left MLG in Airframe',#12,#352,$,$);
+#711 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-MLG-R','Right MLG in Airframe',#12,#376,$,$);
+#712 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-APU','APU Bay in Airframe',#12,#442,$,$);
+#713 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-BELLY','Belly Fairing in Airframe',#12,#81,$,$);
+
+/* Passenger doors in fuselage */
+#714 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-L1','Door L1 in Airframe',#12,#402,$,$);
+#715 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-R1','Door R1 in Airframe',#12,#405,$,$);
+#716 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-L2','Door L2 in Airframe',#12,#408,$,$);
+#717 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-R2','Door R2 in Airframe',#12,#411,$,$);
+#718 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-OWL','OW Exit L in Airframe',#12,#414,$,$);
+#719 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-OWR','OW Exit R in Airframe',#12,#417,$,$);
+#720 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-L4','Door L4 in Airframe',#12,#420,$,$);
+#721 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-DOOR-R4','Door R4 in Airframe',#12,#423,$,$);
+#722 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-CRG-FWD','Fwd Cargo Door in Airframe',#12,#432,$,$);
+#723 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('AF-CRG-AFT','Aft Cargo Door in Airframe',#12,#435,$,$);
+
+/* Fuselage sections */
+#730 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S41','Nose Sec 41 in Fuselage',#22,#32,$,$);
+#731 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S43','Fwd Sec 43 in Fuselage',#22,#42,$,$);
+#732 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S44','Ctr Sec 44 in Fuselage',#22,#52,$,$);
+#733 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S46','Aft Sec 46 in Fuselage',#22,#72,$,$);
+#734 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-DOME','Aft Dome in Fuselage',#22,#78,$,$);
+#735 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S41-RADOME','Radome in Nose',#32,#35,$,$);
+#736 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S41-AVN','Avionics Bay in Nose',#32,#38,$,$);
+#737 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S43-COCKPIT','Cockpit in Fwd Sec',#42,#45,$,$);
+#738 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S43-WSLD','Windshield in Cockpit',#45,#48,$,$);
+#739 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S43-FLR','Fwd Floor in Fwd Sec',#42,#61,$,$);
+#740 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S44-KEEL','Keel Beam in Ctr Sec',#52,#55,$,$);
+#741 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S44-CWB','CWB in Ctr Sec',#52,#58,$,$);
+#742 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S44-FLR','Ctr Floor in Ctr Sec',#52,#64,$,$);
+#743 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FUS-S46-FLR','Aft Floor in Aft Sec',#72,#75,$,$);
+#744 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('APU-INLET','APU Inlet Door in APU Bay',#442,#445,$,$);
+#745 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('APU-EXH','APU Exhaust in APU Bay',#442,#448,$,$);
+
+/* Left Wing sub-assemblies */
+#750 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-BOX','Wing Box in Left Wing',#102,#122,$,$);
+#751 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-FLE','Fixed LE in Left Wing',#102,#128,$,$);
+#752 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-FTE','Fixed TE in Left Wing',#102,#134,$,$);
+#753 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-WGLT','Winglet in Left Wing',#102,#140,$,$);
+#754 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-AIL','Aileron in Left Wing',#102,#234,$,$);
+#755 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-FLAPIB','IB Flap in Left Wing',#102,#222,$,$);
+#756 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-FLAPOB','OB Flap in Left Wing',#102,#225,$,$);
+/* Left slats */
+#757 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SLAT1','Slat S1 in Left Wing',#102,#152,$,$);
+#758 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SLAT2','Slat S2 in Left Wing',#102,#155,$,$);
+#759 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SLAT3','Slat S3 in Left Wing',#102,#158,$,$);
+#760 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SLAT4','Slat S4 in Left Wing',#102,#161,$,$);
+#761 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SLAT5','Slat S5 in Left Wing',#102,#164,$,$);
+/* Left spoilers */
+#762 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP1','Spoiler P1 in Left Wing',#102,#182,$,$);
+#763 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP2','Spoiler P2 in Left Wing',#102,#185,$,$);
+#764 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP3','Spoiler P3 in Left Wing',#102,#188,$,$);
+#765 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP4','Spoiler P4 in Left Wing',#102,#191,$,$);
+#766 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP5','Spoiler P5 in Left Wing',#102,#194,$,$);
+#767 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WL-SP6','Spoiler P6 in Left Wing',#102,#197,$,$);
+
+/* Right Wing sub-assemblies */
+#770 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-BOX','Wing Box in Right Wing',#112,#125,$,$);
+#771 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-FLE','Fixed LE in Right Wing',#112,#131,$,$);
+#772 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-FTE','Fixed TE in Right Wing',#112,#137,$,$);
+#773 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-WGLT','Winglet in Right Wing',#112,#143,$,$);
+#774 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-AIL','Aileron in Right Wing',#112,#237,$,$);
+#775 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-FLAPIB','IB Flap in Right Wing',#112,#228,$,$);
+#776 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-FLAPOB','OB Flap in Right Wing',#112,#231,$,$);
+/* Right slats */
+#777 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SLAT1','Slat S1 in Right Wing',#112,#167,$,$);
+#778 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SLAT2','Slat S2 in Right Wing',#112,#170,$,$);
+#779 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SLAT3','Slat S3 in Right Wing',#112,#173,$,$);
+#780 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SLAT4','Slat S4 in Right Wing',#112,#176,$,$);
+#781 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SLAT5','Slat S5 in Right Wing',#112,#179,$,$);
+/* Right spoilers */
+#782 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP1','Spoiler P1 in Right Wing',#112,#200,$,$);
+#783 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP2','Spoiler P2 in Right Wing',#112,#203,$,$);
+#784 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP3','Spoiler P3 in Right Wing',#112,#206,$,$);
+#785 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP4','Spoiler P4 in Right Wing',#112,#209,$,$);
+#786 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP5','Spoiler P5 in Right Wing',#112,#212,$,$);
+#787 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('WR-SP6','Spoiler P6 in Right Wing',#112,#215,$,$);
+
+/* Empennage sub-assemblies */
+#790 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('STAB-ELEV-L','Left Elevator in H-Stab',#252,#258,$,$);
+#791 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('STAB-ELEV-R','Right Elevator in H-Stab',#252,#261,$,$);
+#792 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('STAB-THS-ACT','THS Actuator in H-Stab',#252,#255,$,$);
+#793 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('FIN-RUDR','Rudder in Vert Fin',#264,#267,$,$);
+
+/* Left Nacelle sub-assemblies */
+#794 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-L-INLET','Inlet in Left Nacelle',#282,#285,$,$);
+#795 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-L-FCD-L','Fan Cowl L in Left Nacelle',#282,#288,$,$);
+#796 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-L-FCD-R','Fan Cowl R in Left Nacelle',#282,#291,$,$);
+#797 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-L-TR','TR in Left Nacelle',#282,#294,$,$);
+#798 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-L-CORE','Core Cowl in Left Nacelle',#282,#297,$,$);
+
+/* Right Nacelle sub-assemblies */
+#799 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-R-INLET','Inlet in Right Nacelle',#303,#306,$,$);
+#800 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-R-FCD-L','Fan Cowl L in Right Nacelle',#303,#309,$,$);
+#801 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-R-FCD-R','Fan Cowl R in Right Nacelle',#303,#312,$,$);
+#802 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-R-TR','TR in Right Nacelle',#303,#315,$,$);
+#803 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NAC-R-CORE','Core Cowl in Right Nacelle',#303,#318,$,$);
+
+/* NLG sub-assemblies */
+#804 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NLG-CYL','Strut in NLG',#332,#335,$,$);
+#805 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NLG-DRAG','Drag Strut in NLG',#332,#338,$,$);
+#806 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NLG-AXLE','Axle in NLG',#332,#341,$,$);
+#807 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NLG-STEER','Steering in NLG',#332,#344,$,$);
+#808 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('NLG-DOORS','Doors in NLG',#332,#347,$,$);
+
+/* Left MLG sub-assemblies */
+#809 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-CYL','Strut in Left MLG',#352,#355,$,$);
+#810 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-BOG','Bogie in Left MLG',#352,#358,$,$);
+#811 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-WH-F','Fwd Wheels in Left Bogie',#358,#361,$,$);
+#812 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-WH-A','Aft Wheels in Left Bogie',#358,#364,$,$);
+#813 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-BK-F','Fwd Brakes in Left Bogie',#358,#367,$,$);
+#814 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-BK-A','Aft Brakes in Left Bogie',#358,#370,$,$);
+#815 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-L-DOORS','Doors in Left MLG',#352,#373,$,$);
+
+/* Right MLG sub-assemblies */
+#816 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-CYL','Strut in Right MLG',#376,#379,$,$);
+#817 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-BOG','Bogie in Right MLG',#376,#382,$,$);
+#818 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-WH-F','Fwd Wheels in Right Bogie',#382,#385,$,$);
+#819 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-WH-A','Aft Wheels in Right Bogie',#382,#388,$,$);
+#820 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-BK-F','Fwd Brakes in Right Bogie',#382,#391,$,$);
+#821 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-BK-A','Aft Brakes in Right Bogie',#382,#394,$,$);
+#822 = NEXT_ASSEMBLY_USAGE_OCCURRENCE('MLG-R-DOORS','Doors in Right MLG',#376,#397,$,$);
+
+/* ============================================================ */
+/* PROPERTIES                                                    */
+/* ============================================================ */
+
+/* Aircraft Level */
+#900 = PROPERTY_DEFINITION('aircraft_type','Narrow-body twin-engine commercial transport',#12);
+#901 = PROPERTY_DEFINITION('mtow_kg','79000',#12);
+#902 = PROPERTY_DEFINITION('oew_kg','44000',#12);
+#903 = PROPERTY_DEFINITION('max_payload_kg','21000',#12);
+#904 = PROPERTY_DEFINITION('wingspan_m','35.8',#12);
+#905 = PROPERTY_DEFINITION('fuselage_length_m','44.5',#12);
+#906 = PROPERTY_DEFINITION('cabin_diameter_m','4.14',#12);
+#907 = PROPERTY_DEFINITION('cruise_mach','0.82',#12);
+#908 = PROPERTY_DEFINITION('service_ceiling_ft','41000',#12);
+#909 = PROPERTY_DEFINITION('design_service_goal_cycles','75000',#12);
+#910 = PROPERTY_DEFINITION('design_service_goal_hours','120000',#12);
+#911 = PROPERTY_DEFINITION('certification_basis','FAR Part 25 / CS-25 Amendment 25',#12);
+#912 = PROPERTY_DEFINITION('seat_count_max','189',#12);
+#913 = PROPERTY_DEFINITION('fuel_capacity_total_kg','20500',#12);
+
+/* Fuselage */
+#920 = PROPERTY_DEFINITION('cabin_length_m','32.7',#22);
+#921 = PROPERTY_DEFINITION('frame_pitch_mm','533',#22);
+#922 = PROPERTY_DEFINITION('frame_count','40',#22);
+#923 = PROPERTY_DEFINITION('skin_material','2219-T87 Al-Li alloy',#22);
+#924 = PROPERTY_DEFINITION('frame_material','7075-T6 aluminium',#22);
+#925 = PROPERTY_DEFINITION('stringer_count','68',#22);
+#926 = PROPERTY_DEFINITION('max_diff_pressure_psi','8.6',#22);
+#927 = PROPERTY_DEFINITION('pressure_test_cycles','1.5x DSG = 112500',#22);
+
+/* Wing */
+#930 = PROPERTY_DEFINITION('semi_span_m','17.9',#102);
+#931 = PROPERTY_DEFINITION('aspect_ratio','9.4',#102);
+#932 = PROPERTY_DEFINITION('quarter_chord_sweep_deg','27.8',#102);
+#933 = PROPERTY_DEFINITION('dihedral_deg','5.5',#102);
+#934 = PROPERTY_DEFINITION('aerofoil_root','NACA 641A-412 mod',#102);
+#935 = PROPERTY_DEFINITION('aerofoil_tip','NACA 641A-410 mod',#102);
+#936 = PROPERTY_DEFINITION('fuel_capacity_kg','9000',#102);
+#937 = PROPERTY_DEFINITION('rib_count','22',#102);
+#938 = PROPERTY_DEFINITION('spar_material','7055-T7751',#122);
+#939 = PROPERTY_DEFINITION('skin_material','2197 Al-Li',#122);
+
+/* Landing Gear */
+#950 = PROPERTY_DEFINITION('nlg_tyre_size','28x9.0 R15',#332);
+#951 = PROPERTY_DEFINITION('nlg_stroke_mm','508',#332);
+#952 = PROPERTY_DEFINITION('nlg_material','Ti-10V-2Fe-3Al',#335);
+#953 = PROPERTY_DEFINITION('mlg_tyre_size','46x16.0 R20',#352);
+#954 = PROPERTY_DEFINITION('mlg_stroke_mm','635',#352);
+#955 = PROPERTY_DEFINITION('mlg_brake_type','Carbon-carbon multi-disc',#367);
+#956 = PROPERTY_DEFINITION('mlg_brake_heat_sink_MJ','25',#367);
+#957 = PROPERTY_DEFINITION('mlg_axle_material','300M steel',#356);
+#958 = PROPERTY_DEFINITION('mlg_bogie_material','Ti-6Al-4V',#356);
+#959 = PROPERTY_DEFINITION('nlg_steering_authority_deg','±70 low-speed / ±6 high-speed',#344);
+
+ENDSEC;
+END-ISO-10303-21;

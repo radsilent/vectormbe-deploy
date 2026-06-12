@@ -1,0 +1,1384 @@
+-- Commercial Aircraft Integrated Avionics Platform — Version 2
+-- DO-178C / DO-254 / DO-160G compliant architecture
+-- ATA chapters 21 (ECS), 22 (Auto Flight), 23 (Communications), 24 (Electrical),
+--              27 (Flight Controls), 28 (Fuel), 29 (Hydraulics), 30 (Ice Protection),
+--              31 (Indicating/Recording), 33 (Lights), 34 (Navigation), 36 (Pneumatic),
+--              45 (Central Maintenance), 73 (Engine Fuel & Control)
+-- ARINC 653 partitioning on IMA (Integrated Modular Avionics) core
+-- v2: adds TCAS II, EGPWS, Communications suite, ECAM, Fuel/Electrical/ECS/Ice/Cabin management
+
+package AircraftAvionicsPlatformV2
+public
+  with SEI;
+  with Data_Model;
+
+  -- ── Data Types ──────────────────────────────────────────────────────────────
+
+  data AircraftState
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 512 Bytes;
+  end AircraftState;
+
+  data SensorFrame
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 64 Bytes;
+  end SensorFrame;
+
+  data NavigationSolution
+    -- Blended IRS/GPS/ADC state; 32-element vector, WGS-84 referenced
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 256 Bytes;
+  end NavigationSolution;
+
+  data FlightPlanData
+    -- Active FMS flight plan: waypoints, speed/altitude constraints, fuel predictions
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 16384 Bytes;
+  end FlightPlanData;
+
+  data ControlSurfaceCmd
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 32 Bytes;
+  end ControlSurfaceCmd;
+
+  data EngineControlCmd
+    -- FADEC thrust command: N1 target, fuel flow rate, bleed air demand, EGT limit
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 48 Bytes;
+  end EngineControlCmd;
+
+  data DisplayImage
+    -- PFD / ND / SD raster frame: 1280×800, 24-bit colour
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 3072000 Bytes;
+  end DisplayImage;
+
+  data MaintenanceRecord
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 128 Bytes;
+  end MaintenanceRecord;
+
+  data WeatherRadarData
+    -- Weather radar return: 512-range × 360-azimuth × 4-tilt sweeps
+    properties
+      Data_Model::Data_Representation => Array;
+      Data_Size => 737280 Bytes;
+  end WeatherRadarData;
+
+  data CollisionAvoidanceAdvisory
+    -- TCAS II RA: sense (climb/descend), vertical rate limit, threat aircraft list
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 96 Bytes;
+  end CollisionAvoidanceAdvisory;
+
+  data TerrainData
+    -- EGPWS terrain database tile + mode alerts: modes 1-7, TAD, PDA
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 192 Bytes;
+  end TerrainData;
+
+  data FuelQuantityData
+    -- Tank quantities: centre, wing inner/outer, trim, feed; total fuel on board
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 128 Bytes;
+  end FuelQuantityData;
+
+  data HydraulicState
+    -- System pressure (psi), fluid level, pump status — three independent systems
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 80 Bytes;
+  end HydraulicState;
+
+  data ElectricalBusState
+    -- Bus voltage/frequency, IDG/APU/RAT status, load shed state
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 96 Bytes;
+  end ElectricalBusState;
+
+  data CabinAtmosphere
+    -- Cabin altitude, differential pressure, temperature, flow rate
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 48 Bytes;
+  end CabinAtmosphere;
+
+  data EcamAlert
+    -- ECAM warning/caution/advisory: ATA chapter, text, procedure reference
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 256 Bytes;
+  end EcamAlert;
+
+  data AcarsMessage
+    -- ACARS uplink/downlink: message type, airline ID, payload (max 220 chars)
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 512 Bytes;
+  end AcarsMessage;
+
+  data AudioCmd
+    -- Cockpit audio: chime type, PA message, alert tone (DING vs DONG vs THREE-CHIME)
+    properties
+      Data_Model::Data_Representation => Struct;
+      Data_Size => 32 Bytes;
+  end AudioCmd;
+
+  -- ── Air Data / Inertial ──────────────────────────────────────────────────────
+
+  device AirDataModule
+    -- ADIRU — Air Data Inertial Reference Unit (triple installed)
+    features
+      pitot_pressure_in  : in  data port;
+      static_pressure_in : in  data port;
+      temperature_in     : in  data port;
+      sensor_out         : out data port SensorFrame;
+      nav_solution_out   : out data port NavigationSolution;
+    properties
+      SEI::MIPSCapacity => 800.0 MIPS;
+      SEI::WeightLimit  => 4.2 kg;
+      Period            => 10 ms;
+  end AirDataModule;
+
+  device InertialReferenceUnit
+    -- LRG IRS (laser ring gyro), 200 Hz, ARINC 429 output, triple redundant
+    features
+      imu_raw_out  : out data port SensorFrame;
+      attitude_out : out data port NavigationSolution;
+    properties
+      SEI::MIPSCapacity => 600.0 MIPS;
+      SEI::WeightLimit  => 5.8 kg;
+      Period            => 5 ms;
+  end InertialReferenceUnit;
+
+  device GpsReceiver
+    -- Multi-constellation GNSS (GPS L1/L2C, GLONASS G1/G2, Galileo E1/E5a)
+    -- SBAS/GBAS augmentation for CATIII approach; RAIM/FDE
+    features
+      rf_antenna_in : in  data port;
+      position_out  : out data port NavigationSolution;
+    properties
+      SEI::MIPSCapacity => 200.0 MIPS;
+      SEI::WeightLimit  => 0.9 kg;
+      Period            => 100 ms;
+  end GpsReceiver;
+
+  -- ── Weather Radar ────────────────────────────────────────────────────────────
+
+  device WeatherRadarUnit
+    -- Nose-mounted flat-plate phased-array weather radar; X-band, 75 nm range
+    -- Hazard levels: black/magenta/red/yellow/green; turbulence mode; wind shear
+    features
+      antenna_rf_in   : in  data port;
+      wx_data_out     : out data port WeatherRadarData;
+      tilt_cmd_in     : in  data port;
+    properties
+      SEI::MIPSCapacity => 350.0 MIPS;
+      SEI::WeightLimit  => 8.4 kg;
+      Period            => 250 ms;
+  end WeatherRadarUnit;
+
+  -- ── TCAS II ──────────────────────────────────────────────────────────────────
+
+  device TcasTransceiver
+    -- TCAS II v7.1 (DO-185B); Mode S transponder; 1090 MHz ADS-B In
+    -- Provides Traffic Advisories (TA) and Resolution Advisories (RA)
+    features
+      antenna_top_in    : in  data port;
+      antenna_bottom_in : in  data port;
+      ra_out            : out data port CollisionAvoidanceAdvisory;
+      traffic_out       : out data port SensorFrame;
+    properties
+      SEI::MIPSCapacity => 500.0 MIPS;
+      SEI::WeightLimit  => 3.2 kg;
+      Period            => 100 ms;
+  end TcasTransceiver;
+
+  -- ── EGPWS ────────────────────────────────────────────────────────────────────
+
+  device EgpwsProcessor
+    -- Enhanced Ground Proximity Warning System (DO-161A)
+    -- Terrain Awareness and Display (TAD), Predictive Windshear
+    -- Database: 30 arc-second terrain grid; airport proximity alerting
+    features
+      nav_in          : in  data port NavigationSolution;
+      radio_alt_in    : in  data port SensorFrame;
+      terrain_alert_out: out data port TerrainData;
+      audio_out       : out data port AudioCmd;
+    properties
+      SEI::MIPSCapacity => 420.0 MIPS;
+      SEI::WeightLimit  => 1.8 kg;
+      Period            => 50 ms;
+  end EgpwsProcessor;
+
+  -- ── Communications ──────────────────────────────────────────────────────────
+
+  device VhfTransceiver
+    -- VHF COM/NAV transceiver; 8.33 kHz channel spacing; 118-137 MHz
+    -- Integrated ILS localiser/glideslope receiver; VOR/DME
+    features
+      antenna_in     : in  data port;
+      audio_out      : out data port AudioCmd;
+      nav_data_out   : out data port NavigationSolution;
+    properties
+      SEI::MIPSCapacity => 120.0 MIPS;
+      SEI::WeightLimit  => 2.1 kg;
+      Period            => 20 ms;
+  end VhfTransceiver;
+
+  device HfTransceiver
+    -- HF COM 2-30 MHz; SELCAL; ALE (Automatic Link Establishment)
+    -- Oceanic / remote operations; single sideband USB
+    features
+      antenna_in   : in  data port;
+      audio_out    : out data port AudioCmd;
+    properties
+      SEI::MIPSCapacity => 80.0 MIPS;
+      SEI::WeightLimit  => 3.4 kg;
+      Period            => 100 ms;
+  end HfTransceiver;
+
+  device SatcomUnit
+    -- SATCOM (FANS-1/A, Inmarsat Swift64 / Iridium); datalink + voice
+    -- ADS-C position reporting; CPDLC controller-pilot datalink
+    features
+      antenna_in     : in  data port;
+      acars_out      : out data port AcarsMessage;
+      voice_out      : out data port AudioCmd;
+    properties
+      SEI::MIPSCapacity => 200.0 MIPS;
+      SEI::WeightLimit  => 4.0 kg;
+      Period            => 500 ms;
+  end SatcomUnit;
+
+  -- ── FADEC Interface ──────────────────────────────────────────────────────────
+
+  device FadecInterface
+    -- Full Authority Digital Engine Control — ARINC 429 / AFDX dual-channel
+    features
+      throttle_cmd_in   : in  data port EngineControlCmd;
+      engine_state_out  : out data port SensorFrame;
+      bleed_demand_in   : in  data port;
+    properties
+      SEI::MIPSCapacity => 400.0 MIPS;
+      SEI::WeightLimit  => 1.2 kg;
+      Period            => 20 ms;
+  end FadecInterface;
+
+  -- ── Power Generation ────────────────────────────────────────────────────────
+
+  device IdgGenerator
+    -- Integrated Drive Generator (IDG); constant-speed drive + 115 VAC 400 Hz
+    -- 90 kVA per engine; oil cooling; GCU disconnect on overheat
+    features
+      bus_state_out : out data port ElectricalBusState;
+    properties
+      SEI::MIPSCapacity => 50.0 MIPS;
+      SEI::WeightLimit  => 28.0 kg;
+      Period            => 100 ms;
+  end IdgGenerator;
+
+  device ApuGenerator
+    -- APU Starter/Generator; 90 kVA; ground/emergency power; pneumatic start
+    features
+      bus_state_out : out data port ElectricalBusState;
+    properties
+      SEI::MIPSCapacity => 50.0 MIPS;
+      SEI::WeightLimit  => 22.0 kg;
+      Period            => 100 ms;
+  end ApuGenerator;
+
+  device RamAirTurbine
+    -- RAT — hydraulic + electrical emergency power; deploys < 3 s; 7.5 kVA
+    features
+      hyd_out         : out data port HydraulicState;
+      bus_state_out   : out data port ElectricalBusState;
+    properties
+      SEI::MIPSCapacity => 20.0 MIPS;
+      SEI::WeightLimit  => 12.0 kg;
+      Period            => 200 ms;
+  end RamAirTurbine;
+
+  -- ── IMA Core Platform ────────────────────────────────────────────────────────
+
+  processor ImaCoreProcessor
+    -- IMA GPM — quad-core e6500 PowerPC @ 1.5 GHz, ARINC 653 RTOS (DAL A)
+    -- Hypervisor supports up to 16 partitions; 4 GB ECC DRAM; DO-178C DAL A
+    features
+      afdx_bus   : requires bus access AfdxBus;
+      arinc429   : requires bus access Arinc429Bus;
+    properties
+      SEI::MIPSCapacity  => 12000.0 MIPS;
+      SEI::WeightLimit   => 2.1 kg;
+      Scheduling_Protocol => (POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL);
+  end ImaCoreProcessor;
+
+  -- ── Communication Buses ─────────────────────────────────────────────────────
+
+  bus AfdxBus
+    -- ARINC 664 AFDX; 100 Mbps full-duplex; ≤ 500 µs worst-case latency
+    properties
+      SEI::BandWidthCapacity => 100.0 Mbps;
+      SEI::BandWidthBudget   => 70.0 Mbps;
+  end AfdxBus;
+
+  bus Arinc429Bus
+    -- ARINC 429 legacy sensor bus; 100 kbps high-speed mode
+    properties
+      SEI::BandWidthCapacity => 0.1 Mbps;
+      SEI::BandWidthBudget   => 0.08 Mbps;
+  end Arinc429Bus;
+
+  bus CanFdBus
+    -- CAN FD cabin/utility; 5 Mbps; DO-227 compliant
+    properties
+      SEI::BandWidthCapacity => 5.0 Mbps;
+      SEI::BandWidthBudget   => 3.5 Mbps;
+  end CanFdBus;
+
+  bus Arinc825Bus
+    -- ARINC 825 (CAN-based avionics bus); fuel/hydraulic/landing gear control
+    properties
+      SEI::BandWidthCapacity => 1.0 Mbps;
+      SEI::BandWidthBudget   => 0.7 Mbps;
+  end Arinc825Bus;
+
+  bus EthernetMaintenanceBus
+    -- Ethernet Maintenance Bus (ARINC 615A / 664P7); 1 Gbps; data loading
+    properties
+      SEI::BandWidthCapacity => 1000.0 Mbps;
+      SEI::BandWidthBudget   => 200.0 Mbps;
+  end EthernetMaintenanceBus;
+
+  -- ── Flight Management System ─────────────────────────────────────────────────
+
+  process FlightManagementSystem
+    -- FMS: 4D trajectory, LNAV/VNAV, RTA, TCAS advisories integration, FANS-1/A
+    features
+      nav_in           : in  data port NavigationSolution;
+      pilot_input_in   : in  data port;
+      flight_plan_in   : in  data port FlightPlanData;
+      tcas_ra_in       : in  data port CollisionAvoidanceAdvisory;
+      acars_in         : in  data port AcarsMessage;
+      fuel_qty_in      : in  data port FuelQuantityData;
+      guidance_out     : out data port AircraftState;
+      flight_plan_out  : out data port FlightPlanData;
+      mcdu_display_out : out data port DisplayImage;
+      acars_out        : out data port AcarsMessage;
+    properties
+      SEI::MIPSCapacity => 2400.0 MIPS;
+      Period            => 50 ms;
+  end FlightManagementSystem;
+
+  process implementation FlightManagementSystem.impl
+    subcomponents
+      lnav_thread      : thread LnavThread.impl;
+      vnav_thread      : thread VnavThread.impl;
+      fuelPred_thread  : thread FuelPredictionThread.impl;
+      mcdu_thread      : thread McduThread.impl;
+      perf_thread      : thread PerformanceThread.impl;
+      datalink_thread  : thread DatalinkThread.impl;
+  end FlightManagementSystem.impl;
+
+  thread LnavThread
+    features
+      nav_in       : in  data port NavigationSolution;
+      lnav_cmd_out : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 50 ms;
+      Compute_Execution_Time    => 5 ms .. 12 ms;
+      Priority                  => 20;
+  end LnavThread;
+
+  thread implementation LnavThread.impl
+  end LnavThread.impl;
+
+  thread VnavThread
+    features
+      nav_in       : in  data port NavigationSolution;
+      vnav_cmd_out : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 50 ms;
+      Compute_Execution_Time    => 6 ms .. 15 ms;
+      Priority                  => 19;
+  end VnavThread;
+
+  thread implementation VnavThread.impl
+  end VnavThread.impl;
+
+  thread FuelPredictionThread
+    features
+      state_in      : in  data port AircraftState;
+      fuel_qty_in   : in  data port FuelQuantityData;
+      fuel_plan_out : out data port FlightPlanData;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 20 ms .. 80 ms;
+      Priority                  => 10;
+  end FuelPredictionThread;
+
+  thread implementation FuelPredictionThread.impl
+  end FuelPredictionThread.impl;
+
+  thread McduThread
+    features
+      pilot_in    : in  event data port;
+      display_out : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Sporadic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 2 ms .. 10 ms;
+      Priority                  => 8;
+  end McduThread;
+
+  thread implementation McduThread.impl
+  end McduThread.impl;
+
+  thread PerformanceThread
+    -- Takeoff / landing / en-route performance; V-speeds; TOLD card
+    features
+      state_in   : in  data port AircraftState;
+      perf_out   : out data port FlightPlanData;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 2000 ms;
+      Compute_Execution_Time    => 50 ms .. 200 ms;
+      Priority                  => 7;
+  end PerformanceThread;
+
+  thread implementation PerformanceThread.impl
+  end PerformanceThread.impl;
+
+  thread DatalinkThread
+    -- FANS-1/A CPDLC + ADS-C uplink/downlink; ACARS message dispatch
+    features
+      acars_in    : in  data port AcarsMessage;
+      acars_out   : out data port AcarsMessage;
+    properties
+      Dispatch_Protocol         => Sporadic;
+      Period                    => 2000 ms;
+      Compute_Execution_Time    => 10 ms .. 50 ms;
+      Priority                  => 6;
+  end DatalinkThread;
+
+  thread implementation DatalinkThread.impl
+  end DatalinkThread.impl;
+
+  -- ── Autopilot / Flight Director ──────────────────────────────────────────────
+
+  process AutopilotFlightDirector
+    -- AFCS: autopilot, FD bars, autothrottle, TCAS RA integration, CAT IIIb
+    features
+      state_in         : in  data port AircraftState;
+      guidance_in      : in  data port AircraftState;
+      tcas_ra_in       : in  data port CollisionAvoidanceAdvisory;
+      terrain_alert_in : in  data port TerrainData;
+      surface_cmd_out  : out data port ControlSurfaceCmd;
+      throttle_cmd_out : out data port EngineControlCmd;
+      fd_display_out   : out data port DisplayImage;
+    properties
+      SEI::MIPSCapacity => 1800.0 MIPS;
+      Period            => 20 ms;
+  end AutopilotFlightDirector;
+
+  process implementation AutopilotFlightDirector.impl
+    subcomponents
+      pitch_thread   : thread PitchControlThread.impl;
+      roll_thread    : thread RollControlThread.impl;
+      throttle_thread: thread ThrottleControlThread.impl;
+      monitor_thread : thread SafetyMonitorThread.impl;
+      tcas_int_thread: thread TcasIntegrationThread.impl;
+      yaw_damper     : thread YawDamperThread.impl;
+  end AutopilotFlightDirector.impl;
+
+  thread PitchControlThread
+    features
+      state_in     : in  data port AircraftState;
+      elevator_out : out data port ControlSurfaceCmd;
+      stab_trim_out: out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 20 ms;
+      Compute_Execution_Time    => 1 ms .. 4 ms;
+      Priority                  => 30;
+  end PitchControlThread;
+
+  thread implementation PitchControlThread.impl
+  end PitchControlThread.impl;
+
+  thread RollControlThread
+    features
+      state_in    : in  data port AircraftState;
+      aileron_out : out data port ControlSurfaceCmd;
+      spoiler_out : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 20 ms;
+      Compute_Execution_Time    => 1 ms .. 4 ms;
+      Priority                  => 29;
+  end RollControlThread;
+
+  thread implementation RollControlThread.impl
+  end RollControlThread.impl;
+
+  thread ThrottleControlThread
+    features
+      state_in     : in  data port AircraftState;
+      throttle_out : out data port EngineControlCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 20 ms;
+      Compute_Execution_Time    => 1 ms .. 3 ms;
+      Priority                  => 28;
+  end ThrottleControlThread;
+
+  thread implementation ThrottleControlThread.impl
+  end ThrottleControlThread.impl;
+
+  thread SafetyMonitorThread
+    -- Envelope protection: alpha_prot, alpha_max, Vmo/Mmo, phi_max, GPWS pull-up
+    features
+      state_in    : in  data port AircraftState;
+      inhibit_out : out event port;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 10 ms;
+      Compute_Execution_Time    => 0.5 ms .. 2 ms;
+      Priority                  => 40;
+  end SafetyMonitorThread;
+
+  thread implementation SafetyMonitorThread.impl
+  end SafetyMonitorThread.impl;
+
+  thread TcasIntegrationThread
+    -- Monitors active RA; commands pitch/throttle override within AFCS
+    features
+      ra_in       : in  data port CollisionAvoidanceAdvisory;
+      pitch_out   : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 1 ms .. 5 ms;
+      Priority                  => 35;
+  end TcasIntegrationThread;
+
+  thread implementation TcasIntegrationThread.impl
+  end TcasIntegrationThread.impl;
+
+  thread YawDamperThread
+    -- Dual-channel yaw damper: Dutch-roll suppression + turn co-ordination
+    features
+      state_in    : in  data port AircraftState;
+      rudder_out  : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 12 ms;
+      Compute_Execution_Time    => 0.5 ms .. 2 ms;
+      Priority                  => 31;
+  end YawDamperThread;
+
+  thread implementation YawDamperThread.impl
+  end YawDamperThread.impl;
+
+  -- ── ECAM Display System (ATA 31) ─────────────────────────────────────────────
+
+  process EcamDisplaySystem
+    -- Electronic Centralised Aircraft Monitor
+    -- Engine/Warning Display (EWD) + System Display (SD), dual SDAC + FWC
+    features
+      engine_in      : in  data port SensorFrame;
+      fuel_in        : in  data port FuelQuantityData;
+      hyd_in         : in  data port HydraulicState;
+      elec_in        : in  data port ElectricalBusState;
+      cabin_atm_in   : in  data port CabinAtmosphere;
+      nav_in         : in  data port NavigationSolution;
+      alert_out      : out data port EcamAlert;
+      ewd_display_out: out data port DisplayImage;
+      sd_display_out : out data port DisplayImage;
+      audio_out      : out data port AudioCmd;
+    properties
+      SEI::MIPSCapacity => 1600.0 MIPS;
+      Period            => 100 ms;
+  end EcamDisplaySystem;
+
+  process implementation EcamDisplaySystem.impl
+    subcomponents
+      fwc_thread   : thread FlightWarningComputerThread.impl;
+      sdac_thread  : thread SystemDataAcquisitionThread.impl;
+      ewd_thread   : thread EngineWarningDisplayThread.impl;
+      sd_thread    : thread SystemDisplayThread.impl;
+  end EcamDisplaySystem.impl;
+
+  thread FlightWarningComputerThread
+    -- FWC: warning/caution logic, alert prioritisation, procedure recall
+    features
+      data_in    : in  data port SensorFrame;
+      alert_out  : out data port EcamAlert;
+      audio_out  : out data port AudioCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 5 ms .. 25 ms;
+      Priority                  => 38;
+  end FlightWarningComputerThread;
+
+  thread implementation FlightWarningComputerThread.impl
+  end FlightWarningComputerThread.impl;
+
+  thread SystemDataAcquisitionThread
+    -- SDAC: concentrates discrete and analog signals from all aircraft systems
+    features
+      sensor_in    : in  data port SensorFrame;
+      data_out     : out data port SensorFrame;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 50 ms;
+      Compute_Execution_Time    => 3 ms .. 10 ms;
+      Priority                  => 20;
+  end SystemDataAcquisitionThread;
+
+  thread implementation SystemDataAcquisitionThread.impl
+  end SystemDataAcquisitionThread.impl;
+
+  thread EngineWarningDisplayThread
+    features
+      engine_in   : in  data port SensorFrame;
+      alert_in    : in  data port EcamAlert;
+      display_out : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 8 ms .. 20 ms;
+      Priority                  => 22;
+  end EngineWarningDisplayThread;
+
+  thread implementation EngineWarningDisplayThread.impl
+  end EngineWarningDisplayThread.impl;
+
+  thread SystemDisplayThread
+    features
+      hyd_in      : in  data port HydraulicState;
+      fuel_in     : in  data port FuelQuantityData;
+      elec_in     : in  data port ElectricalBusState;
+      display_out : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 8 ms .. 20 ms;
+      Priority                  => 21;
+  end SystemDisplayThread;
+
+  thread implementation SystemDisplayThread.impl
+  end SystemDisplayThread.impl;
+
+  -- ── Fuel Management Computer (ATA 28) ────────────────────────────────────────
+
+  process FuelManagementComputer
+    -- FMC: tank quantity sensing, automatic transfer/cross-feed, jettison,
+    -- CG management via trim tank, FQMS dual-channel DO-178C DAL B
+    features
+      qty_sensor_in  : in  data port SensorFrame;
+      engine_flow_in : in  data port SensorFrame;
+      nav_in         : in  data port NavigationSolution;
+      fuel_qty_out   : out data port FuelQuantityData;
+      valve_cmd_out  : out data port ControlSurfaceCmd;
+    properties
+      SEI::MIPSCapacity => 600.0 MIPS;
+      Period            => 200 ms;
+  end FuelManagementComputer;
+
+  process implementation FuelManagementComputer.impl
+    subcomponents
+      qty_thread    : thread FuelQuantityThread.impl;
+      transfer_thread: thread FuelTransferThread.impl;
+      cg_thread     : thread CgManagementThread.impl;
+  end FuelManagementComputer.impl;
+
+  thread FuelQuantityThread
+    features
+      sensor_in  : in  data port SensorFrame;
+      qty_out    : out data port FuelQuantityData;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 500 ms;
+      Compute_Execution_Time    => 5 ms .. 20 ms;
+      Priority                  => 15;
+  end FuelQuantityThread;
+
+  thread implementation FuelQuantityThread.impl
+  end FuelQuantityThread.impl;
+
+  thread FuelTransferThread
+    features
+      qty_in     : in  data port FuelQuantityData;
+      valve_out  : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 10 ms .. 40 ms;
+      Priority                  => 12;
+  end FuelTransferThread;
+
+  thread implementation FuelTransferThread.impl
+  end FuelTransferThread.impl;
+
+  thread CgManagementThread
+    -- Trim-tank transfer to optimise CG for fuel efficiency (OTTM)
+    features
+      state_in   : in  data port AircraftState;
+      nav_in     : in  data port NavigationSolution;
+      cmd_out    : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 2000 ms;
+      Compute_Execution_Time    => 20 ms .. 80 ms;
+      Priority                  => 8;
+  end CgManagementThread;
+
+  thread implementation CgManagementThread.impl
+  end CgManagementThread.impl;
+
+  -- ── Electrical Load Management System (ATA 24) ───────────────────────────────
+
+  process ElectricalLoadManagementSystem
+    -- ELMS: bus tie logic, load shedding, IDG/APU/RAT control, battery management
+    -- 115 VAC 3-phase + 28 VDC; automatic reconfiguration on failures
+    features
+      idg_state_in   : in  data port ElectricalBusState;
+      apu_state_in   : in  data port ElectricalBusState;
+      rat_state_in   : in  data port ElectricalBusState;
+      bus_state_out  : out data port ElectricalBusState;
+      ecam_alert_out : out data port EcamAlert;
+      load_shed_out  : out event port;
+    properties
+      SEI::MIPSCapacity => 400.0 MIPS;
+      Period            => 100 ms;
+  end ElectricalLoadManagementSystem;
+
+  process implementation ElectricalLoadManagementSystem.impl
+    subcomponents
+      bus_monitor_thread : thread BusMonitorThread.impl;
+      load_shed_thread   : thread LoadSheddingThread.impl;
+      battery_thread     : thread BatteryManagementThread.impl;
+  end ElectricalLoadManagementSystem.impl;
+
+  thread BusMonitorThread
+    features
+      bus_in   : in  data port ElectricalBusState;
+      alert_out: out data port EcamAlert;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 2 ms .. 8 ms;
+      Priority                  => 32;
+  end BusMonitorThread;
+
+  thread implementation BusMonitorThread.impl
+  end BusMonitorThread.impl;
+
+  thread LoadSheddingThread
+    features
+      bus_in    : in  data port ElectricalBusState;
+      shed_out  : out event port;
+    properties
+      Dispatch_Protocol         => Sporadic;
+      Period                    => 200 ms;
+      Compute_Execution_Time    => 5 ms .. 15 ms;
+      Priority                  => 33;
+  end LoadSheddingThread;
+
+  thread implementation LoadSheddingThread.impl
+  end LoadSheddingThread.impl;
+
+  thread BatteryManagementThread
+    features
+      batt_sensor_in : in  data port SensorFrame;
+      charge_cmd_out : out data port ElectricalBusState;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 5 ms .. 20 ms;
+      Priority                  => 10;
+  end BatteryManagementThread;
+
+  thread implementation BatteryManagementThread.impl
+  end BatteryManagementThread.impl;
+
+  -- ── ECS / Air Conditioning (ATA 21/36) ───────────────────────────────────────
+
+  process EcsController
+    -- Environmental Control System: dual air-conditioning packs,
+    -- pressurisation outflow valve, cabin temperature zoning (3 zones),
+    -- HEPA filtration, recirculation fans
+    features
+      bleed_air_in     : in  data port SensorFrame;
+      cabin_sensor_in  : in  data port SensorFrame;
+      nav_in           : in  data port NavigationSolution;
+      cabin_atm_out    : out data port CabinAtmosphere;
+      pack_valve_out   : out data port ControlSurfaceCmd;
+      outflow_valve_out: out data port ControlSurfaceCmd;
+      ecam_alert_out   : out data port EcamAlert;
+    properties
+      SEI::MIPSCapacity => 350.0 MIPS;
+      Period            => 500 ms;
+  end EcsController;
+
+  process implementation EcsController.impl
+    subcomponents
+      press_thread  : thread PressurisationThread.impl;
+      temp_thread   : thread TemperatureControlThread.impl;
+      pack_thread   : thread PackControlThread.impl;
+  end EcsController.impl;
+
+  thread PressurisationThread
+    -- Cabin altitude target, differential pressure limit 8.6 PSI, outflow valve PID
+    features
+      nav_in        : in  data port NavigationSolution;
+      sensor_in     : in  data port SensorFrame;
+      valve_out     : out data port ControlSurfaceCmd;
+      cabin_out     : out data port CabinAtmosphere;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 500 ms;
+      Compute_Execution_Time    => 10 ms .. 40 ms;
+      Priority                  => 25;
+  end PressurisationThread;
+
+  thread implementation PressurisationThread.impl
+  end PressurisationThread.impl;
+
+  thread TemperatureControlThread
+    -- Zone temperature control: cockpit / forward cabin / aft cabin
+    features
+      sensor_in  : in  data port SensorFrame;
+      mix_out    : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 5 ms .. 20 ms;
+      Priority                  => 14;
+  end TemperatureControlThread;
+
+  thread implementation TemperatureControlThread.impl
+  end TemperatureControlThread.impl;
+
+  thread PackControlThread
+    -- Air conditioning pack flow regulation; ram/bleed bypass mixing
+    features
+      bleed_in  : in  data port SensorFrame;
+      pack_out  : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 500 ms;
+      Compute_Execution_Time    => 5 ms .. 15 ms;
+      Priority                  => 16;
+  end PackControlThread;
+
+  thread implementation PackControlThread.impl
+  end PackControlThread.impl;
+
+  -- ── Ice Protection (ATA 30) ──────────────────────────────────────────────────
+
+  process IceProtectionController
+    -- WIPS: wing leading-edge pneumatic anti-ice (bleed air piccolo tube)
+    -- EIPS: engine lip anti-ice (bleed); windshield heating (electrical)
+    -- PIPA: probe/drain/pitot heat; TAT/SAT ice crystal detection
+    features
+      ice_detect_in   : in  data port SensorFrame;
+      nav_in          : in  data port NavigationSolution;
+      bleed_cmd_out   : out data port ControlSurfaceCmd;
+      heat_cmd_out    : out event port;
+      ecam_alert_out  : out data port EcamAlert;
+    properties
+      SEI::MIPSCapacity => 200.0 MIPS;
+      Period            => 200 ms;
+  end IceProtectionController;
+
+  process implementation IceProtectionController.impl
+    subcomponents
+      wing_ice_thread   : thread WingAntiIceThread.impl;
+      engine_ice_thread : thread EngineAntiIceThread.impl;
+      probe_heat_thread : thread ProbeHeatThread.impl;
+  end IceProtectionController.impl;
+
+  thread WingAntiIceThread
+    features
+      detect_in  : in  data port SensorFrame;
+      bleed_out  : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 200 ms;
+      Compute_Execution_Time    => 3 ms .. 12 ms;
+      Priority                  => 17;
+  end WingAntiIceThread;
+
+  thread implementation WingAntiIceThread.impl
+  end WingAntiIceThread.impl;
+
+  thread EngineAntiIceThread
+    features
+      detect_in  : in  data port SensorFrame;
+      bleed_out  : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 200 ms;
+      Compute_Execution_Time    => 2 ms .. 8 ms;
+      Priority                  => 18;
+  end EngineAntiIceThread;
+
+  thread implementation EngineAntiIceThread.impl
+  end EngineAntiIceThread.impl;
+
+  thread ProbeHeatThread
+    features
+      state_in   : in  data port AircraftState;
+      heat_out   : out event port;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 2 ms .. 5 ms;
+      Priority                  => 13;
+  end ProbeHeatThread;
+
+  thread implementation ProbeHeatThread.impl
+  end ProbeHeatThread.impl;
+
+  -- ── Landing Gear Control (ATA 32) ───────────────────────────────────────────
+
+  process LandingGearControlUnit
+    -- LGCIU: gear retraction/extension, door sequencing, WOW logic
+    -- BSCU: anti-skid, autobrake, nosewheel steering (TAWS integration)
+    features
+      pilot_cmd_in    : in  data port;
+      wow_in          : in  data port SensorFrame;
+      gear_state_out  : out data port SensorFrame;
+      door_seq_out    : out data port ControlSurfaceCmd;
+      brake_cmd_out   : out data port ControlSurfaceCmd;
+      ecam_alert_out  : out data port EcamAlert;
+    properties
+      SEI::MIPSCapacity => 300.0 MIPS;
+      Period            => 20 ms;
+  end LandingGearControlUnit;
+
+  process implementation LandingGearControlUnit.impl
+    subcomponents
+      gear_seq_thread : thread GearSequenceThread.impl;
+      antiskid_thread : thread AntiSkidThread.impl;
+      steering_thread : thread NosewheelSteeringThread.impl;
+  end LandingGearControlUnit.impl;
+
+  thread GearSequenceThread
+    features
+      cmd_in      : in  data port;
+      seq_out     : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Sporadic;
+      Period                    => 20 ms;
+      Compute_Execution_Time    => 2 ms .. 8 ms;
+      Priority                  => 27;
+  end GearSequenceThread;
+
+  thread implementation GearSequenceThread.impl
+  end GearSequenceThread.impl;
+
+  thread AntiSkidThread
+    -- Anti-skid: wheel speed comparison, locked-wheel protection; DO-178C DAL A
+    features
+      wheel_speed_in  : in  data port SensorFrame;
+      brake_out       : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 10 ms;
+      Compute_Execution_Time    => 1 ms .. 3 ms;
+      Priority                  => 36;
+  end AntiSkidThread;
+
+  thread implementation AntiSkidThread.impl
+  end AntiSkidThread.impl;
+
+  thread NosewheelSteeringThread
+    features
+      pedal_in    : in  data port;
+      steer_out   : out data port ControlSurfaceCmd;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 20 ms;
+      Compute_Execution_Time    => 1 ms .. 4 ms;
+      Priority                  => 26;
+  end NosewheelSteeringThread;
+
+  thread implementation NosewheelSteeringThread.impl
+  end NosewheelSteeringThread.impl;
+
+  -- ── Display Systems ─────────────────────────────────────────────────────────
+
+  process PrimaryFlightDisplay
+    features
+      nav_in        : in  data port NavigationSolution;
+      fd_cmd_in     : in  data port DisplayImage;
+      terrain_in    : in  data port TerrainData;
+      ra_in         : in  data port CollisionAvoidanceAdvisory;
+      display_out   : out data port DisplayImage;
+    properties
+      SEI::MIPSCapacity => 1200.0 MIPS;
+      Period            => 16 ms;
+  end PrimaryFlightDisplay;
+
+  process implementation PrimaryFlightDisplay.impl
+    subcomponents
+      render_thread  : thread DisplayRenderThread.impl;
+      symbol_thread  : thread SymbologyThread.impl;
+      terrain_thread : thread TerrainOverlayThread.impl;
+  end PrimaryFlightDisplay.impl;
+
+  thread DisplayRenderThread
+    features
+      frame_in   : in  data port NavigationSolution;
+      frame_out  : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 16 ms;
+      Compute_Execution_Time    => 6 ms .. 14 ms;
+      Priority                  => 25;
+  end DisplayRenderThread;
+
+  thread implementation DisplayRenderThread.impl
+  end DisplayRenderThread.impl;
+
+  thread SymbologyThread
+    features
+      state_in    : in  data port AircraftState;
+      symbol_out  : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 50 ms;
+      Compute_Execution_Time    => 2 ms .. 8 ms;
+      Priority                  => 22;
+  end SymbologyThread;
+
+  thread implementation SymbologyThread.impl
+  end SymbologyThread.impl;
+
+  thread TerrainOverlayThread
+    -- TAD terrain overlay on PFD/ND; amber/red colouring based on clearance
+    features
+      terrain_in   : in  data port TerrainData;
+      overlay_out  : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 500 ms;
+      Compute_Execution_Time    => 10 ms .. 40 ms;
+      Priority                  => 11;
+  end TerrainOverlayThread;
+
+  thread implementation TerrainOverlayThread.impl
+  end TerrainOverlayThread.impl;
+
+  process NavigationDisplay
+    features
+      nav_in          : in  data port NavigationSolution;
+      wx_radar_in     : in  data port WeatherRadarData;
+      flight_plan_in  : in  data port FlightPlanData;
+      tcas_traffic_in : in  data port SensorFrame;
+      terrain_in      : in  data port TerrainData;
+      display_out     : out data port DisplayImage;
+    properties
+      SEI::MIPSCapacity => 1500.0 MIPS;
+      Period            => 16 ms;
+  end NavigationDisplay;
+
+  process implementation NavigationDisplay.impl
+    subcomponents
+      map_thread   : thread MapRenderThread.impl;
+      tcas_thread  : thread TcasDisplayThread.impl;
+      wx_thread    : thread WeatherRadarThread.impl;
+      terrain_thread: thread TerrainMapThread.impl;
+  end NavigationDisplay.impl;
+
+  thread MapRenderThread
+    features
+      nav_in   : in  data port NavigationSolution;
+      map_out  : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 16 ms;
+      Compute_Execution_Time    => 8 ms .. 16 ms;
+      Priority                  => 24;
+  end MapRenderThread;
+
+  thread implementation MapRenderThread.impl
+  end MapRenderThread.impl;
+
+  thread TcasDisplayThread
+    features
+      traffic_in : in  data port SensorFrame;
+      tcas_out   : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 100 ms;
+      Compute_Execution_Time    => 2 ms .. 6 ms;
+      Priority                  => 18;
+  end TcasDisplayThread;
+
+  thread implementation TcasDisplayThread.impl
+  end TcasDisplayThread.impl;
+
+  thread WeatherRadarThread
+    features
+      wx_in   : in  data port WeatherRadarData;
+      wx_out  : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 250 ms;
+      Compute_Execution_Time    => 10 ms .. 30 ms;
+      Priority                  => 15;
+  end WeatherRadarThread;
+
+  thread implementation WeatherRadarThread.impl
+  end WeatherRadarThread.impl;
+
+  thread TerrainMapThread
+    features
+      terrain_in  : in  data port TerrainData;
+      map_out     : out data port DisplayImage;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 500 ms;
+      Compute_Execution_Time    => 15 ms .. 50 ms;
+      Priority                  => 11;
+  end TerrainMapThread;
+
+  thread implementation TerrainMapThread.impl
+  end TerrainMapThread.impl;
+
+  -- ── Aircraft Condition Monitoring / QAR (ATA 31/45) ─────────────────────────
+
+  process AcmsQarSystem
+    features
+      state_in    : in  data port AircraftState;
+      engine_in   : in  data port SensorFrame;
+      hyd_in      : in  data port HydraulicState;
+      elec_in     : in  data port ElectricalBusState;
+      fuel_in     : in  data port FuelQuantityData;
+      record_out  : out data port MaintenanceRecord;
+      acars_out   : out data port AcarsMessage;
+    properties
+      SEI::MIPSCapacity => 800.0 MIPS;
+      Period            => 250 ms;
+  end AcmsQarSystem;
+
+  process implementation AcmsQarSystem.impl
+    subcomponents
+      logger_thread : thread FlightDataLoggerThread.impl;
+      phm_thread    : thread PrognosticsThread.impl;
+      report_thread : thread AcarsTrendReportThread.impl;
+  end AcmsQarSystem.impl;
+
+  thread FlightDataLoggerThread
+    features
+      state_in   : in  data port AircraftState;
+      record_out : out data port MaintenanceRecord;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 250 ms;
+      Compute_Execution_Time    => 5 ms .. 20 ms;
+      Priority                  => 12;
+  end FlightDataLoggerThread;
+
+  thread implementation FlightDataLoggerThread.impl
+  end FlightDataLoggerThread.impl;
+
+  thread PrognosticsThread
+    features
+      sensor_in  : in  data port SensorFrame;
+      alert_out  : out event data port;
+    properties
+      Dispatch_Protocol         => Periodic;
+      Period                    => 1000 ms;
+      Compute_Execution_Time    => 20 ms .. 100 ms;
+      Priority                  => 9;
+  end PrognosticsThread;
+
+  thread implementation PrognosticsThread.impl
+  end PrognosticsThread.impl;
+
+  thread AcarsTrendReportThread
+    -- ACARS engine trend / maintenance report uplink at top-of-climb and landing
+    features
+      record_in  : in  data port MaintenanceRecord;
+      acars_out  : out data port AcarsMessage;
+    properties
+      Dispatch_Protocol         => Sporadic;
+      Period                    => 60000 ms;
+      Compute_Execution_Time    => 50 ms .. 200 ms;
+      Priority                  => 5;
+  end AcarsTrendReportThread;
+
+  thread implementation AcarsTrendReportThread.impl
+  end AcarsTrendReportThread.impl;
+
+  -- ── Top-Level System ─────────────────────────────────────────────────────────
+
+  system AircraftAvionicsPlatformV2
+    features
+      pilot_controls       : in  data port;
+      rf_antenna           : in  data port;
+      pitot_static         : in  data port;
+      engine_bus_out       : out data port EngineControlCmd;
+      maintenance_port     : out data port MaintenanceRecord;
+      cabin_audio_out      : out data port AudioCmd;
+  end AircraftAvionicsPlatformV2;
+
+  system implementation AircraftAvionicsPlatformV2.full
+    subcomponents
+      -- Air data / inertial (triple redundant)
+      adiru_1         : device AirDataModule;
+      adiru_2         : device AirDataModule;
+      adiru_3         : device AirDataModule;
+      irs_1           : device InertialReferenceUnit;
+      irs_2           : device InertialReferenceUnit;
+      irs_3           : device InertialReferenceUnit;
+      gps_1           : device GpsReceiver;
+      gps_2           : device GpsReceiver;
+      -- Navigation / safety
+      wx_radar        : device WeatherRadarUnit;
+      tcas            : device TcasTransceiver;
+      egpws           : device EgpwsProcessor;
+      -- Communications
+      vhf_1           : device VhfTransceiver;
+      vhf_2           : device VhfTransceiver;
+      vhf_3           : device VhfTransceiver;
+      hf_1            : device HfTransceiver;
+      hf_2            : device HfTransceiver;
+      satcom          : device SatcomUnit;
+      -- Propulsion interface
+      fadec_1         : device FadecInterface;
+      fadec_2         : device FadecInterface;
+      -- Electrical generation
+      idg_1           : device IdgGenerator;
+      idg_2           : device IdgGenerator;
+      apu_gen         : device ApuGenerator;
+      rat             : device RamAirTurbine;
+      -- Core avionics processes
+      fms             : process FlightManagementSystem.impl;
+      afcs            : process AutopilotFlightDirector.impl;
+      pfd_captain     : process PrimaryFlightDisplay.impl;
+      pfd_fo          : process PrimaryFlightDisplay.impl;
+      nd_captain      : process NavigationDisplay.impl;
+      nd_fo           : process NavigationDisplay.impl;
+      ecam            : process EcamDisplaySystem.impl;
+      -- Systems management
+      fmc             : process FuelManagementComputer.impl;
+      elms            : process ElectricalLoadManagementSystem.impl;
+      ecs             : process EcsController.impl;
+      ice_prot        : process IceProtectionController.impl;
+      lgcu            : process LandingGearControlUnit.impl;
+      acms            : process AcmsQarSystem.impl;
+      -- IMA processors (triple for v2)
+      ima_core_1      : processor ImaCoreProcessor;
+      ima_core_2      : processor ImaCoreProcessor;
+      ima_core_3      : processor ImaCoreProcessor;
+      -- Buses
+      afdx_net        : bus AfdxBus;
+      arinc429_bus    : bus Arinc429Bus;
+      can_fd_bus      : bus CanFdBus;
+      arinc825_bus    : bus Arinc825Bus;
+      maint_eth_bus   : bus EthernetMaintenanceBus;
+    connections
+      -- IRS → FMS / AFCS
+      c1  : port irs_1.attitude_out  -> fms.nav_in;
+      c2  : port irs_2.attitude_out  -> afcs.state_in;
+      c3  : port irs_3.attitude_out  -> ecam.nav_in;
+      -- GPS → FMS
+      c4  : port gps_1.position_out  -> fms.nav_in;
+      -- ADIRU → FMS
+      c5  : port adiru_1.nav_solution_out -> fms.nav_in;
+      -- FMS → AFCS guidance
+      c6  : port fms.guidance_out    -> afcs.guidance_in;
+      -- AFCS → FADEC
+      c7  : port afcs.throttle_cmd_out -> fadec_1.throttle_cmd_in;
+      c8  : port afcs.throttle_cmd_out -> fadec_2.throttle_cmd_in;
+      -- FADEC → ACMS / ECAM
+      c9  : port fadec_1.engine_state_out -> acms.engine_in;
+      c10 : port fadec_1.engine_state_out -> ecam.engine_in;
+      -- FMS → PFD / ND displays
+      c11 : port fms.mcdu_display_out  -> pfd_captain.fd_cmd_in;
+      c12 : port fms.flight_plan_out   -> nd_captain.flight_plan_in;
+      c13 : port fms.flight_plan_out   -> nd_fo.flight_plan_in;
+      -- IRS → PFD / ND
+      c14 : port irs_1.attitude_out    -> pfd_captain.nav_in;
+      c15 : port irs_2.attitude_out    -> pfd_fo.nav_in;
+      c16 : port irs_1.attitude_out    -> nd_captain.nav_in;
+      c17 : port irs_3.attitude_out    -> nd_fo.nav_in;
+      -- AFCS FD → PFD
+      c18 : port afcs.fd_display_out   -> pfd_captain.fd_cmd_in;
+      c19 : port afcs.fd_display_out   -> pfd_fo.fd_cmd_in;
+      -- TCAS → AFCS + PFD
+      c20 : port tcas.ra_out           -> afcs.tcas_ra_in;
+      c21 : port tcas.ra_out           -> fms.tcas_ra_in;
+      c22 : port tcas.ra_out           -> pfd_captain.ra_in;
+      c23 : port tcas.traffic_out      -> nd_captain.tcas_traffic_in;
+      c24 : port tcas.traffic_out      -> nd_fo.tcas_traffic_in;
+      -- EGPWS → AFCS + PFD + ND
+      c25 : port egpws.terrain_alert_out -> afcs.terrain_alert_in;
+      c26 : port egpws.terrain_alert_out -> pfd_captain.terrain_in;
+      c27 : port egpws.terrain_alert_out -> nd_captain.terrain_in;
+      c28 : port egpws.audio_out         -> cabin_audio_out;
+      -- WX Radar → ND
+      c29 : port wx_radar.wx_data_out  -> nd_captain.wx_radar_in;
+      c30 : port wx_radar.wx_data_out  -> nd_fo.wx_radar_in;
+      -- FMC fuel data → FMS + ECAM
+      c31 : port fmc.fuel_qty_out      -> fms.fuel_qty_in;
+      c32 : port fmc.fuel_qty_out      -> ecam.fuel_in;
+      -- ELMS → ECAM
+      c33 : port elms.bus_state_out    -> ecam.elec_in;
+      c34 : port idg_1.bus_state_out   -> elms.idg_state_in;
+      c35 : port idg_2.bus_state_out   -> elms.idg_state_in;
+      c36 : port apu_gen.bus_state_out -> elms.apu_state_in;
+      c37 : port rat.bus_state_out     -> elms.rat_state_in;
+      -- ECS → ECAM
+      c38 : port ecs.cabin_atm_out     -> ecam.cabin_atm_in;
+      -- ACMS → maintenance / ACARS
+      c39 : port acms.record_out       -> maintenance_port;
+      c40 : port acms.acars_out        -> satcom.acars_out;
+      -- VHF nav data → FMS
+      c41 : port vhf_1.nav_data_out    -> fms.nav_in;
+      -- SATCOM ACARS → FMS datalink
+      c42 : port satcom.acars_out      -> fms.acars_in;
+      c43 : port fms.acars_out         -> satcom.acars_out;
+      -- ECAM engine bus out
+      c44 : port fadec_1.engine_state_out -> engine_bus_out;
+    properties
+      Actual_Connection_Binding => (reference (afdx_net))
+        applies to c1,c2,c3,c4,c5,c6,c11,c12,c13,c14,c15,c16,c17,
+                   c18,c19,c20,c21,c22,c23,c24,c25,c26,c27,c29,c30,
+                   c31,c32,c33,c38,c41,c42,c43;
+      Actual_Connection_Binding => (reference (arinc429_bus))
+        applies to c7,c8,c9,c10,c34,c35,c36,c37;
+      Actual_Connection_Binding => (reference (arinc825_bus))
+        applies to c40;
+      -- IMA processor bindings
+      Actual_Processor_Binding  => (reference (ima_core_1))
+        applies to fms, pfd_captain, nd_captain, acms;
+      Actual_Processor_Binding  => (reference (ima_core_2))
+        applies to afcs, pfd_fo, nd_fo, ecam;
+      Actual_Processor_Binding  => (reference (ima_core_3))
+        applies to fmc, elms, ecs, ice_prot, lgcu;
+  end AircraftAvionicsPlatformV2.full;
+
+end AircraftAvionicsPlatformV2;

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-06-08T00:00:00.000Z",
-  "count": 62,
+  "generated": "2026-06-10T00:00:00.000Z",
+  "count": 66,
   "files": [
     {
       "filename": "scenarios.json",
@@ -42,7 +42,7 @@
       "label": "Aircraft Propulsion (JSON)",
       "category": "Aerospace",
       "format": "JSON",
-      "description": "81-node propulsion system graph — functions, components, signals, requirements, states, and interfaces with full relation graph."
+      "description": "81-node propulsion system graph \u2014 functions, components, signals, requirements, states, and interfaces with full relation graph."
     },
     {
       "filename": "aircraft-propulsion.ttl",
@@ -77,7 +77,7 @@
       "label": "Flight Telemetry (CSV)",
       "category": "Aerospace",
       "format": "CSV",
-      "description": "Flight test telemetry data in CSV format — time-stamped sensor readings including altitude, airspeed, engine parameters, and control surface positions."
+      "description": "Flight test telemetry data in CSV format \u2014 time-stamped sensor readings including altitude, airspeed, engine parameters, and control surface positions."
     },
     {
       "filename": "spacecraft-mbse.ttl",
@@ -105,7 +105,7 @@
       "label": "Aircraft Requirements (ReqIF)",
       "category": "Systems Engineering",
       "format": "ReqIF",
-      "description": "Aircraft system requirements in Requirements Interchange Format (ReqIF) — importable directly into DOORS, Polarion, or Codebeamer."
+      "description": "Aircraft system requirements in Requirements Interchange Format (ReqIF) \u2014 importable directly into DOORS, Polarion, or Codebeamer."
     },
     {
       "filename": "engineering-ontology.ttl",
@@ -151,7 +151,7 @@
     },
     {
       "filename": "ev-powertrain-autosar.arxml",
-      "label": "EV Powertrain ECU — AUTOSAR CP (ARXML)",
+      "label": "EV Powertrain ECU \u2014 AUTOSAR CP (ARXML)",
       "category": "Automotive",
       "format": "AUTOSAR ARXML",
       "description": "AUTOSAR Classic Platform R22-11 software architecture for an EV powertrain ECU. Covers BMS (ASIL-D), VCU (ASIL-D), MCU (ASIL-C), TMS (ASIL-B), and OBC SWCs with full port interface definitions, sender-receiver and client-server interfaces, runnable entities, and assembly connectors. Demonstrates SOC/torque/temperature/fault signal flows."
@@ -161,7 +161,7 @@
       "label": "EV Powertrain System (JSON)",
       "category": "Automotive",
       "format": "JSON",
-      "description": "Complete EV powertrain MBSE model: Battery, BMS, Motor, Inverter, VCU, OBC, TMS — 165 entities with 8 stakeholders, 5 actors, 26 CAN bus signals, 20 requirements, 8 use cases, 13 states, 11 guards, and full signal-wired I/O for all 12 functions."
+      "description": "Complete EV powertrain MBSE model: Battery, BMS, Motor, Inverter, VCU, OBC, TMS \u2014 165 entities with 8 stakeholders, 5 actors, 26 CAN bus signals, 20 requirements, 8 use cases, 13 states, 11 guards, and full signal-wired I/O for all 12 functions."
     },
     {
       "filename": "autonomous-vehicle.json",
@@ -192,11 +192,25 @@
       "description": "DO-178C / DO-254 / DO-160G integrated avionics architecture: triple-redundant IRS, dual ADIRU, dual GPS, FMS with LNAV/VNAV threads, AFCS pitch/roll/throttle/safety-monitor threads, captain and F/O PFD and ND, dual FADEC, ACMS/QAR prognostics, dual IMA cores, AFDX network, and ARINC 429 sensor buses."
     },
     {
+      "filename": "aircraft-avionics-platform-v2.aadl",
+      "label": "Commercial Aircraft Avionics Platform v2 (AADL)",
+      "category": "Aerospace",
+      "format": "AADL",
+      "description": "Full IMA avionics v2: ADIRU \u00d73, IRS \u00d73, GPS \u00d72, FMS (LNAV/VNAV/FANS-1A), AFCS with TCAS II RA integration, EGPWS/TAD, ECAM (FWC/SDAC/EWD/SD), VHF \u00d73 / HF \u00d72 / SATCOM, Fuel Management (3-tank CG), Electrical Load Management (IDG/APU/RAT), ECS pressurisation, Ice Protection, LGCU/BSCU, ACMS/QAR \u2014 3 IMA cores, AFDX/ARINC429/825/CanFD buses. DO-178C DAL A throughout."
+    },
+    {
       "filename": "aircraft-flight-control.m",
       "label": "Commercial Aircraft Flight Control System (MATLAB .m)",
       "category": "Aerospace / Aviation",
       "format": "MATLAB",
-      "description": "Narrow-body FBW flight control system in MATLAB: aerodynamic model (m=79000 kg, S=122.6 m², cruise M=0.78/FL370), longitudinal/lateral stability derivatives, short-period and lateral-directional state-space models, C* FBW control law, PID pitch/roll rate controllers, yaw damper, altitude hold, VS hold, IAS autothrottle, heading select, ILS CAT III autoland, actuator TF models (elevator/aileron/rudder), triplex FDI voter, and Breguet range analysis. Requirements REQ-FCS-001–008."
+      "description": "Narrow-body FBW flight control system in MATLAB: aerodynamic model (m=79000 kg, S=122.6 m\u00b2, cruise M=0.78/FL370), longitudinal/lateral stability derivatives, short-period and lateral-directional state-space models, C* FBW control law, PID pitch/roll rate controllers, yaw damper, altitude hold, VS hold, IAS autothrottle, heading select, ILS CAT III autoland, actuator TF models (elevator/aileron/rudder), triplex FDI voter, and Breguet range analysis. Requirements REQ-FCS-001\u2013008."
+    },
+    {
+      "filename": "aircraft-flight-control-v2.m",
+      "label": "Commercial Aircraft Flight Control System v2 (MATLAB .m)",
+      "category": "Aerospace",
+      "format": "MATLAB",
+      "description": "FBW FCS v2: full 4-state longitudinal model (short-period + phugoid), lateral-directional (Dutch-roll/roll/spiral), LQR optimal control design, Dryden turbulence (MIL-HDBK-1797), OEI asymmetric yaw analysis, high-lift scheduling (5 configs), hydraulic flow model, envelope protection (Vmo/Mmo/alpha_prot/alpha_floor), CAT IIIb autoland, structural gust loads (CS-25.341). 20 requirements, Bode/margin analysis."
     },
     {
       "filename": "mathworks-electric-throttle.xmi",
@@ -217,18 +231,25 @@
       "label": "NIST Electronics Assembly (MDZIP)",
       "category": "Cameo / MDZIP",
       "format": "MDZIP",
-      "description": "NIST SysML case study for electronics manufacturing assembly — resource allocation, process flow, and production logistics."
+      "description": "NIST SysML case study for electronics manufacturing assembly \u2014 resource allocation, process flow, and production logistics."
     },
     {
       "filename": "commercial-transport-aircraft.sysml",
-      "label": "Boeing 777X — Full System Architecture (SysML v2)",
+      "label": "Boeing 777X \u2014 Full System Architecture (SysML v2)",
       "category": "SysML v2",
       "format": "SysML v2",
       "description": "Top-down full functional decomposition of the Boeing 777-9X wide-body twin-engine transport: 9 Level-1 functions (including FoldingWingTip), 31 Level-2 functions, 12 physical subsystems (GE9X engines with CMC hot section, CFRP composite wing, FBW 777X FCS, avionics, 6-wheel bogie landing gear, ECS, hydraulics, VFG electrical, fuel, comms, cabin, AHM), 35 system requirements, and full allocation and verification constraints. CS-25/FAR-25, ARP 4754A, DO-178C, ETOPS 330, SAF-capable basis."
     },
     {
+      "filename": "boeing-777x-ge9x-engine.sysml",
+      "label": "Boeing 777X GE9X Engine (SysML v2)",
+      "category": "SysML v2",
+      "format": "SysML v2",
+      "description": "GE9X-105B1A high-bypass turbofan in SysML v2: fan module, LPC, HPC (11-stage CMC blades, OPR 60:1), TAPS II combustor, cooled HPT with CMC shrouds, 7-stage LPT, FADEC DO-178C Level A, lube system, and fuel system. Real performance attributes \u2014 thrust 105,000 lbf, bypass ratio 10:1, EGT, N1/N2 speeds."
+    },
+    {
       "filename": "aircraft-propulsion-sysml2.sysml",
-      "label": "Aircraft Turbofan Propulsion — LEAP-1B Class (SysML v2)",
+      "label": "Aircraft Turbofan Propulsion \u2014 LEAP-1B Class (SysML v2)",
       "category": "SysML v2",
       "format": "SysML v2",
       "description": "2-spool high-bypass turbofan (CFM LEAP-1B class, Boeing 737 MAX). Fan module, LPC, HPC (9-stage, OPR 40:1), TAPS combustor, cooled HPT, FADEC (DO-178C Level A)."
@@ -242,7 +263,7 @@
     },
     {
       "filename": "ev-powertrain.sysml",
-      "label": "EV Powertrain — Battery Electric Vehicle (SysML v2)",
+      "label": "EV Powertrain \u2014 Battery Electric Vehicle (SysML v2)",
       "category": "SysML v2",
       "format": "SysML v2",
       "description": "100 kWh BEV powertrain in native SysML v2: BatteryPack (8 modules, 7104 NMC-811 cells), PMSM traction motor (350 kW peak), SiC inverter (FOC), onboard charger (11.5 kW V2G), CCS Combo2 DCFC (250 kW), thermal management, and full vehicle integration."
@@ -252,14 +273,14 @@
       "label": "OMG Vehicle Definitions (Official SysML v2 Spec)",
       "category": "SysML v2",
       "format": "SysML v2",
-      "description": "Official OMG SysML v2 specification example — Vehicle, Transmission, AxleAssembly, Axle, Wheel, Lugbolt with port definitions and Mounting interface."
+      "description": "Official OMG SysML v2 specification example \u2014 Vehicle, Transmission, AxleAssembly, Axle, Wheel, Lugbolt with port definitions and Mounting interface."
     },
     {
       "filename": "omg-vehicle-usages.sysml",
       "label": "OMG Vehicle Usages (Official SysML v2 Spec)",
       "category": "SysML v2",
       "format": "SysML v2",
-      "description": "Official OMG SysML v2 spec example — vehicle configurations C1/C2/C3 with axle assemblies, wheel redefinitions, interface connections, and drive shaft flow."
+      "description": "Official OMG SysML v2 spec example \u2014 vehicle configurations C1/C2/C3 with axle assemblies, wheel redefinitions, interface connections, and drive shaft flow."
     },
     {
       "filename": "nuclear-plant-control.aadl",
@@ -435,6 +456,13 @@
       "category": "Aerospace / Aviation",
       "format": "STEP",
       "description": "Narrow-body twin-engine commercial transport airframe in STEP AP214 format: fuselage sections (nose/fwd/centre/aft), left and right wing assemblies with winglets, flight control surfaces (ailerons, flaps, spoilers, slats, elevators, rudder), engine nacelles with thrust reversers, wing pylons, nose and main landing gear, APU bay, and cargo doors. Covers 40+ components with material callouts and key structural properties."
+    },
+    {
+      "filename": "commercial-aircraft-airframe-v2.step",
+      "label": "Commercial Aircraft Airframe v2 (STEP)",
+      "category": "Aerospace",
+      "format": "STEP",
+      "description": "Full airframe STEP AP214 v2: fuselage (nose/cockpit/fwd/ctr/aft + keel beam + CWB + floor structure), wing (torsion box + FLE/FTE + 10 individual slat panels + 12 individual spoiler panels + 4 flaps + ailerons + winglets), empennage (THS + elevators + THS actuator + vertical fin + rudder), nacelles (inlet + fan cowls + TR + core cowl \u00d72), pylons, NLG (cylinder + drag strut + axle + steering), MLG (strut + bogie + 4 wheels + 4 C-C brakes \u00d72), passenger doors (L1/R1/L2/R2/L4/R4 + over-wing exits), APU bay. 100+ named parts."
     }
   ]
 }

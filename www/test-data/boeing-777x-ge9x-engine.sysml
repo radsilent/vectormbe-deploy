@@ -727,6 +727,150 @@ package GE9X_105B1A {
     port def OilServicePort { attribute oilLevel_L : Real; }
 
     // ═════════════════════════════════════════════════════════════════════════
+    // ENGINE FUNCTIONAL DECOMPOSITION (action def — GE9X engine functions)
+    // These mirror the ATA chapter breakdown and the FADEC functional spec.
+    // ═════════════════════════════════════════════════════════════════════════
+
+    action def EngineFunction {
+        doc /* Abstract base for all GE9X engine-level functions. */
+        attribute functionId     : String;
+        attribute dalLevel       : String;   // DO-178C / ARP 4754A level
+    }
+
+    // ATA 71 — Power Plant core function
+    action def GenerateCoreThrustFlow :> EngineFunction {
+        attribute :>> functionId  = "EF-01";
+        attribute :>> dalLevel    = "DAL-A";
+        action compressAir        : CompressInletAir;
+        action burnFuel           : BurnFuelMixture;
+        action expandGas          : ExpandCombustionGas;
+    }
+
+    // ATA 71 — Bypass duct thrust
+    action def GenerateBypassThrust :> EngineFunction {
+        attribute :>> functionId  = "EF-02";
+        attribute :>> dalLevel    = "DAL-A";
+    }
+
+    // ATA 73 — Fuel and control
+    action def RegulateEngineFuel :> EngineFunction {
+        attribute :>> functionId  = "EF-03";
+        attribute :>> dalLevel    = "DAL-A";
+        action meterFuelFlow      : MeterFuelDelivery;
+        action scheduleFuelFlow   : ScheduleFuelFlow;
+    }
+
+    // ATA 76 — Engine controls (FADEC)
+    action def ControlEnginePerformance :> EngineFunction {
+        attribute :>> functionId  = "EF-04";
+        attribute :>> dalLevel    = "DAL-A";
+        action computeThrottle    : ComputeThrottleResolverAngle;
+        action manageLimits       : ManageEngineOperatingLimits;
+        action scheduleVGV        : ScheduleVariableGeometryVanes;
+        action controlBleeds      : ControlBleedExtractionValves;
+        action manageStartup      : ManageEngineStartSequence;
+        action manageSdp          : ManageShutdownSequence;
+    }
+
+    // ATA 79 — Engine oil system
+    action def ManageEngineLubrication :> EngineFunction {
+        attribute :>> functionId  = "EF-05";
+        attribute :>> dalLevel    = "DAL-B";
+        action circulateOil       : CirculateEngineOil;
+        action coolOil            : CoolEngineOil;
+        action monitorOilHealth   : MonitorOilDegradation;
+    }
+
+    // ATA 80 — Engine starting
+    action def StartEngine :> EngineFunction {
+        attribute :>> functionId  = "EF-06";
+        attribute :>> dalLevel    = "DAL-B";
+    }
+
+    // ATA 78 — Thrust reverser control
+    action def ControlThrustReverser :> EngineFunction {
+        attribute :>> functionId  = "EF-07";
+        attribute :>> dalLevel    = "DAL-A";
+        action verifyGround       : VerifyGroundContact;
+        action deployBuckets      : DeployReverseBuckets;
+    }
+
+    // ATA 77 / AHM — Engine health monitoring
+    action def MonitorEngineCondition :> EngineFunction {
+        attribute :>> functionId  = "EF-08";
+        attribute :>> dalLevel    = "DAL-B";
+        action trackVibration     : TrackEngineVibration;
+        action trackEGT           : TrackExhaustGasTemp;
+        action runOBW             : RunOnboardDiagnostics;
+    }
+
+    // Sub-functions referenced above (leaf action defs)
+    action def CompressInletAir        :> EngineFunction { attribute :>> functionId = "EF-01a"; }
+    action def BurnFuelMixture         :> EngineFunction { attribute :>> functionId = "EF-01b"; }
+    action def ExpandCombustionGas     :> EngineFunction { attribute :>> functionId = "EF-01c"; }
+    action def MeterFuelDelivery       :> EngineFunction { attribute :>> functionId = "EF-03a"; }
+    action def ScheduleFuelFlow        :> EngineFunction { attribute :>> functionId = "EF-03b"; }
+    action def ComputeThrottleResolverAngle :> EngineFunction { attribute :>> functionId = "EF-04a"; }
+    action def ManageEngineOperatingLimits  :> EngineFunction { attribute :>> functionId = "EF-04b"; }
+    action def ScheduleVariableGeometryVanes :> EngineFunction { attribute :>> functionId = "EF-04c"; }
+    action def ControlBleedExtractionValves  :> EngineFunction { attribute :>> functionId = "EF-04d"; }
+    action def ManageEngineStartSequence :> EngineFunction { attribute :>> functionId = "EF-04e"; }
+    action def ManageShutdownSequence    :> EngineFunction { attribute :>> functionId = "EF-04f"; }
+    action def CirculateEngineOil        :> EngineFunction { attribute :>> functionId = "EF-05a"; }
+    action def CoolEngineOil             :> EngineFunction { attribute :>> functionId = "EF-05b"; }
+    action def MonitorOilDegradation     :> EngineFunction { attribute :>> functionId = "EF-05c"; }
+    action def VerifyGroundContact       :> EngineFunction { attribute :>> functionId = "EF-07a"; }
+    action def DeployReverseBuckets      :> EngineFunction { attribute :>> functionId = "EF-07b"; }
+    action def TrackEngineVibration      :> EngineFunction { attribute :>> functionId = "EF-08a"; }
+    action def TrackExhaustGasTemp       :> EngineFunction { attribute :>> functionId = "EF-08b"; }
+    action def RunOnboardDiagnostics     :> EngineFunction { attribute :>> functionId = "EF-08c"; }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // FUNCTION → COMPONENT ALLOCATION (GE9X engine functional allocation)
+    // ═════════════════════════════════════════════════════════════════════════
+
+    // Core thrust generation
+    allocate GenerateCoreThrustFlow     to Engine_GE9X_105B1A;
+    allocate CompressInletAir           to HPCompressorModule;
+    allocate BurnFuelMixture            to TAPSII_CombustorModule;
+    allocate ExpandCombustionGas        to HPTurbineModule;
+    allocate GenerateBypassThrust       to FanModule;
+
+    // Fuel metering
+    allocate RegulateEngineFuel         to EngineFuelSystem;
+    allocate MeterFuelDelivery          to HPFuelPump;
+    allocate ScheduleFuelFlow           to FuelMeteringValve;
+
+    // FADEC engine control
+    allocate ControlEnginePerformance   to FADECSystem;
+    allocate ComputeThrottleResolverAngle to FADECChannel;
+    allocate ManageEngineOperatingLimits  to FADECSystem;
+    allocate ScheduleVariableGeometryVanes to HPCompressorModule;
+    allocate ControlBleedExtractionValves  to FADECSystem;
+    allocate ManageEngineStartSequence    to FADECSystem;
+    allocate ManageShutdownSequence       to FADECSystem;
+
+    // Oil system
+    allocate ManageEngineLubrication    to EngineOilSystem;
+    allocate CirculateEngineOil         to EngineOilSystem;
+    allocate CoolEngineOil              to EngineOilSystem;
+    allocate MonitorOilDegradation      to EngineHealthMonitor;
+
+    // Engine starting
+    allocate StartEngine                to AccessoryGearboxSystem;
+
+    // Thrust reverser
+    allocate ControlThrustReverser      to ThrustReverserSystem;
+    allocate VerifyGroundContact        to FADECSystem;
+    allocate DeployReverseBuckets       to ThrustReverserSystem;
+
+    // Health monitoring
+    allocate MonitorEngineCondition     to EngineHealthMonitor;
+    allocate TrackEngineVibration       to VibrationMonitorUnit;
+    allocate TrackExhaustGasTemp        to EGT_MonitorSystem;
+    allocate RunOnboardDiagnostics      to FADECSystem;
+
+    // ═════════════════════════════════════════════════════════════════════════
     // REQUIREMENTS
     // ═════════════════════════════════════════════════════════════════════════
 
@@ -810,16 +954,16 @@ package GE9X_105B1A {
     // ALLOCATION
     // ═════════════════════════════════════════════════════════════════════════
 
-    satisfy ENG_REQ_001_TakeoffThrust     by eng_i;
-    satisfy ENG_REQ_002_SFC               by eng_i, fan_i, hpc_i, comb_i, hpt_i;
-    satisfy ENG_REQ_003_FADEC_DAL         by fadec_i;
-    satisfy ENG_REQ_004_FADEC_Integrity   by fadec_i;
-    satisfy ENG_REQ_005_NOx               by comb_i;
-    satisfy ENG_REQ_006_SAF               by eng_i, comb_i;
-    satisfy ENG_REQ_007_ETOPS             by eng_i, fadec_i, oilsys_i;
+    satisfy ENG_REQ_001_TakeoffThrust by eng_i;
+    satisfy ENG_REQ_002_SFC by eng_i;
+    satisfy ENG_REQ_003_FADEC_DAL by fadec_i;
+    satisfy ENG_REQ_004_FADEC_Integrity by fadec_i;
+    satisfy ENG_REQ_005_NOx by comb_i;
+    satisfy ENG_REQ_006_SAF by eng_i;
+    satisfy ENG_REQ_007_ETOPS by eng_i;
     satisfy ENG_REQ_008_ThrustReverserIntegrity by rev_i;
-    satisfy ENG_REQ_009_CMC_Containment   by nacelle_i;
-    satisfy ENG_REQ_010_FireProtection    by nacelle_i;
+    satisfy ENG_REQ_009_CMC_Containment by nacelle_i;
+    satisfy ENG_REQ_010_FireProtection by nacelle_i;
 
     part eng_i     : Engine_GE9X_105B1A;
     part fan_i     : FanModule;
@@ -869,5 +1013,64 @@ package GE9X_105B1A {
         subject r : ThrustReverserSystem;
         assert constraint : r.groundOnlyEnable == true && r.oeiInhibited == true;
     }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // FULL SysML RELATION DEMONSTRATION — GE9X Engine
+    // ═════════════════════════════════════════════════════════════════════════
+
+    // ── VERIFICATION ─────────────────────────────────────────────────────────
+    verify ENG_REQ_001_ThrustRating by GenerateCoreThrustFlow;
+    verify ENG_REQ_002_SFC by RegulateEngineFuel;
+    verify ENG_REQ_003_FADEC_DAL by ControlEnginePerformance;
+    verify ENG_REQ_005_NOxEmissions by BurnFuelMixture;
+    verify ENG_REQ_007_ETOPS330 by MonitorEngineCondition;
+
+    // ── DERIVATION ───────────────────────────────────────────────────────────
+    derive ENG_REQ_002_SFC from ENG_REQ_001_ThrustRating;
+    derive ENG_REQ_003_FADEC_DAL from ENG_REQ_006_ETOPS_IFSD;
+    derive ENG_REQ_007_ETOPS330 from ENG_REQ_006_ETOPS_IFSD;
+
+    // ── REFINEMENT ───────────────────────────────────────────────────────────
+    refine ENG_REQ_005_NOxEmissions from ENG_REQ_002_SFC;
+    refine ENG_REQ_006_ETOPS_IFSD from ENG_REQ_007_ETOPS330;
+
+    // ── TRACEABILITY ─────────────────────────────────────────────────────────
+    trace ENG_REQ_001_ThrustRating to Engine_GE9X_105B1A;
+    trace ENG_REQ_003_FADEC_DAL to FADECSystem;
+    trace ENG_REQ_007_ETOPS330 to Engine_GE9X_105B1A;
+
+    // ── DEPENDENCIES ─────────────────────────────────────────────────────────
+    depend FADECSystem on EngineFuelSystem;
+    depend HPTurbineModule on TAPSII_CombustorModule;
+    depend HPCompressorModule on AccessoryGearboxSystem;
+    depend EngineOilSystem on AccessoryGearboxSystem;
+    depend ThrustReverserSystem on FADECSystem;
+    depend EngineHealthMonitor on FADECSystem;
+
+    // ── REALIZATION ──────────────────────────────────────────────────────────
+    realize FADECSystem to ENG_REQ_003_FADEC_DAL;
+    realize TAPSII_CombustorModule to ENG_REQ_005_NOxEmissions;
+    realize Engine_GE9X_105B1A to ENG_REQ_007_ETOPS330;
+    realize EngineHealthMonitor to ENG_REQ_006_ETOPS_IFSD;
+
+    // ── BEHAVIORAL CONTROL ───────────────────────────────────────────────────
+    control HPCompressorModule by ScheduleVariableGeometryVanes;
+    control EngineFuelSystem by MeterFuelDelivery;
+    control FADECSystem by ControlEnginePerformance;
+    control ThrustReverserSystem by ControlThrustReverser;
+    control Engine_GE9X_105B1A by StartEngine;
+
+    // ── BEHAVIORAL MONITORING ────────────────────────────────────────────────
+    monitor Engine_GE9X_105B1A by MonitorEngineCondition;
+    monitor EngineOilSystem by MonitorOilDegradation;
+    monitor HPTurbineModule by MonitorEngineCondition;
+    monitor FADECSystem by MonitorEngineCondition;
+
+    // ── ASSOCIATIONS ─────────────────────────────────────────────────────────
+    associate FADECSystem with EngineHealthMonitor;
+    associate HPCompressorModule with HPTurbineModule;
+    associate EngineFuelSystem with EngineOilSystem;
+    associate AccessoryGearboxSystem with EngineOilSystem;
+    associate ThrustReverserSystem with FADECSystem;
 
 }
