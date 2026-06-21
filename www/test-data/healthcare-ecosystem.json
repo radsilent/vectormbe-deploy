@@ -9,7 +9,7 @@
         "setting": "clinical laboratory",
         "specialty": "chemistry, hematology, microbiology, molecular",
         "description": "Laboratory professional performing diagnostic tests on blood, tissue, and body fluids.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -20,7 +20,7 @@
         "setting": "academic medical center, CRO",
         "specialty": "oncology, cardiology, infectious disease",
         "description": "Research professional managing trial logistics, regulatory compliance, and participant safety.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -31,7 +31,7 @@
         "setting": "pharmacy, hospital, clinic",
         "specialty": "clinical, community, hospital, specialty pharmacy",
         "description": "Licensed medication expert dispensing prescriptions, counseling patients, and monitoring therapy.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -42,7 +42,7 @@
         "setting": "operating room",
         "specialty": "general, cardiac, orthopedic, neurosurgery, etc.",
         "description": "Physician trained in operative techniques to treat disease, injury, or deformity.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -53,7 +53,7 @@
         "setting": "all care settings",
         "specialty": "medical-surgical, ICU, ER, oncology, pediatrics",
         "description": "Licensed nurse providing direct patient care, medication administration, and patient education.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -64,7 +64,7 @@
         "setting": "outpatient, inpatient, telehealth",
         "specialty": "psychiatry, psychology, social work, counseling",
         "description": "Psychiatrist, psychologist, or licensed counselor diagnosing and treating mental health conditions.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -75,7 +75,7 @@
         "setting": "insurance company",
         "specialty": "individual, group, Medicare Advantage, Medicaid",
         "description": "Professional assessing risk and setting premium rates for health insurance policies.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -86,7 +86,7 @@
         "setting": "pharma, device, biotech",
         "specialty": "drugs, devices, biologics, combination products",
         "description": "Professional ensuring compliance with FDA, CMS, and international health regulations.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -97,7 +97,7 @@
         "setting": "outpatient, inpatient",
         "specialty": "cardiology, oncology, neurology, orthopedics, etc.",
         "description": "Board-certified physician focused on a specific organ system, disease, or patient population.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -108,7 +108,7 @@
         "setting": "hospital, health system",
         "specialty": "healthcare administration",
         "description": "Senior executive responsible for strategic direction, financial performance, and organizational culture.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -119,7 +119,7 @@
         "setting": "OR, ICU, pain clinic",
         "specialty": "general, cardiac, pediatric, pain management",
         "description": "Physician specializing in perioperative anesthesia, pain management, and critical care.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -130,7 +130,7 @@
         "setting": "radiology department",
         "specialty": "diagnostic, interventional, neuroradiology",
         "description": "Physician interpreting medical imaging and performing image-guided interventions.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -141,7 +141,7 @@
         "setting": "outpatient, inpatient",
         "specialty": "family, acute care, psychiatric, geriatric",
         "description": "Advanced practice nurse with prescriptive authority providing primary and specialty care.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -152,7 +152,7 @@
         "setting": "outpatient, inpatient",
         "specialty": "general pediatrics, pediatric subspecialty",
         "description": "Physician providing medical care for infants, children, and adolescents.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -163,7 +163,7 @@
         "setting": "outpatient, community",
         "specialty": "family medicine / internal medicine",
         "description": "Generalist physician providing preventive, acute, and chronic care coordination.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -174,7 +174,7 @@
         "setting": "emergency department",
         "specialty": "emergency medicine, toxicology, EMS",
         "description": "Physician specializing in acute care, trauma, and stabilization in emergency departments.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -185,7 +185,7 @@
         "setting": "hospital, health system, vendor",
         "specialty": "HIM, informatics, data governance",
         "description": "Professional managing patient records, health data integrity, privacy, and informatics workflows.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -196,7 +196,7 @@
         "setting": "outpatient, inpatient, home",
         "specialty": "orthopedic, neurologic, cardiopulmonary, geriatric",
         "description": "Rehabilitation professional restoring mobility, function, and quality of life after injury or illness.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -207,7 +207,7 @@
         "setting": "outpatient, skilled nursing, home care",
         "specialty": "geriatrics",
         "description": "Physician specializing in care for older adults, including polypharmacy and functional decline.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -218,7 +218,7 @@
         "setting": "payer organization",
         "specialty": "medical claims, fraud detection, utilization review",
         "description": "Insurance professional reviewing, investigating, and settling healthcare claims.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -227,7 +227,7 @@
       "attributes": {
         "name": "Disease Surveillance System",
         "description": "Systems for detecting, reporting, and analyzing disease outbreaks and health trends at population scale.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -236,7 +236,7 @@
       "attributes": {
         "name": "General Inpatient Wards",
         "description": "Standard medical-surgical floors for non-critical admissions.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -245,7 +245,7 @@
       "attributes": {
         "name": "Health Analytics & AI",
         "description": "Population health analytics, predictive models, clinical AI, and real-world evidence platforms.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -254,7 +254,7 @@
       "attributes": {
         "name": "CDRH",
         "description": "Center for Devices and Radiological Health.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -265,7 +265,7 @@
         "type": "Cabinet department",
         "description": "Federal cabinet department overseeing health, welfare, and public health agencies including CMS, CDC, FDA, NIH, and HRSA.",
         "jurisdiction": "Federal",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -274,7 +274,7 @@
       "attributes": {
         "name": "Intensive Care Units",
         "description": "Medical, surgical, cardiac, and neonatal ICU beds with advanced monitoring.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -283,7 +283,7 @@
       "attributes": {
         "name": "Medical Devices & Diagnostics",
         "description": "Implants, imaging systems, IVDs, wearables, and software-as-medical-device.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -292,7 +292,7 @@
       "attributes": {
         "name": "Traditional Medicare",
         "description": "Fee-for-service Medicare Parts A and B.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -301,7 +301,7 @@
       "attributes": {
         "name": "Acute Care Network",
         "description": "Hospitals, health systems, and ambulatory surgery centers providing emergency and inpatient services.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -310,7 +310,7 @@
       "attributes": {
         "name": "Center for Medicaid & CHIP",
         "description": "State partnership guidance, eligibility policy, and payment innovation.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -319,7 +319,7 @@
       "attributes": {
         "name": "Primary Care Network",
         "description": "First-contact, continuous, coordinated care provided by physicians, NPs, PAs, and community health centers.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -328,7 +328,7 @@
       "attributes": {
         "name": "Population Health Analytics",
         "description": "Risk stratification, care gap closure, and network performance.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -337,7 +337,7 @@
       "attributes": {
         "name": "In-Vitro Diagnostics",
         "description": "Laboratory analyzers, reagents, and point-of-care test kits.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -349,7 +349,7 @@
         "description": "Federal agency leading public health efforts to advance behavioral health and reduce substance abuse.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -358,7 +358,7 @@
       "attributes": {
         "name": "CommonWell Health Alliance",
         "description": "Nationwide health data interoperability network and record linking.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -370,7 +370,7 @@
         "description": "Primary federal biomedical and public health research agency comprising 27 institutes and centers.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -379,7 +379,7 @@
       "attributes": {
         "name": "Behavioral Health",
         "description": "Psychiatry, psychology, addiction medicine, and crisis intervention.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -388,7 +388,7 @@
       "attributes": {
         "name": "Medicare Advantage",
         "description": "Medicare Part C plans administered by private insurers.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -397,7 +397,7 @@
       "attributes": {
         "name": "Emergency Department",
         "description": "24/7 emergency intake, triage, resuscitation, and stabilization.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -406,7 +406,7 @@
       "attributes": {
         "name": "Ambulatory EHR Platforms",
         "description": "EHR and practice management for outpatient and specialty practices.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -418,7 +418,7 @@
         "description": "Federal health program for 2.6 million American Indians and Alaska Natives operating hospitals and clinics.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -427,7 +427,7 @@
       "attributes": {
         "name": "EHR & Clinical Platforms",
         "description": "Electronic health record systems, practice management, and clinical decision support platforms.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -436,7 +436,7 @@
       "attributes": {
         "name": "Care Delivery System",
         "description": "All organizations and professionals that provide preventive, acute, chronic, and end-of-life care to patients.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -445,7 +445,7 @@
       "attributes": {
         "name": "Oncology Services",
         "description": "Cancer diagnosis, chemotherapy, radiation, and surgical oncology.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -454,7 +454,7 @@
       "attributes": {
         "name": "Formulation & Fill-Finish",
         "description": "Dosage form production, sterile filling, and lyophilization.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -463,7 +463,7 @@
       "attributes": {
         "name": "Public Health Lab Network",
         "description": "Reference labs, LRN facilities, and genomic sequencing capacity.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -472,7 +472,7 @@
       "attributes": {
         "name": "Clinical Trials Operations",
         "description": "Phase I-III trial design, site management, and patient recruitment.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -481,7 +481,7 @@
       "attributes": {
         "name": "Packaging & Distribution",
         "description": "Serialization, labeling, warehousing, and global distribution.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -490,7 +490,7 @@
       "attributes": {
         "name": "VA Health Benefits",
         "description": "Veterans Health Administration medical benefits and facilities.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -499,7 +499,7 @@
       "attributes": {
         "name": "Pandemic Preparedness Planning",
         "description": "Scenario modeling, countermeasure distribution, and continuity plans.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -508,7 +508,7 @@
       "attributes": {
         "name": "Real-World Evidence Platforms",
         "description": "EHR-derived and claims-derived evidence for regulatory and market access.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -517,7 +517,7 @@
       "attributes": {
         "name": "Rebate Negotiation",
         "description": "Manufacturer rebate contracting on behalf of plan sponsors.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -529,7 +529,7 @@
         "description": "CMS division testing and scaling innovative payment and service delivery models (value-based care, ACOs).",
         "jurisdiction": "Federal",
         "parent_agency": "CMS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -538,7 +538,7 @@
       "attributes": {
         "name": "Regulatory & Policy Framework",
         "description": "Government and quasi-government bodies that set rules, standards, and enforce compliance across the ecosystem.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -547,7 +547,7 @@
       "attributes": {
         "name": "Digital Health & Wearables",
         "description": "Consumer and clinical wearables, software-as-medical-device.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -556,7 +556,7 @@
       "attributes": {
         "name": "Strategic National Stockpile",
         "description": "Caches of antibiotics, antivirals, vaccines, and medical supplies.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -565,7 +565,7 @@
       "attributes": {
         "name": "Case Reporting Systems",
         "description": "Electronic disease reporting from providers to public health agencies.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -574,7 +574,7 @@
       "attributes": {
         "name": "FDA",
         "description": "Food and Drug Administration: approves drugs, biologics, and devices; monitors post-market safety.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -583,7 +583,7 @@
       "attributes": {
         "name": "Immunization Program",
         "description": "Vaccine procurement, provider enrollment, and immunization registry.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -592,7 +592,7 @@
       "attributes": {
         "name": "Preventive Services",
         "description": "Immunization, cancer screening, wellness visits, and lifestyle counseling.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -601,7 +601,7 @@
       "attributes": {
         "name": "Store-and-Forward Telehealth",
         "description": "Asynchronous image, video, and data review by specialists.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -610,7 +610,7 @@
       "attributes": {
         "name": "Carequality",
         "description": "National framework for cross-network provider query/response.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -619,7 +619,7 @@
       "attributes": {
         "name": "Telehealth & Remote Care",
         "description": "Virtual visit platforms, remote patient monitoring, and asynchronous store-and-forward services.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -628,7 +628,7 @@
       "attributes": {
         "name": "CBER",
         "description": "Center for Biologics Evaluation and Research.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -637,7 +637,7 @@
       "attributes": {
         "name": "Preclinical Development",
         "description": "In-vitro and in-vivo safety and pharmacology studies.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -646,7 +646,7 @@
       "attributes": {
         "name": "Medicaid & CHIP",
         "description": "State-federal partnership for low-income and pediatric coverage.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -655,7 +655,7 @@
       "attributes": {
         "name": "Public Coverage Programs",
         "description": "Government-funded insurance: Medicare, Medicaid, CHIP, and VA healthcare benefits.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -667,7 +667,7 @@
         "description": "Military Health System providing care to 9.6 million active-duty, retirees, and families via MTFs and TRICARE.",
         "jurisdiction": "Federal",
         "parent_agency": "DOD",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -679,7 +679,7 @@
         "description": "Federal agency improving access to healthcare for uninsured, isolated, and medically vulnerable populations.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -688,7 +688,7 @@
       "attributes": {
         "name": "CMS",
         "description": "Centers for Medicare & Medicaid Services: sets reimbursement policy, quality programs, and insurance market rules.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -700,7 +700,7 @@
         "description": "Largest integrated health care system in the US serving 9+ million veterans through 1,300+ facilities.",
         "jurisdiction": "Federal",
         "parent_agency": "VA",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -712,7 +712,7 @@
         "description": "Federal agency producing evidence-based research on healthcare quality, safety, and cost-effectiveness.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -721,7 +721,7 @@
       "attributes": {
         "name": "Manufacturing & Supply Chain",
         "description": "API production, drug formulation, packaging, cold-chain logistics, and global distribution networks.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -730,7 +730,7 @@
       "attributes": {
         "name": "Center for Program Integrity",
         "description": "Fraud prevention, audit, and compliance enforcement.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -739,7 +739,7 @@
       "attributes": {
         "name": "Skilled Nursing Facilities",
         "description": "Post-acute rehabilitation and 24-hour nursing care.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -748,7 +748,7 @@
       "attributes": {
         "name": "R&D Pipeline",
         "description": "Basic research, translational science, clinical trials, and regulatory science supporting new therapies.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -757,7 +757,7 @@
       "attributes": {
         "name": "Drug Discovery",
         "description": "Target identification, validation, and lead compound optimization.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -766,7 +766,7 @@
       "attributes": {
         "name": "Family Medicine Practices",
         "description": "Longitudinal primary care for individuals and families across the lifespan.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -775,7 +775,7 @@
       "attributes": {
         "name": "Employer-Sponsored Plans",
         "description": "Group health insurance provided through employers and unions.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -784,7 +784,7 @@
       "attributes": {
         "name": "NCQA",
         "description": "Health plan and provider quality measurement and accreditation.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -793,7 +793,7 @@
       "attributes": {
         "name": "API Synthesis",
         "description": "Active pharmaceutical ingredient chemical and biological manufacturing.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -802,7 +802,7 @@
       "attributes": {
         "name": "Trauma Center Network",
         "description": "Level I-IV trauma centers providing graded trauma response capability.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -811,7 +811,7 @@
       "attributes": {
         "name": "Public Health Infrastructure",
         "description": "Population-level disease surveillance, prevention programs, health promotion, and emergency preparedness.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -820,7 +820,7 @@
       "attributes": {
         "name": "Mail-Order Pharmacy",
         "description": "Central-fill pharmacy operations for chronic maintenance medications.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -829,7 +829,7 @@
       "attributes": {
         "name": "National Healthcare Ecosystem",
         "description": "Macro-level system-of-systems encompassing care delivery, financing, life sciences, public health, regulation, and health IT infrastructure.",
-        "tier": "0"
+        "tier": 0
       }
     },
     {
@@ -838,7 +838,7 @@
       "attributes": {
         "name": "Office of Scientific Investigations",
         "description": "Clinical trial integrity, bioequivalence, and compliance oversight.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -847,7 +847,7 @@
       "attributes": {
         "name": "Long-Term & Post-Acute Care",
         "description": "Nursing facilities, home health, hospice, and rehabilitation services for extended or chronic needs.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -858,7 +858,7 @@
         "type": "State health agency",
         "description": "50 state + DC + territory agencies administering Medicaid and CHIP programs under federal CMS oversight.",
         "jurisdiction": "State",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -867,7 +867,7 @@
       "attributes": {
         "name": "The Joint Commission",
         "description": "Hospital and ambulatory accreditation and patient safety standards.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -876,7 +876,7 @@
       "attributes": {
         "name": "Health Information Technology",
         "description": "Digital infrastructure for capturing, storing, exchanging, and analyzing health data across all stakeholders.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -885,7 +885,7 @@
       "attributes": {
         "name": "State & Regional HIEs",
         "description": "State-designated entities for local health information exchange.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -894,7 +894,7 @@
       "attributes": {
         "name": "Community Health Centers",
         "description": "Federally qualified health centers serving underserved populations.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -903,7 +903,7 @@
       "attributes": {
         "name": "Emergency Preparedness",
         "description": "Strategic national stockpile, hospital surge capacity, pandemic response protocols, and bio-defense.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -912,7 +912,7 @@
       "attributes": {
         "name": "Regulatory Affairs",
         "description": "FDA submissions, labeling, and post-market compliance.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -921,7 +921,7 @@
       "attributes": {
         "name": "Clinical AI & Decision Support",
         "description": "FDA-cleared algorithms for imaging, diagnostics, and risk prediction.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -930,7 +930,7 @@
       "attributes": {
         "name": "Emergency Medical Services",
         "description": "Pre-hospital emergency response: EMS agencies, trauma centers, and disaster medical response teams.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -939,7 +939,7 @@
       "attributes": {
         "name": "Virtual Visit Platforms",
         "description": "Synchronous video and audio telehealth consultations.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -948,7 +948,7 @@
       "attributes": {
         "name": "Class II Medical Devices",
         "description": "Moderate-risk devices: imaging, infusion pumps, surgical instruments.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -957,7 +957,7 @@
       "attributes": {
         "name": "Individual Insurance Market",
         "description": "ACA exchange and off-exchange individual and family plans.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -966,7 +966,7 @@
       "attributes": {
         "name": "Center for Medicare",
         "description": "Medicare fee-for-service, Advantage, and Part D program operations.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -975,7 +975,7 @@
       "attributes": {
         "name": "Health Education & Promotion",
         "description": "Public campaigns, school programs, and community health worker deployment.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -984,7 +984,7 @@
       "attributes": {
         "name": "Inpatient EHR Platforms",
         "description": "Enterprise EHR systems for hospitals and health systems.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -993,7 +993,7 @@
       "attributes": {
         "name": "Syndromic Surveillance",
         "description": "Real-time emergency department chief-complaint monitoring.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1002,7 +1002,7 @@
       "attributes": {
         "name": "Private Insurance Sector",
         "description": "Commercial health plans, employer-sponsored coverage, and individual market policies.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1014,7 +1014,7 @@
         "description": "National public health agency focused on disease surveillance, outbreak response, health promotion, and vaccine guidance.",
         "jurisdiction": "Federal",
         "parent_agency": "HHS",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1023,7 +1023,7 @@
       "attributes": {
         "name": "Health Financing System",
         "description": "Mechanisms that mobilize, pool, and allocate financial resources to pay for healthcare services.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -1032,7 +1032,7 @@
       "attributes": {
         "name": "URAC",
         "description": "Specialty pharmacy, telehealth, and health care management accreditation.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1041,7 +1041,7 @@
       "attributes": {
         "name": "Hospice & Palliative Care",
         "description": "End-of-life symptom management and psychosocial support.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1050,7 +1050,7 @@
       "attributes": {
         "name": "CDER",
         "description": "Center for Drug Evaluation and Research.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1059,7 +1059,7 @@
       "attributes": {
         "name": "Hospital Surge Capacity",
         "description": "Beds, staff, and supplies available for sudden demand spikes.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1068,7 +1068,7 @@
       "attributes": {
         "name": "Accreditation Bodies",
         "description": "Joint Commission, NCQA, URAC: set clinical quality and patient safety standards for provider organizations.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1077,7 +1077,7 @@
       "attributes": {
         "name": "Orthopedics & Rehabilitation",
         "description": "Musculoskeletal surgery, sports medicine, and physical therapy.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1086,7 +1086,7 @@
       "attributes": {
         "name": "Pharmacy Benefit Managers",
         "description": "Intermediaries that administer prescription drug programs and negotiate rebates on behalf of payers.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1095,7 +1095,7 @@
       "attributes": {
         "name": "Class III Medical Devices",
         "description": "High-risk devices: implants, life-support, and novel technologies.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1104,7 +1104,7 @@
       "attributes": {
         "name": "EMS Transport",
         "description": "Ambulance and air-medical transport to emergency facilities.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1113,7 +1113,7 @@
       "attributes": {
         "name": "Disaster Medical Response",
         "description": "Federal, state, and local medical response teams for mass-casualty events.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1122,7 +1122,7 @@
       "attributes": {
         "name": "Cardiology Services",
         "description": "Diagnosis and treatment of heart and vascular conditions.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1131,7 +1131,7 @@
       "attributes": {
         "name": "Remote Patient Monitoring",
         "description": "Connected devices for chronic disease monitoring at home.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1140,7 +1140,7 @@
       "attributes": {
         "name": "Prevention & Health Promotion",
         "description": "Vaccination programs, screenings, behavioral interventions, and health education campaigns.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -1149,7 +1149,7 @@
       "attributes": {
         "name": "Formulary Management",
         "description": "Development and maintenance of covered drug lists and tier structures.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1158,7 +1158,7 @@
       "attributes": {
         "name": "Surgical Services",
         "description": "Operating rooms, perioperative care, anesthesia, and same-day surgery.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1167,7 +1167,7 @@
       "attributes": {
         "name": "Screening Programs",
         "description": "Population-based cancer, metabolic, and genetic screening.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1176,7 +1176,7 @@
       "attributes": {
         "name": "Specialty Care Network",
         "description": "Condition-specific care: cardiology, oncology, orthopedics, mental health, and other subspecialties.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1185,7 +1185,7 @@
       "attributes": {
         "name": "Health Information Exchange",
         "description": "Regional and national networks enabling interoperable clinical data exchange between disparate systems.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1194,7 +1194,7 @@
       "attributes": {
         "name": "Home Health Agencies",
         "description": "Nursing, therapy, and aide services delivered in patient homes.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1203,7 +1203,7 @@
       "attributes": {
         "name": "Pharma & Life Sciences",
         "description": "Research, development, manufacturing, and distribution of drugs, biologics, and medical devices.",
-        "tier": "1"
+        "tier": 1
       }
     },
     {
@@ -1212,7 +1212,7 @@
       "attributes": {
         "name": "Store & Manage",
         "description": "HIPAA-compliant storage, backup, and retention.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1221,7 +1221,7 @@
       "attributes": {
         "name": "Execute Clinical Trials",
         "description": "GCP-compliant Phase I-III trial operations.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1230,7 +1230,7 @@
       "attributes": {
         "name": "Pool Financial Risk",
         "description": "Aggregate enrollee premiums and tax revenues to fund healthcare expenditures across populations.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1239,7 +1239,7 @@
       "attributes": {
         "name": "Triage Patients",
         "description": "Rapid assessment and prioritization of incoming patients.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1248,7 +1248,7 @@
       "attributes": {
         "name": "Identify Disparities",
         "description": "Geographic and demographic health equity analysis.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1257,7 +1257,7 @@
       "attributes": {
         "name": "Process Claims & Payment",
         "description": "Verify eligibility, adjudicate claims, apply prior authorization, and disburse reimbursement.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1266,7 +1266,7 @@
       "attributes": {
         "name": "Coordinate Care Transitions",
         "description": "Discharge planning, referrals, and handoffs.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1275,7 +1275,7 @@
       "attributes": {
         "name": "Ensure Quality & Safety",
         "description": "Inspect facilities, accredit providers, monitor adverse events, and enforce clinical standards.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1284,7 +1284,7 @@
       "attributes": {
         "name": "Verify Eligibility",
         "description": "Real-time insurance eligibility and benefit verification.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1293,7 +1293,7 @@
       "attributes": {
         "name": "Capture Data",
         "description": "Structured and unstructured clinical data acquisition at point of care.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1302,7 +1302,7 @@
       "attributes": {
         "name": "Regulate Products & Services",
         "description": "Evaluate safety, efficacy, and manufacturing quality of drugs, devices, and clinical services.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1311,7 +1311,7 @@
       "attributes": {
         "name": "Exchange Health Information",
         "description": "Enable secure, interoperable flow of clinical, administrative, and financial data across stakeholders.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1320,7 +1320,7 @@
       "attributes": {
         "name": "Discover Targets",
         "description": "Biological target identification and validation.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1329,7 +1329,7 @@
       "attributes": {
         "name": "Disburse Payment",
         "description": "Remittance generation, EFT, and patient balance billing.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1338,7 +1338,7 @@
       "attributes": {
         "name": "Run Preclinical Studies",
         "description": "GLP toxicology and pharmacokinetic evaluation.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1347,7 +1347,7 @@
       "attributes": {
         "name": "Deliver Clinical Care",
         "description": "Provide diagnosis, treatment, surgery, rehabilitation, and preventive services to patients.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1356,7 +1356,7 @@
       "attributes": {
         "name": "Educate Health Workforce",
         "description": "Train, credential, and continuously certify physicians, nurses, allied health, and administrators.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1365,7 +1365,7 @@
       "attributes": {
         "name": "Diagnose Conditions",
         "description": "Clinical reasoning, testing, and differential diagnosis.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1374,7 +1374,7 @@
       "attributes": {
         "name": "Set Health Policy",
         "description": "Establish laws, regulations, and guidelines governing coverage, pricing, quality, and access.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1383,7 +1383,7 @@
       "attributes": {
         "name": "Develop Therapies",
         "description": "Discover, test, manufacture, and bring new drugs, biologics, and devices to market.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1392,7 +1392,7 @@
       "attributes": {
         "name": "Transmit Securely",
         "description": "Encrypted point-to-point and network-based data exchange.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1401,7 +1401,7 @@
       "attributes": {
         "name": "Detect Outbreaks",
         "description": "Statistical anomaly detection and cluster identification.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1410,7 +1410,7 @@
       "attributes": {
         "name": "Monitor Population Health",
         "description": "Track disease burden, health disparities, and environmental health risks across geographies and demographics.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1419,7 +1419,7 @@
       "attributes": {
         "name": "Monitor Adverse Events",
         "description": "Post-market surveillance and signal detection.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1428,7 +1428,7 @@
       "attributes": {
         "name": "Adjudicate Claims",
         "description": "Medical necessity review, pricing, and denial management.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1437,7 +1437,7 @@
       "attributes": {
         "name": "Track Disease Burden",
         "description": "Incidence, prevalence, and mortality monitoring.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1446,7 +1446,7 @@
       "attributes": {
         "name": "Accredit Providers",
         "description": "Standards review, survey, and accreditation decision.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1455,7 +1455,7 @@
       "attributes": {
         "name": "Treat & Manage",
         "description": "Therapeutic intervention, medication, surgery, and therapy.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1464,7 +1464,7 @@
       "attributes": {
         "name": "Inspect Facilities",
         "description": "Physical inspection and environmental-of-care surveys.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1473,7 +1473,7 @@
       "attributes": {
         "name": "Analyze & Report",
         "description": "Analytics, visualization, and population-level reporting.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1482,7 +1482,7 @@
       "attributes": {
         "name": "Submit to Regulators",
         "description": "NDA, BLA, and 510(k) compilation and filing.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1492,7 +1492,7 @@
         "name": "Population Health Data Interface",
         "protocol": "FHIR Bulk Data / CDC Surveillance",
         "description": "Aggregated, de-identified data exchange for disease surveillance, epidemiology, and population risk scoring.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1502,7 +1502,7 @@
         "name": "Clinical Laboratory Integration Interface",
         "protocol": "HL7v2 ORU / FHIR DiagnosticReport / LOINC",
         "description": "Bi-directional interface for orders, results, and specimen tracking between providers and laboratories.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1512,7 +1512,7 @@
         "name": "Clinical-Financial Data Exchange",
         "protocol": "FHIR R4 / HL7v2 / X12",
         "description": "Primary interface between care delivery and health financing for claims, eligibility, and remittance.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1522,7 +1522,7 @@
         "name": "Payer-Provider Collaboration Interface",
         "protocol": "FHIR Prior Auth / X12 278 / Real-Time Adjudication",
         "description": "Workflow interface for prior authorization, referral management, and value-based care contracts.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1532,7 +1532,7 @@
         "name": "Pharma Supply Chain Interface",
         "protocol": "GS1 EPCIS / DSCSA / EDI 856",
         "description": "Tracks drug provenance, serialization, and distribution from manufacturer to patient.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1542,7 +1542,7 @@
         "name": "Patient Access & Engagement Interface",
         "protocol": "FHIR Patient Access API / SMART on FHIR",
         "description": "Consumer-facing interface enabling patients to access records, schedule visits, and share data with apps.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1552,7 +1552,7 @@
         "name": "Regulatory Mandate Interface",
         "protocol": "Federal Register / CMS Rules / FDA Guidance",
         "description": "Channel through which laws, regulations, accreditation standards, and enforcement actions flow to ecosystem actors.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1562,7 +1562,7 @@
         "name": "Health IT Interoperability Interface",
         "protocol": "FHIR R4 / USCDI / TEFCA",
         "description": "Standardized clinical data exchange across EHR vendors, HIE networks, and telehealth platforms.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1571,7 +1571,7 @@
       "attributes": {
         "name": "Claims Input Port",
         "description": "Channel receiving claim transactions from care delivery providers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1580,7 +1580,7 @@
       "attributes": {
         "name": "Premium Input Port",
         "description": "Channel receiving premium revenue from enrollees and employers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1589,7 +1589,7 @@
       "attributes": {
         "name": "Safety Signal Input Port",
         "description": "Channel receiving adverse event and post-market surveillance reports.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1598,7 +1598,7 @@
       "attributes": {
         "name": "Market Entry Port",
         "description": "Channel authorizing approved drugs and devices to enter commercial distribution.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1607,7 +1607,7 @@
       "attributes": {
         "name": "Clinical Data Output Port",
         "description": "Channel emitting de-identified clinical data for surveillance and quality reporting.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1616,7 +1616,7 @@
       "attributes": {
         "name": "Policy Output Port",
         "description": "Channel through which regulations, mandates, and guidance are emitted.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1625,7 +1625,7 @@
       "attributes": {
         "name": "Payment Output Port",
         "description": "Channel disbursing reimbursement to providers and pharmacies.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1634,7 +1634,7 @@
       "attributes": {
         "name": "Clinical Data Input Port",
         "description": "Channel receiving patient records, orders, and results from EHR systems.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1643,7 +1643,7 @@
       "attributes": {
         "name": "Hospital Compare Reporting",
         "description": "Public reporting of process, outcome, and patient experience measures.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1652,7 +1652,7 @@
       "attributes": {
         "name": "Prior Authorization Limitations",
         "description": "Evidence-based prior auth criteria and rapid turnaround requirements.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1661,7 +1661,7 @@
       "attributes": {
         "name": "Medicare Star Ratings",
         "description": "Part C and Part D quality measure aggregation and publication.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1670,7 +1670,7 @@
       "attributes": {
         "name": "Network Adequacy Standards",
         "description": "Timely access to in-network primary and specialty care.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1679,7 +1679,7 @@
       "attributes": {
         "name": "Health Equity Goals",
         "description": "Disparities in outcomes, access, and quality across racial, ethnic, and socioeconomic groups must be reduced.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1688,7 +1688,7 @@
       "attributes": {
         "name": "Quality Reporting Requirements",
         "description": "Providers and payers must report standardized clinical quality measures and outcomes to regulators.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1697,7 +1697,7 @@
       "attributes": {
         "name": "FDA Safety & Efficacy Standards",
         "description": "All marketed drugs and devices must demonstrate adequate safety and efficacy through controlled trials.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1706,7 +1706,7 @@
       "attributes": {
         "name": "Interoperability Standards",
         "description": "EHR systems must support standardized APIs and data formats for seamless health information exchange.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1715,7 +1715,7 @@
       "attributes": {
         "name": "HIPAA Administrative Safeguards",
         "description": "Security management process, assigned security responsibility, workforce training.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1724,7 +1724,7 @@
       "attributes": {
         "name": "FHIR API Compliance",
         "description": "Standardized FHIR R4 RESTful APIs for patient access and provider exchange.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1733,7 +1733,7 @@
       "attributes": {
         "name": "Cost Containment Targets",
         "description": "Annual healthcare expenditure growth must not exceed GDP growth plus a defined margin.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1742,7 +1742,7 @@
       "attributes": {
         "name": "Phase I Safety Profile",
         "description": "Initial human safety, tolerability, and pharmacokinetic characterization.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1751,7 +1751,7 @@
       "attributes": {
         "name": "Phase III Efficacy Evidence",
         "description": "Controlled trials demonstrating efficacy in the intended population.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1760,7 +1760,7 @@
       "attributes": {
         "name": "Value-Based Payment Metrics",
         "description": "Quality and cost measure bundles for ACO and bundled payment programs.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1769,7 +1769,7 @@
       "attributes": {
         "name": "HIPAA Physical Safeguards",
         "description": "Facility access controls, workstation security, device and media controls.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1778,7 +1778,7 @@
       "attributes": {
         "name": "Universal Access Mandate",
         "description": "All residents must have timely access to essential health services without financial hardship.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1787,7 +1787,7 @@
       "attributes": {
         "name": "USCDI Data Class Support",
         "description": "Support for all required U.S. Core Data for Interoperability classes.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1796,7 +1796,7 @@
       "attributes": {
         "name": "Essential Health Benefits",
         "description": "Coverage of ten essential benefit categories without annual/lifetime limits.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1805,7 +1805,7 @@
       "attributes": {
         "name": "HIPAA Technical Safeguards",
         "description": "Access control, audit controls, integrity, transmission security.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1814,7 +1814,7 @@
       "attributes": {
         "name": "Preclinical Safety Data",
         "description": "Adequate pharmacology and toxicology studies before human exposure.",
-        "tier": "4"
+        "tier": 4
       }
     },
     {
@@ -1823,7 +1823,7 @@
       "attributes": {
         "name": "HIPAA Privacy & Security",
         "description": "Protected health information must be safeguarded with administrative, physical, and technical controls.",
-        "tier": "2"
+        "tier": 2
       }
     },
     {
@@ -1832,7 +1832,7 @@
       "attributes": {
         "name": "Patient Access API",
         "description": "Enable patients to access their data via third-party applications.",
-        "tier": "3"
+        "tier": 3
       }
     },
     {
@@ -1841,7 +1841,7 @@
       "attributes": {
         "name": "Laboratory Results",
         "description": "Structured lab results with LOINC codes flowing to EHRs and patient portals.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1850,7 +1850,7 @@
       "attributes": {
         "name": "Clinical Trial Data",
         "description": "Study protocols, results, and safety updates submitted from trial sites to FDA and public registries.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1859,7 +1859,7 @@
       "attributes": {
         "name": "Formulary & Rebate Updates",
         "description": "PBMs communicate covered drug lists, tier placements, and negotiated rebate terms to payers and providers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1868,7 +1868,7 @@
       "attributes": {
         "name": "Legislative Mandates",
         "description": "New laws and policy changes (e.g., ACA updates, drug pricing reform) broadcast to all ecosystem actors.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1877,7 +1877,7 @@
       "attributes": {
         "name": "EHR Data Exchange",
         "description": "HL7 FHIR-based clinical summaries, care documents, and real-time notifications between provider systems.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1886,7 +1886,7 @@
       "attributes": {
         "name": "Reimbursement Rate Updates",
         "description": "CMS publishes annual fee schedules, DRG weights, and value-based payment model benchmarks.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1895,7 +1895,7 @@
       "attributes": {
         "name": "Adverse Event Reports",
         "description": "Mandatory and voluntary safety reports from providers and manufacturers to FDA MedWatch.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1904,7 +1904,7 @@
       "attributes": {
         "name": "Public Health Alerts",
         "description": "CDC and state health departments broadcast outbreak notices, recalls, and vaccination guidance.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1913,7 +1913,7 @@
       "attributes": {
         "name": "Drug & Device Approvals",
         "description": "FDA approval signals enabling market entry; includes labeling and REMS requirements.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1922,7 +1922,7 @@
       "attributes": {
         "name": "Claims Submissions",
         "description": "Standardized claim transactions (837) sent from providers to payers for services rendered.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1931,7 +1931,7 @@
       "attributes": {
         "name": "Clinical Quality Measures",
         "description": "Standardized outcome and process metrics reported from providers and plans to CMS and accreditors.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1940,7 +1940,7 @@
       "attributes": {
         "name": "Premium Collections",
         "description": "Monthly/quarterly premium payments flowing from employers and individuals to insurance plans.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1949,7 +1949,7 @@
       "attributes": {
         "name": "Epidemiological Surveillance Data",
         "description": "De-identified case reports, lab results, and syndromic data flowing to CDC and state health departments.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1958,7 +1958,7 @@
       "attributes": {
         "name": "Reimbursement Payments",
         "description": "Remittance advice and payment (835/EFT) from payers back to providers and pharmacies.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1967,7 +1967,7 @@
       "attributes": {
         "name": "Prescription Fill Status",
         "description": "Real-time prescription fill and pickup notifications from pharmacies to providers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1976,7 +1976,7 @@
       "attributes": {
         "name": "Clinical Documentation",
         "description": "Progress notes, discharge summaries, and consult notes exchanged across the care continuum.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1985,7 +1985,7 @@
       "attributes": {
         "name": "Prior Authorization Requests",
         "description": "Electronic prior authorization requests and determinations between providers and payers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -1997,7 +1997,7 @@
         "concerns": "revenue, regulatory compliance, quality metrics",
         "description": "Executives and managers overseeing hospital operations, finance, strategy, and compliance.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2009,7 +2009,7 @@
         "sector": "Clinical Diagnostics",
         "description": "Major US clinical laboratory and drug development services company (formerly Laboratory Corporation of America).",
         "headquarters": "Burlington, NC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2021,7 +2021,7 @@
         "concerns": "patient rights, access to care, health equity",
         "description": "Nonprofits and community organizations representing patient interests, rights, and access.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2033,7 +2033,7 @@
         "sector": "Integrated Delivery & Insurance",
         "description": "Integrated managed-care consortium combining insurance (Kaiser Foundation Health Plan) with care delivery (Permanente Medical Groups).",
         "headquarters": "Oakland, CA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2045,7 +2045,7 @@
         "sector": "Acute & Post-Acute Care",
         "description": "Largest nonprofit Catholic health system in the US with 140 hospitals, emphasizing community benefit.",
         "headquarters": "St. Louis, MO",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2057,7 +2057,7 @@
         "sector": "Individual & Small Group",
         "description": "Technology-focused health insurer selling individual, Medicare Advantage, and small-group plans.",
         "headquarters": "New York, NY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2069,7 +2069,7 @@
         "sector": "Acute & Community Care",
         "description": "Largest Catholic nonprofit health system by revenue, operating 140+ hospitals across 24 states.",
         "headquarters": "Chicago, IL",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2081,7 +2081,7 @@
         "sector": "Acute & Primary Care",
         "description": "Utah-based nonprofit system operating 33 hospitals; pioneering value-based care and generic drug manufacturing (Civica Rx).",
         "headquarters": "Salt Lake City, UT",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2093,7 +2093,7 @@
         "concerns": "cost containment, employee wellness, productivity",
         "description": "Companies and organizations that purchase health insurance for employees and dependents.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2105,7 +2105,7 @@
         "sector": "Electronic Health Records",
         "description": "Largest US EHR vendor by hospital market share (~35%); known for MyChart patient portal and Care Everywhere interoperability.",
         "headquarters": "Verona, WI",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2117,7 +2117,7 @@
         "sector": "Telehealth",
         "description": "Enterprise telehealth platform powering virtual care for health systems, payers, and employers.",
         "headquarters": "Boston, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2129,7 +2129,7 @@
         "concerns": "staffing ratios, scope of practice, burnout",
         "description": "Registered nurses, nurse practitioners, and licensed practical nurses delivering frontline care.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2141,7 +2141,7 @@
         "concerns": "rebate negotiation, formulary placement, spread pricing",
         "description": "Intermediaries negotiating drug prices, managing formularies, and processing pharmacy claims.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2152,7 +2152,7 @@
         "type": "Purchaser",
         "sector": "Employer-Sponsored Coverage",
         "description": "Fortune 500 companies and large organizations that self-fund employee health benefits and contract directly with providers/payers.",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2164,7 +2164,7 @@
         "concerns": "risk selection, medical loss ratio, network adequacy",
         "description": "Private and public payers who pool risk, set premiums, and manage claims adjudication.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2176,7 +2176,7 @@
         "sector": "Pharma & Diagnostics",
         "description": "Swiss pharma giant with US subsidiary Genentech; leader in oncology and diagnostics.",
         "headquarters": "Basel, Switzerland",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2188,7 +2188,7 @@
         "sector": "Acute Care",
         "description": "For-profit operator of rural and suburban acute-care hospitals across 16 states.",
         "headquarters": "Franklin, TN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2200,7 +2200,7 @@
         "concerns": "interoperability, certification, market share",
         "description": "Companies developing EHRs, HIE platforms, analytics tools, and digital health applications.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2212,7 +2212,7 @@
         "concerns": "510(k) clearance, post-market surveillance, reimbursement",
         "description": "Companies designing, manufacturing, and distributing diagnostic and therapeutic devices.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2224,7 +2224,7 @@
         "sector": "Acute Care",
         "description": "Largest for-profit hospital operator in the US with ~180 hospitals and ~2,400 ambulatory sites.",
         "headquarters": "Nashville, TN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2236,7 +2236,7 @@
         "sector": "Employer Advocacy",
         "description": "Coalition of 40+ large private and public employers driving health care quality, equity, and cost transparency.",
         "headquarters": "Oakland, CA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2248,7 +2248,7 @@
         "concerns": "disease surveillance, outbreak response, health promotion",
         "description": "CDC, state health departments, and local health departments focused on population-level health.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2260,7 +2260,7 @@
         "sector": "Dialysis & Renal Care",
         "description": "Major US dialysis provider operating 2,700+ outpatient centers and integrated kidney care programs.",
         "headquarters": "Denver, CO",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2272,7 +2272,7 @@
         "sector": "Distribution & Health IT",
         "description": "Largest pharmaceutical distributor in North America; also provides health IT, oncology support, and biopharma services.",
         "headquarters": "Irving, TX",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2284,7 +2284,7 @@
         "sector": "Pharmacy Benefit Management",
         "description": "Major PBM acquired by Cigna; manages drug benefits for 100+ million Americans.",
         "headquarters": "St. Louis, MO",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2296,7 +2296,7 @@
         "sector": "Acute & Specialty Care",
         "description": "Top-ranked nonprofit multispecialty academic medical center with strong cardiovascular and international presence.",
         "headquarters": "Cleveland, OH",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2308,7 +2308,7 @@
         "sector": "Dialysis & Renal Care",
         "description": "World's largest provider of dialysis products and services operating 4,000+ clinics globally.",
         "headquarters": "Bad Homburg, Germany",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2320,7 +2320,7 @@
         "sector": "Medical Education",
         "description": "Nonprofit association of medical schools, teaching hospitals, and academic societies; administers MCAT and manages ERAS.",
         "headquarters": "Washington, DC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2332,7 +2332,7 @@
         "sector": "MedTech & Diagnostics",
         "description": "Diversified medtech with diagnostics, nutrition, established pharma, and medical devices (FreeStyle Libre).",
         "headquarters": "Abbott Park, IL",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2344,7 +2344,7 @@
         "sector": "Acute & Digital Health",
         "description": "Large nonprofit Catholic system with 51 hospitals across 7 western states; emphasizes value-based care.",
         "headquarters": "Renton, WA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2356,7 +2356,7 @@
         "sector": "Commercial & Medicare",
         "description": "National insurer acquired by CVS Health; integrated with CVS pharmacies, Caremark PBM, and MinuteClinic.",
         "headquarters": "Hartford, CT",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2368,7 +2368,7 @@
         "sector": "Acute & Post-Acute Care",
         "description": "Major Catholic nonprofit system operating 90+ hospitals in 25 states, focused on community health.",
         "headquarters": "Livonia, MI",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2380,7 +2380,7 @@
         "concerns": "turnaround time, accuracy, reimbursement rates",
         "description": "Diagnostic labs providing pathology, microbiology, genetics, and routine testing services.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2392,7 +2392,7 @@
         "sector": "Commercial & International",
         "description": "Global health services organization offering commercial insurance, Medicare, international coverage, and Express Scripts PBM.",
         "headquarters": "Bloomfield, CT",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2404,7 +2404,7 @@
         "sector": "Telehealth",
         "description": "Largest virtual care provider offering telehealth, chronic care management, and mental health services.",
         "headquarters": "Purchase, NY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2416,7 +2416,7 @@
         "sector": "Professional Association",
         "description": "Largest physician association in the US; publishes CPT codes, advocates for physician payment reform, and lobbies on health policy.",
         "headquarters": "Chicago, IL",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2428,7 +2428,7 @@
         "sector": "Pharma & MedTech",
         "description": "World's largest diversified healthcare company spanning pharmaceuticals (Janssen), medical devices, and consumer health.",
         "headquarters": "New Brunswick, NJ",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2440,7 +2440,7 @@
         "sector": "Medicaid & Medicare",
         "description": "Medicaid-focused insurer with Marketplace and Medicare products; strong presence in underserved communities.",
         "headquarters": "Long Beach, CA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2452,7 +2452,7 @@
         "sector": "Acute & Specialty Care",
         "description": "World-renowned nonprofit academic medical center known for integrated multi-specialty practice and medical research.",
         "headquarters": "Rochester, MN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2464,7 +2464,7 @@
         "sector": "Practice Management & EHR",
         "description": "Cloud-based EHR, revenue cycle, and patient engagement platform serving ambulatory practices.",
         "headquarters": "Watertown, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2476,7 +2476,7 @@
         "sector": "Acute & Ambulatory",
         "description": "Northern California nonprofit integrated network with 24 hospitals and 200+ clinics.",
         "headquarters": "Sacramento, CA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2488,7 +2488,7 @@
         "sector": "Medicaid & Marketplace",
         "description": "Largest Medicaid managed-care organization; also operates Medicare, Marketplace, and correctional health plans via local brands.",
         "headquarters": "St. Louis, MO",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2500,7 +2500,7 @@
         "concerns": "public safety, market integrity, health equity",
         "description": "Federal and state agencies that set rules, enforce standards, and protect public health.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2512,7 +2512,7 @@
         "sector": "Professional Association",
         "description": "Premier organization representing the interests of 4+ million registered nurses in the United States.",
         "headquarters": "Silver Spring, MD",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2524,7 +2524,7 @@
         "concerns": "clinical autonomy, reimbursement, liability",
         "description": "Licensed medical doctors who diagnose, treat, and manage patient care across specialties.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2536,7 +2536,7 @@
         "sector": "Patient Advocacy",
         "description": "Major consumer advocacy organization representing 38+ million older Americans on Medicare, drug pricing, and long-term care.",
         "headquarters": "Washington, DC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2548,7 +2548,7 @@
         "sector": "Medicare Advantage",
         "description": "Medicare Advantage startup focused on seniors, combining insurance with virtual and in-home care.",
         "headquarters": "Waltham, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2560,7 +2560,7 @@
         "sector": "Distribution",
         "description": "Global pharmaceutical sourcing and distribution company recently rebranded as Cencora.",
         "headquarters": "Conshohocken, PA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2572,7 +2572,7 @@
         "sector": "Medicare Advantage & Primary Care",
         "description": "Major Medicare Advantage insurer with growing primary-care center investments (CenterWell).",
         "headquarters": "Louisville, KY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2584,7 +2584,7 @@
         "sector": "Pharmaceuticals",
         "description": "Major US pharma with leading vaccines, oncology (Keytruda), and animal health divisions.",
         "headquarters": "Rahway, NJ",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2596,7 +2596,7 @@
         "sector": "Group Purchasing & Supply Chain",
         "description": "Largest healthcare GPO by purchasing volume, serving 60% of US hospitals with contracting and supply chain analytics.",
         "headquarters": "Irving, TX",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2608,7 +2608,7 @@
         "sector": "Commercial & Government",
         "description": "Major Blue Cross Blue Shield licensee operating in 14 states; commercial, Medicare, Medicaid plans.",
         "headquarters": "Indianapolis, IN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2620,7 +2620,7 @@
         "sector": "Accreditation",
         "description": "Independent nonprofit that accredits and certifies 22,000+ US health care organizations and programs; sets quality and safety standards.",
         "headquarters": "Oakbrook Terrace, IL",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2632,7 +2632,7 @@
         "sector": "Electronic Health Records",
         "description": "Major EHR vendor acquired by Oracle; strong in federal VA/MHS contracts and revenue cycle.",
         "headquarters": "Kansas City, MO",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2644,7 +2644,7 @@
         "sector": "Remote Monitoring",
         "description": "Leading continuous glucose monitoring (CGM) company for diabetes management.",
         "headquarters": "San Diego, CA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2656,7 +2656,7 @@
         "sector": "Health Information Exchange",
         "description": "Represents health data exchange platforms and interoperability vendors facilitating cross-system data sharing.",
         "headquarters": "Various",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2668,7 +2668,7 @@
         "sector": "Acute & Ambulatory",
         "description": "For-profit operator of 60+ hospitals and 550+ outpatient centers; also owns USPI ambulatory surgery.",
         "headquarters": "Dallas, TX",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2680,7 +2680,7 @@
         "sector": "Patient Advocacy",
         "description": "Nationwide community-based voluntary health organization dedicated to eliminating cancer through research, education, and advocacy.",
         "headquarters": "Atlanta, GA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2692,7 +2692,7 @@
         "sector": "Accreditation & Quality Measurement",
         "description": "Private nonprofit that reviews and accredits health plans and medical groups; manages HEDIS quality measures.",
         "headquarters": "Washington, DC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2704,7 +2704,7 @@
         "concerns": "access, quality, cost, safety",
         "description": "Individuals and communities who receive healthcare services, generate health data, and bear outcomes.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2716,7 +2716,7 @@
         "sector": "Electronic Health Records",
         "description": "EHR and practice management vendor with strong ambulatory and chronic-care management focus.",
         "headquarters": "Westborough, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2728,7 +2728,7 @@
         "sector": "Electronic Health Records",
         "description": "Long-standing EHR vendor focused on community hospitals and cloud-based Expanse platform.",
         "headquarters": "Westwood, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2740,7 +2740,7 @@
         "sector": "Acute & Ambulatory",
         "description": "Largest health system in New York State with 21 hospitals and 850+ outpatient facilities.",
         "headquarters": "New Hyde Park, NY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2752,7 +2752,7 @@
         "sector": "Patient Advocacy",
         "description": "Leading voluntary health organization funding cardiovascular research and advocating for heart-healthy policies.",
         "headquarters": "Dallas, TX",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2764,7 +2764,7 @@
         "sector": "Medical Devices",
         "description": "World's largest medical device company; leading in cardiac devices, diabetes, spine, and surgical robotics.",
         "headquarters": "Dublin, Ireland",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2776,7 +2776,7 @@
         "sector": "Acute & Research",
         "description": "Harvard-affiliated nonprofit system including Massachusetts General Hospital and Brigham and Women's Hospital.",
         "headquarters": "Boston, MA",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2788,7 +2788,7 @@
         "sector": "Pharmacy Benefit Management",
         "description": "One of the 'Big Three' PBMs managing pharmacy benefits for 100+ million lives; owned by CVS Health.",
         "headquarters": "Woonsocket, RI",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2800,7 +2800,7 @@
         "sector": "Group Purchasing",
         "description": "GPO owned by HCA Healthcare serving HCA facilities and 1,600+ other hospitals with supply chain and workforce solutions.",
         "headquarters": "Nashville, TN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2812,7 +2812,7 @@
         "sector": "Commercial & Medicare Advantage",
         "description": "Largest US health insurer through UnitedHealthcare; also owns Optum (PBM, care delivery, analytics).",
         "headquarters": "Minnetonka, MN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2824,7 +2824,7 @@
         "concerns": "R&D ROI, patent protection, pricing, FDA approval",
         "description": "Organizations researching, developing, manufacturing, and marketing drugs and biologics.",
         "influence_level": "high",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2836,7 +2836,7 @@
         "sector": "Acute & Specialty Care",
         "description": "Premier academic medical system combining Johns Hopkins Hospital with schools of medicine, nursing, and public health.",
         "headquarters": "Baltimore, MD",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2848,7 +2848,7 @@
         "sector": "Acute & Research",
         "description": "Premier academic medical center in New York City with top-ranked research, education, and patient care.",
         "headquarters": "New York, NY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2860,7 +2860,7 @@
         "sector": "Group Purchasing & Analytics",
         "description": "Leading GPO and performance improvement alliance serving 4,400+ hospitals and health systems.",
         "headquarters": "Charlotte, NC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2872,7 +2872,7 @@
         "sector": "Distribution & MedTech",
         "description": "Major distributor of pharmaceuticals and medical products; also manufactures surgical and infection-prevention products.",
         "headquarters": "Dublin, OH",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2884,7 +2884,7 @@
         "sector": "Pharmaceuticals",
         "description": "Global pharmaceutical leader in vaccines, oncology, and internal medicine; known for mRNA COVID-19 vaccine.",
         "headquarters": "New York, NY",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2896,7 +2896,7 @@
         "sector": "Acute & Community Care",
         "description": "Large nonprofit system formed from Advocate Aurora Health merger; operates 67 hospitals across Illinois, Wisconsin, North Carolina, and Georgia.",
         "headquarters": "Charlotte, NC",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2908,7 +2908,7 @@
         "sector": "Imaging & Diagnostics",
         "description": "Global medtech leader in imaging, diagnostics, and advanced therapies; spun from Siemens AG.",
         "headquarters": "Erlangen, Germany",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2920,7 +2920,7 @@
         "sector": "Pharmaceuticals",
         "description": "Swiss multinational pharma with strong oncology, generics (Sandoz), and gene/cell therapy portfolio.",
         "headquarters": "Basel, Switzerland",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2932,7 +2932,7 @@
         "sector": "Clinical Diagnostics",
         "description": "Largest clinical lab network in the US performing diagnostic testing for hospitals, physicians, and consumers.",
         "headquarters": "Secaucus, NJ",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2944,7 +2944,7 @@
         "concerns": "funding, publication, tenure, research ethics",
         "description": "Universities, medical schools, and research institutes advancing clinical and translational science.",
         "influence_level": "medium",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2956,7 +2956,7 @@
         "sector": "Pharmacy Benefit Management",
         "description": "UnitedHealth's PBM serving 65+ million people with pharmacy care services, specialty pharmacy, and home delivery.",
         "headquarters": "Eden Prairie, MN",
-        "tier": "5"
+        "tier": 5
       }
     },
     {
@@ -2965,7 +2965,7 @@
       "attributes": {
         "name": "Cardiology Data Exchange",
         "description": "Standardized exchange of ECG, echocardiogram, and catheterization data between cardiology systems.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -2974,7 +2974,7 @@
       "attributes": {
         "name": "Oncology Interoperability",
         "description": "FHIR-based exchange of cancer registries, genomic markers, and treatment protocols.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -2983,7 +2983,7 @@
       "attributes": {
         "name": "Emergency Dispatch Integration",
         "description": "Real-time integration between EMS dispatch, emergency departments, and trauma centers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -2992,7 +2992,7 @@
       "attributes": {
         "name": "ICU Remote Monitoring",
         "description": "Continuous vital signs and alarm telemetry from ICU beds to central monitoring stations.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3001,7 +3001,7 @@
       "attributes": {
         "name": "Inpatient EHR Integration",
         "description": "HL7 FHIR interface connecting inpatient EHR with pharmacy, lab, and radiology systems.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3010,7 +3010,7 @@
       "attributes": {
         "name": "Ambulatory EHR Integration",
         "description": "Integration between ambulatory EHR, patient portals, and referral management.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3019,7 +3019,7 @@
       "attributes": {
         "name": "Telehealth Video Platform",
         "description": "HIPAA-compliant video, audio, and screen-sharing interface for virtual visits.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3028,7 +3028,7 @@
       "attributes": {
         "name": "Wearables Data Sync",
         "description": "Bluetooth / REST API synchronization of consumer and clinical wearable devices.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3037,7 +3037,7 @@
       "attributes": {
         "name": "FDA Regulatory Submission",
         "description": "Electronic submission gateway for IND, NDA, PMA, and 510(k) regulatory filings.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3046,7 +3046,7 @@
       "attributes": {
         "name": "CMS Claims Processing",
         "description": "X12 837/835 electronic claims submission and remittance for Medicare/Medicaid.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3055,7 +3055,7 @@
       "attributes": {
         "name": "Accreditation Survey Exchange",
         "description": "Data exchange platform for Joint Commission, NCQA, and URAC accreditation surveys.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3064,7 +3064,7 @@
       "attributes": {
         "name": "Pharma Manufacturing Execution",
         "description": "MES / ERP integration for batch records, quality control, and serialization.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3073,7 +3073,7 @@
       "attributes": {
         "name": "Supply Chain Track & Trace",
         "description": "GS1-standardized serialization and traceability for drugs and devices.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3082,7 +3082,7 @@
       "attributes": {
         "name": "Disaster Alert Network",
         "description": "Multi-agency alert and resource coordination interface for emergency response.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3091,7 +3091,7 @@
       "attributes": {
         "name": "Surveillance Reporting",
         "description": "Automated case reporting from EHR to public health agencies via eCR.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3100,7 +3100,7 @@
       "attributes": {
         "name": "Immunization Registry Exchange",
         "description": "Bidirectional exchange of vaccination records with state immunization registries.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3109,7 +3109,7 @@
       "attributes": {
         "name": "Home Health Sync",
         "description": "Integration between home health agencies, remote monitoring, and primary care.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3118,7 +3118,7 @@
       "attributes": {
         "name": "Long-Term Care Integration",
         "description": "Data sharing between skilled nursing, hospice, and post-acute care providers.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3127,7 +3127,7 @@
       "attributes": {
         "name": "Mental Health Data Sharing",
         "description": "Secure exchange of behavioral health records with primary care and crisis services.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3136,7 +3136,7 @@
       "attributes": {
         "name": "Clinical Research Data Interface",
         "description": "De-identified data extraction interface for clinical trials and real-world evidence.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3145,7 +3145,7 @@
       "attributes": {
         "name": "ECG Data Port",
         "description": "Output port for electrocardiogram waveform data.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3154,7 +3154,7 @@
       "attributes": {
         "name": "Lab Order Input Port",
         "description": "Input port for laboratory test orders.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3163,7 +3163,7 @@
       "attributes": {
         "name": "Lab Result Output Port",
         "description": "Output port for laboratory results.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3172,7 +3172,7 @@
       "attributes": {
         "name": "Prescription Input Port",
         "description": "Input port for electronic prescriptions.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3181,7 +3181,7 @@
       "attributes": {
         "name": "Prescription Output Port",
         "description": "Output port for prescription fill status.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3190,7 +3190,7 @@
       "attributes": {
         "name": "Imaging Output Port",
         "description": "Output port for DICOM imaging studies.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3199,7 +3199,7 @@
       "attributes": {
         "name": "ADT Input Port",
         "description": "Input port for admission, discharge, and transfer notifications.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3208,7 +3208,7 @@
       "attributes": {
         "name": "Billing Output Port",
         "description": "Output port for charge capture and billing.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3217,7 +3217,7 @@
       "attributes": {
         "name": "Vitals Input Port",
         "description": "Input port for continuous vital signs streams.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3226,7 +3226,7 @@
       "attributes": {
         "name": "Alert Output Port",
         "description": "Output port for critical alarm and alert notifications.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3235,7 +3235,7 @@
       "attributes": {
         "name": "Telehealth Input Port",
         "description": "Input port for video session initiation.",
-        "tier": "7"
+        "tier": 7
       }
     },
     {
@@ -3244,7 +3244,213 @@
       "attributes": {
         "name": "Device Sync Port",
         "description": "Bidirectional port for medical device synchronization.",
-        "tier": "7"
+        "tier": 7
+      }
+    },
+    {
+      "id": "fn-prevent-disease",
+      "kind": "Function",
+      "attributes": {
+        "name": "Prevent Disease",
+        "description": "Population-level prevention through screening, immunization, and education.",
+        "tier": 2
+      }
+    },
+    {
+      "id": "uc-ed-flow",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Emergency Department Patient Flow",
+        "description": "Manage patient triage, diagnosis, treatment, and disposition in an emergency department setting.",
+        "actor": "Emergency Medicine Physician, Registered Nurse",
+        "priority": "critical",
+        "domain": "Care Delivery",
+        "status": "Active",
+        "tier": 6
+      }
+    },
+    {
+      "id": "uc-claims-process",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Process Insurance Claim",
+        "description": "Verify patient eligibility, adjudicate claims, and disburse payment to providers.",
+        "actor": "Claims Adjuster, Insurance Underwriter",
+        "priority": "high",
+        "domain": "Health Financing",
+        "status": "Active",
+        "tier": 6
+      }
+    },
+    {
+      "id": "uc-drug-approval",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "New Drug Approval Lifecycle",
+        "description": "Discover therapeutic targets, conduct preclinical and clinical studies, and submit for regulatory approval.",
+        "actor": "Regulatory Affairs Specialist, Clinical Trial Coordinator",
+        "priority": "critical",
+        "domain": "Pharma & Life Sciences",
+        "status": "Active",
+        "tier": 6
+      }
+    },
+    {
+      "id": "uc-outbreak-response",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Population Health Outbreak Response",
+        "description": "Detect disease outbreaks, alert stakeholders, and coordinate public health interventions.",
+        "actor": "Public Health Agencies",
+        "priority": "critical",
+        "domain": "Public Health",
+        "status": "Active",
+        "tier": 6
+      }
+    },
+    {
+      "id": "uc-quality-audit",
+      "kind": "UseCase",
+      "attributes": {
+        "name": "Hospital Quality Assurance Audit",
+        "description": "Measure clinical quality, ensure regulatory compliance, and maintain accreditation standards.",
+        "actor": "Hospital CEO, Health Information Manager",
+        "priority": "high",
+        "domain": "Regulatory & Policy",
+        "status": "Active",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-mass-casualty",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Mass Casualty Triage",
+        "description": "Twelve patients arrive simultaneously after a multi-vehicle accident. ED staff perform START triage, tag patients by severity, stabilize critical cases in resus bays, and coordinate OR and ICU transfers.",
+        "precondition": "ED fully staffed, trauma teams on call, surge capacity plan activated",
+        "postcondition": "All patients triaged within 15 minutes, critical cases stabilized, OR booked",
+        "steps": "1. EMS announces mass casualty incident | 2. Charge nurse activates surge protocol | 3. Triage officer tags patients (red/yellow/green/black) | 4. Red patients moved to resus bays | 5. Trauma surgeon and anesthesiologist paged | 6. Labs and imaging prioritize critical cases | 7. OR and ICU beds secured | 8. Family liaison activated | 9. Incident commander documents timeline",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-critical-stabilization",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Critical Patient Stabilization",
+        "description": "65-year-old male arrives by EMS in cardiac arrest. ED team performs high-quality CPR, administers epinephrine, achieves ROSC after 8 minutes, initiates targeted temperature management, and prepares for cardiac catheterization.",
+        "precondition": "EMS pre-notification received, cardiac arrest cart ready, cath lab on standby",
+        "postcondition": "ROSC achieved, patient intubated, TTM initiated, cath lab activated",
+        "steps": "1. EMS hands off with compression checklist | 2. Team leader assigns roles (airway, compressions, meds, recorder) | 3. High-quality CPR continued with minimal interruptions | 4. IV/IO access established, epinephrine 1mg q3-5min | 5. Rhythm analyzed every 2 minutes | 6. ROSC achieved after 8 minutes | 7. Post-arrest care bundle initiated | 8. 12-lead ECG obtained | 9. STEMI protocol activated, cath lab notified | 10. TTM target 33\u00b0C initiated within 6 hours",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-routine-discharge",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Routine Patient Discharge",
+        "description": "Patient with minor laceration receives wound repair, tetanus update, and discharge instructions with return precautions and primary care follow-up scheduled.",
+        "precondition": "Wound assessed, no tendon or nerve injury, patient stable",
+        "postcondition": "Wound closed, immunization updated, discharge instructions given, PCP follow-up booked",
+        "steps": "1. Wound irrigated and explored | 2. Local anesthesia administered | 3. Layered repair performed | 4. Dressing applied | 5. Tetanus status verified and updated if needed | 6. Discharge instructions printed and reviewed | 7. Return precautions explained | 8. PCP follow-up scheduled via patient portal | 9. Prescription sent to pharmacy | 10. Patient escorted to exit",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-routine-claim",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Routine Claim Adjudication",
+        "description": "Primary care visit claim submitted electronically. System auto-adjudicates against patient benefits, provider contract, and medical policy. Payment disbursed to provider within 24 hours.",
+        "precondition": "Claim received with valid member ID, CPT/ICD-10 codes, and provider NPI",
+        "postcondition": "Claim adjudicated, EOB generated, payment scheduled",
+        "steps": "1. Claim ingested from clearinghouse | 2. Member eligibility verified in real time | 3. Provider credentialing and contract rates applied | 4. Medical policy edits run (experimental, prior auth) | 5. Coordination of benefits checked | 6. Allowed amount calculated | 7. Deductible and copay applied | 8. Payment disposition: approve, pend, or deny | 9. EOB generated and routed | 10. ACH payment disbursed to provider",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-prior-auth",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Prior Authorization Approval",
+        "description": "Outpatient MRI of lumbar spine requested by orthopedic specialist. Reviewed against clinical criteria, approved with condition that conservative management was attempted for 6 weeks.",
+        "precondition": "Request submitted with clinical notes, imaging history, and planned CPT code",
+        "postcondition": "Prior auth approved with reference number, validity period, and facility restriction",
+        "steps": "1. Provider submits prior auth via portal or fax | 2. Intake technician validates completeness | 3. Clinical criteria engine scores request | 4. Nurse reviewer assesses medical necessity | 5. Conservative management history verified | 6. Peer-to-peer consult offered if denied | 7. Decision rendered: approved with conditions | 8. Reference number issued | 9. Provider and patient notified | 10. Auth synced to claims system for auto-matching",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-phase-iii",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Phase III Clinical Trial Execution",
+        "description": "Multi-site randomized controlled trial for novel oncology immunotherapy. 1,200 patients enrolled across 45 sites. Primary endpoint: progression-free survival. Secondary: overall survival, quality of life, biomarker response.",
+        "precondition": "IND active, protocol finalized, sites activated, DSMB chartered",
+        "postcondition": "Database lock achieved, statistical analysis plan executed, CSR drafted",
+        "steps": "1. Site initiation visits completed | 2. First patient dosed | 3. Safety monitoring every 2 weeks for first 12 weeks | 4. Interim analysis at 50% events | 5. DSMB review of futility and safety boundaries | 6. Enrollment completed at 1,200 patients | 7. Final follow-up visit | 8. Database query and lock | 9. Biostatistical analysis per SAP | 10. Clinical Study Report drafted | 11. Manuscript submitted to peer-reviewed journal",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-nda-review",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "FDA New Drug Application Review",
+        "description": "Complete NDA submission for oncology immunotherapy reviewed by CDER. Modules 1-5 assessed: administrative, summaries, quality, nonclinical, clinical. Advisory committee convened. Approval with Risk Evaluation and Mitigation Strategy.",
+        "precondition": "NDA submitted, user fee paid, proprietary name proposed, labeling draft included",
+        "postcondition": "Approval letter issued, REMS approved, launch authorized",
+        "steps": "1. NDA received and filed (60-day filing review) | 2. Multi-disciplinary review team assigned | 3. Chemistry, manufacturing, and controls review | 4. Nonclinical pharmacology/toxicology review | 5. Clinical review of efficacy and safety | 6. Statistical review of trial design and analysis | 7. Clinical pharmacology review | 8. Labeling negotiations | 9. Advisory committee meeting | 10. Facility inspection (PAI) | 11. Action letter: approval with REMS",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-pandemic-surge",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Pandemic Surveillance & Alert",
+        "description": "Syndromic surveillance system detects 300% increase in influenza-like illness across three counties over 72 hours. Public health agency issues health alert, activates EOC, and coordinates testing surge.",
+        "precondition": "Syndromic surveillance active, ILI baseline established, lab capacity mapped",
+        "postcondition": "Health alert issued, EOC activated, testing sites mobilized, HAN message distributed",
+        "steps": "1. Syndromic data anomaly flagged by statistical algorithm | 2. Epidemiologist validates signal against lab data | 3. Case interviews initiated | 4. Confirmatory testing at state PHL | 5. Incident command system activated | 6. Health Alert Network message drafted | 7. Healthcare providers alerted via EHR inbox | 8. Media briefing scheduled | 9. Testing sites identified and staffed | 10. Supply chain for PPE and reagents activated | 11. Daily situational reports initiated",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-vax-campaign",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Vaccination Campaign Rollout",
+        "description": "Mass vaccination campaign targets 80% coverage of eligible adults across a state within 90 days. Sites include pharmacies, mobile clinics, and mass vaccination centers. Equity focus on underserved ZIP codes.",
+        "precondition": "Vaccine supply secured, cold chain validated, enrollment system live, workforce trained",
+        "postcondition": "80% coverage achieved, equity gap <5%, adverse events monitored",
+        "steps": "1. Target population stratified by age, comorbidity, geography | 2. Enrollment portal launched with multilingual support | 3. Appointment scheduling optimized for equity | 4. First-dose administration at tier-1 sites | 5. Mobile clinics deployed to underserved areas | 6. Second-dose recall system activated | 7. Real-time coverage dashboard published | 8. Adverse event surveillance via VAERS and V-safe | 9. Community health worker outreach to hesitant populations | 10. Final coverage audit and equity analysis | 11. Transition to maintenance phase",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-star-ratings",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "CMS Star Ratings Review",
+        "description": "Annual Hospital Compare quality assessment evaluates mortality, safety of care, readmissions, patient experience, and timely and effective care. Hospital benchmarks against national and peer group percentiles.",
+        "precondition": "12 months of data collected, measures validated, risk adjustment applied",
+        "postcondition": "Star rating calculated, public report published, improvement priorities identified",
+        "steps": "1. Data extraction from EHR, claims, and surveys | 2. Measure calculation per CMS specifications | 3. Risk adjustment for mortality and readmission measures | 4. Peer group stratification by hospital characteristics | 5. National percentile ranking | 6. Star rating algorithm applied | 7. Preview report reviewed for data quality | 8. Public release on Hospital Compare | 9. Board presentation on performance | 10. Gap analysis and improvement plan drafted | 11. Accountability metrics assigned to clinical service lines",
+        "tier": 6
+      }
+    },
+    {
+      "id": "sc-value-based",
+      "kind": "Scenario",
+      "attributes": {
+        "name": "Value-Based Care Metrics Assessment",
+        "description": "Medicare ACO tracks quality and cost performance against benchmarks. Shared savings calculated based on quality score threshold and per-capita cost reduction. Provider incentive payments aligned to quality metrics.",
+        "precondition": "Performance year complete, attribution finalized, claims runout achieved",
+        "postcondition": "Quality score calculated, savings/losses determined, distribution plan approved",
+        "steps": "1. Beneficiary attribution finalized (prospective and retrospective) | 2. Quality measures extracted from registry and survey data | 3. Quality score computed (0-100%) | 4. Total cost of care calculated with trend adjustment | 5. Benchmark comparison against regional/national targets | 6. Savings/losses determination | 7. Minimum savings rate applied | 8. Shared savings distribution model calculated | 9. Provider-specific quality and utilization reports generated | 10. Governing body approves distribution | 11. Payments disbursed with 6-month holdback for data correction",
+        "tier": 6
       }
     }
   ],
@@ -13279,6 +13485,3054 @@
       "source": "care-delivery",
       "target": "sig-rx-fill",
       "type": "consumes",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "emergency-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "emergency-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "emergency-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "preventive-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "preventive-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "preventive-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "oncology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "oncology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "hospice",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "hospice",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "hospice",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "store-forward",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "store-forward",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "store-forward",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "specialty-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "orthopedics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "orthopedics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "ems-transport",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "ems-transport",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "ems-transport",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "virtual-visits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "virtual-visits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "virtual-visits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "community-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "community-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "trauma-centers",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "trauma-centers",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "trauma-centers",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "telehealth",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "telehealth",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "home-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "skilled-nursing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "skilled-nursing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "skilled-nursing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "remote-monitoring",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "remote-monitoring",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "remote-monitoring",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "long-term-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "long-term-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "acute-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "primary-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "cardiology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "cardiology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "emergency-dept",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "emergency-dept",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "intensive-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "intensive-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "family-medicine",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "family-medicine",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "surgical-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "behavioral-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-deliver-care",
+      "target": "behavioral-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "general-wards",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "general-wards",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "intensive-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "intensive-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "oncology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "oncology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "orthopedics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "orthopedics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "surgical-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "surgical-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "general-wards",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "general-wards",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "cardiology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "cardiology",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "emergency-dept",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "trauma-centers",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "family-medicine",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "community-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "preventive-services",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "behavioral-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "virtual-visits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "virtual-visits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "store-forward",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "store-forward",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "remote-monitoring",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "remote-monitoring",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "carequality",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "carequality",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "carequality",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "state-hie",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "state-hie",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "commonwell",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "commonwell",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "commonwell",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "inpatient-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "inpatient-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "inpatient-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "ambulatory-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "ambulatory-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "ambulatory-ehr",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "hie-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "state-hie",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "carequality",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-exchange-data",
+      "target": "health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "commonwell",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-identify-disparities",
+      "target": "clinical-ai",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-analyze",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-identify-disparities",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "pop-health-analytics",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "lab-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "lab-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "lab-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "lab-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-analyze",
+      "target": "lab-networks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "case-reporting",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "case-reporting",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-analyze",
+      "target": "case-reporting",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "syndromic-surveillance",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "syndromic-surveillance",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "mail-order-pharmacy",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "mail-order-pharmacy",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "mail-order-pharmacy",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "medicare-advantage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "medicare-advantage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "medicare-advantage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "employer-plans",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "employer-plans",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "rebate-negotiation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "rebate-negotiation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "rebate-negotiation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "va-benefits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "va-benefits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "va-benefits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "medicare-traditional",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "medicare-traditional",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "medicare-traditional",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "formulary-mgmt",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "formulary-mgmt",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "formulary-mgmt",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "pbm",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-pool-risk",
+      "target": "medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "individual-market",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "individual-market",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "medicare-advantage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "medicare-advantage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "employer-plans",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "employer-plans",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "individual-market",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "individual-market",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "medicare-traditional",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "va-benefits",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-ensure-quality",
+      "target": "center-medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "center-medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "center-medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "center-medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "center-medicaid",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "cms-innovation-center",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-ensure-quality",
+      "target": "center-medicare",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "center-medicare",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "center-medicare",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "center-medicare",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "center-medicare",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-ensure-quality",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-process-claims",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "center-integrity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "formulary-mgmt",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "rebate-negotiation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "mail-order-pharmacy",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "cdrh",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "cdrh",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "cdrh",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "cdrh",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "cdrh",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "cder",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "cder",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "cder",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "cder",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "cber",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "cber",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "cber",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "cber",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "cber",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulatory-submit",
+      "target": "office-science",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "office-science",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "office-science",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "office-science",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "office-science",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "ncqa",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "ncqa",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "urac",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "urac",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "joint-commission",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "joint-commission",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulate",
+      "target": "accreditation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "accreditation",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "strategic-stockpile",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "strategic-stockpile",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "strategic-stockpile",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "health-education",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "health-education",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "health-education",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "emergency-preparedness",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "emergency-preparedness",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "emergency-preparedness",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "surge-capacity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "surge-capacity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "surge-capacity",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "immunization",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "immunization",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "immunization",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-pop-health",
+      "target": "pandemic-planning",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "pandemic-planning",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "pandemic-planning",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "formulation-plant",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "formulation-plant",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "clinical-trials",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "class-iii-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "class-iii-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "preclinical",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "packaging-dist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "packaging-dist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "diagnostics-ivd",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "diagnostics-ivd",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "medical-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "medical-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "class-ii-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "class-ii-devices",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "wearables",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "wearables",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "api-synthesis",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "api-synthesis",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-develop-therapies",
+      "target": "regulatory-affairs",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "regulatory-affairs",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "manufacturing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "preclinical",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "regulatory-affairs",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "regulatory-affairs",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "clinical-trials",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "real-world-evidence",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "drug-discovery",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "drug-discovery",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "ihs-fed",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "hrsa",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "nih",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "ahrq",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-set-policy",
+      "target": "samhsa",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "disaster-response",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "ems-transport",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "fn-deliver-care",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "fn-exchange-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "fn-ensure-quality",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "fn-regulate",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "fn-exchange-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "fn-process-claims",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "fn-monitor-pop-health",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa-admin",
+      "target": "fn-capture",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa-physical",
+      "target": "fn-store",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa-technical",
+      "target": "fn-transmit",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-preclinical-data",
+      "target": "fn-preclinical",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-phase-i-safety",
+      "target": "fn-clinical-trials",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-phase-iii-efficacy",
+      "target": "fn-clinical-trials",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hospital-compare",
+      "target": "fn-ensure-quality",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-star-ratings",
+      "target": "fn-ensure-quality",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-value-based-metrics",
+      "target": "fn-process-claims",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fhir-apis",
+      "target": "fn-exchange-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-uscdi",
+      "target": "fn-exchange-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-patient-access",
+      "target": "fn-exchange-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-essential-benefits",
+      "target": "fn-deliver-care",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-network-adequacy",
+      "target": "fn-deliver-care",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-prior-auth-limits",
+      "target": "fn-process-claims",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "ncqa",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "cdrh",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "cms-innovation-center",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "fda",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "urac",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "cder",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "cber",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "office-science",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "center-medicaid",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "joint-commission",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "center-integrity",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "cms",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "regulatory-policy",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "accreditation",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "center-medicare",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "clinical-ai",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "clinical-ai",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "pop-health-analytics",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "pop-health-analytics",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "hie-networks",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "hie-networks",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "real-world-evidence",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "real-world-evidence",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "ehr-vendors",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "ehr-vendors",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "state-hie",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "state-hie",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "ambulatory-ehr",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "ambulatory-ehr",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "carequality",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "carequality",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "health-analytics",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "health-analytics",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "commonwell",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "commonwell",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "health-it",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "health-it",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "inpatient-ehr",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-hipaa",
+      "target": "inpatient-ehr",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "center-medicaid",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "center-medicaid",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "cms-innovation-center",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "cms-innovation-center",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "cms",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "cms",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "center-medicare",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "center-medicare",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "center-integrity",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "center-integrity",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "cdrh",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "fda",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "cder",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "cber",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "office-science",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "strategic-stockpile",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "lab-networks",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "disaster-response",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "case-reporting",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "health-education",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "public-health",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "surveillance",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "emergency-preparedness",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "surge-capacity",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "syndromic-surveillance",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "immunization",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "pandemic-planning",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "prevention",
+      "target": "fn-prevent-disease",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "fn-prevent-disease",
+      "target": "immunization",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-prevent-disease",
+      "target": "prevention",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-prevent-disease",
+      "target": "screening-programs",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-prevent-disease",
+      "target": "health-education",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "prevention",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "screening-programs",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "accreditation",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "joint-commission",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "ncqa",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-quality-reporting",
+      "target": "urac",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "medical-devices",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "class-ii-devices",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "class-iii-devices",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "diagnostics-ivd",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-fda-safety",
+      "target": "wearables",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "telehealth",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "virtual-visits",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "remote-monitoring",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-interoperability",
+      "target": "store-forward",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "public-programs",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "medicare-traditional",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "medicare-advantage",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "medicaid",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "va-benefits",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "pbm",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "formulary-mgmt",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "rebate-negotiation",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-cost-containment",
+      "target": "mail-order-pharmacy",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-health-equity",
+      "target": "fn-prevent-disease",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "state-medicaid-agencies",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "healthcare-ecosystem",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "va-health-admin",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "req-universal-access",
+      "target": "dod-mhs",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "fn-ensure-quality",
+      "target": "regulatory-policy",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-educate-workforce",
+      "target": "care-delivery",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-triage",
+      "target": "actor-emergency-physician",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "actor-primary-care-physician",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "actor-specialist-physician",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-diagnose",
+      "target": "actor-radiologist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "actor-surgeon",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "actor-anesthesiologist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-treat",
+      "target": "actor-pharmacist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "actor-registered-nurse",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-coordinate-care",
+      "target": "actor-nurse-practitioner",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "health-financing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-verify-eligibility",
+      "target": "actor-claims-adjuster",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "health-financing",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-adjudicate-claims",
+      "target": "actor-claims-adjuster",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-disburse-payment",
+      "target": "actor-claims-adjuster",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-discover",
+      "target": "actor-clinical-trial-coordinator",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-preclinical",
+      "target": "actor-clinical-lab-tech",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-clinical-trials",
+      "target": "actor-clinical-trial-coordinator",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-regulatory-submit",
+      "target": "actor-regulatory-affairs-specialist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-capture",
+      "target": "actor-health-info-manager",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-store",
+      "target": "actor-health-info-manager",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-transmit",
+      "target": "actor-health-info-manager",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-analyze",
+      "target": "actor-health-info-manager",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-inspect",
+      "target": "actor-regulatory-affairs-specialist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-accredit",
+      "target": "actor-regulatory-affairs-specialist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-monitor-adverse-events",
+      "target": "actor-regulatory-affairs-specialist",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-detect-outbreaks",
+      "target": "public-health-agencies",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-track-burden",
+      "target": "public-health-agencies",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-identify-disparities",
+      "target": "health-education",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "fn-identify-disparities",
+      "target": "public-health-agencies",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "patient-population",
+      "target": "fn-deliver-care",
+      "type": "receives",
+      "weight": 1
+    },
+    {
+      "source": "nursing-workforce",
+      "target": "fn-deliver-care",
+      "type": "supports",
+      "weight": 1
+    },
+    {
+      "source": "hospital-administrators",
+      "target": "fn-ensure-quality",
+      "type": "oversees",
+      "weight": 1
+    },
+    {
+      "source": "insurance-companies",
+      "target": "fn-process-claims",
+      "type": "funds",
+      "weight": 1
+    },
+    {
+      "source": "pharma-companies",
+      "target": "fn-develop-therapies",
+      "type": "produces",
+      "weight": 1
+    },
+    {
+      "source": "medical-device-companies",
+      "target": "fn-deliver-care",
+      "type": "equips",
+      "weight": 1
+    },
+    {
+      "source": "government-regulators",
+      "target": "fn-regulate",
+      "type": "enforces",
+      "weight": 1
+    },
+    {
+      "source": "public-health-agencies",
+      "target": "fn-monitor-pop-health",
+      "type": "conducts",
+      "weight": 1
+    },
+    {
+      "source": "employer-sponsors",
+      "target": "fn-pool-risk",
+      "type": "sponsors",
+      "weight": 1
+    },
+    {
+      "source": "academic-researchers",
+      "target": "fn-develop-therapies",
+      "type": "researches",
+      "weight": 1
+    },
+    {
+      "source": "patient-advocacy-groups",
+      "target": "fn-monitor-pop-health",
+      "type": "advocates_for",
+      "weight": 1
+    },
+    {
+      "source": "health-it-vendors",
+      "target": "fn-exchange-data",
+      "type": "enables",
+      "weight": 1
+    },
+    {
+      "source": "laboratories",
+      "target": "fn-diagnose",
+      "type": "analyzes",
+      "weight": 1
+    },
+    {
+      "source": "pharmacy-benefit-managers",
+      "target": "fn-process-claims",
+      "type": "administers",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "sc-mass-casualty",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "sc-critical-stabilization",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "sc-routine-discharge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "sc-routine-claim",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "sc-prior-auth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "sc-phase-iii",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "sc-nda-review",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "sc-pandemic-surge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "sc-vax-campaign",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "sc-star-ratings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "sc-value-based",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "req-universal-access",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "req-hipaa",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "req-quality-reporting",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "fn-triage",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "fn-diagnose",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "fn-treat",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "fn-coordinate-care",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "actor-emergency-physician",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "actor-registered-nurse",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "actor-radiologist",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-ed-flow",
+      "target": "actor-anesthesiologist",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "req-prior-auth-limits",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "req-essential-benefits",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "req-network-adequacy",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "req-hipaa-admin",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "fn-process-claims",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "fn-verify-eligibility",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "fn-adjudicate-claims",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "fn-disburse-payment",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "actor-claims-adjuster",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "actor-insurance-underwriter",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-claims-process",
+      "target": "actor-health-info-manager",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "req-fda-safety",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "req-preclinical-data",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "req-phase-i-safety",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "req-phase-iii-efficacy",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "fn-discover",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "fn-preclinical",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "fn-clinical-trials",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "fn-regulatory-submit",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "actor-clinical-trial-coordinator",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-drug-approval",
+      "target": "actor-regulatory-affairs-specialist",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "req-health-equity",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "req-quality-reporting",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "req-interoperability",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "fn-monitor-pop-health",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "fn-detect-outbreaks",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "fn-track-burden",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "fn-analyze",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-outbreak-response",
+      "target": "actor-health-info-manager",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "req-hospital-compare",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "req-star-ratings",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "req-value-based-metrics",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "req-cost-containment",
+      "type": "satisfy",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "fn-ensure-quality",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "fn-inspect",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "fn-accredit",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "fn-analyze",
+      "type": "allocated_to",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "actor-hospital-ceo",
+      "type": "involves",
+      "weight": 1
+    },
+    {
+      "source": "uc-quality-audit",
+      "target": "actor-health-info-manager",
+      "type": "involves",
       "weight": 1
     }
   ]

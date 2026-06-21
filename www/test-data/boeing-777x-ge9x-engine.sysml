@@ -735,6 +735,9 @@ package GE9X_105B1A {
         doc /* Abstract base for all GE9X engine-level functions. */
         attribute functionId     : String;
         attribute dalLevel       : String;   // DO-178C / ARP 4754A level
+        // explicit input/output signals
+        in controlInput : DiscreteSignalPort;
+        out statusOutput : DiscreteSignalPort;
     }
 
     // ATA 71 — Power Plant core function
@@ -744,12 +747,20 @@ package GE9X_105B1A {
         action compressAir        : CompressInletAir;
         action burnFuel           : BurnFuelMixture;
         action expandGas          : ExpandCombustionGas;
+        // explicit input/output signals
+        in ambientAir : AirInletPort;
+        in fuelFlow : EngineFuelPort;
+        out coreThrust : ThrustOutputPort;
+        out bypassThrust : ThrustOutputPort;
     }
 
     // ATA 71 — Bypass duct thrust
     action def GenerateBypassThrust :> EngineFunction {
         attribute :>> functionId  = "EF-02";
         attribute :>> dalLevel    = "DAL-A";
+        // explicit input/output signals
+        in fanAir : BypassAirPort;
+        out bypassThrust : ThrustOutputPort;
     }
 
     // ATA 73 — Fuel and control
@@ -758,6 +769,10 @@ package GE9X_105B1A {
         attribute :>> dalLevel    = "DAL-A";
         action meterFuelFlow      : MeterFuelDelivery;
         action scheduleFuelFlow   : ScheduleFuelFlow;
+        // explicit input/output signals
+        in fuelDemand : EngineFuelPort;
+        in fadecCommand : FuelMeteringValvePort;
+        out meteredFuel : EngineFuelPort;
     }
 
     // ATA 76 — Engine controls (FADEC)
@@ -770,6 +785,13 @@ package GE9X_105B1A {
         action controlBleeds      : ControlBleedExtractionValves;
         action manageStartup      : ManageEngineStartSequence;
         action manageSdp          : ManageShutdownSequence;
+        // explicit input/output signals
+        in thrustLeverAngle : ThrustLeverPort;
+        in sensorBus : EngineSensorBus;
+        in electricalPower : ElectricalBusInput;
+        out fuelMeteringCmd : FuelMeteringValvePort;
+        out vsvCmd : VGVActuationPort;
+        out bleedCmd : DiscreteSignalPort;
     }
 
     // ATA 79 — Engine oil system
@@ -779,12 +801,21 @@ package GE9X_105B1A {
         action circulateOil       : CirculateEngineOil;
         action coolOil            : CoolEngineOil;
         action monitorOilHealth   : MonitorOilDegradation;
+        // explicit input/output signals
+        in oilTemp : OilCoolingPort;
+        in oilPressure : OilCoolingPort;
+        out cooledOil : OilCoolingPort;
+        out chipWarning : DiscreteSignalPort;
     }
 
     // ATA 80 — Engine starting
     action def StartEngine :> EngineFunction {
         attribute :>> functionId  = "EF-06";
         attribute :>> dalLevel    = "DAL-B";
+        // explicit input/output signals
+        in airStartPressure : BleedAirPort;
+        in fadecStartCmd : DiscreteSignalPort;
+        out starterTorque : LPShaftPort;
     }
 
     // ATA 78 — Thrust reverser control
@@ -793,6 +824,11 @@ package GE9X_105B1A {
         attribute :>> dalLevel    = "DAL-A";
         action verifyGround       : VerifyGroundContact;
         action deployBuckets      : DeployReverseBuckets;
+        // explicit input/output signals
+        in reverserCommand : DiscreteSignalPort;
+        in wowSignal : DiscreteSignalPort;
+        in hydraulicPressure : HydraulicPort;
+        out reverserPosition : DiscreteSignalPort;
     }
 
     // ATA 77 / AHM — Engine health monitoring
@@ -802,28 +838,139 @@ package GE9X_105B1A {
         action trackVibration     : TrackEngineVibration;
         action trackEGT           : TrackExhaustGasTemp;
         action runOBW             : RunOnboardDiagnostics;
+        // explicit input/output signals
+        in vibrationSignals : VibSensorPort;
+        in egtSignals : EngineSensorBus;
+        in oilSignals : OilCoolingPort;
+        out healthReport : ARINC429DataPort;
     }
 
     // Sub-functions referenced above (leaf action defs)
-    action def CompressInletAir        :> EngineFunction { attribute :>> functionId = "EF-01a"; }
-    action def BurnFuelMixture         :> EngineFunction { attribute :>> functionId = "EF-01b"; }
-    action def ExpandCombustionGas     :> EngineFunction { attribute :>> functionId = "EF-01c"; }
-    action def MeterFuelDelivery       :> EngineFunction { attribute :>> functionId = "EF-03a"; }
-    action def ScheduleFuelFlow        :> EngineFunction { attribute :>> functionId = "EF-03b"; }
-    action def ComputeThrottleResolverAngle :> EngineFunction { attribute :>> functionId = "EF-04a"; }
-    action def ManageEngineOperatingLimits  :> EngineFunction { attribute :>> functionId = "EF-04b"; }
-    action def ScheduleVariableGeometryVanes :> EngineFunction { attribute :>> functionId = "EF-04c"; }
-    action def ControlBleedExtractionValves  :> EngineFunction { attribute :>> functionId = "EF-04d"; }
-    action def ManageEngineStartSequence :> EngineFunction { attribute :>> functionId = "EF-04e"; }
-    action def ManageShutdownSequence    :> EngineFunction { attribute :>> functionId = "EF-04f"; }
-    action def CirculateEngineOil        :> EngineFunction { attribute :>> functionId = "EF-05a"; }
-    action def CoolEngineOil             :> EngineFunction { attribute :>> functionId = "EF-05b"; }
-    action def MonitorOilDegradation     :> EngineFunction { attribute :>> functionId = "EF-05c"; }
-    action def VerifyGroundContact       :> EngineFunction { attribute :>> functionId = "EF-07a"; }
-    action def DeployReverseBuckets      :> EngineFunction { attribute :>> functionId = "EF-07b"; }
-    action def TrackEngineVibration      :> EngineFunction { attribute :>> functionId = "EF-08a"; }
-    action def TrackExhaustGasTemp       :> EngineFunction { attribute :>> functionId = "EF-08b"; }
-    action def RunOnboardDiagnostics     :> EngineFunction { attribute :>> functionId = "EF-08c"; }
+    action def CompressInletAir :> EngineFunction {
+        attribute :>> functionId = "EF-01a";
+        // explicit input/output signals
+        in coreAirIn : CoreAirPort;
+        out compressedAir : CoreAirPort;
+    }
+    action def BurnFuelMixture :> EngineFunction {
+        attribute :>> functionId = "EF-01b";
+        // explicit input/output signals
+        in air : CoreAirPort;
+        in fuel : EngineFuelPort;
+        out hotGas : HotGasPort;
+    }
+    action def ExpandCombustionGas :> EngineFunction {
+        attribute :>> functionId = "EF-01c";
+        // explicit input/output signals
+        in hotGas : HotGasPort;
+        out expandedGas : HotGasPort;
+        out shaftWork : HPShaftPort;
+    }
+    action def MeterFuelDelivery :> EngineFunction {
+        attribute :>> functionId = "EF-03a";
+        // explicit input/output signals
+        in fuelIn : EngineFuelPort;
+        in cmdPosition : FuelMeteringValvePort;
+        out fuelToNozzles : EngineFuelPort;
+    }
+    action def ScheduleFuelFlow :> EngineFunction {
+        attribute :>> functionId = "EF-03b";
+        // explicit input/output signals
+        in thrustCmd : ThrustLeverPort;
+        in n1 : LPShaftPort;
+        out fuelSchedule : EngineFuelPort;
+    }
+    action def ComputeThrottleResolverAngle :> EngineFunction {
+        attribute :>> functionId = "EF-04a";
+        // explicit input/output signals
+        in tla : ThrustLeverPort;
+        out resolverAngle : Real;
+    }
+    action def ManageEngineOperatingLimits :> EngineFunction {
+        attribute :>> functionId = "EF-04b";
+        // explicit input/output signals
+        in n1 : LPShaftPort;
+        in n2 : HPShaftPort;
+        in egt : EngineSensorBus;
+        out limitFlags : DiscreteSignalPort;
+    }
+    action def ScheduleVariableGeometryVanes :> EngineFunction {
+        attribute :>> functionId = "EF-04c";
+        // explicit input/output signals
+        in n2 : HPShaftPort;
+        out vsvAngle : VGVActuationPort;
+    }
+    action def ControlBleedExtractionValves :> EngineFunction {
+        attribute :>> functionId = "EF-04d";
+        // explicit input/output signals
+        in n2 : HPShaftPort;
+        in bleedDemand : DiscreteSignalPort;
+        out bleedValveCmd : DiscreteSignalPort;
+    }
+    action def ManageEngineStartSequence :> EngineFunction {
+        attribute :>> functionId = "EF-04e";
+        // explicit input/output signals
+        in n2 : HPShaftPort;
+        in igniterStatus : DiscreteSignalPort;
+        out startComplete : DiscreteSignalPort;
+    }
+    action def ManageShutdownSequence :> EngineFunction {
+        attribute :>> functionId = "EF-04f";
+        // explicit input/output signals
+        in runSignal : DiscreteSignalPort;
+        out shutdownComplete : DiscreteSignalPort;
+    }
+    action def CirculateEngineOil :> EngineFunction {
+        attribute :>> functionId = "EF-05a";
+        // explicit input/output signals
+        in oilIn : OilCoolingPort;
+        out oilOut : OilCoolingPort;
+    }
+    action def CoolEngineOil :> EngineFunction {
+        attribute :>> functionId = "EF-05b";
+        // explicit input/output signals
+        in hotOil : OilCoolingPort;
+        in fuelHeatSink : OilCoolingPort;
+        out cooledOil : OilCoolingPort;
+    }
+    action def MonitorOilDegradation :> EngineFunction {
+        attribute :>> functionId = "EF-05c";
+        // explicit input/output signals
+        in oilTemp : OilCoolingPort;
+        in chipSignal : DiscreteSignalPort;
+        out oilHealth : DiscreteSignalPort;
+    }
+    action def VerifyGroundContact :> EngineFunction {
+        attribute :>> functionId = "EF-07a";
+        // explicit input/output signals
+        in wowSignal : DiscreteSignalPort;
+        out groundMode : DiscreteSignalPort;
+    }
+    action def DeployReverseBuckets :> EngineFunction {
+        attribute :>> functionId = "EF-07b";
+        // explicit input/output signals
+        in groundMode : DiscreteSignalPort;
+        in hydraulicPressure : HydraulicPort;
+        out bucketPosition : DiscreteSignalPort;
+    }
+    action def TrackEngineVibration :> EngineFunction {
+        attribute :>> functionId = "EF-08a";
+        // explicit input/output signals
+        in vibrationRaw : VibSensorPort;
+        out vibrationAlarm : DiscreteSignalPort;
+    }
+    action def TrackExhaustGasTemp :> EngineFunction {
+        attribute :>> functionId = "EF-08b";
+        // explicit input/output signals
+        in egtRaw : EngineSensorBus;
+        out egtSpread : EngineSensorBus;
+    }
+    action def RunOnboardDiagnostics :> EngineFunction {
+        attribute :>> functionId = "EF-08c";
+        // explicit input/output signals
+        in sensorBus : EngineSensorBus;
+        out faultCodes : ARINC429DataPort;
+    }
 
     // ═════════════════════════════════════════════════════════════════════════
     // FUNCTION → COMPONENT ALLOCATION (GE9X engine functional allocation)

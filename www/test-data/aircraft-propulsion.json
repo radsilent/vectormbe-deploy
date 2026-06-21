@@ -1479,6 +1479,496 @@
       "source": "func_regulate_temp",
       "target": "sig_oilt",
       "type": "consumes"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "engine",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "fan",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_gen_bypass",
+      "target": "fan",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_compress_lp",
+      "target": "lpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_compress_hp",
+      "target": "hpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_ignite_fuel",
+      "target": "combustor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_ignite_fuel",
+      "target": "fmu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "combustor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "engine",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_extract_hp_work",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_extract_lp_work",
+      "target": "lpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accelerate_exhaust",
+      "target": "nozzle",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_schedule_fuel",
+      "target": "fmu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_schedule_fuel",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_surge_protect",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_surge_protect",
+      "target": "hpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_surge_protect",
+      "target": "lpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_limit_egt",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_limit_egt",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_pressurize_fuel",
+      "target": "fuel_pump",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_pressurize_fuel",
+      "target": "fmu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_scavenge_oil",
+      "target": "oil_pump",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_scavenge_oil",
+      "target": "oil_cooler",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_regulate_temp",
+      "target": "oil_cooler",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_regulate_temp",
+      "target": "fadec",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req_thrust",
+      "target": "engine",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_sfc",
+      "target": "fuel_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_sfc",
+      "target": "fmu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "engine",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_egt",
+      "target": "hpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "engine",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "fan",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "lpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "hpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "hpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "lpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_oil",
+      "target": "oil_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_oil",
+      "target": "oil_cooler",
+      "type": "satisfy"
+    },
+    {
+      "source": "func_thrust",
+      "target": "combustor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "lpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "fan",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "hpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "lpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_thrust",
+      "target": "nozzle",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "combustor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "lpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "hpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "lpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_accel_air",
+      "target": "nozzle",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "hpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "lpt",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "fan",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "hpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "lpc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_contain_flame",
+      "target": "nozzle",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req_tbo",
+      "target": "combustor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "hpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "lpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "fan",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "hpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "lpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "nozzle",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "combustor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "hpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "lpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "hpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "lpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_containment",
+      "target": "nozzle",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "combustor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "hpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "lpt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "fan",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "hpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "lpc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "nozzle",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "combustor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_vib",
+      "target": "nozzle",
+      "type": "satisfy"
+    },
+    {
+      "source": "func_surge_protect",
+      "target": "vsv",
+      "type": "allocated_to"
+    },
+    {
+      "source": "func_schedule_fuel",
+      "target": "vsv",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req_thrust",
+      "target": "aps",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "aps",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_sfc",
+      "target": "vsv",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "vsv",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "fuel_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "oil_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "fmu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "oil_cooler",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "fadec",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_tbo",
+      "target": "bleed_valve",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "vsv",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "fuel_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "oil_pump",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "fmu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "oil_cooler",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "fadec",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thrust",
+      "target": "bleed_valve",
+      "type": "satisfy"
     }
   ]
 }

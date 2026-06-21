@@ -1,12 +1,12 @@
 {
-  "_comment": "VectorMBE functional decomposition demo — Satellite Attitude Determination and Control System (ADCS)",
+  "_comment": "VectorMBE functional decomposition demo \u2014 Satellite Attitude Determination and Control System (ADCS)",
   "nodes": [
     {
       "id": "f-adcs",
       "kind": "Function",
       "attributes": {
         "name": "AttitudeDeterminationAndControl",
-        "description": "Maintain satellite pointing accuracy within 0.01° across all mission phases",
+        "description": "Maintain satellite pointing accuracy within 0.01\u00b0 across all mission phases",
         "safety_level": "ASIL-D",
         "fidelity": "system"
       }
@@ -126,7 +126,7 @@
       "kind": "Component",
       "attributes": {
         "name": "StarTracker",
-        "description": "CCD-based star tracker with 8° FOV and 5 arcsec accuracy",
+        "description": "CCD-based star tracker with 8\u00b0 FOV and 5 arcsec accuracy",
         "part_number": "ST-500-HD"
       }
     },
@@ -135,7 +135,7 @@
       "kind": "Component",
       "attributes": {
         "name": "GyroAssembly",
-        "description": "3-axis fiber optic gyro package with 0.001°/hr bias stability",
+        "description": "3-axis fiber optic gyro package with 0.001\u00b0/hr bias stability",
         "part_number": "FOG-3X-2026"
       }
     },
@@ -257,7 +257,7 @@
       "kind": "Requirement",
       "attributes": {
         "name": "REQ-ADCS-001",
-        "description": "ADCS shall maintain nadir pointing accuracy of 0.01° (3σ) during nominal imaging operations",
+        "description": "ADCS shall maintain nadir pointing accuracy of 0.01\u00b0 (3\u03c3) during nominal imaging operations",
         "priority": "Critical",
         "verification_method": "Test"
       }
@@ -267,7 +267,7 @@
       "kind": "Requirement",
       "attributes": {
         "name": "REQ-ADCS-002",
-        "description": "ADCS shall complete 180° slew maneuver within 60 seconds using reaction wheels",
+        "description": "ADCS shall complete 180\u00b0 slew maneuver within 60 seconds using reaction wheels",
         "priority": "High",
         "verification_method": "Test"
       }
@@ -284,47 +284,415 @@
     }
   ],
   "edges": [
-    {"source": "f-adcs", "relation_type": "contains", "target": "f-determination"},
-    {"source": "f-adcs", "relation_type": "contains", "target": "f-control"},
-    {"source": "f-adcs", "relation_type": "contains", "target": "f-fault-detection"},
-    {"source": "f-adcs", "relation_type": "contains", "target": "f-mode-transition"},
-    {"source": "f-determination", "relation_type": "contains", "target": "f-sensor-fusion"},
-    {"source": "f-determination", "relation_type": "contains", "target": "f-star-ident"},
-    {"source": "f-determination", "relation_type": "contains", "target": "f-gyro-prop"},
-    {"source": "f-control", "relation_type": "contains", "target": "f-momentum-mgmt"},
-    {"source": "f-control", "relation_type": "contains", "target": "f-pointing-control"},
-    {"source": "f-control", "relation_type": "contains", "target": "f-slew-maneuver"},
-    {"source": "c-adcs-computer", "relation_type": "realizes", "target": "f-adcs"},
-    {"source": "c-star-tracker", "relation_type": "realizes", "target": "f-star-ident"},
-    {"source": "c-gyro-assembly", "relation_type": "realizes", "target": "f-gyro-prop"},
-    {"source": "c-reaction-wheel", "relation_type": "realizes", "target": "f-pointing-control"},
-    {"source": "c-reaction-wheel", "relation_type": "realizes", "target": "f-slew-maneuver"},
-    {"source": "c-magnetorquer", "relation_type": "realizes", "target": "f-momentum-mgmt"},
-    {"source": "c-sun-sensor", "relation_type": "realizes", "target": "f-mode-transition"},
-    {"source": "f-sensor-fusion", "relation_type": "consumes", "target": "s-star-vectors"},
-    {"source": "f-sensor-fusion", "relation_type": "consumes", "target": "s-angular-rate"},
-    {"source": "f-sensor-fusion", "relation_type": "produces", "target": "s-quaternion"},
-    {"source": "f-pointing-control", "relation_type": "consumes", "target": "s-quaternion"},
-    {"source": "f-pointing-control", "relation_type": "produces", "target": "s-torque-cmd"},
-    {"source": "f-momentum-mgmt", "relation_type": "consumes", "target": "s-wheel-speed"},
-    {"source": "f-fault-detection", "relation_type": "consumes", "target": "s-fault-flag"},
-    {"source": "f-slew-maneuver", "relation_type": "consumes", "target": "s-quaternion"},
-    {"source": "f-slew-maneuver", "relation_type": "produces", "target": "s-torque-cmd"},
-    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-quaternion"},
-    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-angular-rate"},
-    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-wheel-speed"},
-    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-torque-cmd"},
-    {"source": "i-adcs-bus", "relation_type": "carries", "target": "s-fault-flag"},
-    {"source": "i-obc-link", "relation_type": "carries", "target": "s-quaternion"},
-    {"source": "c-adcs-computer", "relation_type": "connected_via", "target": "i-adcs-bus"},
-    {"source": "c-star-tracker", "relation_type": "connected_via", "target": "i-adcs-bus"},
-    {"source": "c-gyro-assembly", "relation_type": "connected_via", "target": "i-adcs-bus"},
-    {"source": "c-reaction-wheel", "relation_type": "connected_via", "target": "i-adcs-bus"},
-    {"source": "c-adcs-computer", "relation_type": "connected_via", "target": "i-obc-link"},
-    {"source": "req-pointing", "relation_type": "allocatedTo", "target": "f-pointing-control"},
-    {"source": "req-slew", "relation_type": "allocatedTo", "target": "f-slew-maneuver"},
-    {"source": "req-fault", "relation_type": "allocatedTo", "target": "f-fault-detection"},
-    {"source": "req-pointing", "relation_type": "satisfiedBy", "target": "c-reaction-wheel"},
-    {"source": "req-fault", "relation_type": "satisfiedBy", "target": "c-adcs-computer"}
+    {
+      "source": "f-adcs",
+      "relation_type": "contains",
+      "target": "f-determination"
+    },
+    {
+      "source": "f-adcs",
+      "relation_type": "contains",
+      "target": "f-control"
+    },
+    {
+      "source": "f-adcs",
+      "relation_type": "contains",
+      "target": "f-fault-detection"
+    },
+    {
+      "source": "f-adcs",
+      "relation_type": "contains",
+      "target": "f-mode-transition"
+    },
+    {
+      "source": "f-determination",
+      "relation_type": "contains",
+      "target": "f-sensor-fusion"
+    },
+    {
+      "source": "f-determination",
+      "relation_type": "contains",
+      "target": "f-star-ident"
+    },
+    {
+      "source": "f-determination",
+      "relation_type": "contains",
+      "target": "f-gyro-prop"
+    },
+    {
+      "source": "f-control",
+      "relation_type": "contains",
+      "target": "f-momentum-mgmt"
+    },
+    {
+      "source": "f-control",
+      "relation_type": "contains",
+      "target": "f-pointing-control"
+    },
+    {
+      "source": "f-control",
+      "relation_type": "contains",
+      "target": "f-slew-maneuver"
+    },
+    {
+      "source": "c-adcs-computer",
+      "relation_type": "realizes",
+      "target": "f-adcs"
+    },
+    {
+      "source": "c-star-tracker",
+      "relation_type": "realizes",
+      "target": "f-star-ident"
+    },
+    {
+      "source": "c-gyro-assembly",
+      "relation_type": "realizes",
+      "target": "f-gyro-prop"
+    },
+    {
+      "source": "c-reaction-wheel",
+      "relation_type": "realizes",
+      "target": "f-pointing-control"
+    },
+    {
+      "source": "c-reaction-wheel",
+      "relation_type": "realizes",
+      "target": "f-slew-maneuver"
+    },
+    {
+      "source": "c-magnetorquer",
+      "relation_type": "realizes",
+      "target": "f-momentum-mgmt"
+    },
+    {
+      "source": "c-sun-sensor",
+      "relation_type": "realizes",
+      "target": "f-mode-transition"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "relation_type": "consumes",
+      "target": "s-star-vectors"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "relation_type": "consumes",
+      "target": "s-angular-rate"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "relation_type": "produces",
+      "target": "s-quaternion"
+    },
+    {
+      "source": "f-pointing-control",
+      "relation_type": "consumes",
+      "target": "s-quaternion"
+    },
+    {
+      "source": "f-pointing-control",
+      "relation_type": "produces",
+      "target": "s-torque-cmd"
+    },
+    {
+      "source": "f-momentum-mgmt",
+      "relation_type": "consumes",
+      "target": "s-wheel-speed"
+    },
+    {
+      "source": "f-fault-detection",
+      "relation_type": "consumes",
+      "target": "s-fault-flag"
+    },
+    {
+      "source": "f-slew-maneuver",
+      "relation_type": "consumes",
+      "target": "s-quaternion"
+    },
+    {
+      "source": "f-slew-maneuver",
+      "relation_type": "produces",
+      "target": "s-torque-cmd"
+    },
+    {
+      "source": "i-adcs-bus",
+      "relation_type": "carries",
+      "target": "s-quaternion"
+    },
+    {
+      "source": "i-adcs-bus",
+      "relation_type": "carries",
+      "target": "s-angular-rate"
+    },
+    {
+      "source": "i-adcs-bus",
+      "relation_type": "carries",
+      "target": "s-wheel-speed"
+    },
+    {
+      "source": "i-adcs-bus",
+      "relation_type": "carries",
+      "target": "s-torque-cmd"
+    },
+    {
+      "source": "i-adcs-bus",
+      "relation_type": "carries",
+      "target": "s-fault-flag"
+    },
+    {
+      "source": "i-obc-link",
+      "relation_type": "carries",
+      "target": "s-quaternion"
+    },
+    {
+      "source": "c-adcs-computer",
+      "relation_type": "connected_via",
+      "target": "i-adcs-bus"
+    },
+    {
+      "source": "c-star-tracker",
+      "relation_type": "connected_via",
+      "target": "i-adcs-bus"
+    },
+    {
+      "source": "c-gyro-assembly",
+      "relation_type": "connected_via",
+      "target": "i-adcs-bus"
+    },
+    {
+      "source": "c-reaction-wheel",
+      "relation_type": "connected_via",
+      "target": "i-adcs-bus"
+    },
+    {
+      "source": "c-adcs-computer",
+      "relation_type": "connected_via",
+      "target": "i-obc-link"
+    },
+    {
+      "source": "req-pointing",
+      "relation_type": "allocatedTo",
+      "target": "f-pointing-control"
+    },
+    {
+      "source": "req-slew",
+      "relation_type": "allocatedTo",
+      "target": "f-slew-maneuver"
+    },
+    {
+      "source": "req-fault",
+      "relation_type": "allocatedTo",
+      "target": "f-fault-detection"
+    },
+    {
+      "source": "req-pointing",
+      "relation_type": "satisfiedBy",
+      "target": "c-reaction-wheel"
+    },
+    {
+      "source": "req-fault",
+      "relation_type": "satisfiedBy",
+      "target": "c-adcs-computer"
+    },
+    {
+      "source": "f-adcs",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-determination",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-determination",
+      "target": "c-star-tracker",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-determination",
+      "target": "c-gyro-assembly",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-determination",
+      "target": "c-sun-sensor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-control",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-control",
+      "target": "c-reaction-wheel",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-control",
+      "target": "c-magnetorquer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "target": "c-star-tracker",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "target": "c-gyro-assembly",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-sensor-fusion",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-star-ident",
+      "target": "c-star-tracker",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-star-ident",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-gyro-prop",
+      "target": "c-gyro-assembly",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-gyro-prop",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-momentum-mgmt",
+      "target": "c-reaction-wheel",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-momentum-mgmt",
+      "target": "c-magnetorquer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-momentum-mgmt",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-pointing-control",
+      "target": "c-reaction-wheel",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-pointing-control",
+      "target": "c-magnetorquer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-pointing-control",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-slew-maneuver",
+      "target": "c-reaction-wheel",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-slew-maneuver",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-fault-detection",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-fault-detection",
+      "target": "c-sun-sensor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-fault-detection",
+      "target": "c-gyro-assembly",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-fault-detection",
+      "target": "c-star-tracker",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-mode-transition",
+      "target": "c-adcs-computer",
+      "type": "allocated_to"
+    },
+    {
+      "source": "f-mode-transition",
+      "target": "c-sun-sensor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req-pointing",
+      "target": "f-pointing-control",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-pointing",
+      "target": "f-determination",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-pointing",
+      "target": "c-star-tracker",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-pointing",
+      "target": "c-reaction-wheel",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-pointing",
+      "target": "c-magnetorquer",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-slew",
+      "target": "f-slew-maneuver",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-slew",
+      "target": "c-reaction-wheel",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-slew",
+      "target": "c-adcs-computer",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-fault",
+      "target": "f-fault-detection",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-fault",
+      "target": "c-adcs-computer",
+      "type": "satisfy"
+    },
+    {
+      "source": "req-fault",
+      "target": "c-sun-sensor",
+      "type": "satisfy"
+    }
   ]
 }

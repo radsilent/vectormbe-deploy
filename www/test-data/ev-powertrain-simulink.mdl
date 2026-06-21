@@ -39,12 +39,14 @@ Model {
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [driveTorque_Nm] = PedalMapInterpolation(accelPct, vehicleSpeed_kph)"
           Name            "PedalMapInterpolation"
           SID             "104"
           Description     "2D interpolation of requested drive torque from pedal position and vehicle speed using calibration lookup table"
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [regenDemand_Nm] = BrakePedalDecoder(brakePct)"
           Name            "BrakePedalDecoder"
           SID             "105"
           Description     "Splits total brake demand into regenerative fraction (sent to motor) and friction fraction (sent to foundation brakes)"
@@ -124,6 +126,7 @@ Model {
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [motorTorqueCmd_Nm] = ArbitrationLogic(demandTorque_Nm, tcsLimit_Nm, emsLimit_Nm)"
           Name            "ArbitrationLogic"
           SID             "204"
           Description     "Selects minimum of driver demand, TCS limit, and EMS cap; applies torque rate limiter and smoothing filter"
@@ -206,6 +209,7 @@ Model {
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [Id_ref, Iq_ref] = TorqueToCurrentMap(torqueCmd_Nm, motorSpeed_rpm)"
           Name            "TorqueToCurrentMap"
           SID             "304"
           Description     "Maps torque demand and speed to d-q reference currents (Id_ref, Iq_ref) using MTPA curve"
@@ -228,12 +232,14 @@ Model {
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [Valpha, Vbeta] = InverseParkTransform(Vd_cmd, Vq_cmd)"
           Name            "InverseParkTransform"
           SID             "307"
           Description     "Transforms d-q voltage commands to alpha-beta frame using rotor angle"
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [pwmDutyCycles] = SVPWMGenerator(Valpha, Vbeta)"
           Name            "SVPWMGenerator"
           SID             "308"
           Description     "Space vector PWM modulator — generates three-phase duty cycles from alpha-beta voltage commands"
@@ -460,6 +466,7 @@ Model {
         }
         Block {
           BlockType       "MATLAB Function"
+              Function "function [batteryVoltage_V] = OCVLookup(soc_pct)"
           Name            "OCVLookup"
           SID             "506"
           Description     "Maps SOC to open-circuit voltage using NMC cell OCV-SOC curve (Voc = f(SOC))"

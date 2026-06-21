@@ -3650,6 +3650,1501 @@
       "source": "pin_in_range_hmi",
       "target": "sig_range_estimate",
       "type": "flow"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "comp_mcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "comp_motor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_torque_control",
+      "target": "comp_inverter",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_soc_estimation",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_cell_balancing",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "comp_motor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_thermal_regulation",
+      "target": "comp_inverter",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "comp_obc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "comp_dcdc",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "comp_hv_junction",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_charge_mgmt",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_hv_safety",
+      "target": "comp_hv_junction",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_hv_safety",
+      "target": "comp_inverter",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_fault_detection",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_fault_detection",
+      "target": "comp_mcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "comp_mcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "comp_motor",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_regen_control",
+      "target": "comp_inverter",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_driver_interface",
+      "target": "comp_vcu",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "comp_bms",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_range_estimation",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_precharge",
+      "target": "comp_hv_junction",
+      "type": "allocated_to"
+    },
+    {
+      "source": "fn_soh_estimation",
+      "target": "comp_battery",
+      "type": "allocated_to"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_battery",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_bms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_inverter",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_motor",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_mcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_obc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_dcdc",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_tms",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_vcu",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_hmi",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_hv_junction",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "comp_telematics",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "fn_soc_estimation",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "fn_hv_safety",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "fn_torque_control",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "fn_regen_control",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "fn_charge_mgmt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "fn_charge_mgmt",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "fn_thermal_regulation",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "fn_thermal_regulation",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "fn_soh_estimation",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "fn_fault_detection",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "fn_range_estimation",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "fn_precharge",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "fn_cell_balancing",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "fn_torque_control",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "fn_precharge",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soc_accuracy",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_hv_isolation",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_peak_torque",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_regen_efficiency",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_ac",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_charge_rate_dc",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_drive",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_thermal_charge",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_soh_tracking",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_fault_dtc",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_range_display",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_can_latency",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_precharge_time",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_obd_compliance",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_ota_update",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_cell_balance_tolerance",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_motor_efficiency",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_eol_test",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_insulation_resistance",
+      "target": "sys_ev",
+      "type": "satisfy"
+    },
+    {
+      "source": "req_startup_time",
+      "target": "sys_ev",
+      "type": "satisfy"
     }
   ]
 }
