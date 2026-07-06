@@ -24,11 +24,6 @@ services:
       - VECTORMBE_LLM_MODEL=${VECTORMBE_LLM_MODEL:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
-    depends_on:
-      qdrant:
-        condition: service_healthy
-        required: false
-
   # Optional: Qdrant persistent vector store.
   # Uncomment this service and set VECTORMBE_QDRANT_URL=http://qdrant:6333 in
   # your .env to enable production-scale ANN with hybrid RRF retrieval.
