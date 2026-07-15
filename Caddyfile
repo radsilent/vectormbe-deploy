@@ -2,21 +2,31 @@
 # Place your built UI files in ./www/ for static serving
 
 :80 {
-    # API proxy — long timeout for AI agent/chat (~60 s responses)
+    # API proxy — long timeout for AI agent/chat and local-LLM model generation.
+    # Design/model generation (POST /api/design/generate) on host Ollama + small
+    # GPU takes ~90-150s and is variable; a 120s ceiling returned 504 empty body
+    # and the UI showed "nothing generated". 300s lets slow-but-valid runs finish.
     handle_path /api/* {
         reverse_proxy vectormbe:8080 {
             transport http {
-                response_header_timeout 120s
-                read_timeout            120s
-                write_timeout           120s
+                response_header_timeout 300s
+                read_timeout            300s
+                write_timeout           300s
             }
         }
     }
 
-    # Static UI files
-    root * /var/www/vectormbe
-    file_server
-    try_files {path} {path}/ /index.html
+    # Static UI files — MUST be inside a `handle` block. `handle` and `handle_path`
+    # form a mutually-exclusive first-match group, so /api/* is proxied above and
+    # never reaches this block. Without the wrapper, the top-level `try_files` runs
+    # in the rewrite phase for ALL requests and rewrites /api/* to /index.html before
+    # the proxy sees it — GET /api/* then returns index.html and POST /api/* returns
+    # 405, so the agent (POST /api/agent/chat) fails and the UI looks dead.
+    handle {
+        root * /var/www/vectormbe
+        try_files {path} {path}/ /index.html
+        file_server
+    }
 
     encode gzip
 
