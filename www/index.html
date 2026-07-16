@@ -41,19 +41,23 @@
         console.error('[FATAL] Unhandled rejection:', e.reason);
       });
     </script>
-    <script src="./env.runtime.js?v=6"></script>
+    <!-- Bump this ?v= on every env.runtime.js change. Caddy sends no-store, but
+         Cloudflare rewrites it to max-age=14400, so a browser that loaded this
+         URL while env.runtime.js still named the retired vectorowl host keeps
+         using that dead API base for 4h and shows "API unreachable".
+         A rebuild resets this to ?v=3 and reintroduces the trap — the durable
+         fix belongs in the vmbe-src index.html template. -->
+    <script src="./env.runtime.js?v=7"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=optional"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="./assets/index-DfHC3Cnw.js"></script>
+    <script type="module" crossorigin src="./assets/index-R7xRL8M5.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/chunk-CMxvf4Kt.js">
     <link rel="modulepreload" crossorigin href="./assets/react-B969zxjI.js">
-    <link rel="stylesheet" crossorigin href="./assets/index-FY6pXyuy.css">
-    <!-- UI hotfix: prevents right-side panels/menus from being clipped. See ui-fixes.css. -->
-    <link rel="stylesheet" href="./ui-fixes.css?v=1" />
+    <link rel="stylesheet" crossorigin href="./assets/index-DcnS6UF9.css">
   </head>
   <body>
     <script>
