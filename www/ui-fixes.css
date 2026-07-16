@@ -1,0 +1,20 @@
+/* vectorMBE UI hotfix — loaded AFTER the app bundle so these rules win the cascade.
+ *
+ * Symptom (reported 2026-07-16): right-side panels / menus cut off in the web UI.
+ * Cause: the built stylesheet sets on the page body:
+ *     body { max-width: 100vw; overflow-x: hidden }
+ *   - overflow-x:hidden CLIPS anything wider than the viewport instead of letting
+ *     it scroll, so a right-side panel that doesn't fit simply disappears.
+ *   - 100vw overshoots the usable width by the vertical scrollbar (~15px), nudging
+ *     content further under the clip.
+ *
+ * Fix: correct the width to 100% (excludes the scrollbar) and allow horizontal
+ * scrolling so nothing on the right is ever unreachable.
+ *
+ * Fully reversible: delete this file and remove its <link> from index.html.
+ */
+html,
+body {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}

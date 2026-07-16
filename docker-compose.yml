@@ -19,11 +19,35 @@ services:
       - VECTORMBE_QDRANT_URL=${VECTORMBE_QDRANT_URL:-}
       # LLM provider for AI synthesis and semantic embeddings
       - VECTORMBE_LLM_PROVIDER=${VECTORMBE_LLM_PROVIDER:-}
-      - VECTORMBE_LLM_API_KEY=${VECTORMBE_LLM_API_KEY:-}
+      - VECTORMBE_LLM_API_KEY
       - VECTORMBE_LLM_ENDPOINT=${VECTORMBE_LLM_ENDPOINT:-}
       - VECTORMBE_LLM_MODEL=${VECTORMBE_LLM_MODEL:-}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY
+      - ANTHROPIC_API_KEY
+      # Hybrid embeddings: run locally via the ollama service below.
+      - VECTORMBE_EMBEDDING_PROVIDER=${VECTORMBE_EMBEDDING_PROVIDER:-}
+      - VECTORMBE_EMBEDDING_URL=${VECTORMBE_EMBEDDING_URL:-}
+      - VECTORMBE_EMBEDDING_KEY
+      - VECTORMBE_EMBED_MODEL=${VECTORMBE_EMBED_MODEL:-}
+      - OLLAMA_HOST=${OLLAMA_HOST:-}
+    depends_on:
+      - ollama
+
+  # Local embedding model server (hybrid: Anthropic for synthesis, Ollama for
+  # embeddings). Reachable from the vectormbe container as http://ollama:11434.
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vectormbe-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    # Not published to the host — only the vectormbe container needs it.
+    expose:
+      - "11434"
+    # GPU acceleration: after installing the NVIDIA driver + Container Toolkit,
+    # run ./enable-ollama-gpu.sh — it writes docker-compose.override.yml to attach
+    # the RTX A1000 to this service. Remove that override file to revert to CPU.
+
   # Optional: Qdrant persistent vector store.
   # Uncomment this service and set VECTORMBE_QDRANT_URL=http://qdrant:6333 in
   # your .env to enable production-scale ANN with hybrid RRF retrieval.
@@ -60,5 +84,6 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  ollama_data:
   # Uncomment when enabling Qdrant:
   # qdrant_data:

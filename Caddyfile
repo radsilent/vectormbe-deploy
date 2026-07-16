@@ -28,6 +28,12 @@
         file_server
     }
 
+    # Never cache the HTML shell or runtime config. If Cloudflare/browser serves a
+    # stale env.runtime.js, the UI points at a dead API host and shows "No LLM" /
+    # "API unreachable". Hashed assets under /assets/* stay cacheable (immutable).
+    @nostore path / /index.html /env.runtime.js /sw.js /manifest.json
+    header @nostore Cache-Control "no-store, must-revalidate"
+
     encode gzip
 
     header {
