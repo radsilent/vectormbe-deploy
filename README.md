@@ -1,6 +1,8 @@
 # VectorMBE Deploy
 
-Docker-only deployment for [VectorMBE](https://vectorstreamsystems.com/) — no source code required.
+VectorMBE is a model-based engineering (MBE) runtime built for AI-assisted development teams. It provides a single governed substrate — an OWL-backed graph with vector retrieval, typed constraints, and Model Context Protocol (MCP) integration — so engineers, CI pipelines, and LLM tools all reason over the same versioned structure.
+
+This repository is the Docker-only deployment for [VectorMBE](https://vectorstreamsystems.com/) — no source code required.
 
 ---
 
