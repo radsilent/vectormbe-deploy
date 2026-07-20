@@ -30,6 +30,20 @@ services:
       - VECTORMBE_EMBEDDING_KEY
       - VECTORMBE_EMBED_MODEL=${VECTORMBE_EMBED_MODEL:-}
       - OLLAMA_HOST=${OLLAMA_HOST:-}
+    volumes:
+      # Saved models and snapshots are written under /app/data. Without these
+      # bind mounts they live only in the container's writable layer, so every
+      # `compose up` that recreates the container silently destroys every saved
+      # model. Mount the two save directories specifically rather than all of
+      # /app/data, which would shadow the demo dataset baked into the image and
+      # break VECTORMBE_STARTUP_GRAPH=demo.
+      - ./data/models:/app/data/models
+      - ./data/snapshots:/app/data/snapshots
+      # Project-scoped model files live under data/projects/{uuid}/models.
+      # Without this they share the fate the flat directory had before its
+      # mount: written to the container's writable layer and destroyed by the
+      # next `compose up` that recreates the container.
+      - ./data/projects:/app/data/projects
     depends_on:
       - ollama
 
