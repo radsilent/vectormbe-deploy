@@ -1,6 +1,13 @@
 services:
   vectormbe:
-    image: radsilent/vectormbe:latest
+    # Local image = upstream radsilent/vectormbe:latest + poppler-utils (pdftotext)
+    # for PDF spec import. `docker compose up -d` builds it from Dockerfile.poppler
+    # if the tag is missing (e.g. after a prune), so the boot-time systemd unit
+    # keeps working. Run `docker compose build --pull vectormbe` to refresh base.
+    image: vectormbe-poppler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.poppler
     container_name: vectormbe
     restart: unless-stopped
     ports:

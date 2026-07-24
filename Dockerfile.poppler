@@ -1,0 +1,10 @@
+# Layers poppler-utils (provides `pdftotext`) onto the upstream VectorMBE image
+# so PDF spec import works. The app shells out to `pdftotext`, which is absent
+# from radsilent/vectormbe:latest.
+#
+# Rebuild after pulling a newer base image:
+#   docker compose build --pull vectormbe && docker compose up -d vectormbe
+FROM radsilent/vectormbe:latest
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends poppler-utils \
+ && rm -rf /var/lib/apt/lists/*
