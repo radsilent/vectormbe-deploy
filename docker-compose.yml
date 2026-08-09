@@ -90,10 +90,14 @@ services:
     image: caddy:2-alpine
     container_name: vectormbe-caddy
     restart: unless-stopped
+    # Only :80 is published. TLS terminates at Cloudflare, and the Caddyfile is a
+    # plain `:80` site block — nothing ever bound 443 inside the container, so the
+    # old "443:443" mappings just left the host listening on a port that answered
+    # every handshake with a broken pipe. That reads as a broken TLS listener when
+    # you're triaging an outage. Re-add both lines (and a TLS site block in the
+    # Caddyfile) only if the origin ever needs to serve HTTPS directly.
     ports:
       - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
