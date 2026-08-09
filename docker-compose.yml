@@ -18,6 +18,16 @@ services:
       - VECTORMBE_HOST=0.0.0.0
       - VECTORMBE_REQUIRE_TORCH_GPU=false
       - VECTORMBE_STARTUP_GRAPH=demo
+      # Runtime graph state. MUST point inside a bind-mounted directory.
+      # The default is ./data/vectormbe.snapshot.json — i.e. /app/data, which is
+      # NOT mounted (only the three subdirectories below are). That put the live
+      # graph in the container's writable layer, so every `compose up` that
+      # recreated the container discarded it and restored the stale snapshot
+      # baked into the image at build time. Every model edit since that build
+      # was silently rolled back on redeploy.
+      # data/snapshots is already mounted, so pointing here needs no new mount
+      # and avoids shadowing /app/data/demo, which ships inside the image.
+      - VECTORMBE_STORAGE_PATH=/app/data/snapshots/vectormbe.snapshot.json
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
