@@ -12,11 +12,16 @@
 # Rebuild after pulling a newer base image:
 #   docker compose build --pull vectormbe && docker compose up -d vectormbe
 FROM radsilent/vectormbe:latest
-# The base image drops to the unprivileged `vectormbe` user, which cannot write
+# The base image drops to the unprivileged `vectorowl` user, which cannot write
 # /var/lib/apt (apt-get fails with "Permission denied", exit 100). Become root
 # only for the install, then switch back — the app must NOT run as root.
 USER root
 RUN apt-get update \
  && apt-get install -y --no-install-recommends poppler-utils git ca-certificates \
  && rm -rf /var/lib/apt/lists/*
-USER vectormbe
+# NOTE: `vectorowl` is the user baked into radsilent/vectormbe:latest, which
+# predates the VectorOWL -> VectorMBE rename. It is a property of that
+# published image, not of this source tree, so it must not be renamed here:
+# doing so fails at container start with "unable to find user vectormbe".
+# Change it only together with a rebuild of the base image.
+USER vectorowl
