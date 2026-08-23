@@ -18,3 +18,7 @@ model-refresh.log
 # snapshots, and project files. Server data, not source — and this repo is
 # public, so it must never be committed.
 data/
+
+# Stale compiled server binary under the old VectorOWL name. Build output;
+# nothing in this repository references it.
+vectorowld

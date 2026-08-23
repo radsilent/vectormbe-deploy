@@ -11,18 +11,24 @@ This repository is the Docker-only deployment for [VectorMBE](https://vectorstre
 - **macOS** — [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) (Apple Silicon or Intel)
 - **Windows** — [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) (WSL2 backend recommended) or Windows Subsystem for Linux (WSL2) with Docker Engine
 - **Linux** — [Docker Engine](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/) (plugin or standalone)
-- A valid VectorMBE license key ([request one](mailto:streamline@vectorstreamsystems.com))
+- A VectorMBE license key for the official Docker image
+  ([request one](mailto:streamline@vectorstreamsystems.com)). Building
+  [from source](https://github.com/radsilent/VectorMBE/blob/main/CONTRIBUTING.md)
+  needs no key at all.
 
-> **Note:** `radsilent/vectormbe-deploy` is a **private** repository — access is granted with your
-> license. The platform sections below assume you have it. If you do not yet, use the
-> self-contained quick start immediately below; it needs nothing but the public Docker image.
+> **Note:** `radsilent/vectormbe-deploy` is public and open source under Apache-2.0,
+> as is [VectorMBE itself](https://github.com/radsilent/VectorMBE). Clone it freely.
+> The self-contained quick start immediately below needs nothing but the public
+> Docker image.
 
 ---
 
 ## Quick start without the deploy package
 
-The license key is read **at startup**. Without it the container exits immediately with
-`startup aborted: invalid or missing license`.
+The official Docker image reads the license key **at startup**; without it the
+container exits immediately with `startup aborted: invalid or missing license`.
+A build from source has no such check — see
+[CONTRIBUTING](https://github.com/radsilent/VectorMBE/blob/main/CONTRIBUTING.md).
 
 ```bash
 docker run -d \
@@ -64,11 +70,8 @@ Port 8080 is the only port the image exposes — it serves both the UI and the A
 ## macOS
 
 ```bash
-# 1. Download the deploy package (private repo — requires your licensed access)
-gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
-# or, with a token:
-# curl -fL -H "Authorization: Bearer $GITHUB_TOKEN" \
-#   https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz | tar xz
+# 1. Download the deploy package
+git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 # 2. Configure your license key
 cp .env.example .env
 # Edit .env and set VECTORMBE_LICENSE_KEY
@@ -88,8 +91,8 @@ Open **http://localhost:8080** (or the port mapped in your compose file).
 Open **PowerShell** and run:
 
 ```powershell
-# 1. Download the deploy package (private repo — requires your licensed access)
-gh repo clone radsilent/vectormbe-deploy vectormbe
+# 1. Download the deploy package
+git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 Set-Location vectormbe
 
 # 2. Configure your license key
@@ -105,8 +108,8 @@ docker compose up -d
 Inside your WSL2 distro:
 
 ```bash
-# 1. Download the deploy package (private repo — requires your licensed access)
-gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
+# 1. Download the deploy package
+git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 
 # 2. Configure your license key
 cp .env.example .env
@@ -123,8 +126,8 @@ Access the UI at **http://localhost:8080** from Windows — Docker Desktop forwa
 ## Linux
 
 ```bash
-# 1. Download the deploy package (private repo — requires your licensed access)
-gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
+# 1. Download the deploy package
+git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 
 # 2. Configure your license key
 cp .env.example .env
@@ -254,3 +257,12 @@ Add to `docker-compose.yml` under the `vectormbe` service:
 ```
 
 And set `VECTORMBE_REQUIRE_TORCH_GPU=true` in your `.env`.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
+
+The VectorMBE source lives at
+[github.com/radsilent/VectorMBE](https://github.com/radsilent/VectorMBE), and
+contributions are welcome there. Issues with *this* deployment package —
+Compose files, Caddy config, the container setup — belong here.
