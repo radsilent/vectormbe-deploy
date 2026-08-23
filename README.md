@@ -1,6 +1,8 @@
 # VectorMBE Deploy
 
-Docker-only deployment for [VectorMBE](https://vectorstreamsystems.com/) — no source code required.
+VectorMBE is a model-based engineering (MBE) runtime built for AI-assisted development teams. It provides a single governed substrate — an OWL-backed graph with vector retrieval, typed constraints, and Model Context Protocol (MCP) integration so engineers, CI pipelines, and LLM tools all reason over the same versioned structure.
+
+This repository is the Docker-only deployment for [VectorMBE](https://vectorstreamsystems.com/) — no source code required.
 
 ---
 
@@ -11,15 +13,62 @@ Docker-only deployment for [VectorMBE](https://vectorstreamsystems.com/) — no 
 - **Linux** — [Docker Engine](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/) (plugin or standalone)
 - A valid VectorMBE license key ([request one](mailto:streamline@vectorstreamsystems.com))
 
+> **Note:** `radsilent/vectormbe-deploy` is a **private** repository — access is granted with your
+> license. The platform sections below assume you have it. If you do not yet, use the
+> self-contained quick start immediately below; it needs nothing but the public Docker image.
+
+---
+
+## Quick start without the deploy package
+
+The license key is read **at startup**. Without it the container exits immediately with
+`startup aborted: invalid or missing license`.
+
+```bash
+docker run -d \
+  --name vectormbe \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -e VECTORMBE_LICENSE_KEY=your-license-key \
+  radsilent/vectormbe:latest
+```
+
+Or, for a persistent setup, write these two files into an empty directory and run
+`docker compose up -d`:
+
+```yaml
+# docker-compose.yml
+services:
+  vectormbe:
+    image: radsilent/vectormbe:latest
+    container_name: vectormbe
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - VECTORMBE_LICENSE_KEY=${VECTORMBE_LICENSE_KEY:?Required}
+```
+
+```env
+# .env
+VECTORMBE_LICENSE_KEY=your-license-key
+```
+
+Open **http://localhost:8080**, or check it with
+`curl -sf http://localhost:8080/openapi.json > /dev/null && echo up`.
+
+Port 8080 is the only port the image exposes — it serves both the UI and the API.
+
 ---
 
 ## macOS
 
 ```bash
-# 1. Download the deploy package (no source code)
-curl -L https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz | tar xz
-mv vectormbe-deploy-main vectormbe && cd vectormbe
-
+# 1. Download the deploy package (private repo — requires your licensed access)
+gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
+# or, with a token:
+# curl -fL -H "Authorization: Bearer $GITHUB_TOKEN" \
+#   https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz | tar xz
 # 2. Configure your license key
 cp .env.example .env
 # Edit .env and set VECTORMBE_LICENSE_KEY
@@ -39,10 +88,8 @@ Open **http://localhost:8080** (or the port mapped in your compose file).
 Open **PowerShell** and run:
 
 ```powershell
-# 1. Download the deploy package
-Invoke-WebRequest -Uri https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz -OutFile vectormbe-deploy.tar.gz
-tar -xzf vectormbe-deploy.tar.gz
-Rename-Item vectormbe-deploy-main vectormbe
+# 1. Download the deploy package (private repo — requires your licensed access)
+gh repo clone radsilent/vectormbe-deploy vectormbe
 Set-Location vectormbe
 
 # 2. Configure your license key
@@ -58,9 +105,8 @@ docker compose up -d
 Inside your WSL2 distro:
 
 ```bash
-# 1. Download the deploy package
-curl -L https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz | tar xz
-mv vectormbe-deploy-main vectormbe && cd vectormbe
+# 1. Download the deploy package (private repo — requires your licensed access)
+gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
 
 # 2. Configure your license key
 cp .env.example .env
@@ -77,9 +123,8 @@ Access the UI at **http://localhost:8080** from Windows — Docker Desktop forwa
 ## Linux
 
 ```bash
-# 1. Download the deploy package (contains only Docker configs, no source code)
-curl -L https://github.com/radsilent/vectormbe-deploy/archive/main.tar.gz | tar xz
-mv vectormbe-deploy-main vectormbe && cd vectormbe
+# 1. Download the deploy package (private repo — requires your licensed access)
+gh repo clone radsilent/vectormbe-deploy vectormbe && cd vectormbe
 
 # 2. Configure your license key
 cp .env.example .env
@@ -127,7 +172,8 @@ docker logs -f vectormbe-caddy
 
 | Variable | Default | Description |
 |---|---|---|
-| `VECTORMBE_LICENSE_KEY` | *(required)* | License activation key |
+| `VECTORMBE_LICENSE_KEY` | *(required)* | License activation key, read at startup — the container exits if unset |
+| `VECTORMBE_LICENSE_PATH` | *(unset)* | Path to a license file, as an alternative to the key |
 | `VECTORMBE_PORT` | `8080` | HTTP port |
 | `VECTORMBE_HOST` | `0.0.0.0` | Bind address |
 | `VECTORMBE_REQUIRE_TORCH_GPU` | `false` | Set `true` for GPU-accelerated hosts |

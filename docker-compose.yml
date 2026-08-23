@@ -1,6 +1,13 @@
 services:
   vectormbe:
-    image: radsilent/vectormbe:latest
+    # Local image = upstream radsilent/vectormbe:latest + poppler-utils (pdftotext)
+    # for PDF spec import. `docker compose up -d` builds it from Dockerfile.poppler
+    # if the tag is missing (e.g. after a prune), so the boot-time systemd unit
+    # keeps working. Run `docker compose build --pull vectormbe` to refresh base.
+    image: vectormbe-poppler:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.poppler
     container_name: vectormbe
     restart: unless-stopped
     ports:
@@ -11,6 +18,16 @@ services:
       - VECTORMBE_HOST=0.0.0.0
       - VECTORMBE_REQUIRE_TORCH_GPU=false
       - VECTORMBE_STARTUP_GRAPH=demo
+      # Runtime graph state. MUST point inside a bind-mounted directory.
+      # The default is ./data/vectormbe.snapshot.json — i.e. /app/data, which is
+      # NOT mounted (only the three subdirectories below are). That put the live
+      # graph in the container's writable layer, so every `compose up` that
+      # recreated the container discarded it and restored the stale snapshot
+      # baked into the image at build time. Every model edit since that build
+      # was silently rolled back on redeploy.
+      # data/snapshots is already mounted, so pointing here needs no new mount
+      # and avoids shadowing /app/data/demo, which ships inside the image.
+      - VECTORMBE_STORAGE_PATH=/app/data/snapshots/vectormbe.snapshot.json
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
@@ -19,11 +36,49 @@ services:
       - VECTORMBE_QDRANT_URL=${VECTORMBE_QDRANT_URL:-}
       # LLM provider for AI synthesis and semantic embeddings
       - VECTORMBE_LLM_PROVIDER=${VECTORMBE_LLM_PROVIDER:-}
-      - VECTORMBE_LLM_API_KEY=${VECTORMBE_LLM_API_KEY:-}
+      - VECTORMBE_LLM_API_KEY
       - VECTORMBE_LLM_ENDPOINT=${VECTORMBE_LLM_ENDPOINT:-}
       - VECTORMBE_LLM_MODEL=${VECTORMBE_LLM_MODEL:-}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY
+      - ANTHROPIC_API_KEY
+      # Hybrid embeddings: run locally via the ollama service below.
+      - VECTORMBE_EMBEDDING_PROVIDER=${VECTORMBE_EMBEDDING_PROVIDER:-}
+      - VECTORMBE_EMBEDDING_URL=${VECTORMBE_EMBEDDING_URL:-}
+      - VECTORMBE_EMBEDDING_KEY
+      - VECTORMBE_EMBED_MODEL=${VECTORMBE_EMBED_MODEL:-}
+      - OLLAMA_HOST=${OLLAMA_HOST:-}
+    volumes:
+      # Saved models and snapshots are written under /app/data. Without these
+      # bind mounts they live only in the container's writable layer, so every
+      # `compose up` that recreates the container silently destroys every saved
+      # model. Mount the two save directories specifically rather than all of
+      # /app/data, which would shadow the demo dataset baked into the image and
+      # break VECTORMBE_STARTUP_GRAPH=demo.
+      - ./data/models:/app/data/models
+      - ./data/snapshots:/app/data/snapshots
+      # Project-scoped model files live under data/projects/{uuid}/models.
+      # Without this they share the fate the flat directory had before its
+      # mount: written to the container's writable layer and destroyed by the
+      # next `compose up` that recreates the container.
+      - ./data/projects:/app/data/projects
+    depends_on:
+      - ollama
+
+  # Local embedding model server (hybrid: Anthropic for synthesis, Ollama for
+  # embeddings). Reachable from the vectormbe container as http://ollama:11434.
+  ollama:
+    image: ollama/ollama:latest
+    container_name: vectormbe-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    # Not published to the host — only the vectormbe container needs it.
+    expose:
+      - "11434"
+    # GPU acceleration: after installing the NVIDIA driver + Container Toolkit,
+    # run ./enable-ollama-gpu.sh — it writes docker-compose.override.yml to attach
+    # the RTX A1000 to this service. Remove that override file to revert to CPU.
+
   # Optional: Qdrant persistent vector store.
   # Uncomment this service and set VECTORMBE_QDRANT_URL=http://qdrant:6333 in
   # your .env to enable production-scale ANN with hybrid RRF retrieval.
@@ -45,10 +100,14 @@ services:
     image: caddy:2-alpine
     container_name: vectormbe-caddy
     restart: unless-stopped
+    # Only :80 is published. TLS terminates at Cloudflare, and the Caddyfile is a
+    # plain `:80` site block — nothing ever bound 443 inside the container, so the
+    # old "443:443" mappings just left the host listening on a port that answered
+    # every handshake with a broken pipe. That reads as a broken TLS listener when
+    # you're triaging an outage. Re-add both lines (and a TLS site block in the
+    # Caddyfile) only if the origin ever needs to serve HTTPS directly.
     ports:
       - "80:80"
-      - "443:443"
-      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -60,5 +119,6 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  ollama_data:
   # Uncomment when enabling Qdrant:
   # qdrant_data:
