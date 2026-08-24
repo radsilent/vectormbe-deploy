@@ -28,6 +28,13 @@ services:
       # data/snapshots is already mounted, so pointing here needs no new mount
       # and avoids shadowing /app/data/demo, which ships inside the image.
       - VECTORMBE_STORAGE_PATH=/app/data/snapshots/vectormbe.snapshot.json
+      # Root for every other durable path. Unset, it defaulted to ./data —
+      # the same /app/data — for most paths, but env_for_workspace_arc reads it
+      # to decide whether a per-session/per-key workspace gets JsonFileStorage
+      # or InMemoryStorage. Unset meant InMemoryStorage: every isolated
+      # workspace graph lived in process memory and died with the container.
+      # Set to the same directory it already defaulted to, so no path moves.
+      - VECTORMBE_DATA_DIR=/app/data
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
@@ -48,19 +55,28 @@ services:
       - VECTORMBE_EMBED_MODEL=${VECTORMBE_EMBED_MODEL:-}
       - OLLAMA_HOST=${OLLAMA_HOST:-}
     volumes:
-      # Saved models and snapshots are written under /app/data. Without these
-      # bind mounts they live only in the container's writable layer, so every
-      # `compose up` that recreates the container silently destroys every saved
-      # model. Mount the two save directories specifically rather than all of
-      # /app/data, which would shadow the demo dataset baked into the image and
-      # break VECTORMBE_STARTUP_GRAPH=demo.
-      - ./data/models:/app/data/models
-      - ./data/snapshots:/app/data/snapshots
-      # Project-scoped model files live under data/projects/{uuid}/models.
-      # Without this they share the fate the flat directory had before its
-      # mount: written to the container's writable layer and destroyed by the
-      # next `compose up` that recreates the container.
-      - ./data/projects:/app/data/projects
+      # The whole data directory, not three subdirectories of it.
+      #
+      # Mounting only models/, snapshots/ and projects/ left everything else the
+      # server writes durably — workspaces/, agent-sessions/, artifacts/,
+      # upload-archive/, import-error-logs/, parser-profiles/, and the loose
+      # spec_corpus.json, integrations.json, versions.json, ci_runs.json and
+      # competency.json — in the container's writable layer, destroyed by the
+      # next `compose up --force-recreate`.
+      #
+      # Those five JSON files cannot be bind-mounted individually: the version,
+      # CI and competency stores save write-then-rename, and rename() over a
+      # bind-mounted file fails. Their paths are hardcoded relative to the
+      # working directory, so they cannot be relocated either. Mounting the
+      # parent is the only option that covers them.
+      #
+      # The earlier warning against mounting all of /app/data was correct as far
+      # as it went: it would shadow demo/, samples/ and query-training/, which
+      # ship inside the image. Those three were copied to ./data before this
+      # mount was introduced, so nothing is shadowed away. The trade-off is that
+      # a future image shipping an updated demo dataset will not be seen through
+      # this mount — refresh ./data/demo by hand if that dataset changes.
+      - ./data:/app/data
     depends_on:
       - ollama
 
