@@ -2,11 +2,11 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix mbse: <http://vectorowl.org/ontology/mbse#> .
-@prefix ex:   <http://vectorowl.org/demo/ap-v2#> .
+@prefix mbse: <http://vectormbe.org/ontology/mbse#> .
+@prefix ex:   <http://vectormbe.org/demo/ap-v2#> .
 
 # ─── Ontology ─────────────────────────────────────────────────────────────────
-<http://vectorowl.org/demo/aircraft-propulsion-v2> a owl:Ontology ;
+<http://vectormbe.org/demo/aircraft-propulsion-v2> a owl:Ontology ;
     rdfs:label "Aircraft Turbofan Propulsion — Instance Dataset" ;
     rdfs:comment "Instances for a high-bypass turbofan propulsion system MBSE model." .
 

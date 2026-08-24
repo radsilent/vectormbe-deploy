@@ -6,7 +6,7 @@
 -->
 <emof:Package xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
     xmlns:emof="http://schema.omg.org/spec/mof/2.0/emof.xmi"
-    xmi:id="_pkg_001" name="AircraftPropulsion" uri="http://vectorowl.example/AircraftPropulsion">
+    xmi:id="_pkg_001" name="AircraftPropulsion" uri="http://vectormbe.example/AircraftPropulsion">
 
   <ownedType xmi:type="emof:Class" xmi:id="_Engine" name="Engine">
     <ownedAttribute xmi:id="_Engine_model" name="model" type="_String" lower="1" upper="1"/>

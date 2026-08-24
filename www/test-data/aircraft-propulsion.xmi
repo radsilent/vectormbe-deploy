@@ -2,7 +2,7 @@
 <!--
   SysML XMI export (Cameo Systems Modeler style)
   Aircraft Propulsion Subsystem — Blocks, Parts, ValueTypes, Interfaces, Ports, Connectors, and Requirements
-  Compatible with VectorOWL XMI import pipeline.
+  Compatible with VectorMBE XMI import pipeline.
 -->
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://www.omg.org/XMI"
     xmlns:uml="http://www.omg.org/spec/UML/20161101"

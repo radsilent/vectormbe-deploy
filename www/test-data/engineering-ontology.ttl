@@ -2,13 +2,13 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix cad:  <http://vectorowl.org/ontology/cad#> .
-@prefix cae:  <http://vectorowl.org/ontology/cae#> .
-@prefix plm:  <http://vectorowl.org/ontology/plm#> .
-@prefix ex:   <http://vectorowl.org/demo/eng-v2#> .
+@prefix cad:  <http://vectormbe.org/ontology/cad#> .
+@prefix cae:  <http://vectormbe.org/ontology/cae#> .
+@prefix plm:  <http://vectormbe.org/ontology/plm#> .
+@prefix ex:   <http://vectormbe.org/demo/eng-v2#> .
 
 # ─── Ontology ─────────────────────────────────────────────────────────────────
-<http://vectorowl.org/demo/engineering-v2> a owl:Ontology ;
+<http://vectormbe.org/demo/engineering-v2> a owl:Ontology ;
     rdfs:label "Engineering Lifecycle Demo v2" ;
     rdfs:comment "CAD/CAE/PLM instance dataset for VectorMBE import demos." .
 

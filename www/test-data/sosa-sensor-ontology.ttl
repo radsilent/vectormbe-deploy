@@ -3,10 +3,10 @@
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix sosa:  <http://www.w3.org/ns/sosa/> .
-@prefix ex:    <http://vectorowl.org/demo/iot-monitoring#> .
+@prefix ex:    <http://vectormbe.org/demo/iot-monitoring#> .
 
 # ─── Ontology ─────────────────────────────────────────────────────────────────
-<http://vectorowl.org/demo/iot-monitoring> a owl:Ontology ;
+<http://vectormbe.org/demo/iot-monitoring> a owl:Ontology ;
     rdfs:label "Smart Factory IoT Monitoring — Instance Dataset" ;
     rdfs:comment "SOSA-aligned sensor, observation, and feature instances for a manufacturing floor." .
 
