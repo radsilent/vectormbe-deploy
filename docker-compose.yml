@@ -35,6 +35,13 @@ services:
       # workspace graph lived in process memory and died with the container.
       # Set to the same directory it already defaulted to, so no path moves.
       - VECTORMBE_DATA_DIR=/app/data
+      # Demo model used to seed a brand-new visitor session (POST /session/start)
+      # and POST /import/default-sample. Without this the server falls back to a
+      # path baked in at COMPILE time via env!("CARGO_MANIFEST_DIR") — on a CI
+      # build that is the runner's checkout dir, which does not exist in the
+      # container, so seeding failed silently with "default sample file not
+      # found". Must point at a path that exists inside the container.
+      - VECTORMBE_DEFAULT_SAMPLE_PATH=/app/data/demo/aircraft_propulsion.json
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
