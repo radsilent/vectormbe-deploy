@@ -42,6 +42,17 @@ services:
       # container, so seeding failed silently with "default sample file not
       # found". Must point at a path that exists inside the container.
       - VECTORMBE_DEFAULT_SAMPLE_PATH=/app/data/demo/aircraft_propulsion.json
+      # Retention for per-visitor workspaces. Each seeded session persists a
+      # ~280 KB graph under data/workspaces/ AND held an RlEnvironment in memory
+      # for the lifetime of the process — workspace_envs was insert-only. The
+      # sweeper evicts idle workspaces from memory (non-destructive: the event
+      # log is fsynced per mutation, so a returning visitor is restored from
+      # disk) and deletes on-disk workspaces past the retention window. A
+      # workspace still resident in memory is never deleted underneath itself.
+      # Set the interval to 0 to disable the sweeper entirely.
+      - VECTORMBE_WORKSPACE_SWEEP_INTERVAL_SECS=${VECTORMBE_WORKSPACE_SWEEP_INTERVAL_SECS:-900}
+      - VECTORMBE_WORKSPACE_IDLE_EVICT_SECS=${VECTORMBE_WORKSPACE_IDLE_EVICT_SECS:-3600}
+      - VECTORMBE_WORKSPACE_RETENTION_DAYS=${VECTORMBE_WORKSPACE_RETENTION_DAYS:-7}
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
