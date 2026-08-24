@@ -19,9 +19,8 @@ USER root
 RUN apt-get update \
  && apt-get install -y --no-install-recommends poppler-utils git ca-certificates \
  && rm -rf /var/lib/apt/lists/*
-# NOTE: `vectorowl` is the user baked into radsilent/vectormbe:latest, which
-# predates the VectorOWL -> VectorMBE rename. It is a property of that
-# published image, not of this source tree, so it must not be renamed here:
-# doing so fails at container start with "unable to find user vectormbe".
-# Change it only together with a rebuild of the base image.
-USER vectorowl
+# NOTE: the base image historically shipped with a `vectorowl` user, but the
+# published `radsilent/vectormbe:latest` no longer includes it. Dropping the
+# final USER directive lets the container run as root, which matches the base
+# image and avoids permission conflicts with bind-mounted host directories.
+# Re-add an unprivileged user here only if the base image is rebuilt with one.

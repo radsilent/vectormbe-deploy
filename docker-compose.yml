@@ -53,6 +53,10 @@ services:
       - VECTORMBE_WORKSPACE_SWEEP_INTERVAL_SECS=${VECTORMBE_WORKSPACE_SWEEP_INTERVAL_SECS:-900}
       - VECTORMBE_WORKSPACE_IDLE_EVICT_SECS=${VECTORMBE_WORKSPACE_IDLE_EVICT_SECS:-3600}
       - VECTORMBE_WORKSPACE_RETENTION_DAYS=${VECTORMBE_WORKSPACE_RETENTION_DAYS:-7}
+      # Embedded Oxigraph persistent graph database. Stores entities/relations as
+      # RDF triples and is queryable via SPARQL. Existing JSON snapshots are
+      # migrated automatically on first startup.
+      - VECTORMBE_OXIGRAPH_PATH=/app/data/snapshots/vectormbe.nq
       # Multi-tenant isolation: set to true on shared/demo servers so each
       # API key gets its own isolated graph workspace.
       - VECTORMBE_ISOLATE_BY_SESSION=${VECTORMBE_ISOLATE_BY_SESSION:-false}
