@@ -67,6 +67,19 @@
         }
     }
 
+    # A POST to the chat path that failed the token match lands here rather than in
+    # the catch-all 404 below, so "wrong or missing token" is distinguishable from
+    # "route not deployed". Those two looked identical once already and cost a
+    # debugging session. It concedes only that the path exists and wants a token,
+    # which a 404 on every other /ollama path gives away anyway.
+    @ollama_chat_unauth {
+        method POST
+        path /ollama/api/chat
+    }
+    handle @ollama_chat_unauth {
+        respond "Unauthorized" 401
+    }
+
     # Liveness only. Ollama's root replies "Ollama is running" — enough for the site's
     # status dot to tell "model host is up" from "the box is off", without exposing
     # /api/tags and enumerating which models this host has.
