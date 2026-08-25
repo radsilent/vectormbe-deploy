@@ -16,6 +16,55 @@
         }
     }
 
+    # Public model endpoint for the marketing-site chatbot (vectorstreamsystems.com).
+    # That bot's backend is a Cloudflare Pages Function running on Cloudflare's edge,
+    # so it cannot reach a private 127.0.0.1:11434 — a public route is the only way it
+    # can talk to a local model. Kept deliberately narrow: ONLY `POST /ollama/api/chat`
+    # is proxied. Every other verb and path under /ollama is refused below, so a
+    # passer-by cannot hit /api/pull, /api/delete, /api/create or /api/push to evict
+    # models and fill the disk, nor GET /api/tags to enumerate what this host runs.
+    #
+    # This block MUST stay above the static `handle` — those form a mutually-exclusive
+    # first-match group, so anything below it would be rewritten to /index.html and the
+    # bot would receive the SPA shell instead of JSON.
+    @ollama_chat {
+        method POST
+        path /ollama/api/chat
+    }
+    handle @ollama_chat {
+        # Cap the prompt so the endpoint can't be farmed as a free long-context LLM.
+        request_body {
+            max_size 32KB
+        }
+        uri strip_prefix /ollama
+        reverse_proxy vectormbe-ollama:11434 {
+            transport http {
+                # A cold model load on this GPU can take ~60s before the first token;
+                # the site's own fetch gives up well before these ceilings.
+                response_header_timeout 300s
+                read_timeout            300s
+                write_timeout           300s
+            }
+        }
+    }
+
+    # Liveness only. Ollama's root replies "Ollama is running" — enough for the site's
+    # status dot to tell "model host is up" from "the box is off", without exposing
+    # /api/tags and enumerating which models this host has.
+    @ollama_health {
+        method GET
+        path /ollama/health
+    }
+    handle @ollama_health {
+        uri replace /ollama/health /
+        reverse_proxy vectormbe-ollama:11434
+    }
+
+    # Anything else under /ollama is not part of the public contract.
+    handle /ollama/* {
+        respond "Not found" 404
+    }
+
     # Static UI files — MUST be inside a `handle` block. `handle` and `handle_path`
     # form a mutually-exclusive first-match group, so /api/* is proxied above and
     # never reaches this block. Without the wrapper, the top-level `try_files` runs
