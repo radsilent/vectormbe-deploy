@@ -41,7 +41,7 @@ services:
       # build that is the runner's checkout dir, which does not exist in the
       # container, so seeding failed silently with "default sample file not
       # found". Must point at a path that exists inside the container.
-      - VECTORMBE_DEFAULT_SAMPLE_PATH=/app/data/demo/aircraft_propulsion.json
+      - VECTORMBE_DEFAULT_SAMPLE_PATH=/app/data/demo/process_line.json
       # Retention for per-visitor workspaces. Each seeded session persists a
       # ~280 KB graph under data/workspaces/ AND held an RlEnvironment in memory
       # for the lifetime of the process — workspace_envs was insert-only. The
