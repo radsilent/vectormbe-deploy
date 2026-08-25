@@ -27,9 +27,21 @@
     # This block MUST stay above the static `handle` — those form a mutually-exclusive
     # first-match group, so anything below it would be rewritten to /index.html and the
     # bot would receive the SPA shell instead of JSON.
+    # The token is injected from the gitignored .env via compose — {env.*} is
+    # substituted when this file is adapted, so the secret never appears here.
+    # Changing it requires `docker compose up -d caddy` (a plain restart keeps the
+    # old container environment).
+    # The length check is what makes this fail CLOSED. If CHAT_PROXY_TOKEN is missing
+    # from the container's environment, {env.CHAT_PROXY_TOKEN} adapts to an empty
+    # string and the exact-match line alone would then admit any request sending an
+    # empty X-Chat-Token header — verified: that returns 200, i.e. no auth at all.
+    # Requiring >=32 chars means an empty expected value can never be satisfied: a
+    # short header fails the length check, a long one fails the exact match.
     @ollama_chat {
         method POST
         path /ollama/api/chat
+        header X-Chat-Token {env.CHAT_PROXY_TOKEN}
+        header_regexp X-Chat-Token ^.{32,}$
     }
     handle @ollama_chat {
         # Cap the prompt so the endpoint can't be farmed as a free long-context LLM.
@@ -46,6 +58,17 @@
                 write_timeout           300s
             }
         }
+    }
+
+    # A POST to the chat path that failed the token match lands here rather than in the
+    # catch-all 404 below, so "wrong/missing token" is distinguishable from "route not
+    # deployed". Those two looked identical once already and cost a debugging session.
+    @ollama_chat_unauth {
+        method POST
+        path /ollama/api/chat
+    }
+    handle @ollama_chat_unauth {
+        respond "Unauthorized" 401
     }
 
     # Liveness only. Ollama's root replies "Ollama is running" — enough for the site's

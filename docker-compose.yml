@@ -146,6 +146,12 @@ services:
     # Caddyfile) only if the origin ever needs to serve HTTPS directly.
     ports:
       - "80:80"
+    environment:
+      # Shared secret the /ollama chat route requires, read from the gitignored
+      # .env. `:?` fails the run loudly rather than starting Caddy with an empty
+      # token — an empty {env.CHAT_PROXY_TOKEN} would match a request that sends
+      # an empty X-Chat-Token header, i.e. silently no auth at all.
+      - CHAT_PROXY_TOKEN=${CHAT_PROXY_TOKEN:?set CHAT_PROXY_TOKEN in .env}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
