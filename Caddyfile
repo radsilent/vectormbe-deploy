@@ -27,21 +27,27 @@
     # This block MUST stay above the static `handle` — those form a mutually-exclusive
     # first-match group, so anything below it would be rewritten to /index.html and the
     # bot would receive the SPA shell instead of JSON.
-    # The token is injected from the gitignored .env via compose — {env.*} is
-    # substituted when this file is adapted, so the secret never appears here.
-    # Changing it requires `docker compose up -d caddy` (a plain restart keeps the
-    # old container environment).
-    # The length check is what makes this fail CLOSED. If CHAT_PROXY_TOKEN is missing
-    # from the container's environment, {env.CHAT_PROXY_TOKEN} adapts to an empty
-    # string and the exact-match line alone would then admit any request sending an
-    # empty X-Chat-Token header — verified: that returns 200, i.e. no auth at all.
-    # Requiring >=32 chars means an empty expected value can never be satisfied: a
-    # short header fails the length check, a long one fails the exact match.
+    # NOT authenticated, deliberately, and not an oversight to "fix" by adding the
+    # matcher back without reading this. The site's backend is a Cloudflare Pages
+    # Function, and this project cannot hold a Pages secret to send: Cloudflare
+    # ignores dashboard environment variables — plaintext and encrypted alike — for a
+    # Pages project that has a wrangler.toml, which that repo has. Measured
+    # 2026-08-25. Turning the matcher on while the caller has no token 401s every
+    # visitor; that happened once already.
+    #
+    # To enable it, the site repo has to be able to read CHAT_PROXY_TOKEN first (its
+    # functions/api/chat.js explains how), and GET /api/chat must report
+    # tokenConfigured true. Then restore:
+    #     header X-Chat-Token {env.CHAT_PROXY_TOKEN}
+    #     header_regexp X-Chat-Token ^.{32,}$
+    # Both lines, not just the first: an absent env var adapts to an empty expected
+    # value, and the exact match alone then admits an empty header — verified 200,
+    # i.e. no auth at all. The length check is what makes it fail closed. Applying it
+    # needs `docker compose up -d --force-recreate caddy`; a plain reload re-reads the
+    # old bind-mounted inode and silently changes nothing.
     @ollama_chat {
         method POST
         path /ollama/api/chat
-        header X-Chat-Token {env.CHAT_PROXY_TOKEN}
-        header_regexp X-Chat-Token ^.{32,}$
     }
     handle @ollama_chat {
         # Cap the prompt so the endpoint can't be farmed as a free long-context LLM.
@@ -58,17 +64,6 @@
                 write_timeout           300s
             }
         }
-    }
-
-    # A POST to the chat path that failed the token match lands here rather than in the
-    # catch-all 404 below, so "wrong/missing token" is distinguishable from "route not
-    # deployed". Those two looked identical once already and cost a debugging session.
-    @ollama_chat_unauth {
-        method POST
-        path /ollama/api/chat
-    }
-    handle @ollama_chat_unauth {
-        respond "Unauthorized" 401
     }
 
     # Liveness only. Ollama's root replies "Ollama is running" — enough for the site's
