@@ -22,3 +22,10 @@ data/
 # Stale compiled server binary under the old VectorOWL name. Build output;
 # nothing in this repository references it.
 vectorowld
+
+# Written by scripts/deploy-ci.sh in the VectorMBE repo: the list of asset files
+# the last deploy published, so the next one knows which generation to keep as the
+# fallback for browsers still holding the previous index.html. Deploy state, not
+# source, and it must not be committed — a stale copy would make a deploy prune the
+# generation it was supposed to keep.
+.assets-generation
