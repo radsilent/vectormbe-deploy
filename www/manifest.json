@@ -1,6 +1,6 @@
 {
-  "name": "VectorMBE",
-  "short_name": "VectorMBE",
+  "name": "MBE3Dstudio",
+  "short_name": "MBE3Dstudio",
   "description": "Neuro-symbolic architecture for AI-native systems engineering",
   "start_url": ".",
   "display": "standalone",
