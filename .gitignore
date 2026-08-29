@@ -43,3 +43,7 @@ deploy-ci.log
 www.rollback-*/
 *.rollback-*
 localbin/
+
+# Key-rotation backups hold real values; the bare `.env` rule does not cover them.
+.env.bak-*
+.env.*.bak
