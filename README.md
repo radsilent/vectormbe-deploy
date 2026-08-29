@@ -11,10 +11,8 @@ This repository is the Docker-only deployment for [VectorMBE](https://vectorstre
 - **macOS** — [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) (Apple Silicon or Intel)
 - **Windows** — [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) (WSL2 backend recommended) or Windows Subsystem for Linux (WSL2) with Docker Engine
 - **Linux** — [Docker Engine](https://docs.docker.com/engine/install/) + [Docker Compose](https://docs.docker.com/compose/install/) (plugin or standalone)
-- A VectorMBE license key for the official Docker image
-  ([request one](mailto:streamline@vectorstreamsystems.com)). Building
-  [from source](https://github.com/radsilent/VectorMBE/blob/main/CONTRIBUTING.md)
-  needs no key at all.
+
+Docker is the whole list — there is no licence key to obtain.
 
 > **Note:** `radsilent/vectormbe-deploy` is public and open source under Apache-2.0,
 > as is [VectorMBE itself](https://github.com/radsilent/VectorMBE). Clone it freely.
@@ -25,22 +23,19 @@ This repository is the Docker-only deployment for [VectorMBE](https://vectorstre
 
 ## Quick start without the deploy package
 
-The official Docker image reads the license key **at startup**; without it the
-container exits immediately with `startup aborted: invalid or missing license`.
-A build from source has no such check — see
-[CONTRIBUTING](https://github.com/radsilent/VectorMBE/blob/main/CONTRIBUTING.md).
+The official Docker image needs no licence key and no configuration to start —
+it runs as it ships:
 
 ```bash
 docker run -d \
   --name vectormbe \
   --restart unless-stopped \
   -p 8080:8080 \
-  -e VECTORMBE_LICENSE_KEY=your-license-key \
   radsilent/vectormbe:latest
 ```
 
-Or, for a persistent setup, write these two files into an empty directory and run
-`docker compose up -d`:
+Or, to have it come back after a reboot, write this file into an empty directory
+and run `docker compose up -d`:
 
 ```yaml
 # docker-compose.yml
@@ -51,13 +46,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
-    environment:
-      - VECTORMBE_LICENSE_KEY=${VECTORMBE_LICENSE_KEY:?Required}
-```
-
-```env
-# .env
-VECTORMBE_LICENSE_KEY=your-license-key
 ```
 
 Open **http://localhost:8080**, or check it with
@@ -72,9 +60,10 @@ Port 8080 is the only port the image exposes — it serves both the UI and the A
 ```bash
 # 1. Download the deploy package
 git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
-# 2. Configure your license key
+
+# 2. Optional: adjust the defaults (LLM provider, feature flags).
+#    Skipping this is fine — the defaults run everything locally.
 cp .env.example .env
-# Edit .env and set VECTORMBE_LICENSE_KEY
 
 # 3. Start
 docker compose up -d
@@ -95,9 +84,9 @@ Open **PowerShell** and run:
 git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 Set-Location vectormbe
 
-# 2. Configure your license key
+# 2. Optional: adjust the defaults (LLM provider, feature flags).
+#    Skipping this is fine — the defaults run everything locally.
 Copy-Item .env.example .env
-# Edit .env and set VECTORMBE_LICENSE_KEY
 
 # 3. Start
 docker compose up -d
@@ -111,9 +100,9 @@ Inside your WSL2 distro:
 # 1. Download the deploy package
 git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 
-# 2. Configure your license key
+# 2. Optional: adjust the defaults (LLM provider, feature flags).
+#    Skipping this is fine — the defaults run everything locally.
 cp .env.example .env
-# Edit .env and set VECTORMBE_LICENSE_KEY
 
 # 3. Start
 docker compose up -d
@@ -129,9 +118,9 @@ Access the UI at **http://localhost:8080** from Windows — Docker Desktop forwa
 # 1. Download the deploy package
 git clone https://github.com/radsilent/vectormbe-deploy.git vectormbe && cd vectormbe
 
-# 2. Configure your license key
+# 2. Optional: adjust the defaults (LLM provider, feature flags).
+#    Skipping this is fine — the defaults run everything locally.
 cp .env.example .env
-# Edit .env and set VECTORMBE_LICENSE_KEY
 
 # 3. Start
 docker-compose up -d
@@ -147,7 +136,7 @@ Open **http://localhost:8080**.
 
 - `docker-compose.yml` — pulls `radsilent/vectormbe:latest` from Docker Hub
 - `Caddyfile` — reverse proxy for API + static UI
-- `.env.example` — license key, LLM config, and optional feature flags
+- `.env.example` — LLM config and optional feature flags
 
 ---
 
@@ -175,8 +164,6 @@ docker logs -f vectormbe-caddy
 
 | Variable | Default | Description |
 |---|---|---|
-| `VECTORMBE_LICENSE_KEY` | *(required)* | License activation key, read at startup — the container exits if unset |
-| `VECTORMBE_LICENSE_PATH` | *(unset)* | Path to a license file, as an alternative to the key |
 | `VECTORMBE_PORT` | `8080` | HTTP port |
 | `VECTORMBE_HOST` | `0.0.0.0` | Bind address |
 | `VECTORMBE_REQUIRE_TORCH_GPU` | `false` | Set `true` for GPU-accelerated hosts |
