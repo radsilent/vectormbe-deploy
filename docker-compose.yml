@@ -146,10 +146,24 @@ services:
     ports:
       - "80:80"
     environment:
-      # Staged for the /ollama chat route's shared secret, which is not enforced yet
-      # (see the Caddyfile). Optional on purpose: `:-` keeps a deploy working on a
-      # host whose .env predates the token, where `:?` would abort the whole run for
-      # a variable nothing currently reads.
+      # Shared secret for the public /ollama/api/chat route. The Caddyfile DOES
+      # enforce it — an exact match on X-Chat-Token plus a >=32-character length
+      # check — so this variable is the only thing standing between the open
+      # internet and the model host. The note here used to say "not enforced yet";
+      # that was true for one commit and was never corrected when enforcement came
+      # back in a Caddyfile-only change.
+      #
+      # Still `:-` and not `:?`, but not because nothing reads it: the length check
+      # makes an empty value fail CLOSED (401), so a host without the token loses
+      # the marketing-site chatbot and nothing else. `:?` would refuse to start the
+      # whole stack — the site, /mbe3d and /harness with it — over a secret that a
+      # single route needs.
+      #
+      # Deleting this line does not disable the check, it makes it unsatisfiable.
+      # If the chatbot starts answering 401, look here first and then at
+      # ANTHROPIC_API_KEY: the token is SHA-256(ANTHROPIC_API_KEY + salt), so
+      # rotating that key silently invalidates this one. The Caddyfile carries the
+      # full account next to the matcher.
       - CHAT_PROXY_TOKEN=${CHAT_PROXY_TOKEN:-}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
