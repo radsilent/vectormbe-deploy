@@ -8,6 +8,15 @@
     # and the UI showed "nothing generated". 300s lets slow-but-valid runs finish.
     handle_path /api/* {
         reverse_proxy vectormbe:8080 {
+            # Ride out an upstream restart instead of showing a 502.
+            #
+            # A deploy replaces this container, and any request arriving in
+            # that window got `502 Bad gateway` — from Cloudflare's point of
+            # view the host errored. Caddy only retries when the request was
+            # never delivered, which is exactly the connection-refused case a
+            # restart produces, so nothing non-idempotent is replayed.
+            lb_try_duration 20s
+            lb_try_interval 250ms
             transport http {
                 response_header_timeout 300s
                 read_timeout            300s
@@ -97,6 +106,114 @@
         respond "Not found" 404
     }
 
+    # MBE3D Studio — the merged tool, served from this host.
+    #
+    # `handle_path` strips the prefix, so the container sees `/`, `/assets/*`
+    # and `/studio/api/*` exactly as it would if it owned the origin. Its
+    # bundle is built with base `/mbe3d/`, so the URLs it emits carry the
+    # prefix back and the round trip closes. A build made without that base
+    # will load here and then request `/assets/*` at the site root, which the
+    # static `handle` below answers with index.html — a page of JavaScript
+    # served as text/html, which the browser refuses on MIME grounds. That is
+    # the symptom to look for if this ever appears to deploy but not run.
+    #
+    # `/mbe3d` with no trailing slash is redirected rather than matched: the
+    # wildcard does not cover the bare path, and without the slash the
+    # relative URLs in the page would resolve one level too high.
+    #
+    # Timeouts match the /api block above and for the same reason — model
+    # generation on the local GPU runs to minutes, and the default ceiling
+    # returns an empty 504 that the UI reports as "nothing generated".
+    @mbe3d_bare path /mbe3d
+    redir @mbe3d_bare /mbe3d/ 308
+
+    handle_path /mbe3d/* {
+        reverse_proxy mbe3dstudio:8090 {
+            # Ride out an upstream restart instead of showing a 502.
+            #
+            # A deploy replaces this container, and any request arriving in
+            # that window got `502 Bad gateway` — from Cloudflare's point of
+            # view the host errored. Caddy only retries when the request was
+            # never delivered, which is exactly the connection-refused case a
+            # restart produces, so nothing non-idempotent is replayed.
+            lb_try_duration 20s
+            lb_try_interval 250ms
+            transport http {
+                response_header_timeout 300s
+                read_timeout            300s
+                write_timeout           300s
+            }
+        }
+    }
+
+    # MBE3DHarness — the agent harness, served from a second checkout.
+    #
+    # Same arrangement as /mbe3d above, and for the same reasons: `handle_path`
+    # strips the prefix, the bundle is built with base `/harness/` (the
+    # PUBLIC_PATH build arg in that repository's docker-compose.edge.yml), and
+    # the bare path is redirected because the wildcard does not cover it.
+    #
+    # It is a *different container* from mbe3dstudio, with its own Fuseki and
+    # its own graph. The two share this proxy and the edge network and nothing
+    # else — deploying one must never touch the other.
+    # The harness runtime itself — the kernel's API, the trajectory view and the
+    # architecture wheel — mounted *inside* /harness/ and matched before it.
+    # `handle_path` blocks are a first-match group, so this one must come first
+    # or the studio's block below swallows it.
+    #
+    # A different container from the studio and a different binary, out of the
+    # same image: /harness/ is the UI spoke, /harness/kernel/ is the harness the
+    # spoke is attached to. Both views use relative URLs, so the stripped prefix
+    # does not break their fetches or the WebSocket.
+    @harness_kernel_bare path /harness/kernel
+    redir @harness_kernel_bare /harness/kernel/ 308
+
+    handle_path /harness/kernel/* {
+        reverse_proxy mbe3dharness-runtime:8099 {
+            transport http {
+                response_header_timeout 300s
+                read_timeout            300s
+                write_timeout           300s
+            }
+        }
+    }
+
+    @harness_bare path /harness
+    redir @harness_bare /harness/ 308
+
+    handle_path /harness/* {
+        reverse_proxy mbe3dharness:8090 {
+            transport http {
+                response_header_timeout 300s
+                read_timeout            300s
+                write_timeout           300s
+            }
+        }
+    }
+
+    # ── What this host tells a crawler ──────────────────────────────────────
+    #
+    # This origin serves the same application as vectorstreamsystems.com/mbe3d,
+    # and the SPA fallback below answers every unmatched path with index.html
+    # and a 200 — /robots.txt included. A crawler asking for the rules got a
+    # page of HTML and concluded there were none, and an unbounded set of URLs
+    # that all return 200 is a soft-404 surface competing with the public URL
+    # for the same content.
+    #
+    # Requests arriving through the site's Pages Function carry X-VSS-Proxy and
+    # are exempt, because that copy is the canonical one and has to stay
+    # indexable. The Function also strips X-Robots-Tag from what it forwards,
+    # so a rollback on either side alone cannot deindex the product page.
+    handle /robots.txt {
+        header Content-Type "text/plain; charset=utf-8"
+        respond `User-agent: *
+Disallow: /
+` 200
+    }
+
+    @direct not header X-VSS-Proxy 1
+    header @direct X-Robots-Tag "noindex, nofollow"
+
     # Static UI files — MUST be inside a `handle` block. `handle` and `handle_path`
     # form a mutually-exclusive first-match group, so /api/* is proxied above and
     # never reaches this block. Without the wrapper, the top-level `try_files` runs
@@ -122,9 +239,25 @@
 
     encode gzip
 
-    header {
+    # `X-Frame-Options` has no origin list -- `ALLOW-FROM` was never implemented
+    # by Chrome and is gone from Firefox -- so the harness views the site frames
+    # are carved out of it and given CSP `frame-ancestors`, which does have one.
+    # Split into two blocks rather than deleting the header inside the
+    # `handle_path`: a `-X-Frame-Options` there and a site-level `header` that
+    # adds it are two handlers racing over the same response, and which wins is
+    # not something to leave to directive order.
+    @framable path /harness/kernel/*
+    @notframable not path /harness/kernel/*
+
+    header @notframable {
         X-Frame-Options "SAMEORIGIN"
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    header @framable {
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Content-Security-Policy "frame-ancestors 'self' https://vectorstreamsystems.com https://www.vectorstreamsystems.com"
     }
 }
