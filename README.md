@@ -134,9 +134,18 @@ Open **http://localhost:8080**.
 
 ## What's included
 
-- `docker-compose.yml` — pulls `radsilent/vectormbe:latest` from Docker Hub
-- `Caddyfile` — reverse proxy for API + static UI
+- `docker-compose.yml` — the `vectormbe`, `ollama` and `caddy` services
+- `Dockerfile.poppler` — builds the image the `vectormbe` service runs:
+  `radsilent/vectormbe:latest` plus the command-line tools the server shells out
+  to (`pdftotext` for PDF import, `git` for version-control push)
+- `Caddyfile` — reverse proxy for the API and the static UI
+- `www/` — the built SPA that the Caddyfile serves
 - `.env.example` — LLM config and optional feature flags
+
+> **Note:** the Caddyfile also routes `/mbe3d/*` and `/harness/*` to containers
+> that this Compose file does not define — they belong to separate deployments on
+> the host it was written for. On a clone without them, those two paths return
+> 502 and nothing else is affected; delete the blocks if you don't need them.
 
 ---
 
